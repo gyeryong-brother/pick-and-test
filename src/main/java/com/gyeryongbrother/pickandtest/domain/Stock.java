@@ -9,8 +9,6 @@ public class Stock {
     private String name;
     private String symbol;
     private LocalDate listingDate;
-    private Long marketCapitalization;
     private List<StockPrice> stockPrices;
     private List<Dividend> dividends;
-    private List<IncomeStatement> incomeStatements;
 }
