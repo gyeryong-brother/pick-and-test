@@ -2,11 +2,15 @@ package com.gyeryongbrother.pickandtest.domain;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import lombok.Builder;
+import lombok.RequiredArgsConstructor;
 
+@Builder
+@RequiredArgsConstructor
 public class StockPrice {
 
-    private Long id;
-    private Stock stock;
-    private LocalDate date;
-    private BigDecimal price;
+    private final Long id;
+    private final Long stockId;
+    private final LocalDate date;
+    private final BigDecimal price;
 }

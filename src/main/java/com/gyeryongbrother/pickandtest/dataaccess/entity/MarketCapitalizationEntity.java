@@ -3,6 +3,7 @@ package com.gyeryongbrother.pickandtest.dataaccess.entity;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -24,5 +25,7 @@ public class MarketCapitalizationEntity {
     private StockEntity stock;
 
     private LocalDate date;
+
+    @Column(name = "market_value")
     private Long value;
 }
