@@ -1,0 +1,11 @@
+package com.gyeryongbrother.pickandtest.domain;
+
+import java.time.LocalDate;
+
+public class MarketCapitalization {
+
+    private Long id;
+    private Stock stock;
+    private LocalDate date;
+    private Long value;
+}
