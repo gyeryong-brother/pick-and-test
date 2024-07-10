@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.domain;
+package com.gyeryongbrother.pickandtest.domain.core;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -7,10 +7,10 @@ import lombok.RequiredArgsConstructor;
 
 @Builder
 @RequiredArgsConstructor
-public class StockPrice {
+public class Dividend {
 
     private final Long id;
     private final Long stockId;
     private final LocalDate date;
-    private final BigDecimal price;
+    private final BigDecimal amount;
 }

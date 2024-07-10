@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.domain;
+package com.gyeryongbrother.pickandtest.domain.core;
 
 import java.time.LocalDate;
 import java.util.List;

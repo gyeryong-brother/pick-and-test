@@ -3,7 +3,7 @@ package com.gyeryongbrother.pickandtest.dataaccess.adapter;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.gyeryongbrother.pickandtest.dataaccess.config.TestQuerydslConfig;
-import com.gyeryongbrother.pickandtest.domain.Stock;
+import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
 import java.time.LocalDate;
 import java.util.List;

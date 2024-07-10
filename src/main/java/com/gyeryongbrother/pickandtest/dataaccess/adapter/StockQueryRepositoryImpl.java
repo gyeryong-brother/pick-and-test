@@ -5,7 +5,7 @@ import static com.gyeryongbrother.pickandtest.dataaccess.entity.QStockPriceEntit
 
 import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockDataAccessMapper;
-import com.gyeryongbrother.pickandtest.domain.Stock;
+import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.Optional;

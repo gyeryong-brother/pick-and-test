@@ -3,9 +3,9 @@ package com.gyeryongbrother.pickandtest.dataaccess.mapper;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.DividendEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.StockPriceEntity;
-import com.gyeryongbrother.pickandtest.domain.Dividend;
-import com.gyeryongbrother.pickandtest.domain.Stock;
-import com.gyeryongbrother.pickandtest.domain.StockPrice;
+import com.gyeryongbrother.pickandtest.domain.core.Dividend;
+import com.gyeryongbrother.pickandtest.domain.core.Stock;
+import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
