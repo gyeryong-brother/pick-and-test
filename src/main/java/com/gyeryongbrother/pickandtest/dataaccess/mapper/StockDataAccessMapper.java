@@ -13,20 +13,23 @@ import org.springframework.stereotype.Component;
 public class StockDataAccessMapper {
 
     public Stock stockEntityToStock(StockEntity stockEntity) {
-        List<StockPrice> stockPrices = stockEntity.getStockPrices().stream()
-                .map(this::stockPriceEntityToStockPrice)
-                .toList();
-        List<Dividend> dividends = stockEntity.getDividends().stream()
-                .map(this::dividendEntityToDividend)
-                .toList();
         return Stock.builder()
                 .id(stockEntity.getId())
                 .name(stockEntity.getName())
                 .symbol(stockEntity.getSymbol())
                 .listingDate(stockEntity.getListingDate())
-                .stockPrices(stockPrices)
-                .dividends(dividends)
+                .stockPrices(stockPriceEntitiesToStockPrices(stockEntity.getStockPrices()))
+                .dividends(dividendEntitiesToDividends(stockEntity.getDividends()))
                 .build();
+    }
+
+    private List<StockPrice> stockPriceEntitiesToStockPrices(List<StockPriceEntity> stockPriceEntities) {
+        if (stockPriceEntities == null) {
+            return List.of();
+        }
+        return stockPriceEntities.stream()
+                .map(this::stockPriceEntityToStockPrice)
+                .toList();
     }
 
     private StockPrice stockPriceEntityToStockPrice(StockPriceEntity stockPriceEntity) {
@@ -38,12 +41,30 @@ public class StockDataAccessMapper {
                 .build();
     }
 
+    private List<Dividend> dividendEntitiesToDividends(List<DividendEntity> dividendEntities) {
+        if (dividendEntities == null) {
+            return List.of();
+        }
+        return dividendEntities.stream()
+                .map(this::dividendEntityToDividend)
+                .toList();
+    }
+
     private Dividend dividendEntityToDividend(DividendEntity dividendEntity) {
         return Dividend.builder()
                 .id(dividendEntity.getId())
                 .stockId(dividendEntity.getStock().getId())
                 .date(dividendEntity.getDate())
                 .amount(dividendEntity.getAmount())
+                .build();
+    }
+
+    public StockEntity stockToStockEntity(Stock stock) {
+        return StockEntity.builder()
+                .id(stock.getId())
+                .name(stock.getName())
+                .symbol(stock.getSymbol())
+                .listingDate(stock.getListingDate())
                 .build();
     }
 }

@@ -3,8 +3,10 @@ package com.gyeryongbrother.pickandtest.domain;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+@Getter
 @Builder
 @RequiredArgsConstructor
 public class Stock {
