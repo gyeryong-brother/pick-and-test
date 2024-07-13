@@ -60,7 +60,7 @@ public class TestQuerydslConfig {
     }
 
     @Bean
-    public StockPriceRepository stockPriceRepository(){
+    public StockPriceRepository stockPriceRepository() {
         return new StockPriceRepositoryImpl(stockPriceJpaRepository, stockDataAccessMapper());
     }
 }

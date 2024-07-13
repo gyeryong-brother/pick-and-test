@@ -7,9 +7,6 @@ import com.gyeryongbrother.pickandtest.domain.core.Dividend;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
 import java.util.List;
-
-import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
-import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -74,7 +71,7 @@ public class StockDataAccessMapper {
     }
 
     public DividendEntity dividendToDividendEntity(Dividend dividend) {
-        StockEntity stockEntity=StockEntity.builder()
+        StockEntity stockEntity = StockEntity.builder()
                 .id(dividend.getStockId())
                 .build();
 
@@ -86,8 +83,8 @@ public class StockDataAccessMapper {
                 .build();
     }
 
-    public StockPriceEntity stockPricetoStockPriceEntity(StockPrice stockPrice){
-        StockEntity stockEntity=StockEntity.builder()
+    public StockPriceEntity stockPricetoStockPriceEntity(StockPrice stockPrice) {
+        StockEntity stockEntity = StockEntity.builder()
                 .id(stockPrice.getStockId())
                 .build();
 

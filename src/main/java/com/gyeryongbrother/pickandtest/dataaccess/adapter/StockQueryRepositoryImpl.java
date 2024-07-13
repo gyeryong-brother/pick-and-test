@@ -10,7 +10,6 @@ import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRep
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository

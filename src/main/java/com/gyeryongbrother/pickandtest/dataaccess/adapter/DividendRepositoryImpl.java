@@ -16,9 +16,9 @@ public class DividendRepositoryImpl implements DividendRepository {
     private final StockDataAccessMapper stockDataAccessMapper;
 
     @Override
-    public Dividend save(Dividend dividend){
-        DividendEntity dividendEntity=stockDataAccessMapper.dividendToDividendEntity(dividend);
-        DividendEntity savedDividendEntity=dividendJpaRepository.save(dividendEntity);
+    public Dividend save(Dividend dividend) {
+        DividendEntity dividendEntity = stockDataAccessMapper.dividendToDividendEntity(dividend);
+        DividendEntity savedDividendEntity = dividendJpaRepository.save(dividendEntity);
         return stockDataAccessMapper.dividendEntityToDividend(savedDividendEntity);
     }
 }

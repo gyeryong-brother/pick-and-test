@@ -1,20 +1,18 @@
 package com.gyeryongbrother.pickandtest.dataaccess.adapter;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.gyeryongbrother.pickandtest.dataaccess.config.TestQuerydslConfig;
 import com.gyeryongbrother.pickandtest.domain.core.Dividend;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.DividendRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @Import(TestQuerydslConfig.class)
@@ -27,7 +25,7 @@ public class DividendRepositoryImplTest {
     private StockRepository stockRepository;
 
     @Test
-    void save(){
+    void save() {
         //given
         LocalDate januaryFirst = LocalDate.of(2024, 1, 1);
         Stock stock = Stock.builder()
@@ -35,22 +33,22 @@ public class DividendRepositoryImplTest {
                 .symbol("symbol")
                 .listingDate(januaryFirst)
                 .build();
-        Stock savedstock=stockRepository.save(stock);
-        Long stockId=savedstock.getId();
-        BigDecimal amount=BigDecimal.valueOf(100);
-        Dividend dividend=Dividend.builder()
+        Stock savedstock = stockRepository.save(stock);
+        Long stockId = savedstock.getId();
+        BigDecimal amount = BigDecimal.valueOf(100);
+        Dividend dividend = Dividend.builder()
                 .stockId(stockId)
                 .amount(amount)
                 .date(januaryFirst)
                 .build();
-        Dividend expected=Dividend.builder()
+        Dividend expected = Dividend.builder()
                 .stockId(stockId)
                 .amount(amount)
                 .date(januaryFirst)
                 .build();
 
         //when
-        Dividend result=dividendRepository.save(dividend);
+        Dividend result = dividendRepository.save(dividend);
 
         //then
         assertThat(result).usingRecursiveComparison()
