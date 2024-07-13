@@ -37,7 +37,7 @@ public class StockDataAccessMapper {
                 .toList();
     }
 
-    private StockPrice stockPriceEntityToStockPrice(StockPriceEntity stockPriceEntity) {
+    public StockPrice stockPriceEntityToStockPrice(StockPriceEntity stockPriceEntity) {
         return StockPrice.builder()
                 .id(stockPriceEntity.getId())
                 .stockId(stockPriceEntity.getStock().getId())
@@ -82,6 +82,19 @@ public class StockDataAccessMapper {
                 .id(dividend.getId())
                 .date(dividend.getDate())
                 .amount(dividend.getAmount())
+                .stock(stockEntity)
+                .build();
+    }
+
+    public StockPriceEntity stockPricetoStockPriceEntity(StockPrice stockPrice){
+        StockEntity stockEntity=StockEntity.builder()
+                .id(stockPrice.getStockId())
+                .build();
+
+        return StockPriceEntity.builder()
+                .id(stockPrice.getId())
+                .date(stockPrice.getDate())
+                .price(stockPrice.getPrice())
                 .stock(stockEntity)
                 .build();
     }
