@@ -7,9 +7,14 @@ import com.gyeryongbrother.pickandtest.domain.core.Dividend;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
 import java.util.List;
+
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class StockDataAccessMapper {
 
     public Stock stockEntityToStock(StockEntity stockEntity) {
@@ -50,7 +55,7 @@ public class StockDataAccessMapper {
                 .toList();
     }
 
-    private Dividend dividendEntityToDividend(DividendEntity dividendEntity) {
+    public Dividend dividendEntityToDividend(DividendEntity dividendEntity) {
         return Dividend.builder()
                 .id(dividendEntity.getId())
                 .stockId(dividendEntity.getStock().getId())
@@ -65,6 +70,19 @@ public class StockDataAccessMapper {
                 .name(stock.getName())
                 .symbol(stock.getSymbol())
                 .listingDate(stock.getListingDate())
+                .build();
+    }
+
+    public DividendEntity dividendToDividendEntity(Dividend dividend) {
+        StockEntity stockEntity=StockEntity.builder()
+                .id(dividend.getStockId())
+                .build();
+
+        return DividendEntity.builder()
+                .id(dividend.getId())
+                .date(dividend.getDate())
+                .amount(dividend.getAmount())
+                .stock(stockEntity)
                 .build();
     }
 }

@@ -1,9 +1,12 @@
 package com.gyeryongbrother.pickandtest.dataaccess.config;
 
+import com.gyeryongbrother.pickandtest.dataaccess.adapter.DividendRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockDataAccessMapper;
+import com.gyeryongbrother.pickandtest.dataaccess.repository.DividendJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.DividendRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -21,6 +24,9 @@ public class TestQuerydslConfig {
 
     @Autowired
     private StockJpaRepository stockJpaRepository;
+
+    @Autowired
+    private DividendJpaRepository dividendJpaRepository;
 
     @Bean
     public JPAQueryFactory queryFactory() {
@@ -40,5 +46,10 @@ public class TestQuerydslConfig {
     @Bean
     public StockRepository stockRepository() {
         return new StockRepositoryImpl(stockJpaRepository, stockDataAccessMapper());
+    }
+
+    @Bean
+    public DividendRepository dividendRepository() {
+        return new DividendRepositoryImpl(dividendJpaRepository, stockDataAccessMapper());
     }
 }
