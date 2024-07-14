@@ -6,7 +6,8 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.infrastructure.client.FetcherSupport;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.HeaderProvider;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.FetchType;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.HeaderHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.UrlProvider;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.FetchStockResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.FetchStockResponseFixture;
@@ -16,12 +17,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 
 @ExtendWith(MockitoExtension.class)
 class StockFetcherTest {
 
     @Mock
-    private HeaderProvider headerProvider;
+    private HeaderHandler headerHandler;
 
     @Mock
     private FetcherSupport fetcherSupport;
@@ -30,17 +32,17 @@ class StockFetcherTest {
 
     @BeforeEach
     void setUp() {
-        stockFetcher = new StockFetcher(new UrlProvider(), headerProvider, fetcherSupport);
+        stockFetcher = new StockFetcher(new UrlProvider(), headerHandler, fetcherSupport);
     }
 
     @Test
     void fetchStock() {
         // given
         FetchStockResponse fetchStockResponse = FetchStockResponseFixture.empty();
-        given(headerProvider.getStockHeader())
+        given(headerHandler.getHeader(FetchType.STOCK))
                 .willReturn(new HttpHeaders());
         given(fetcherSupport.get(anyString(), any(HttpHeaders.class), any()))
-                .willReturn(fetchStockResponse);
+                .willReturn(ResponseEntity.ok(fetchStockResponse));
 
         // when
         FetchStockResponse result = stockFetcher.fetchStock(StockExchange.NASDAQ, "AAPL");

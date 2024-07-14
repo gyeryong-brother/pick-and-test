@@ -7,10 +7,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum StockExchange {
 
-    NASDAQ("512"),
-    NYSE("513"),
-    AMEX("529"),
+    NASDAQ("512", "NAS"),
+    NYSE("513", "NYS"),
+    AMEX("529", "AMS"),
     ;
 
-    private final String code;
+    private final String productTypeCode;
+    private final String exchangeCode;
 }
