@@ -2,6 +2,7 @@ package com.gyeryongbrother.pickandtest.infrastructure.adapter;
 
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockProvider;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.DateTimeHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.KoreaInvestmentClient;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.FetchStockResponse;
@@ -31,6 +32,6 @@ public class StockProviderImpl implements StockProvider {
         if (listingDate.isBlank()) {
             return null;
         }
-        return LocalDate.parse(listingDate);
+        return DateTimeHandler.toDate(listingDate);
     }
 }

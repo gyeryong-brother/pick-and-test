@@ -6,7 +6,6 @@ import static org.mockito.BDDMockito.anyString;
 import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.infrastructure.client.FetcherSupport;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.DateTimeHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.FetchType;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.HeaderHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.UrlProvider;
@@ -36,8 +35,7 @@ class StockPriceFetcherTest {
 
     @BeforeEach
     void setUp() {
-        UrlProvider urlProvider = new UrlProvider(new DateTimeHandler());
-        stockPriceFetcher = new StockPriceFetcher(urlProvider, headerHandler, fetcherSupport);
+        stockPriceFetcher = new StockPriceFetcher(new UrlProvider(), headerHandler, fetcherSupport);
     }
 
     @Test

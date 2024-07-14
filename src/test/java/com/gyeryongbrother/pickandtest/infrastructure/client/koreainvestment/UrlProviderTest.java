@@ -14,7 +14,7 @@ class UrlProviderTest {
 
     @BeforeEach
     void setUp() {
-        urlProvider = new UrlProvider(new DateTimeHandler());
+        urlProvider = new UrlProvider();
     }
 
     @Test
