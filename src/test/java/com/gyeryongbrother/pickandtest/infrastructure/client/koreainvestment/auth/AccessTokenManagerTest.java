@@ -24,7 +24,7 @@ class AccessTokenManagerTest {
 
     @BeforeEach
     void setUp() {
-        accessTokenManager = new AccessTokenManager(accessTokenFetcher);
+        accessTokenManager = new AccessTokenManager(accessTokenFetcher, new AccessToken());
     }
 
     @Test
