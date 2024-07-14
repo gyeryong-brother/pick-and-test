@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum FetchType {
 
     STOCK("CTPF1702R"),
+    STOCK_PRICE("HHDFS76240000"),
     ;
 
     private final String transactionId;

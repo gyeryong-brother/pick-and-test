@@ -29,7 +29,7 @@ class FetcherSupportTest {
                 "http://localhost:" + port + "/test/ok",
                 httpHeaders,
                 String.class
-        );
+        ).getBody();
 
         // then
         assertThat(result).isEqualTo("ok");

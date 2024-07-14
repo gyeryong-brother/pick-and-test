@@ -14,19 +14,18 @@ public class FetcherSupport {
 
     private final RestTemplate restTemplate;
 
-    public <T> T get(
+    public <T> ResponseEntity<T> get(
             String url,
             HttpHeaders httpHeaders,
             Class<T> responseType
     ) {
         HttpEntity<String> httpEntity = new HttpEntity<>(httpHeaders);
-        ResponseEntity<T> responseEntity = restTemplate.exchange(
+        return restTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 httpEntity,
                 responseType
         );
-        return responseEntity.getBody();
     }
 
     public <T> T post(
