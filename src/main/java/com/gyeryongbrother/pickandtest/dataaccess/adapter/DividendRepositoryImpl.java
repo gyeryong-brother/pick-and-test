@@ -2,7 +2,6 @@ package com.gyeryongbrother.pickandtest.dataaccess.adapter;
 
 import com.gyeryongbrother.pickandtest.dataaccess.entity.DividendEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.DividendDataAccessMapper;
-import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.DividendJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.core.Dividend;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.DividendRepository;

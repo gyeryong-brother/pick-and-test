@@ -42,18 +42,18 @@ public class TestQuerydslConfig {
     }
 
     @Bean
-    public DividendDataAccessMapper dividendDataAccessMapper(){
+    public DividendDataAccessMapper dividendDataAccessMapper() {
         return new DividendDataAccessMapper();
     }
 
     @Bean
-    public StockPriceDataAccessMapper stockPriceDataAccessMapper(){
+    public StockPriceDataAccessMapper stockPriceDataAccessMapper() {
         return new StockPriceDataAccessMapper();
     }
 
     @Bean
     public StockDataAccessMapper stockDataAccessMapper() {
-        return new StockDataAccessMapper(stockPriceDataAccessMapper(),dividendDataAccessMapper());
+        return new StockDataAccessMapper(stockPriceDataAccessMapper(), dividendDataAccessMapper());
     }
 
     @Bean
