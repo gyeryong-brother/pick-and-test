@@ -1,13 +1,15 @@
-package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment;
+package com.gyeryongbrother.pickandtest.infrastructure.adapter;
 
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.FetchStockResponseFixture.actualFetchStockResponse;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.any;
-import static org.mockito.BDDMockito.anyString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 
+import com.gyeryongbrother.pickandtest.domain.core.Stock;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockProvider;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.KoreaInvestmentClient;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockFetcher;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.FetchStockResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,30 +18,35 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class KoreaInvestmentClientTest {
+class StockProviderImplTest {
 
     @Mock
-    private StockFetcher stockFetcher;
-
     private KoreaInvestmentClient koreaInvestmentClient;
+
+    private StockProvider stockProvider;
 
     @BeforeEach
     void setUp() {
-        koreaInvestmentClient = new KoreaInvestmentClient(stockFetcher);
+        stockProvider = new StockProviderImpl(koreaInvestmentClient);
     }
 
     @Test
-    void fetchStock() {
+    void provide() {
         // given
         FetchStockResponse fetchStockResponse = actualFetchStockResponse();
-        given(stockFetcher.fetchStock(any(StockExchange.class), anyString()))
+        given(koreaInvestmentClient.fetchStock(any(StockExchange.class), anyString()))
                 .willReturn(fetchStockResponse);
+        Stock expected = Stock.builder()
+                .name("APPLE INC")
+                .symbol("AAPL")
+                .listingDate(null)
+                .build();
 
         // when
-        FetchStockResponse result = koreaInvestmentClient.fetchStock(StockExchange.NASDAQ, "AAPL");
+        Stock result = stockProvider.provide("AAPL");
 
         // then
         assertThat(result).usingRecursiveComparison()
-                .isEqualTo(fetchStockResponse);
+                .isEqualTo(expected);
     }
 }
