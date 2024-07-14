@@ -1,9 +1,17 @@
 package com.gyeryongbrother.pickandtest.dataaccess.config;
 
+import com.gyeryongbrother.pickandtest.dataaccess.adapter.DividendRepositoryImpl;
+import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockPriceRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockRepositoryImpl;
+import com.gyeryongbrother.pickandtest.dataaccess.mapper.DividendDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockDataAccessMapper;
+import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockPriceDataAccessMapper;
+import com.gyeryongbrother.pickandtest.dataaccess.repository.DividendJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
+import com.gyeryongbrother.pickandtest.dataaccess.repository.StockPriceJpaRepository;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.DividendRepository;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockPriceRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -22,14 +30,30 @@ public class TestQuerydslConfig {
     @Autowired
     private StockJpaRepository stockJpaRepository;
 
+    @Autowired
+    private DividendJpaRepository dividendJpaRepository;
+
+    @Autowired
+    private StockPriceJpaRepository stockPriceJpaRepository;
+
     @Bean
     public JPAQueryFactory queryFactory() {
         return new JPAQueryFactory(entityManager);
     }
 
     @Bean
+    public DividendDataAccessMapper dividendDataAccessMapper() {
+        return new DividendDataAccessMapper();
+    }
+
+    @Bean
+    public StockPriceDataAccessMapper stockPriceDataAccessMapper() {
+        return new StockPriceDataAccessMapper();
+    }
+
+    @Bean
     public StockDataAccessMapper stockDataAccessMapper() {
-        return new StockDataAccessMapper();
+        return new StockDataAccessMapper(stockPriceDataAccessMapper(), dividendDataAccessMapper());
     }
 
     @Bean
@@ -40,5 +64,15 @@ public class TestQuerydslConfig {
     @Bean
     public StockRepository stockRepository() {
         return new StockRepositoryImpl(stockJpaRepository, stockDataAccessMapper());
+    }
+
+    @Bean
+    public DividendRepository dividendRepository() {
+        return new DividendRepositoryImpl(dividendJpaRepository, dividendDataAccessMapper());
+    }
+
+    @Bean
+    public StockPriceRepository stockPriceRepository() {
+        return new StockPriceRepositoryImpl(stockPriceJpaRepository, stockPriceDataAccessMapper());
     }
 }
