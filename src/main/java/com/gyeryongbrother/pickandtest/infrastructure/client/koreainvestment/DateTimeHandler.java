@@ -1,11 +1,13 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment;
 
+import static lombok.AccessLevel.PRIVATE;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import org.springframework.stereotype.Component;
+import lombok.NoArgsConstructor;
 
-@Component
+@NoArgsConstructor(access = PRIVATE)
 public class DateTimeHandler {
 
     private static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
@@ -13,11 +15,15 @@ public class DateTimeHandler {
     private static final String DATE_PATTERN = "yyyyMMdd";
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
 
-    public LocalDateTime parse(String accessTokenExpired) {
-        return LocalDateTime.parse(accessTokenExpired, DATE_TIME_FORMATTER);
+    public static LocalDateTime toDateTime(String dateTime) {
+        return LocalDateTime.parse(dateTime, DATE_TIME_FORMATTER);
     }
 
-    public String toQueryParam(LocalDate date) {
+    public static LocalDate toDate(String date) {
+        return LocalDate.parse(date, DATE_FORMATTER);
+    }
+
+    public static String toDate(LocalDate date) {
         return date.format(DATE_FORMATTER);
     }
 }

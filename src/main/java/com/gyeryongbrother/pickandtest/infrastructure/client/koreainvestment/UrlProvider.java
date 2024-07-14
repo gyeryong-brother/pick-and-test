@@ -3,12 +3,10 @@ package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.Period;
 import java.time.LocalDate;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
-@RequiredArgsConstructor
 public class UrlProvider {
 
     private static final String DOMAIN = "https://openapi.koreainvestment.com:9443";
@@ -17,8 +15,6 @@ public class UrlProvider {
     private static final String SYMBOL_HEADER_NAME = "PDNO";
     private static final String STOCK_PRICE_ENDPOINT = "/uapi/overseas-price/v1/quotations/daily-price";
     private static final String TOKEN_ENDPOINT = "/oauth2/tokenP";
-
-    private final DateTimeHandler dateTimeHandler;
 
     public String getStockEndpoint(StockExchange stockExchange, String symbol) {
         return UriComponentsBuilder.fromHttpUrl(DOMAIN)
@@ -41,7 +37,7 @@ public class UrlProvider {
                 .queryParam("EXCD", stockExchange.getExchangeCode())
                 .queryParam("SYMB", symbol)
                 .queryParam("GUBN", period.getCode())
-                .queryParam("BYMD", dateTimeHandler.toQueryParam(date))
+                .queryParam("BYMD", DateTimeHandler.toDate(date))
                 .queryParam("MODP", "1")
                 .build()
                 .toUriString();

@@ -5,7 +5,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.times;
 import static org.mockito.BDDMockito.verify;
 
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.DateTimeHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.auth.dto.TokenResponse;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -25,7 +24,7 @@ class AccessTokenManagerTest {
 
     @BeforeEach
     void setUp() {
-        accessTokenManager = new AccessTokenManager(accessTokenFetcher, new DateTimeHandler(), new AccessToken());
+        accessTokenManager = new AccessTokenManager(accessTokenFetcher, new AccessToken());
     }
 
     @Test

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 public class AccessTokenManager {
 
     private final AccessTokenFetcher accessTokenFetcher;
-    private final DateTimeHandler dateTimeHandler;
     private final AccessToken accessToken;
 
     public String getAccessToken() {
@@ -24,7 +23,7 @@ public class AccessTokenManager {
     private void fetchAccessToken() {
         TokenResponse tokenResponse = accessTokenFetcher.fetchToken();
         String accessTokenExpired = tokenResponse.accessTokenExpired();
-        LocalDateTime expiresAt = dateTimeHandler.parse(accessTokenExpired);
+        LocalDateTime expiresAt = DateTimeHandler.toDateTime(accessTokenExpired);
         accessToken.update(tokenResponse.accessToken(), expiresAt);
     }
 }
