@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,9 +28,7 @@ class AccessTokenTest {
     @Test
     void isExpiredToken() {
         // given
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String alreadyExpired = LocalDateTime.now().format(dateTimeFormatter);
-        accessToken.update("accessToken", alreadyExpired);
+        accessToken.update("accessToken", LocalDateTime.now());
 
         // when
         boolean result = accessToken.isExpired();
@@ -43,9 +40,7 @@ class AccessTokenTest {
     @Test
     void isExpiredFalse() {
         // given
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String neverExpired = LocalDateTime.MAX.format(dateTimeFormatter);
-        accessToken.update("accessToken", neverExpired);
+        accessToken.update("accessToken", LocalDateTime.MAX);
 
         // when
         boolean result = accessToken.isExpired();
@@ -56,11 +51,8 @@ class AccessTokenTest {
 
     @Test
     void update() {
-        // given
-        String actualExpiredFormat = "2024-07-14 14:44:10";
-
         // when & then
-        assertThatCode(() -> accessToken.update("accessToken", actualExpiredFormat))
+        assertThatCode(() -> accessToken.update("accessToken", LocalDateTime.now()))
                 .doesNotThrowAnyException();
     }
 }

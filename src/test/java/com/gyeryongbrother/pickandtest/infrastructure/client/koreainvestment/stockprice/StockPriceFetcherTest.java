@@ -6,6 +6,7 @@ import static org.mockito.BDDMockito.anyString;
 import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.infrastructure.client.FetcherSupport;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.DateTimeHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.FetchType;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.HeaderHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.UrlProvider;
@@ -13,6 +14,7 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.sto
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBody;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBodyFixture;
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,7 +36,8 @@ class StockPriceFetcherTest {
 
     @BeforeEach
     void setUp() {
-        stockPriceFetcher = new StockPriceFetcher(new UrlProvider(), headerHandler, fetcherSupport);
+        UrlProvider urlProvider = new UrlProvider(new DateTimeHandler());
+        stockPriceFetcher = new StockPriceFetcher(urlProvider, headerHandler, fetcherSupport);
     }
 
     @Test
@@ -54,7 +57,7 @@ class StockPriceFetcherTest {
                 StockExchange.NASDAQ,
                 "AAPL",
                 Period.DAY,
-                "20240101"
+                LocalDate.of(2024, 1, 1)
         );
 
         // then

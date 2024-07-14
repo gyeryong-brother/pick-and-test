@@ -23,12 +23,8 @@ public class AccessToken {
         return expiresAt.isBefore(now);
     }
 
-    public void update(String accessToken, String accessTokenExpired) {
+    public void update(String accessToken, LocalDateTime expiresAt) {
         value = accessToken;
-        expiresAt = parse(accessTokenExpired);
-    }
-
-    private LocalDateTime parse(String accessTokenExpired) {
-        return LocalDateTime.parse(accessTokenExpired, DATE_TIME_FORMATTER);
+        this.expiresAt = expiresAt;
     }
 }
