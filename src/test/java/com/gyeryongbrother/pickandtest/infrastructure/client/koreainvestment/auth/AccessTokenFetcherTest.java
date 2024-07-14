@@ -6,6 +6,7 @@ import static org.mockito.BDDMockito.anyString;
 import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.infrastructure.client.FetcherSupport;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.DateTimeHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.UrlProvider;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.auth.dto.TokenRequest;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.auth.dto.TokenResponse;
@@ -27,7 +28,7 @@ class AccessTokenFetcherTest {
     void setUp() {
         accessTokenFetcher = new AccessTokenFetcher(
                 fetcherSupport,
-                new UrlProvider(),
+                new UrlProvider(new DateTimeHandler()),
                 new ClientCredential("appKey", "appSecret")
         );
     }

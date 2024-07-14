@@ -2,6 +2,7 @@ package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment;
 
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.Period;
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -17,6 +18,8 @@ public class UrlProvider {
     private static final String STOCK_PRICE_ENDPOINT = "/uapi/overseas-price/v1/quotations/daily-price";
     private static final String TOKEN_ENDPOINT = "/oauth2/tokenP";
 
+    private final DateTimeHandler dateTimeHandler;
+
     public String getStockEndpoint(StockExchange stockExchange, String symbol) {
         return UriComponentsBuilder.fromHttpUrl(DOMAIN)
                 .path(STOCK_ENDPOINT)
@@ -30,7 +33,7 @@ public class UrlProvider {
             StockExchange stockExchange,
             String symbol,
             Period period,
-            String date
+            LocalDate date
     ) {
         return UriComponentsBuilder.fromHttpUrl(DOMAIN)
                 .path(STOCK_PRICE_ENDPOINT)
@@ -38,7 +41,7 @@ public class UrlProvider {
                 .queryParam("EXCD", stockExchange.getExchangeCode())
                 .queryParam("SYMB", symbol)
                 .queryParam("GUBN", period.getCode())
-                .queryParam("BYMD", date)
+                .queryParam("BYMD", dateTimeHandler.toQueryParam(date))
                 .queryParam("MODP", "1")
                 .build()
                 .toUriString();

@@ -7,6 +7,7 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.Url
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBody;
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class StockPriceFetcher {
             StockExchange stockExchange,
             String symbol,
             Period period,
-            String date
+            LocalDate date
     ) {
         String url = urlProvider.getStockPriceEndpoint(stockExchange, symbol, period, date);
         HttpHeaders httpHeaders = headerHandler.getHeader(FetchType.STOCK_PRICE);

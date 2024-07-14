@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.infrastructure.client.FetcherSupport;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.DateTimeHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.FetchType;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.HeaderHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.UrlProvider;
@@ -32,7 +33,8 @@ class StockFetcherTest {
 
     @BeforeEach
     void setUp() {
-        stockFetcher = new StockFetcher(new UrlProvider(), headerHandler, fetcherSupport);
+        UrlProvider urlProvider = new UrlProvider(new DateTimeHandler());
+        stockFetcher = new StockFetcher(urlProvider, headerHandler, fetcherSupport);
     }
 
     @Test

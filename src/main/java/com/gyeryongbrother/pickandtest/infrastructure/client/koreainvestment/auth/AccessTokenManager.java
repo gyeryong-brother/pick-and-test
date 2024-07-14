@@ -1,6 +1,8 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.auth;
 
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.DateTimeHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.auth.dto.TokenResponse;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Component;
 public class AccessTokenManager {
 
     private final AccessTokenFetcher accessTokenFetcher;
+    private final DateTimeHandler dateTimeHandler;
     private final AccessToken accessToken;
 
     public String getAccessToken() {
@@ -20,6 +23,8 @@ public class AccessTokenManager {
 
     private void fetchAccessToken() {
         TokenResponse tokenResponse = accessTokenFetcher.fetchToken();
-        accessToken.update(tokenResponse.accessToken(), tokenResponse.accessTokenExpired());
+        String accessTokenExpired = tokenResponse.accessTokenExpired();
+        LocalDateTime expiresAt = dateTimeHandler.parse(accessTokenExpired);
+        accessToken.update(tokenResponse.accessToken(), expiresAt);
     }
 }

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.Period;
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,7 @@ class UrlProviderTest {
 
     @BeforeEach
     void setUp() {
-        urlProvider = new UrlProvider();
+        urlProvider = new UrlProvider(new DateTimeHandler());
     }
 
     @Test
@@ -40,7 +41,7 @@ class UrlProviderTest {
                 StockExchange.NASDAQ,
                 "AAPL",
                 Period.DAY,
-                "20240101"
+                LocalDate.of(2024, 1, 1)
         );
 
         // then
