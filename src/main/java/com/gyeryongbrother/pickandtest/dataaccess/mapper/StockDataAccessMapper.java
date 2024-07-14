@@ -14,52 +14,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class StockDataAccessMapper {
 
-    public Stock stockEntityToStock(StockEntity stockEntity) {
-        return Stock.builder()
-                .id(stockEntity.getId())
-                .name(stockEntity.getName())
-                .symbol(stockEntity.getSymbol())
-                .listingDate(stockEntity.getListingDate())
-                .stockPrices(stockPriceEntitiesToStockPrices(stockEntity.getStockPrices()))
-                .dividends(dividendEntitiesToDividends(stockEntity.getDividends()))
-                .build();
-    }
-
-    private List<StockPrice> stockPriceEntitiesToStockPrices(List<StockPriceEntity> stockPriceEntities) {
-        if (stockPriceEntities == null) {
-            return List.of();
-        }
-        return stockPriceEntities.stream()
-                .map(this::stockPriceEntityToStockPrice)
-                .toList();
-    }
-
-    public StockPrice stockPriceEntityToStockPrice(StockPriceEntity stockPriceEntity) {
-        return StockPrice.builder()
-                .id(stockPriceEntity.getId())
-                .stockId(stockPriceEntity.getStock().getId())
-                .date(stockPriceEntity.getDate())
-                .price(stockPriceEntity.getPrice())
-                .build();
-    }
-
-    private List<Dividend> dividendEntitiesToDividends(List<DividendEntity> dividendEntities) {
-        if (dividendEntities == null) {
-            return List.of();
-        }
-        return dividendEntities.stream()
-                .map(this::dividendEntityToDividend)
-                .toList();
-    }
-
-    public Dividend dividendEntityToDividend(DividendEntity dividendEntity) {
-        return Dividend.builder()
-                .id(dividendEntity.getId())
-                .stockId(dividendEntity.getStock().getId())
-                .date(dividendEntity.getDate())
-                .amount(dividendEntity.getAmount())
-                .build();
-    }
+    private final StockPriceDataAccessMapper stockPriceDataAccessMapper;
+    private final DividendDataAccessMapper dividendDataAccessMapper;
 
     public StockEntity stockToStockEntity(Stock stock) {
         return StockEntity.builder()
@@ -70,29 +26,14 @@ public class StockDataAccessMapper {
                 .build();
     }
 
-    public DividendEntity dividendToDividendEntity(Dividend dividend) {
-        StockEntity stockEntity = StockEntity.builder()
-                .id(dividend.getStockId())
-                .build();
-
-        return DividendEntity.builder()
-                .id(dividend.getId())
-                .date(dividend.getDate())
-                .amount(dividend.getAmount())
-                .stock(stockEntity)
-                .build();
-    }
-
-    public StockPriceEntity stockPricetoStockPriceEntity(StockPrice stockPrice) {
-        StockEntity stockEntity = StockEntity.builder()
-                .id(stockPrice.getStockId())
-                .build();
-
-        return StockPriceEntity.builder()
-                .id(stockPrice.getId())
-                .date(stockPrice.getDate())
-                .price(stockPrice.getPrice())
-                .stock(stockEntity)
+    public Stock stockEntityToStock(StockEntity stockEntity) {
+        return Stock.builder()
+                .id(stockEntity.getId())
+                .name(stockEntity.getName())
+                .symbol(stockEntity.getSymbol())
+                .listingDate(stockEntity.getListingDate())
+                .stockPrices(stockPriceDataAccessMapper.stockPriceEntitiesToStockPrices(stockEntity.getStockPrices()))
+                .dividends(dividendDataAccessMapper.dividendEntitiesToDividends(stockEntity.getDividends()))
                 .build();
     }
 }

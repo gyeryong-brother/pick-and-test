@@ -4,7 +4,9 @@ import com.gyeryongbrother.pickandtest.dataaccess.adapter.DividendRepositoryImpl
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockPriceRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockRepositoryImpl;
+import com.gyeryongbrother.pickandtest.dataaccess.mapper.DividendDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockDataAccessMapper;
+import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockPriceDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.DividendJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockPriceJpaRepository;
@@ -40,8 +42,18 @@ public class TestQuerydslConfig {
     }
 
     @Bean
+    public DividendDataAccessMapper dividendDataAccessMapper(){
+        return new DividendDataAccessMapper();
+    }
+
+    @Bean
+    public StockPriceDataAccessMapper stockPriceDataAccessMapper(){
+        return new StockPriceDataAccessMapper();
+    }
+
+    @Bean
     public StockDataAccessMapper stockDataAccessMapper() {
-        return new StockDataAccessMapper();
+        return new StockDataAccessMapper(stockPriceDataAccessMapper(),dividendDataAccessMapper());
     }
 
     @Bean
@@ -56,11 +68,11 @@ public class TestQuerydslConfig {
 
     @Bean
     public DividendRepository dividendRepository() {
-        return new DividendRepositoryImpl(dividendJpaRepository, stockDataAccessMapper());
+        return new DividendRepositoryImpl(dividendJpaRepository, dividendDataAccessMapper());
     }
 
     @Bean
     public StockPriceRepository stockPriceRepository() {
-        return new StockPriceRepositoryImpl(stockPriceJpaRepository, stockDataAccessMapper());
+        return new StockPriceRepositoryImpl(stockPriceJpaRepository, stockPriceDataAccessMapper());
     }
 }

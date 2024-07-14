@@ -6,8 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@Builder
 @Getter
+@Builder
 @RequiredArgsConstructor
 public class StockPrice {
 
