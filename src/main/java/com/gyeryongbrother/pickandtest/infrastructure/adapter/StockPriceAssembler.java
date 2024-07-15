@@ -3,7 +3,7 @@ package com.gyeryongbrother.pickandtest.infrastructure.adapter;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.DateTimeHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBody;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceInformation;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceDetail;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,16 +35,16 @@ public class StockPriceAssembler {
         if (fetchStockPriceResponses.isEmpty()) {
             return LocalDate.now();
         }
-        String lastDate = getLastStockInformation().date();
+        String lastDate = getLastStockDetail().date();
         return DateTimeHandler.toDate(lastDate)
                 .minusDays(1);
     }
 
-    private StockPriceInformation getLastStockInformation() {
+    private StockPriceDetail getLastStockDetail() {
         StockPriceBody lastStockPriceBody = getLastFetchStockPriceResponse().stockPriceBody();
-        List<StockPriceInformation> stockPriceInformations = lastStockPriceBody.stockPriceInformation();
-        int lastIndex = stockPriceInformations.size() - 1;
-        return stockPriceInformations.get(lastIndex);
+        List<StockPriceDetail> stockPriceDetails = lastStockPriceBody.stockPriceDetails();
+        int lastIndex = stockPriceDetails.size() - 1;
+        return stockPriceDetails.get(lastIndex);
     }
 
     public void add(FetchStockPriceResponse fetchStockPriceResponse) {
