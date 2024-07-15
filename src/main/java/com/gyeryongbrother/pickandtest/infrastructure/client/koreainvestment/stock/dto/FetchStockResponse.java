@@ -10,6 +10,6 @@ public record FetchStockResponse(
         @JsonProperty(value = "msg1")
         String responseMessage,
         @JsonProperty(value = "output")
-        StockInformation stockInformation
+        StockDetail stockDetail
 ) {
 }
