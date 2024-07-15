@@ -4,7 +4,7 @@ import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.DateTimeHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBody;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceInformation;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceDetail;
 import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.stereotype.Component;
@@ -17,16 +17,16 @@ public class StockPriceFetcherDataMapper {
     ) {
         return fetchStockPriceResponses.stream()
                 .map(FetchStockPriceResponse::stockPriceBody)
-                .map(StockPriceBody::stockPriceInformation)
+                .map(StockPriceBody::stockPriceDetails)
                 .flatMap(List::stream)
                 .map(this::stockPriceInformationToStockPrice)
                 .toList();
     }
 
-    private StockPrice stockPriceInformationToStockPrice(StockPriceInformation stockPriceInformation) {
+    private StockPrice stockPriceInformationToStockPrice(StockPriceDetail stockPriceDetail) {
         return StockPrice.builder()
-                .date(DateTimeHandler.toDate(stockPriceInformation.date()))
-                .price(new BigDecimal(stockPriceInformation.price()))
+                .date(DateTimeHandler.toDate(stockPriceDetail.date()))
+                .price(new BigDecimal(stockPriceDetail.price()))
                 .build();
     }
 }

@@ -13,6 +13,6 @@ public record StockPriceBody(
         @JsonProperty(value = "msg1")
         String responseMessage,
         @JsonProperty(value = "output2")
-        List<StockPriceInformation> stockPriceInformation
+        List<StockPriceDetail> stockPriceDetails
 ) {
 }
