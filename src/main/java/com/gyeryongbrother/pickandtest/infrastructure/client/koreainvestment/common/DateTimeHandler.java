@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment;
+package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common;
 
 import static lombok.AccessLevel.PRIVATE;
 

@@ -6,9 +6,9 @@ import static org.mockito.BDDMockito.anyString;
 import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.infrastructure.client.FetcherSupport;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.FetchType;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.HeaderHandler;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.UrlProvider;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.FetchType;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.HeaderHandler;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.UrlProvider;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBody;

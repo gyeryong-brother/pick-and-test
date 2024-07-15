@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment;
+package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;

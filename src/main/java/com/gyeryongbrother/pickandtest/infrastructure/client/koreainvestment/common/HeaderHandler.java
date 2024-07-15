@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment;
+package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common;
 
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.auth.AuthManager;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.ContinuityCode;
