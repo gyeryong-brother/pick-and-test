@@ -1,32 +1,69 @@
 package com.gyeryongbrother.pickandtest.infrastructure.adapter;
 
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange.NASDAQ;
-
 import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.KoreaInvestmentClient;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.DateTimeHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponse;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBody;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceInformation;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
-@Component
-@RequiredArgsConstructor
 public class StockPriceAssembler {
 
-    private final KoreaInvestmentClient koreaInvestmentClient;
+    private final List<FetchStockPriceResponse> stockPrices;
 
-    public List<StockPrice> getStockPrices(String symbol) {
-        AssembleStockPriceResult assembleStockPriceResult = new AssembleStockPriceResult();
-        while (assembleStockPriceResult.hasNext()) {
-            LocalDate nextDate = assembleStockPriceResult.getNextDate();
-            FetchStockPriceResponse fetchStockPriceResponse = fetchStockPriceInNasdaq(symbol, nextDate);
-            assembleStockPriceResult.add(fetchStockPriceResponse);
-        }
-        return assembleStockPriceResult.getStockPrices();
+    public StockPriceAssembler() {
+        stockPrices = new ArrayList<>();
     }
 
-    private FetchStockPriceResponse fetchStockPriceInNasdaq(String symbol, LocalDate date) {
-        return koreaInvestmentClient.fetchStockPrice(NASDAQ, symbol, date);
+    public boolean hasNext() {
+        if (stockPrices.isEmpty()) {
+            return true;
+        }
+        FetchStockPriceResponse lastFetchStockPriceResponse = getLastFetchStockPriceResponse();
+        return lastFetchStockPriceResponse.continuityCode().hasNext();
+    }
+
+    private FetchStockPriceResponse getLastFetchStockPriceResponse() {
+        int lastIndex = stockPrices.size() - 1;
+        return stockPrices.get(lastIndex);
+    }
+
+    public LocalDate getNextDate() {
+        if (stockPrices.isEmpty()) {
+            return LocalDate.now();
+        }
+        String lastDate = getLastStockInformation().date();
+        return DateTimeHandler.toDate(lastDate)
+                .minusDays(1);
+    }
+
+    private StockPriceInformation getLastStockInformation() {
+        StockPriceBody lastStockPriceBody = getLastFetchStockPriceResponse().stockPriceBody();
+        List<StockPriceInformation> stockPriceInformations = lastStockPriceBody.stockPriceInformation();
+        int lastIndex = stockPriceInformations.size() - 1;
+        return stockPriceInformations.get(lastIndex);
+    }
+
+    public void add(FetchStockPriceResponse fetchStockPriceResponse) {
+        stockPrices.add(fetchStockPriceResponse);
+    }
+
+    public List<StockPrice> getStockPrices() {
+        return stockPrices.stream()
+                .map(FetchStockPriceResponse::stockPriceBody)
+                .map(StockPriceBody::stockPriceInformation)
+                .flatMap(List::stream)
+                .map(this::stockPriceInformationToStockPrice)
+                .toList();
+    }
+
+    private StockPrice stockPriceInformationToStockPrice(StockPriceInformation stockPriceInformation) {
+        return StockPrice.builder()
+                .date(DateTimeHandler.toDate(stockPriceInformation.date()))
+                .price(new BigDecimal(stockPriceInformation.price()))
+                .build();
     }
 }
