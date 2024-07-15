@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record StockInformation(
+public record StockDetail(
         @JsonProperty(value = "prdt_eng_name")
         String productEnglishName,
         @JsonProperty(value = "lstg_stck_num")

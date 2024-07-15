@@ -7,7 +7,7 @@ public class FetchStockResponseFixture {
                 "",
                 "",
                 "",
-                new StockInformation("", "", "")
+                new StockDetail("", "", "")
         );
     }
 
@@ -16,7 +16,7 @@ public class FetchStockResponseFixture {
                 "0",
                 "KIOK0530",
                 "조회되었습니다                                                                  ",
-                new StockInformation(
+                new StockDetail(
                         "APPLE INC",
                         "15334100000",
                         ""
