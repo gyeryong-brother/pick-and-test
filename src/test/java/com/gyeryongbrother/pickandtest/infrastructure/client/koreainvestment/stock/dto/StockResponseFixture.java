@@ -1,9 +1,9 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto;
 
-public class FetchStockResponseFixture {
+public class StockResponseFixture {
 
-    public static FetchStockResponse empty() {
-        return new FetchStockResponse(
+    public static StockResponse empty() {
+        return new StockResponse(
                 "",
                 "",
                 "",
@@ -11,8 +11,8 @@ public class FetchStockResponseFixture {
         );
     }
 
-    public static FetchStockResponse actualFetchStockResponse() {
-        return new FetchStockResponse(
+    public static StockResponse actualStockResponse() {
+        return new StockResponse(
                 "0",
                 "KIOK0530",
                 "조회되었습니다                                                                  ",
