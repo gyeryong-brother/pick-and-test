@@ -1,25 +1,25 @@
 package com.gyeryongbrother.pickandtest.infrastructure.adapter;
 
-import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.DateTimeHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBody;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceInformation;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
 
+@Getter
 public class StockPriceAssembler {
 
-    private final List<FetchStockPriceResponse> stockPrices;
+    private final List<FetchStockPriceResponse> fetchStockPriceResponses;
 
     public StockPriceAssembler() {
-        stockPrices = new ArrayList<>();
+        fetchStockPriceResponses = new ArrayList<>();
     }
 
     public boolean hasNext() {
-        if (stockPrices.isEmpty()) {
+        if (fetchStockPriceResponses.isEmpty()) {
             return true;
         }
         FetchStockPriceResponse lastFetchStockPriceResponse = getLastFetchStockPriceResponse();
@@ -27,12 +27,12 @@ public class StockPriceAssembler {
     }
 
     private FetchStockPriceResponse getLastFetchStockPriceResponse() {
-        int lastIndex = stockPrices.size() - 1;
-        return stockPrices.get(lastIndex);
+        int lastIndex = fetchStockPriceResponses.size() - 1;
+        return fetchStockPriceResponses.get(lastIndex);
     }
 
     public LocalDate getNextDate() {
-        if (stockPrices.isEmpty()) {
+        if (fetchStockPriceResponses.isEmpty()) {
             return LocalDate.now();
         }
         String lastDate = getLastStockInformation().date();
@@ -48,22 +48,6 @@ public class StockPriceAssembler {
     }
 
     public void add(FetchStockPriceResponse fetchStockPriceResponse) {
-        stockPrices.add(fetchStockPriceResponse);
-    }
-
-    public List<StockPrice> getStockPrices() {
-        return stockPrices.stream()
-                .map(FetchStockPriceResponse::stockPriceBody)
-                .map(StockPriceBody::stockPriceInformation)
-                .flatMap(List::stream)
-                .map(this::stockPriceInformationToStockPrice)
-                .toList();
-    }
-
-    private StockPrice stockPriceInformationToStockPrice(StockPriceInformation stockPriceInformation) {
-        return StockPrice.builder()
-                .date(DateTimeHandler.toDate(stockPriceInformation.date()))
-                .price(new BigDecimal(stockPriceInformation.price()))
-                .build();
+        fetchStockPriceResponses.add(fetchStockPriceResponse);
     }
 }

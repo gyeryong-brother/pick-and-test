@@ -1,53 +1,36 @@
-package com.gyeryongbrother.pickandtest.infrastructure.adapter;
+package com.gyeryongbrother.pickandtest.infrastructure.mapper;
 
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.FetchStockResponseFixture.actualFetchStockResponse;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.firstFetchStockPriceResponse;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.secondFetchStockPriceResponse;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.thirdFetchStockPriceResponse;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
-import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockProvider;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.KoreaInvestmentClient;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.FetchStockResponse;
-import com.gyeryongbrother.pickandtest.infrastructure.mapper.StockFetcherDataMapper;
-import com.gyeryongbrother.pickandtest.infrastructure.mapper.StockPriceFetcherDataMapper;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponse;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import org.assertj.core.util.BigDecimalComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)
-class StockProviderImplTest {
+class StockFetcherDataMapperTest {
 
-    @Mock
-    private KoreaInvestmentClient koreaInvestmentClient;
-
-    private StockProvider stockProvider;
+    private StockFetcherDataMapper stockFetcherDataMapper;
 
     @BeforeEach
     void setUp() {
-        StockFetcherDataMapper stockFetcherDataMapper = new StockFetcherDataMapper(new StockPriceFetcherDataMapper());
-        stockProvider = new StockProviderImpl(koreaInvestmentClient, stockFetcherDataMapper);
+        stockFetcherDataMapper = new StockFetcherDataMapper(new StockPriceFetcherDataMapper());
     }
 
     @Test
-    void provide() {
+    void fetchStockResponseToStock() {
         // given
         FetchStockResponse fetchStockResponse = actualFetchStockResponse();
-        given(koreaInvestmentClient.fetchStock(any(StockExchange.class), anyString()))
-                .willReturn(fetchStockResponse);
-        given(koreaInvestmentClient.fetchStockPrice(any(), anyString(), any())).willReturn(
+        List<FetchStockPriceResponse> fetchStockPriceResponses = List.of(
                 firstFetchStockPriceResponse(),
                 secondFetchStockPriceResponse(),
                 thirdFetchStockPriceResponse()
@@ -70,7 +53,11 @@ class StockProviderImplTest {
                 .build();
 
         // when
-        Stock result = stockProvider.provide("AAPL");
+        Stock result = stockFetcherDataMapper.fetchStockResponseToStock(
+                fetchStockResponse,
+                "AAPL",
+                fetchStockPriceResponses
+        );
 
         // then
         assertThat(result).usingRecursiveComparison()
