@@ -4,15 +4,15 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.sto
 
 public class FetchStockPriceResponseFixture {
 
-    public static FetchStockPriceResponse firstFetchStockPriceResponse() {
-        return new FetchStockPriceResponse(ContinuityCode.NEXT, StockPriceBodyFixture.firstStockPriceBody());
+    public static StockPriceResponse firstStockPriceResponse() {
+        return new StockPriceResponse(ContinuityCode.NEXT, StockPriceBodyFixture.firstStockPriceBody());
     }
 
-    public static FetchStockPriceResponse secondFetchStockPriceResponse() {
-        return new FetchStockPriceResponse(ContinuityCode.NEXT, StockPriceBodyFixture.secondStockPriceBody());
+    public static StockPriceResponse secondStockPriceResponse() {
+        return new StockPriceResponse(ContinuityCode.NEXT, StockPriceBodyFixture.secondStockPriceBody());
     }
 
-    public static FetchStockPriceResponse thirdFetchStockPriceResponse() {
-        return new FetchStockPriceResponse(ContinuityCode.END, StockPriceBodyFixture.thirdStockPriceBody());
+    public static StockPriceResponse thirdStockPriceResponse() {
+        return new StockPriceResponse(ContinuityCode.END, StockPriceBodyFixture.thirdStockPriceBody());
     }
 }

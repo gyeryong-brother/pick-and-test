@@ -14,7 +14,7 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.sto
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.ContinuityCode;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.Period;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.StockPriceFetcher;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponse;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,14 +57,14 @@ class KoreaInvestmentClientTest {
     void fetchStockPrice() {
         // given
         LocalDate date = LocalDate.of(2024, 1, 1);
-        FetchStockPriceResponse fetchStockPriceResponse = new FetchStockPriceResponse(ContinuityCode.NEXT, empty());
+        StockPriceResponse stockPriceResponse = new StockPriceResponse(ContinuityCode.NEXT, empty());
         given(stockPriceFetcher.fetchStockPrice(NASDAQ, "AAPL", Period.DAY, date))
-                .willReturn(fetchStockPriceResponse);
+                .willReturn(stockPriceResponse);
 
         // when
-        FetchStockPriceResponse result = koreaInvestmentClient.fetchStockPrice(NASDAQ, "AAPL", date);
+        StockPriceResponse result = koreaInvestmentClient.fetchStockPrice(NASDAQ, "AAPL", date);
 
         // then
-        assertThat(result).isEqualTo(fetchStockPriceResponse);
+        assertThat(result).isEqualTo(stockPriceResponse);
     }
 }

@@ -2,7 +2,7 @@ package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.st
 
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.ContinuityCode;
 
-public record FetchStockPriceResponse(
+public record StockPriceResponse(
         ContinuityCode continuityCode,
         StockPriceBody stockPriceBody
 ) {

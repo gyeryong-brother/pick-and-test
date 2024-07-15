@@ -5,7 +5,7 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.sto
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.FetchStockResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.Period;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.StockPriceFetcher;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponse;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ public class KoreaInvestmentClient {
         return stockFetcher.fetchStock(stockExchange, symbol);
     }
 
-    public FetchStockPriceResponse fetchStockPrice(
+    public StockPriceResponse fetchStockPrice(
             StockExchange stockExchange,
             String symbol,
             LocalDate date

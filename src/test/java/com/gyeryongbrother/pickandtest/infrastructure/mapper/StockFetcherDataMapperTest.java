@@ -1,15 +1,15 @@
 package com.gyeryongbrother.pickandtest.infrastructure.mapper;
 
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.FetchStockResponseFixture.actualFetchStockResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.firstFetchStockPriceResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.secondFetchStockPriceResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.thirdFetchStockPriceResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.firstStockPriceResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.secondStockPriceResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.thirdStockPriceResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.FetchStockResponse;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponse;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -30,10 +30,10 @@ class StockFetcherDataMapperTest {
     void fetchStockResponseToStock() {
         // given
         FetchStockResponse fetchStockResponse = actualFetchStockResponse();
-        List<FetchStockPriceResponse> fetchStockPriceResponses = List.of(
-                firstFetchStockPriceResponse(),
-                secondFetchStockPriceResponse(),
-                thirdFetchStockPriceResponse()
+        List<StockPriceResponse> stockPriceResponses = List.of(
+                firstStockPriceResponse(),
+                secondStockPriceResponse(),
+                thirdStockPriceResponse()
         );
         List<StockPrice> expectedStockPrices = List.of(
                 stockPrice(12, 230.54),
@@ -56,7 +56,7 @@ class StockFetcherDataMapperTest {
         Stock result = stockFetcherDataMapper.fetchStockResponseToStock(
                 fetchStockResponse,
                 "AAPL",
-                fetchStockPriceResponses
+                stockPriceResponses
         );
 
         // then
