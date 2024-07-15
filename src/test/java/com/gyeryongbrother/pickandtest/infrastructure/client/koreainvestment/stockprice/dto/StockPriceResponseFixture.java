@@ -2,7 +2,7 @@ package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.st
 
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.ContinuityCode;
 
-public class FetchStockPriceResponseFixture {
+public class StockPriceResponseFixture {
 
     public static StockPriceResponse firstStockPriceResponse() {
         return new StockPriceResponse(ContinuityCode.NEXT, StockPriceBodyFixture.firstStockPriceBody());

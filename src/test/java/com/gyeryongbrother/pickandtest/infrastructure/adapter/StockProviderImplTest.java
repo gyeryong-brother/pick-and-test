@@ -1,9 +1,9 @@
 package com.gyeryongbrother.pickandtest.infrastructure.adapter;
 
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.FetchStockResponseFixture.actualFetchStockResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.firstStockPriceResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.secondStockPriceResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.thirdStockPriceResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponseFixture.actualStockResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.firstStockPriceResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.secondStockPriceResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.thirdStockPriceResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -14,7 +14,7 @@ import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockProvider;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.KoreaInvestmentClient;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.FetchStockResponse;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.mapper.StockFetcherDataMapper;
 import com.gyeryongbrother.pickandtest.infrastructure.mapper.StockPriceFetcherDataMapper;
 import java.math.BigDecimal;
@@ -44,9 +44,9 @@ class StockProviderImplTest {
     @Test
     void provide() {
         // given
-        FetchStockResponse fetchStockResponse = actualFetchStockResponse();
+        StockResponse stockResponse = actualStockResponse();
         given(koreaInvestmentClient.fetchStock(any(StockExchange.class), anyString()))
-                .willReturn(fetchStockResponse);
+                .willReturn(stockResponse);
         given(koreaInvestmentClient.fetchStockPrice(any(), anyString(), any())).willReturn(
                 firstStockPriceResponse(),
                 secondStockPriceResponse(),

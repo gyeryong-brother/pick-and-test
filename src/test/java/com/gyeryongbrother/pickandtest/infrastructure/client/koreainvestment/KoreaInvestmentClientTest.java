@@ -1,7 +1,7 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment;
 
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange.NASDAQ;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.FetchStockResponseFixture.actualFetchStockResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponseFixture.actualStockResponse;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBodyFixture.empty;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.any;
@@ -10,7 +10,7 @@ import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockFetcher;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.FetchStockResponse;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.ContinuityCode;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.Period;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.StockPriceFetcher;
@@ -41,16 +41,16 @@ class KoreaInvestmentClientTest {
     @Test
     void fetchStock() {
         // given
-        FetchStockResponse fetchStockResponse = actualFetchStockResponse();
+        StockResponse stockResponse = actualStockResponse();
         given(stockFetcher.fetchStock(any(StockExchange.class), anyString()))
-                .willReturn(fetchStockResponse);
+                .willReturn(stockResponse);
 
         // when
-        FetchStockResponse result = koreaInvestmentClient.fetchStock(NASDAQ, "AAPL");
+        StockResponse result = koreaInvestmentClient.fetchStock(NASDAQ, "AAPL");
 
         // then
         assertThat(result).usingRecursiveComparison()
-                .isEqualTo(fetchStockResponse);
+                .isEqualTo(stockResponse);
     }
 
     @Test

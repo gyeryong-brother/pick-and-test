@@ -2,7 +2,7 @@ package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.st
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record FetchStockResponse(
+public record StockResponse(
         @JsonProperty(value = "rt_cd")
         String isSuccess,
         @JsonProperty(value = "msg_cd")

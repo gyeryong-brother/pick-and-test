@@ -1,14 +1,14 @@
 package com.gyeryongbrother.pickandtest.infrastructure.mapper;
 
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.FetchStockResponseFixture.actualFetchStockResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.firstStockPriceResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.secondStockPriceResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.thirdStockPriceResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponseFixture.actualStockResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.firstStockPriceResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.secondStockPriceResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.thirdStockPriceResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.FetchStockResponse;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -29,7 +29,7 @@ class StockFetcherDataMapperTest {
     @Test
     void fetchStockResponseToStock() {
         // given
-        FetchStockResponse fetchStockResponse = actualFetchStockResponse();
+        StockResponse stockResponse = actualStockResponse();
         List<StockPriceResponse> stockPriceResponses = List.of(
                 firstStockPriceResponse(),
                 secondStockPriceResponse(),
@@ -53,8 +53,8 @@ class StockFetcherDataMapperTest {
                 .build();
 
         // when
-        Stock result = stockFetcherDataMapper.fetchStockResponseToStock(
-                fetchStockResponse,
+        Stock result = stockFetcherDataMapper.stockResponseToStock(
+                stockResponse,
                 "AAPL",
                 stockPriceResponses
         );

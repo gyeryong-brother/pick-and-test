@@ -6,7 +6,7 @@ import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockProvider;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.KoreaInvestmentClient;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.FetchStockResponse;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.mapper.StockFetcherDataMapper;
 import java.time.LocalDate;
@@ -23,9 +23,9 @@ public class StockProviderImpl implements StockProvider {
 
     @Override
     public Stock provide(String symbol) {
-        FetchStockResponse fetchStockResponse = koreaInvestmentClient.fetchStock(StockExchange.NASDAQ, symbol);
+        StockResponse stockResponse = koreaInvestmentClient.fetchStock(StockExchange.NASDAQ, symbol);
         List<StockPriceResponse> stockPriceResponses = getStockPriceResponses(symbol);
-        return stockFetcherDataMapper.fetchStockResponseToStock(fetchStockResponse, symbol, stockPriceResponses);
+        return stockFetcherDataMapper.stockResponseToStock(stockResponse, symbol, stockPriceResponses);
     }
 
     private List<StockPriceResponse> getStockPriceResponses(String symbol) {

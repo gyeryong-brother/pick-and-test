@@ -2,7 +2,7 @@ package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment;
 
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockFetcher;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.FetchStockResponse;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.Period;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.StockPriceFetcher;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
@@ -17,7 +17,7 @@ public class KoreaInvestmentClient {
     private final StockFetcher stockFetcher;
     private final StockPriceFetcher stockPriceFetcher;
 
-    public FetchStockResponse fetchStock(StockExchange stockExchange, String symbol) {
+    public StockResponse fetchStock(StockExchange stockExchange, String symbol) {
         return stockFetcher.fetchStock(stockExchange, symbol);
     }
 

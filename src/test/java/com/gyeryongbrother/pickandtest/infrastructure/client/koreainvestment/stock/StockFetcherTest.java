@@ -9,8 +9,8 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.FetcherSupport;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.FetchType;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.HeaderHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.UrlProvider;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.FetchStockResponse;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.FetchStockResponseFixture;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponse;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponseFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,16 +38,16 @@ class StockFetcherTest {
     @Test
     void fetchStock() {
         // given
-        FetchStockResponse fetchStockResponse = FetchStockResponseFixture.empty();
+        StockResponse stockResponse = StockResponseFixture.empty();
         given(headerHandler.getHeader(FetchType.STOCK))
                 .willReturn(new HttpHeaders());
         given(fetcherSupport.get(anyString(), any(HttpHeaders.class), any()))
-                .willReturn(ResponseEntity.ok(fetchStockResponse));
+                .willReturn(ResponseEntity.ok(stockResponse));
 
         // when
-        FetchStockResponse result = stockFetcher.fetchStock(StockExchange.NASDAQ, "AAPL");
+        StockResponse result = stockFetcher.fetchStock(StockExchange.NASDAQ, "AAPL");
 
         // then
-        assertThat(result).isEqualTo(fetchStockResponse);
+        assertThat(result).isEqualTo(stockResponse);
     }
 }

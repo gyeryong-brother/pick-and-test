@@ -1,6 +1,6 @@
 package com.gyeryongbrother.pickandtest.infrastructure.adapter;
 
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.firstStockPriceResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.firstStockPriceResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.ContinuityCode;
