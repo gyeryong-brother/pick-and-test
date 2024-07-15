@@ -1,7 +1,7 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.auth;
 
 import com.gyeryongbrother.pickandtest.infrastructure.client.FetcherSupport;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.UrlProvider;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.UrlProvider;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.auth.dto.TokenRequest;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.auth.dto.TokenResponse;
 import lombok.RequiredArgsConstructor;
