@@ -5,7 +5,7 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.com
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.HeaderHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.UrlProvider;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponse;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBody;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class StockPriceFetcher {
     private final HeaderHandler headerHandler;
     private final FetcherSupport fetcherSupport;
 
-    public FetchStockPriceResponse fetchStockPrice(
+    public StockPriceResponse fetchStockPrice(
             StockExchange stockExchange,
             String symbol,
             Period period,
@@ -31,6 +31,6 @@ public class StockPriceFetcher {
         HttpHeaders httpHeaders = headerHandler.getHeader(FetchType.STOCK_PRICE);
         ResponseEntity<StockPriceBody> responseEntity = fetcherSupport.get(url, httpHeaders, StockPriceBody.class);
         ContinuityCode continuityCode = headerHandler.parseContinuityCode(responseEntity.getHeaders());
-        return new FetchStockPriceResponse(continuityCode, responseEntity.getBody());
+        return new StockPriceResponse(continuityCode, responseEntity.getBody());
     }
 }

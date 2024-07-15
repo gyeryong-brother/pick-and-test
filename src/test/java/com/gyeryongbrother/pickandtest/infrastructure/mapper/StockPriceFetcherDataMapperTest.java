@@ -1,12 +1,12 @@
 package com.gyeryongbrother.pickandtest.infrastructure.mapper;
 
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.firstFetchStockPriceResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.secondFetchStockPriceResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.thirdFetchStockPriceResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.firstStockPriceResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.secondStockPriceResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.thirdStockPriceResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponse;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -24,12 +24,12 @@ class StockPriceFetcherDataMapperTest {
     }
 
     @Test
-    void fetchStockPriceResponsesToStockPricesByThree() {
+    void stockPriceResponsesToStockPricesByThree() {
         // given
-        List<FetchStockPriceResponse> fetchStockPriceResponses = List.of(
-                firstFetchStockPriceResponse(),
-                secondFetchStockPriceResponse(),
-                thirdFetchStockPriceResponse()
+        List<StockPriceResponse> stockPriceResponses = List.of(
+                firstStockPriceResponse(),
+                secondStockPriceResponse(),
+                thirdStockPriceResponse()
         );
         List<StockPrice> expected = List.of(
                 stockPrice(12, 230.54),
@@ -43,8 +43,7 @@ class StockPriceFetcherDataMapperTest {
         );
 
         // when
-        List<StockPrice> result =
-                stockPriceFetcherDataMapper.fetchStockPriceResponsesToStockPrices(fetchStockPriceResponses);
+        List<StockPrice> result = stockPriceFetcherDataMapper.stockPriceResponsesToStockPrices(stockPriceResponses);
 
         // then
         assertThat(result).usingRecursiveComparison()
@@ -53,9 +52,9 @@ class StockPriceFetcherDataMapperTest {
     }
 
     @Test
-    void fetchStockPriceResponsesToStockPrices() {
+    void stockPriceResponsesToStockPrices() {
         // given
-        List<FetchStockPriceResponse> fetchStockPriceResponses = List.of(firstFetchStockPriceResponse());
+        List<StockPriceResponse> stockPriceResponses = List.of(firstStockPriceResponse());
         List<StockPrice> expected = List.of(
                 stockPrice(12, 230.54),
                 stockPrice(11, 227.57),
@@ -63,8 +62,7 @@ class StockPriceFetcherDataMapperTest {
         );
 
         // when
-        List<StockPrice> result =
-                stockPriceFetcherDataMapper.fetchStockPriceResponsesToStockPrices(fetchStockPriceResponses);
+        List<StockPrice> result = stockPriceFetcherDataMapper.stockPriceResponsesToStockPrices(stockPriceResponses);
 
         // then
         assertThat(result).usingRecursiveComparison()

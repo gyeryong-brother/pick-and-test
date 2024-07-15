@@ -1,9 +1,9 @@
 package com.gyeryongbrother.pickandtest.infrastructure.adapter;
 
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.FetchStockResponseFixture.actualFetchStockResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.firstFetchStockPriceResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.secondFetchStockPriceResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.thirdFetchStockPriceResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.firstStockPriceResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.secondStockPriceResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponseFixture.thirdStockPriceResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -48,9 +48,9 @@ class StockProviderImplTest {
         given(koreaInvestmentClient.fetchStock(any(StockExchange.class), anyString()))
                 .willReturn(fetchStockResponse);
         given(koreaInvestmentClient.fetchStockPrice(any(), anyString(), any())).willReturn(
-                firstFetchStockPriceResponse(),
-                secondFetchStockPriceResponse(),
-                thirdFetchStockPriceResponse()
+                firstStockPriceResponse(),
+                secondStockPriceResponse(),
+                thirdStockPriceResponse()
         );
         List<StockPrice> expectedStockPrices = List.of(
                 stockPrice(12, 230.54),

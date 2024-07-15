@@ -10,7 +10,7 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.com
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.HeaderHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.UrlProvider;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponse;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBody;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBodyFixture;
 import java.time.LocalDate;
@@ -48,10 +48,10 @@ class StockPriceFetcherTest {
                 .willReturn(ResponseEntity.ok(stockPriceBody));
         given(headerHandler.parseContinuityCode(any(HttpHeaders.class)))
                 .willReturn(ContinuityCode.NEXT);
-        FetchStockPriceResponse expected = new FetchStockPriceResponse(ContinuityCode.NEXT, stockPriceBody);
+        StockPriceResponse expected = new StockPriceResponse(ContinuityCode.NEXT, stockPriceBody);
 
         // when
-        FetchStockPriceResponse result = stockPriceFetcher.fetchStockPrice(
+        StockPriceResponse result = stockPriceFetcher.fetchStockPrice(
                 StockExchange.NASDAQ,
                 "AAPL",
                 Period.DAY,

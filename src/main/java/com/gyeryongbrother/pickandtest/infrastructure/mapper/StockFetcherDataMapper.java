@@ -5,7 +5,7 @@ import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.DateTimeHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.FetchStockResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockDetail;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.FetchStockPriceResponse;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +20,11 @@ public class StockFetcherDataMapper {
     public Stock fetchStockResponseToStock(
             FetchStockResponse fetchStockResponse,
             String symbol,
-            List<FetchStockPriceResponse> fetchStockPriceResponses
+            List<StockPriceResponse> stockPriceResponses
     ) {
         StockDetail stockDetail = fetchStockResponse.stockDetail();
         List<StockPrice> stockPrices =
-                stockPriceFetcherDataMapper.fetchStockPriceResponsesToStockPrices(fetchStockPriceResponses);
+                stockPriceFetcherDataMapper.stockPriceResponsesToStockPrices(stockPriceResponses);
         return Stock.builder()
                 .name(stockDetail.productEnglishName())
                 .symbol(symbol)
