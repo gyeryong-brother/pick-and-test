@@ -1,13 +1,16 @@
 package com.gyeryongbrother.pickandtest.infrastructure.mapper;
 
+import static com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponseFixture.dividendResponse;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponseFixture.actualStockResponse;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.firstStockPriceResponse;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.secondStockPriceResponse;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.thirdStockPriceResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.gyeryongbrother.pickandtest.domain.core.Dividend;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
+import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import java.math.BigDecimal;
@@ -23,7 +26,10 @@ class StockFetcherDataMapperTest {
 
     @BeforeEach
     void setUp() {
-        stockFetcherDataMapper = new StockFetcherDataMapper(new StockPriceFetcherDataMapper());
+        stockFetcherDataMapper = new StockFetcherDataMapper(
+                new StockPriceFetcherDataMapper(),
+                new DividendFetcherDataMapper()
+        );
     }
 
     @Test
@@ -35,6 +41,7 @@ class StockFetcherDataMapperTest {
                 secondStockPriceResponse(),
                 thirdStockPriceResponse()
         );
+        DividendResponse dividendResponse = dividendResponse();
         List<StockPrice> expectedStockPrices = List.of(
                 stockPrice(12, 230.54),
                 stockPrice(11, 227.57),
@@ -45,18 +52,25 @@ class StockFetcherDataMapperTest {
                 stockPrice(3, 221.55),
                 stockPrice(2, 220.27)
         );
+        List<Dividend> expectedDividends = List.of(
+                dividend(8, 0.24),
+                dividend(5, 0.24),
+                dividend(2, 0.23)
+        );
         Stock expected = Stock.builder()
                 .name("APPLE INC")
                 .symbol("AAPL")
                 .listingDate(null)
                 .stockPrices(expectedStockPrices)
+                .dividends(expectedDividends)
                 .build();
 
         // when
         Stock result = stockFetcherDataMapper.stockResponseToStock(
                 stockResponse,
                 "AAPL",
-                stockPriceResponses
+                stockPriceResponses,
+                dividendResponse
         );
 
         // then
@@ -69,6 +83,13 @@ class StockFetcherDataMapperTest {
         return StockPrice.builder()
                 .date(LocalDate.of(2024, 7, day))
                 .price(BigDecimal.valueOf(price))
+                .build();
+    }
+
+    private Dividend dividend(int month, double amount) {
+        return Dividend.builder()
+                .date(LocalDate.of(2023, month, 10))
+                .amount(BigDecimal.valueOf(amount))
                 .build();
     }
 }

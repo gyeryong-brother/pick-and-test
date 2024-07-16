@@ -4,6 +4,8 @@ import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestm
 
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockProvider;
+import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.AlphaVantageClient;
+import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.KoreaInvestmentClient;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponse;
@@ -19,13 +21,15 @@ import org.springframework.stereotype.Component;
 public class StockProviderImpl implements StockProvider {
 
     private final KoreaInvestmentClient koreaInvestmentClient;
+    private final AlphaVantageClient alphaVantageClient;
     private final StockFetcherDataMapper stockFetcherDataMapper;
 
     @Override
     public Stock provide(String symbol) {
         StockResponse stockResponse = koreaInvestmentClient.fetchStock(StockExchange.NASDAQ, symbol);
         List<StockPriceResponse> stockPriceResponses = getStockPriceResponses(symbol);
-        return stockFetcherDataMapper.stockResponseToStock(stockResponse, symbol, stockPriceResponses);
+        DividendResponse dividendResponse = alphaVantageClient.fetchDividend(symbol);
+        return stockFetcherDataMapper.stockResponseToStock(stockResponse, symbol, stockPriceResponses, dividendResponse);
     }
 
     private List<StockPriceResponse> getStockPriceResponses(String symbol) {
