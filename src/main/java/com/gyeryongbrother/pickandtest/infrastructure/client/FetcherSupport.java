@@ -14,6 +14,10 @@ public class FetcherSupport {
 
     private final RestTemplate restTemplate;
 
+    public <T> T get(String url, Class<T> responseType) {
+        return restTemplate.getForObject(url, responseType);
+    }
+
     public <T> ResponseEntity<T> get(
             String url,
             HttpHeaders httpHeaders,
