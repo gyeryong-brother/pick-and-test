@@ -1,5 +1,6 @@
 package com.gyeryongbrother.pickandtest.infrastructure.mapper;
 
+import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponseFixture.appleDividendResponse;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockFixture.apple;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponseFixture.appleStockResponse;
@@ -46,6 +47,7 @@ class StockFetcherDataMapperTest {
         Stock result = stockFetcherDataMapper.stockResponseToStock(
                 appleStockResponse,
                 "AAPL",
+                NASDAQ,
                 appleStockPriceResponses,
                 appleDividendResponse
         );

@@ -1,5 +1,6 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock;
 
+import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.DividendFixture.appleDividends;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.DividendFixture.microsoftDividends;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.DividendFixture.nvidiaDividends;
@@ -15,6 +16,7 @@ public class StockFixture {
         return Stock.builder()
                 .name("APPLE INC")
                 .symbol("AAPL")
+                .stockExchange(NASDAQ)
                 .listingDate(null)
                 .stockPrices(appleStockPrices())
                 .dividends(appleDividends())
@@ -25,6 +27,7 @@ public class StockFixture {
         return Stock.builder()
                 .name("MICROSOFT CORP")
                 .symbol("MSFT")
+                .stockExchange(NASDAQ)
                 .listingDate(null)
                 .stockPrices(microsoftStockPrices())
                 .dividends(microsoftDividends())
@@ -35,6 +38,7 @@ public class StockFixture {
         return Stock.builder()
                 .name("NVIDIA CORP")
                 .symbol("NVDA")
+                .stockExchange(NASDAQ)
                 .listingDate(null)
                 .stockPrices(nvidiaStockPrices())
                 .dividends(nvidiaDividends())

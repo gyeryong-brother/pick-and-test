@@ -43,6 +43,7 @@ public class StockProviderImpl implements StockProvider {
         return stockFetcherDataMapper.stockResponseToStock(
                 stockResponse,
                 symbol,
+                stockExchange,
                 stockPriceResponses,
                 dividendResponse
         );

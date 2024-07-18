@@ -2,6 +2,7 @@ package com.gyeryongbrother.pickandtest.infrastructure.mapper;
 
 import com.gyeryongbrother.pickandtest.domain.core.Dividend;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
+import com.gyeryongbrother.pickandtest.domain.core.StockExchange;
 import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
 import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.DateTimeHandler;
@@ -23,6 +24,7 @@ public class StockFetcherDataMapper {
     public Stock stockResponseToStock(
             StockResponse stockResponse,
             String symbol,
+            StockExchange stockExchange,
             List<StockPriceResponse> stockPriceResponses,
             DividendResponse dividendResponse
     ) {
@@ -30,18 +32,20 @@ public class StockFetcherDataMapper {
         List<StockPrice> stockPrices =
                 stockPriceFetcherDataMapper.stockPriceResponsesToStockPrices(stockPriceResponses);
         List<Dividend> dividends = dividendFetcherDataMapper.dividendResponseToDividends(dividendResponse);
-        return createStock(stockDetail, symbol, stockPrices, dividends);
+        return createStock(stockDetail, symbol, stockExchange, stockPrices, dividends);
     }
 
     private Stock createStock(
             StockDetail stockDetail,
             String symbol,
+            StockExchange stockExchange,
             List<StockPrice> stockPrices,
             List<Dividend> dividends
     ) {
         return Stock.builder()
                 .name(stockDetail.productEnglishName())
                 .symbol(symbol)
+                .stockExchange(stockExchange)
                 .listingDate(parse(stockDetail.listingDate()))
                 .stockPrices(stockPrices)
                 .dividends(dividends)
