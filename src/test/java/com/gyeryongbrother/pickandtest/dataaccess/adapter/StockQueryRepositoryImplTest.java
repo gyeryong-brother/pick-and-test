@@ -3,6 +3,7 @@ package com.gyeryongbrother.pickandtest.dataaccess.adapter;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.DividendEntityFixture.dividendEntity;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntityFixture.stockEntity;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockPriceEntityFixture.stockPriceEntity;
+import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 
@@ -43,7 +44,7 @@ class StockQueryRepositoryImplTest {
         BigDecimal twoHundred = BigDecimal.valueOf(200);
         BigDecimal threeHundred = BigDecimal.valueOf(200);
 
-        StockEntity stockEntity = stockEntity("name", "symbol", januaryFirst);
+        StockEntity stockEntity = stockEntity("name", "symbol", NASDAQ, januaryFirst);
         StockPriceEntity januaryFirstStockPriceEntity = stockPriceEntity(stockEntity, januaryFirst, oneHundred);
         StockPriceEntity januarySecondStockPriceEntity = stockPriceEntity(stockEntity, januarySecond, twoHundred);
         StockPriceEntity januaryThirdStockPriceEntity = stockPriceEntity(stockEntity, januaryThird, threeHundred);
@@ -88,6 +89,7 @@ class StockQueryRepositoryImplTest {
         Stock expected = Stock.builder()
                 .name("name")
                 .symbol("symbol")
+                .stockExchange(NASDAQ)
                 .listingDate(januaryFirst)
                 .stockPrices(List.of(januaryFirstStockPrice, januarySecondStockPrice, januaryThirdStockPrice))
                 .dividends(List.of(januaryFirstDividend, januarySecondDividend))

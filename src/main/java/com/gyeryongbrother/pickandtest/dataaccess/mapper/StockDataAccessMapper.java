@@ -17,6 +17,7 @@ public class StockDataAccessMapper {
                 .id(stock.getId())
                 .name(stock.getName())
                 .symbol(stock.getSymbol())
+                .stockExchange(stock.getStockExchange())
                 .listingDate(stock.getListingDate())
                 .build();
     }
@@ -26,6 +27,7 @@ public class StockDataAccessMapper {
                 .id(stockEntity.getId())
                 .name(stockEntity.getName())
                 .symbol(stockEntity.getSymbol())
+                .stockExchange(stockEntity.getStockExchange())
                 .listingDate(stockEntity.getListingDate())
                 .stockPrices(stockPriceDataAccessMapper.stockPriceEntitiesToStockPrices(stockEntity.getStockPrices()))
                 .dividends(dividendDataAccessMapper.dividendEntitiesToDividends(stockEntity.getDividends()))

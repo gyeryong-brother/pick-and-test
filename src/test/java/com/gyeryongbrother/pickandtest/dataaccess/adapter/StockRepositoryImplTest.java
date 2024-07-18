@@ -1,5 +1,6 @@
 package com.gyeryongbrother.pickandtest.dataaccess.adapter;
 
+import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.gyeryongbrother.pickandtest.dataaccess.config.TestQuerydslConfig;
@@ -26,11 +27,13 @@ class StockRepositoryImplTest {
         Stock stock = Stock.builder()
                 .name("name")
                 .symbol("symbol")
+                .stockExchange(NASDAQ)
                 .listingDate(januaryFirst)
                 .build();
         Stock expected = Stock.builder()
                 .name("name")
                 .symbol("symbol")
+                .stockExchange(NASDAQ)
                 .listingDate(januaryFirst)
                 .stockPrices(List.of())
                 .dividends(List.of())
