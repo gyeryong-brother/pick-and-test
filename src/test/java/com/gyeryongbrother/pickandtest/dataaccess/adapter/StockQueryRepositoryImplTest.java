@@ -108,6 +108,146 @@ class StockQueryRepositoryImplTest {
 
         // then
         assertThat(stock).usingRecursiveComparison()
+                .withComparatorForType(BigDecimalComparator.BIG_DECIMAL_COMPARATOR, BigDecimal.class)
+                .ignoringExpectedNullFields()
+                .isEqualTo(expected);
+    }
+
+    @Test
+    void findByName() {
+        // given
+        LocalDate januaryFirst = LocalDate.of(2024, 1, 1);
+        LocalDate januarySecond = LocalDate.of(2024, 1, 2);
+        LocalDate januaryThird = LocalDate.of(2024, 1, 3);
+        BigDecimal oneHundred = BigDecimal.valueOf(100);
+        BigDecimal twoHundred = BigDecimal.valueOf(200);
+        BigDecimal threeHundred = BigDecimal.valueOf(200);
+
+        StockEntity stockEntity = stockEntity("name", "symbol", januaryFirst);
+        StockPriceEntity januaryFirstStockPriceEntity = stockPriceEntity(stockEntity, januaryFirst, oneHundred);
+        StockPriceEntity januarySecondStockPriceEntity = stockPriceEntity(stockEntity, januarySecond, twoHundred);
+        StockPriceEntity januaryThirdStockPriceEntity = stockPriceEntity(stockEntity, januaryThird, threeHundred);
+        DividendEntity januaryFirstDividendEntity = dividendEntity(stockEntity, januaryFirst, oneHundred);
+        DividendEntity januarySecondDividendEntity = dividendEntity(stockEntity, januarySecond, twoHundred);
+
+        entityManager.persist(stockEntity);
+        entityManager.persist(januaryFirstStockPriceEntity);
+        entityManager.persist(januarySecondStockPriceEntity);
+        entityManager.persist(januaryThirdStockPriceEntity);
+        entityManager.persist(januaryFirstDividendEntity);
+        entityManager.persist(januarySecondDividendEntity);
+
+        entityManager.flush();
+        entityManager.clear();
+
+        StockPrice januaryFirstStockPrice = StockPrice.builder()
+                .stockId(stockEntity.getId())
+                .date(januaryFirst)
+                .price(oneHundred)
+                .build();
+        StockPrice januarySecondStockPrice = StockPrice.builder()
+                .stockId(stockEntity.getId())
+                .date(januarySecond)
+                .price(twoHundred)
+                .build();
+        StockPrice januaryThirdStockPrice = StockPrice.builder()
+                .stockId(stockEntity.getId())
+                .date(januaryThird)
+                .price(threeHundred)
+                .build();
+        Dividend januaryFirstDividend = Dividend.builder()
+                .stockId(stockEntity.getId())
+                .date(januaryFirst)
+                .amount(oneHundred)
+                .build();
+        Dividend januarySecondDividend = Dividend.builder()
+                .stockId(stockEntity.getId())
+                .date(januarySecond)
+                .amount(twoHundred)
+                .build();
+        Stock expected = Stock.builder()
+                .name("name")
+                .symbol("symbol")
+                .listingDate(januaryFirst)
+                .stockPrices(List.of(januaryFirstStockPrice, januarySecondStockPrice, januaryThirdStockPrice))
+                .dividends(List.of(januaryFirstDividend, januarySecondDividend))
+                .build();
+
+        // when
+        Stock stock = stockQueryRepository.findByName(stockEntity.getName());
+
+        // then
+        assertThat(stock).usingRecursiveComparison()
+                .withComparatorForType(BigDecimalComparator.BIG_DECIMAL_COMPARATOR, BigDecimal.class)
+                .ignoringExpectedNullFields()
+                .isEqualTo(expected);
+    }
+
+    @Test
+    void findBySymbol() {
+        // given
+        LocalDate januaryFirst = LocalDate.of(2024, 1, 1);
+        LocalDate januarySecond = LocalDate.of(2024, 1, 2);
+        LocalDate januaryThird = LocalDate.of(2024, 1, 3);
+        BigDecimal oneHundred = BigDecimal.valueOf(100);
+        BigDecimal twoHundred = BigDecimal.valueOf(200);
+        BigDecimal threeHundred = BigDecimal.valueOf(200);
+
+        StockEntity stockEntity = stockEntity("name", "symbol", januaryFirst);
+        StockPriceEntity januaryFirstStockPriceEntity = stockPriceEntity(stockEntity, januaryFirst, oneHundred);
+        StockPriceEntity januarySecondStockPriceEntity = stockPriceEntity(stockEntity, januarySecond, twoHundred);
+        StockPriceEntity januaryThirdStockPriceEntity = stockPriceEntity(stockEntity, januaryThird, threeHundred);
+        DividendEntity januaryFirstDividendEntity = dividendEntity(stockEntity, januaryFirst, oneHundred);
+        DividendEntity januarySecondDividendEntity = dividendEntity(stockEntity, januarySecond, twoHundred);
+
+        entityManager.persist(stockEntity);
+        entityManager.persist(januaryFirstStockPriceEntity);
+        entityManager.persist(januarySecondStockPriceEntity);
+        entityManager.persist(januaryThirdStockPriceEntity);
+        entityManager.persist(januaryFirstDividendEntity);
+        entityManager.persist(januarySecondDividendEntity);
+
+        entityManager.flush();
+        entityManager.clear();
+
+        StockPrice januaryFirstStockPrice = StockPrice.builder()
+                .stockId(stockEntity.getId())
+                .date(januaryFirst)
+                .price(oneHundred)
+                .build();
+        StockPrice januarySecondStockPrice = StockPrice.builder()
+                .stockId(stockEntity.getId())
+                .date(januarySecond)
+                .price(twoHundred)
+                .build();
+        StockPrice januaryThirdStockPrice = StockPrice.builder()
+                .stockId(stockEntity.getId())
+                .date(januaryThird)
+                .price(threeHundred)
+                .build();
+        Dividend januaryFirstDividend = Dividend.builder()
+                .stockId(stockEntity.getId())
+                .date(januaryFirst)
+                .amount(oneHundred)
+                .build();
+        Dividend januarySecondDividend = Dividend.builder()
+                .stockId(stockEntity.getId())
+                .date(januarySecond)
+                .amount(twoHundred)
+                .build();
+        Stock expected = Stock.builder()
+                .name("name")
+                .symbol("symbol")
+                .listingDate(januaryFirst)
+                .stockPrices(List.of(januaryFirstStockPrice, januarySecondStockPrice, januaryThirdStockPrice))
+                .dividends(List.of(januaryFirstDividend, januarySecondDividend))
+                .build();
+
+        // when
+        Stock stock = stockQueryRepository.findBySymbol(stockEntity.getSymbol());
+
+        // then
+        assertThat(stock).usingRecursiveComparison()
                 .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
                 .ignoringExpectedNullFields()
                 .isEqualTo(expected);

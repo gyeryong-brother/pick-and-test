@@ -37,6 +37,30 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
     }
 
     @Override
+    public Stock findByName(String name){
+        StockEntity stock = queryFactory.selectFrom(stockEntity)
+                .join(stockEntity.stockPrices, stockPriceEntity)
+                .fetchJoin()
+                .where(stockEntity.name.eq(name))
+                .fetchOne();
+        return Optional.ofNullable(stock)
+                .map(stockDataAccessMapper::stockEntityToStock)
+                .orElseThrow(() -> new IllegalArgumentException("not found stock"));
+    }
+
+    @Override
+    public Stock findBySymbol(String symbol){
+        StockEntity stock = queryFactory.selectFrom(stockEntity)
+                .join(stockEntity.stockPrices, stockPriceEntity)
+                .fetchJoin()
+                .where(stockEntity.symbol.eq(symbol))
+                .fetchOne();
+        return Optional.ofNullable(stock)
+                .map(stockDataAccessMapper::stockEntityToStock)
+                .orElseThrow(() -> new IllegalArgumentException("not found stock"));
+    }
+
+    @Override
     public List<StockResponse> findAllByNameOrSymbol(String keyword) {
         return queryFactory.select(stockResponse())
                 .from(stockEntity)
