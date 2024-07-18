@@ -17,7 +17,7 @@ public class StockFetcher {
     private final HeaderHandler headerHandler;
     private final FetcherSupport fetcherSupport;
 
-    public StockResponse fetchStock(StockExchange stockExchange, String symbol) {
+    public StockResponse fetchStock(StockExchangeCode stockExchange, String symbol) {
         String url = urlProvider.getStockEndpoint(stockExchange, symbol);
         HttpHeaders httpHeaders = headerHandler.getHeader(FetchType.STOCK);
         return fetcherSupport.get(url, httpHeaders, StockResponse.class)

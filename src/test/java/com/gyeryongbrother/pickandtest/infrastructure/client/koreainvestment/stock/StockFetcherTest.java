@@ -1,5 +1,6 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock;
 
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponseFixture.appleStockResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -10,7 +11,6 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.com
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.HeaderHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.UrlProvider;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponse;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponseFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,16 +38,16 @@ class StockFetcherTest {
     @Test
     void fetchStock() {
         // given
-        StockResponse stockResponse = StockResponseFixture.empty();
+        StockResponse appleStockResponse = appleStockResponse();
         given(headerHandler.getHeader(FetchType.STOCK))
                 .willReturn(new HttpHeaders());
         given(fetcherSupport.get(anyString(), any(HttpHeaders.class), any()))
-                .willReturn(ResponseEntity.ok(stockResponse));
+                .willReturn(ResponseEntity.ok(appleStockResponse));
 
         // when
-        StockResponse result = stockFetcher.fetchStock(StockExchange.NASDAQ, "AAPL");
+        StockResponse result = stockFetcher.fetchStock(StockExchangeCode.NASDAQ_CODE, "AAPL");
 
         // then
-        assertThat(result).isEqualTo(stockResponse);
+        assertThat(result).isEqualTo(appleStockResponse);
     }
 }

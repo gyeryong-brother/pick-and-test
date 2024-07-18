@@ -1,6 +1,6 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common;
 
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchangeCode;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.Period;
 import java.time.LocalDate;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ public class UrlProvider {
     private static final String STOCK_PRICE_ENDPOINT = "/uapi/overseas-price/v1/quotations/daily-price";
     private static final String TOKEN_ENDPOINT = "/oauth2/tokenP";
 
-    public String getStockEndpoint(StockExchange stockExchange, String symbol) {
+    public String getStockEndpoint(StockExchangeCode stockExchange, String symbol) {
         return UriComponentsBuilder.fromHttpUrl(DOMAIN)
                 .path(STOCK_ENDPOINT)
                 .queryParam(STOCK_EXCHANGE_CODE_HEADER_NAME, stockExchange.getProductTypeCode())
@@ -26,7 +26,7 @@ public class UrlProvider {
     }
 
     public String getStockPriceEndpoint(
-            StockExchange stockExchange,
+            StockExchangeCode stockExchange,
             String symbol,
             Period period,
             LocalDate date

@@ -1,5 +1,6 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.common;
 
+import com.gyeryongbrother.pickandtest.domain.core.StockExchange;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -14,7 +15,7 @@ public class NasdaqUrlProvider {
     private static final String LIMIT_PARAM_VALUE = "5000";
     private static final String EXCHANGE_PARAM_NAME = "exchange";
 
-    public String getStockExchangeEndpoint(StockExchange stockExchange) {
+    public String getStockSymbolEndpoint(StockExchange stockExchange) {
         return UriComponentsBuilder.fromHttpUrl(DOMAIN)
                 .path(STOCK_EXCHANGE_ENDPOINT)
                 .queryParam(TABLE_ONLY_PARAM_NAME, TABLE_ONLY_PARAM_VALUE)

@@ -1,18 +1,20 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice;
 
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.FetchType.STOCK_PRICE;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchangeCode.NASDAQ_CODE;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.ContinuityCode.NEXT;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.Period.DAY;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBodyFixture.appleFirstStockPriceBody;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.anyString;
 import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.infrastructure.client.FetcherSupport;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.FetchType;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.HeaderHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.UrlProvider;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBody;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBodyFixture;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,20 +43,20 @@ class StockPriceFetcherTest {
     @Test
     void fetchStockPrice() {
         // given
-        StockPriceBody stockPriceBody = StockPriceBodyFixture.empty();
-        given(headerHandler.getHeader(FetchType.STOCK_PRICE))
+        StockPriceBody appleFirstStockPriceBody = appleFirstStockPriceBody();
+        given(headerHandler.getHeader(STOCK_PRICE))
                 .willReturn(new HttpHeaders());
         given(fetcherSupport.get(anyString(), any(HttpHeaders.class), any()))
-                .willReturn(ResponseEntity.ok(stockPriceBody));
+                .willReturn(ResponseEntity.ok(appleFirstStockPriceBody));
         given(headerHandler.parseContinuityCode(any(HttpHeaders.class)))
-                .willReturn(ContinuityCode.NEXT);
-        StockPriceResponse expected = new StockPriceResponse(ContinuityCode.NEXT, stockPriceBody);
+                .willReturn(NEXT);
+        StockPriceResponse expected = new StockPriceResponse(NEXT, appleFirstStockPriceBody);
 
         // when
         StockPriceResponse result = stockPriceFetcher.fetchStockPrice(
-                StockExchange.NASDAQ,
+                NASDAQ_CODE,
                 "AAPL",
-                Period.DAY,
+                DAY,
                 LocalDate.of(2024, 1, 1)
         );
 

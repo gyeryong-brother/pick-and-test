@@ -4,6 +4,7 @@ import static com.gyeryongbrother.pickandtest.dataaccess.entity.DividendEntityFi
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntityFixture.stockEntity;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockPriceEntityFixture.stockPriceEntity;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 
 import com.gyeryongbrother.pickandtest.dataaccess.config.TestQuerydslConfig;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.DividendEntity;
@@ -17,7 +18,6 @@ import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import org.assertj.core.util.BigDecimalComparator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -98,7 +98,7 @@ class StockQueryRepositoryImplTest {
 
         // then
         assertThat(stock).usingRecursiveComparison()
-                .withComparatorForType(BigDecimalComparator.BIG_DECIMAL_COMPARATOR, BigDecimal.class)
+                .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
                 .ignoringExpectedNullFields()
                 .isEqualTo(expected);
     }

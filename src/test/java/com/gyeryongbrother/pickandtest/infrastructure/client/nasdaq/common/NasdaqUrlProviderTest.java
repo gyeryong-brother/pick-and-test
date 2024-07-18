@@ -1,5 +1,6 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.common;
 
+import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +21,7 @@ class NasdaqUrlProviderTest {
         String expected = "https://api.nasdaq.com/api/screener/stocks?tableonly=true&limit=5000&exchange=NASDAQ";
 
         // when
-        String result = nasdaqUrlProvider.getStockExchangeEndpoint(StockExchange.NASDAQ);
+        String result = nasdaqUrlProvider.getStockSymbolEndpoint(NASDAQ);
 
         // then
         assertThat(result).isEqualTo(expected);

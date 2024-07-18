@@ -1,15 +1,16 @@
 package com.gyeryongbrother.pickandtest.infrastructure.adapter;
 
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange.NASDAQ;
-
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
+import com.gyeryongbrother.pickandtest.domain.core.StockExchange;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockProvider;
 import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.AlphaVantageClient;
 import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.KoreaInvestmentClient;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
+import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.NasdaqClient;
+import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stockexchange.dto.StockSymbolDetail;
+import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stockexchange.dto.StockSymbolResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.mapper.StockFetcherDataMapper;
 import java.time.LocalDate;
 import java.util.List;
@@ -22,27 +23,39 @@ public class StockProviderImpl implements StockProvider {
 
     private final KoreaInvestmentClient koreaInvestmentClient;
     private final AlphaVantageClient alphaVantageClient;
+    private final NasdaqClient nasdaqClient;
     private final StockFetcherDataMapper stockFetcherDataMapper;
 
     @Override
-    public Stock provide(String symbol) {
-        StockResponse stockResponse = koreaInvestmentClient.fetchStock(StockExchange.NASDAQ, symbol);
-        List<StockPriceResponse> stockPriceResponses = getStockPriceResponses(symbol);
-        DividendResponse dividendResponse = alphaVantageClient.fetchDividend(symbol);
-        return stockFetcherDataMapper.stockResponseToStock(stockResponse, symbol, stockPriceResponses, dividendResponse);
+    public List<Stock> getStocksByStockExchange(StockExchange stockExchange) {
+        StockSymbolResponse stockSymbolResponse = nasdaqClient.fetchStockSymbol(stockExchange);
+        List<StockSymbolDetail> stockSymbolDetails = stockSymbolResponse.stockSymbolDetails();
+        return stockSymbolDetails.stream()
+                .map(StockSymbolDetail::symbol)
+                .map(it -> getStock(stockExchange, it))
+                .toList();
     }
 
-    private List<StockPriceResponse> getStockPriceResponses(String symbol) {
+    private Stock getStock(StockExchange stockExchange, String symbol) {
+        StockResponse stockResponse = koreaInvestmentClient.fetchStock(stockExchange, symbol);
+        List<StockPriceResponse> stockPriceResponses = assembleStockPriceResponses(stockExchange, symbol);
+        DividendResponse dividendResponse = alphaVantageClient.fetchDividend(symbol);
+        return stockFetcherDataMapper.stockResponseToStock(
+                stockResponse,
+                symbol,
+                stockPriceResponses,
+                dividendResponse
+        );
+    }
+
+    private List<StockPriceResponse> assembleStockPriceResponses(StockExchange stockExchange, String symbol) {
         StockPriceAssembler stockPriceAssembler = new StockPriceAssembler();
         while (stockPriceAssembler.hasNext()) {
             LocalDate nextDate = stockPriceAssembler.getNextDate();
-            StockPriceResponse stockPriceResponse = fetchStockPriceInNasdaq(symbol, nextDate);
+            StockPriceResponse stockPriceResponse =
+                    koreaInvestmentClient.fetchStockPrice(stockExchange, symbol, nextDate);
             stockPriceAssembler.add(stockPriceResponse);
         }
         return stockPriceAssembler.getStockPriceResponses();
-    }
-
-    private StockPriceResponse fetchStockPriceInNasdaq(String symbol, LocalDate date) {
-        return koreaInvestmentClient.fetchStockPrice(NASDAQ, symbol, date);
     }
 }

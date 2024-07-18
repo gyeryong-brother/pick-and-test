@@ -1,6 +1,6 @@
 package com.gyeryongbrother.pickandtest.infrastructure.adapter;
 
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.firstStockPriceResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.appleFirstStockPriceResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.ContinuityCode;
@@ -70,7 +70,7 @@ class StockPriceAssemblerTest {
     @Test
     void getNextDate() {
         // given
-        StockPriceResponse stockPriceResponse = firstStockPriceResponse();
+        StockPriceResponse stockPriceResponse = appleFirstStockPriceResponse();
         stockPriceAssembler.add(stockPriceResponse);
         LocalDate expected = LocalDate.of(2024, 7, 9);
 

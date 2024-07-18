@@ -1,5 +1,7 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stockexchange;
 
+import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stockexchange.dto.StockSymbolResponseFixture.stockSymbolResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.anyString;
@@ -8,8 +10,7 @@ import static org.mockito.BDDMockito.given;
 import com.gyeryongbrother.pickandtest.infrastructure.client.FetcherSupport;
 import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.common.HeaderProvider;
 import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.common.NasdaqUrlProvider;
-import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.common.StockExchange;
-import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stockexchange.dto.StockExchangeResponse;
+import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stockexchange.dto.StockSymbolResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,15 +34,14 @@ class StockExchangeFetcherTest {
     @Test
     void fetchStockExchange() {
         // given
-        StockExchangeResponse stockExchangeResponse = new StockExchangeResponse(null);
+        StockSymbolResponse stockSymbolResponse = stockSymbolResponse();
         given(fetcherSupport.get(anyString(), any(), any()))
-                .willReturn(ResponseEntity.ok(stockExchangeResponse));
+                .willReturn(ResponseEntity.ok(stockSymbolResponse));
 
         // when
-        StockExchangeResponse result = stockExchangeFetcher.fetchStockExchange(StockExchange.NASDAQ);
+        StockSymbolResponse result = stockExchangeFetcher.fetchStockSymbol(NASDAQ);
 
         // then
-        assertThat(result).usingRecursiveComparison()
-                .isEqualTo(stockExchangeResponse);
+        assertThat(result).isEqualTo(stockSymbolResponse);
     }
 }
