@@ -30,6 +30,6 @@ public enum StockExchangeCode {
         if (stockExchange == AMEX) {
             return AMEX_CODE;
         }
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException("not supported stock exchange");
     }
 }
