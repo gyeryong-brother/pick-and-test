@@ -22,12 +22,12 @@ public class StockPriceFetcher {
     private final FetcherSupport fetcherSupport;
 
     public StockPriceResponse fetchStockPrice(
-            StockExchangeCode stockExchange,
+            StockExchangeCode stockExchangeCode,
             String symbol,
             Period period,
             LocalDate date
     ) {
-        String url = urlProvider.getStockPriceEndpoint(stockExchange, symbol, period, date);
+        String url = urlProvider.getStockPriceEndpoint(stockExchangeCode, symbol, period, date);
         HttpHeaders httpHeaders = headerHandler.getHeader(FetchType.STOCK_PRICE);
         ResponseEntity<StockPriceBody> responseEntity = fetcherSupport.get(url, httpHeaders, StockPriceBody.class);
         ContinuityCode continuityCode = headerHandler.parseContinuityCode(responseEntity.getHeaders());
