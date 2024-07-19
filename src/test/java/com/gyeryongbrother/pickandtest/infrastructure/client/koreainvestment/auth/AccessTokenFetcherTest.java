@@ -6,7 +6,7 @@ import static org.mockito.BDDMockito.anyString;
 import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.infrastructure.client.FetcherSupport;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.UrlProvider;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.KoreaInvestmentUrlProvider;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.auth.dto.TokenRequest;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.auth.dto.TokenResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +27,7 @@ class AccessTokenFetcherTest {
     void setUp() {
         accessTokenFetcher = new AccessTokenFetcher(
                 fetcherSupport,
-                new UrlProvider(),
+                new KoreaInvestmentUrlProvider(),
                 new KoreaInvestmentClientCredential("appKey", "appSecret")
         );
     }
