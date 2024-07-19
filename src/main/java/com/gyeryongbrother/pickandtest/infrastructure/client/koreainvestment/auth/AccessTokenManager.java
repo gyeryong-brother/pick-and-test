@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class AccessTokenManager {
+class AccessTokenManager {
 
     private final AccessTokenFetcher accessTokenFetcher;
     private final AccessToken accessToken;
