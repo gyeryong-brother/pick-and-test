@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
-public class UrlProvider {
+public class KoreaInvestmentUrlProvider {
 
     private static final String DOMAIN = "https://openapi.koreainvestment.com:9443";
     private static final String STOCK_ENDPOINT = "/uapi/overseas-price/v1/quotations/search-info";

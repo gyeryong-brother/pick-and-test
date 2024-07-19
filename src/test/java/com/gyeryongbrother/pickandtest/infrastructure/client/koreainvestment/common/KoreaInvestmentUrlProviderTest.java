@@ -8,13 +8,13 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class UrlProviderTest {
+class KoreaInvestmentUrlProviderTest {
 
-    private UrlProvider urlProvider;
+    private KoreaInvestmentUrlProvider koreaInvestmentUrlProvider;
 
     @BeforeEach
     void setUp() {
-        urlProvider = new UrlProvider();
+        koreaInvestmentUrlProvider = new KoreaInvestmentUrlProvider();
     }
 
     @Test
@@ -23,7 +23,7 @@ class UrlProviderTest {
         String expected = "https://openapi.koreainvestment.com:9443/uapi/overseas-price/v1/quotations/search-info?PRDT_TYPE_CD=512&PDNO=AAPL";
 
         // when
-        String result = urlProvider.getStockEndpoint(NASDAQ_CODE, "AAPL");
+        String result = koreaInvestmentUrlProvider.getStockEndpoint(NASDAQ_CODE, "AAPL");
 
         // then
         assertThat(result).isEqualTo(expected);
@@ -37,7 +37,7 @@ class UrlProviderTest {
                 + "?AUTH=&EXCD=NAS&SYMB=AAPL&GUBN=0&BYMD=20240101&MODP=1";
 
         // when
-        String result = urlProvider.getStockPriceEndpoint(
+        String result = koreaInvestmentUrlProvider.getStockPriceEndpoint(
                 NASDAQ_CODE,
                 "AAPL",
                 DAY,
@@ -54,7 +54,7 @@ class UrlProviderTest {
         String expected = "https://openapi.koreainvestment.com:9443/oauth2/tokenP";
 
         // when
-        String result = urlProvider.getTokenEndpoint();
+        String result = koreaInvestmentUrlProvider.getTokenEndpoint();
 
         // then
         assertThat(result).isEqualTo(expected);
