@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Getter
 @Component
-public class KoreaInvestmentClientCredential {
+class KoreaInvestmentClientCredential {
 
     private final String appKey;
     private final String appSecret;
