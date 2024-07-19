@@ -13,7 +13,7 @@ class AccessTokenFetcher {
 
     private final FetcherSupport fetcherSupport;
     private final UrlProvider urlProvider;
-    private final ClientCredential clientCredential;
+    private final KoreaInvestmentClientCredential koreaInvestmentClientCredential;
 
     public TokenResponse fetchToken() {
         String tokenUrl = urlProvider.getTokenEndpoint();
@@ -24,8 +24,8 @@ class AccessTokenFetcher {
     private TokenRequest createTokenRequest() {
         return new TokenRequest(
                 "client_credentials",
-                clientCredential.getAppKey(),
-                clientCredential.getAppSecret()
+                koreaInvestmentClientCredential.getAppKey(),
+                koreaInvestmentClientCredential.getAppSecret()
         );
     }
 }
