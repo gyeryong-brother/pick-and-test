@@ -10,6 +10,7 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.FetcherSupport;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.FetchType;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.HeaderHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.KoreaInvestmentUrlProvider;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.StockExchangeCode;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

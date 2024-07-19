@@ -1,6 +1,6 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common;
 
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchangeCode.NASDAQ_CODE;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.StockExchangeCode.NASDAQ_CODE;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.Period.DAY;
 import static org.assertj.core.api.Assertions.assertThat;
 

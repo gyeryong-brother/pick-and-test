@@ -1,7 +1,7 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice;
 
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.FetchType.STOCK_PRICE;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchangeCode.NASDAQ_CODE;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.StockExchangeCode.NASDAQ_CODE;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.ContinuityCode.NEXT;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.Period.DAY;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBodyFixture.appleFirstStockPriceBody;
