@@ -28,7 +28,7 @@ class AccessTokenFetcherTest {
         accessTokenFetcher = new AccessTokenFetcher(
                 fetcherSupport,
                 new UrlProvider(),
-                new ClientCredential("appKey", "appSecret")
+                new KoreaInvestmentClientCredential("appKey", "appSecret")
         );
     }
 
