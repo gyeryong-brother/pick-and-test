@@ -1,18 +1,19 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment;
 
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange.NASDAQ;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponseFixture.actualStockResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBodyFixture.empty;
+import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchangeCode.NASDAQ_CODE;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponseFixture.appleStockResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.ContinuityCode.NEXT;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.Period.DAY;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBodyFixture.appleFirstStockPriceBody;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.anyString;
 import static org.mockito.BDDMockito.given;
 
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchangeCode;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockFetcher;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponse;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.ContinuityCode;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.Period;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.StockPriceFetcher;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import java.time.LocalDate;
@@ -41,24 +42,23 @@ class KoreaInvestmentClientTest {
     @Test
     void fetchStock() {
         // given
-        StockResponse stockResponse = actualStockResponse();
-        given(stockFetcher.fetchStock(any(StockExchange.class), anyString()))
-                .willReturn(stockResponse);
+        StockResponse appleStockResponse = appleStockResponse();
+        given(stockFetcher.fetchStock(any(StockExchangeCode.class), anyString()))
+                .willReturn(appleStockResponse);
 
         // when
         StockResponse result = koreaInvestmentClient.fetchStock(NASDAQ, "AAPL");
 
         // then
-        assertThat(result).usingRecursiveComparison()
-                .isEqualTo(stockResponse);
+        assertThat(result).isEqualTo(appleStockResponse);
     }
 
     @Test
     void fetchStockPrice() {
         // given
         LocalDate date = LocalDate.of(2024, 1, 1);
-        StockPriceResponse stockPriceResponse = new StockPriceResponse(ContinuityCode.NEXT, empty());
-        given(stockPriceFetcher.fetchStockPrice(NASDAQ, "AAPL", Period.DAY, date))
+        StockPriceResponse stockPriceResponse = new StockPriceResponse(NEXT, appleFirstStockPriceBody());
+        given(stockPriceFetcher.fetchStockPrice(NASDAQ_CODE, "AAPL", DAY, date))
                 .willReturn(stockPriceResponse);
 
         // when

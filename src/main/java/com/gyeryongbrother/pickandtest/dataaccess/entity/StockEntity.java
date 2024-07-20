@@ -1,9 +1,12 @@
 package com.gyeryongbrother.pickandtest.dataaccess.entity;
 
+import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
+import com.gyeryongbrother.pickandtest.domain.core.StockExchange;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -27,6 +30,10 @@ public class StockEntity {
 
     private String name;
     private String symbol;
+
+    @Enumerated(value = STRING)
+    private StockExchange stockExchange;
+
     private LocalDate listingDate;
 
     @OneToMany(mappedBy = "stock")

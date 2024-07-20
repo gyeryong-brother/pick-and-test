@@ -1,22 +1,21 @@
 package com.gyeryongbrother.pickandtest.infrastructure.mapper;
 
-import static com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponseFixture.dividendResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponseFixture.actualStockResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.firstStockPriceResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.secondStockPriceResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.thirdStockPriceResponse;
+import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponseFixture.appleDividendResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockFixture.apple;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponseFixture.appleStockResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.appleFirstStockPriceResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.appleSecondStockPriceResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.appleThirdStockPriceResponse;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 
-import com.gyeryongbrother.pickandtest.domain.core.Dividend;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
-import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
 import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
-import org.assertj.core.util.BigDecimalComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,61 +34,27 @@ class StockFetcherDataMapperTest {
     @Test
     void fetchStockResponseToStock() {
         // given
-        StockResponse stockResponse = actualStockResponse();
-        List<StockPriceResponse> stockPriceResponses = List.of(
-                firstStockPriceResponse(),
-                secondStockPriceResponse(),
-                thirdStockPriceResponse()
+        StockResponse appleStockResponse = appleStockResponse();
+        List<StockPriceResponse> appleStockPriceResponses = List.of(
+                appleFirstStockPriceResponse(),
+                appleSecondStockPriceResponse(),
+                appleThirdStockPriceResponse()
         );
-        DividendResponse dividendResponse = dividendResponse();
-        List<StockPrice> expectedStockPrices = List.of(
-                stockPrice(12, 230.54),
-                stockPrice(11, 227.57),
-                stockPrice(10, 232.98),
-                stockPrice(9, 228.68),
-                stockPrice(8, 227.82),
-                stockPrice(5, 226.34),
-                stockPrice(3, 221.55),
-                stockPrice(2, 220.27)
-        );
-        List<Dividend> expectedDividends = List.of(
-                dividend(8, 0.24),
-                dividend(5, 0.24),
-                dividend(2, 0.23)
-        );
-        Stock expected = Stock.builder()
-                .name("APPLE INC")
-                .symbol("AAPL")
-                .listingDate(null)
-                .stockPrices(expectedStockPrices)
-                .dividends(expectedDividends)
-                .build();
+        DividendResponse appleDividendResponse = appleDividendResponse();
+        Stock expected = apple();
 
         // when
         Stock result = stockFetcherDataMapper.stockResponseToStock(
-                stockResponse,
+                appleStockResponse,
                 "AAPL",
-                stockPriceResponses,
-                dividendResponse
+                NASDAQ,
+                appleStockPriceResponses,
+                appleDividendResponse
         );
 
         // then
         assertThat(result).usingRecursiveComparison()
-                .withComparatorForType(BigDecimalComparator.BIG_DECIMAL_COMPARATOR, BigDecimal.class)
+                .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
                 .isEqualTo(expected);
-    }
-
-    private StockPrice stockPrice(int day, double price) {
-        return StockPrice.builder()
-                .date(LocalDate.of(2024, 7, day))
-                .price(BigDecimal.valueOf(price))
-                .build();
-    }
-
-    private Dividend dividend(int month, double amount) {
-        return Dividend.builder()
-                .date(LocalDate.of(2023, month, 10))
-                .amount(BigDecimal.valueOf(amount))
-                .build();
     }
 }

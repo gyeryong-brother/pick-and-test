@@ -1,6 +1,6 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common;
 
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchangeCode;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.Period;
 import java.time.LocalDate;
 import org.springframework.stereotype.Component;
@@ -16,17 +16,17 @@ public class UrlProvider {
     private static final String STOCK_PRICE_ENDPOINT = "/uapi/overseas-price/v1/quotations/daily-price";
     private static final String TOKEN_ENDPOINT = "/oauth2/tokenP";
 
-    public String getStockEndpoint(StockExchange stockExchange, String symbol) {
+    public String getStockEndpoint(StockExchangeCode stockExchangeCode, String symbol) {
         return UriComponentsBuilder.fromHttpUrl(DOMAIN)
                 .path(STOCK_ENDPOINT)
-                .queryParam(STOCK_EXCHANGE_CODE_HEADER_NAME, stockExchange.getProductTypeCode())
+                .queryParam(STOCK_EXCHANGE_CODE_HEADER_NAME, stockExchangeCode.getProductTypeCode())
                 .queryParam(SYMBOL_HEADER_NAME, symbol)
                 .build()
                 .toUriString();
     }
 
     public String getStockPriceEndpoint(
-            StockExchange stockExchange,
+            StockExchangeCode stockExchangeCode,
             String symbol,
             Period period,
             LocalDate date
@@ -34,7 +34,7 @@ public class UrlProvider {
         return UriComponentsBuilder.fromHttpUrl(DOMAIN)
                 .path(STOCK_PRICE_ENDPOINT)
                 .queryParam("AUTH", "")
-                .queryParam("EXCD", stockExchange.getExchangeCode())
+                .queryParam("EXCD", stockExchangeCode.getExchangeCode())
                 .queryParam("SYMB", symbol)
                 .queryParam("GUBN", period.getCode())
                 .queryParam("BYMD", DateTimeHandler.toDate(date))

@@ -4,7 +4,7 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.FetcherSupport;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.FetchType;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.HeaderHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.UrlProvider;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchangeCode;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBody;
 import java.time.LocalDate;
@@ -22,12 +22,12 @@ public class StockPriceFetcher {
     private final FetcherSupport fetcherSupport;
 
     public StockPriceResponse fetchStockPrice(
-            StockExchange stockExchange,
+            StockExchangeCode stockExchangeCode,
             String symbol,
             Period period,
             LocalDate date
     ) {
-        String url = urlProvider.getStockPriceEndpoint(stockExchange, symbol, period, date);
+        String url = urlProvider.getStockPriceEndpoint(stockExchangeCode, symbol, period, date);
         HttpHeaders httpHeaders = headerHandler.getHeader(FetchType.STOCK_PRICE);
         ResponseEntity<StockPriceBody> responseEntity = fetcherSupport.get(url, httpHeaders, StockPriceBody.class);
         ContinuityCode continuityCode = headerHandler.parseContinuityCode(responseEntity.getHeaders());

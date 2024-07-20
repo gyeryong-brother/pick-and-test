@@ -14,6 +14,7 @@ public class Stock {
     private final Long id;
     private final String name;
     private final String symbol;
+    private final StockExchange stockExchange;
     private final LocalDate listingDate;
     private final List<StockPrice> stockPrices;
     private final List<Dividend> dividends;

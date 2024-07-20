@@ -1,9 +1,11 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment;
 
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchange;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.Period.DAY;
+
+import com.gyeryongbrother.pickandtest.domain.core.StockExchange;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchangeCode;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockFetcher;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponse;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.Period;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.StockPriceFetcher;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import java.time.LocalDate;
@@ -18,7 +20,8 @@ public class KoreaInvestmentClient {
     private final StockPriceFetcher stockPriceFetcher;
 
     public StockResponse fetchStock(StockExchange stockExchange, String symbol) {
-        return stockFetcher.fetchStock(stockExchange, symbol);
+        StockExchangeCode stockExchangeCode = StockExchangeCode.from(stockExchange);
+        return stockFetcher.fetchStock(stockExchangeCode, symbol);
     }
 
     public StockPriceResponse fetchStockPrice(
@@ -26,6 +29,7 @@ public class KoreaInvestmentClient {
             String symbol,
             LocalDate date
     ) {
-        return stockPriceFetcher.fetchStockPrice(stockExchange, symbol, Period.DAY, date);
+        StockExchangeCode stockExchangeCode = StockExchangeCode.from(stockExchange);
+        return stockPriceFetcher.fetchStockPrice(stockExchangeCode, symbol, DAY, date);
     }
 }
