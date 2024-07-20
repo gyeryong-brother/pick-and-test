@@ -4,8 +4,10 @@ import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("Nasdaq api url 을 제공한다")
 class NasdaqUrlProviderTest {
 
     private NasdaqUrlProvider nasdaqUrlProvider;
@@ -16,6 +18,7 @@ class NasdaqUrlProviderTest {
     }
 
     @Test
+    @DisplayName("주식 티커 api endpoint 를 가져온다")
     void getStocksEndpoint() {
         // given
         String expected = "https://api.nasdaq.com/api/screener/stocks?tableonly=true&limit=5000&exchange=NASDAQ";

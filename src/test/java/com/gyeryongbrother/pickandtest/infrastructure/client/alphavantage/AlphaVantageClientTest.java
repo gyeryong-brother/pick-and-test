@@ -8,12 +8,14 @@ import static org.mockito.BDDMockito.given;
 import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.DividendFetcher;
 import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponse;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("Alpha Vantage api 를 사용한다")
 class AlphaVantageClientTest {
 
     @Mock
@@ -27,6 +29,7 @@ class AlphaVantageClientTest {
     }
 
     @Test
+    @DisplayName("배당 정보를 가져온다")
     void fetchDividend() {
         // given
         DividendResponse appleDividendResponse = appleDividendResponse();

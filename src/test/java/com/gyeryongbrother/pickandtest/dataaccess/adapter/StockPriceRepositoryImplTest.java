@@ -9,6 +9,7 @@ import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockPriceRep
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Import;
 
 @DataJpaTest
 @Import(TestQuerydslConfig.class)
+@DisplayName("주가 레포지토리를 구현한다")
 class StockPriceRepositoryImplTest {
 
     @Autowired
@@ -25,6 +27,7 @@ class StockPriceRepositoryImplTest {
     private StockRepository stockRepository;
 
     @Test
+    @DisplayName("주가를 저장한다")
     void save() {
         //given
         LocalDate januaryFirst = LocalDate.of(2024, 1, 1);

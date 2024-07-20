@@ -12,6 +12,7 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.common.Heade
 import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.common.NasdaqUrlProvider;
 import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stockexchange.dto.StockSymbolResponse;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -19,6 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("주식 티커들을 가져온다")
 class StockExchangeFetcherTest {
 
     @Mock
@@ -32,6 +34,7 @@ class StockExchangeFetcherTest {
     }
 
     @Test
+    @DisplayName("주식 티커들을 가져온다")
     void fetchStockExchange() {
         // given
         StockSymbolResponse stockSymbolResponse = stockSymbolResponse();

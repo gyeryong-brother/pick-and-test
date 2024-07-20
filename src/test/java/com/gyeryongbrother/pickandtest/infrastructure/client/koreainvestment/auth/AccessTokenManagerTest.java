@@ -9,12 +9,14 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.aut
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("액세스 토큰을 관리한다")
 class AccessTokenManagerTest {
 
     @Mock
@@ -28,6 +30,7 @@ class AccessTokenManagerTest {
     }
 
     @Test
+    @DisplayName("초기 상태에서는 새 토큰을 받아와서 반환한다")
     void getAccessToken() {
         // given
         String actualExpiredFormat = "2024-07-14 14:44:10";
@@ -43,6 +46,7 @@ class AccessTokenManagerTest {
     }
 
     @Test
+    @DisplayName("토큰이 만료되지 않았으면 기존 토큰을 반환한다")
     void getAccessTokenTwice() {
         // given
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -61,6 +65,7 @@ class AccessTokenManagerTest {
     }
 
     @Test
+    @DisplayName("기존 토큰이 만료되었으면 새 토큰을 받아와서 반환한다")
     void renewalAccessToken() {
         // given
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

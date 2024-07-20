@@ -10,12 +10,14 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.aut
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.auth.dto.TokenResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.KoreaInvestmentUrlProvider;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("액세스 토큰을 가져온다")
 class AccessTokenFetcherTest {
 
     @Mock
@@ -33,6 +35,7 @@ class AccessTokenFetcherTest {
     }
 
     @Test
+    @DisplayName("액세스 토큰을 가져온다")
     void fetchToken() {
         // given
         TokenResponse tokenResponse = new TokenResponse("accessToken", "accessTokenExpired");

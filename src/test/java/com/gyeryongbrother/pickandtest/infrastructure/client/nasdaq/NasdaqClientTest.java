@@ -9,12 +9,14 @@ import static org.mockito.BDDMockito.given;
 import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stockexchange.StockExchangeFetcher;
 import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stockexchange.dto.StockSymbolResponse;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("Nasdaq api 를 사용한다")
 class NasdaqClientTest {
 
     @Mock
@@ -28,6 +30,7 @@ class NasdaqClientTest {
     }
 
     @Test
+    @DisplayName("주식 티커들을 가져온다")
     void fetchStockExchange() {
         // given
         StockSymbolResponse stockSymbolResponse = stockSymbolResponse();

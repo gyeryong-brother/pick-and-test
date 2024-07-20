@@ -11,12 +11,14 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.common
 import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.common.AlphaVantageUrlProvider;
 import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponse;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("배당 정보를 가져온다")
 class DividendFetcherTest {
 
     @Mock
@@ -32,6 +34,7 @@ class DividendFetcherTest {
     }
 
     @Test
+    @DisplayName("배당 정보를 가져온다")
     void fetchDividend() {
         // given
         DividendResponse appleDividendResponse = appleDividendResponse();

@@ -17,6 +17,7 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.sto
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -25,6 +26,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("주가를 가져온다")
 class StockPriceFetcherTest {
 
     @Mock
@@ -41,6 +43,7 @@ class StockPriceFetcherTest {
     }
 
     @Test
+    @DisplayName("주가를 가져온다")
     void fetchStockPrice() {
         // given
         StockPriceBody appleFirstStockPriceBody = appleFirstStockPriceBody();

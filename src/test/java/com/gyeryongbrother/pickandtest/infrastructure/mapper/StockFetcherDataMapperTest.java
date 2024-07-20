@@ -17,8 +17,10 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.sto
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("주식 응답과 주식을 매핑한다")
 class StockFetcherDataMapperTest {
 
     private StockFetcherDataMapper stockFetcherDataMapper;
@@ -32,6 +34,7 @@ class StockFetcherDataMapperTest {
     }
 
     @Test
+    @DisplayName("주식 응답을 주식으로 변환한다")
     void fetchStockResponseToStock() {
         // given
         StockResponse appleStockResponse = appleStockResponse();

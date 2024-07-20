@@ -13,8 +13,10 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.sto
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("주가 응답과 주가를 매핑한다")
 class StockPriceFetcherDataMapperTest {
 
     private StockPriceFetcherDataMapper stockPriceFetcherDataMapper;
@@ -25,6 +27,7 @@ class StockPriceFetcherDataMapperTest {
     }
 
     @Test
+    @DisplayName("주가 응답들을 주가들로 변환한다")
     void stockPriceResponsesToStockPricesByThree() {
         // given
         List<StockPriceResponse> appleStockPriceResponses = List.of(
@@ -45,6 +48,7 @@ class StockPriceFetcherDataMapperTest {
     }
 
     @Test
+    @DisplayName("주가 응답을 주가들로 변환한다")
     void stockPriceResponsesToStockPrices() {
         // given
         List<StockPriceResponse> stockPriceResponses = List.of(appleFirstStockPriceResponse());
