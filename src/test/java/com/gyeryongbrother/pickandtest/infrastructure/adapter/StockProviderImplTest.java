@@ -19,7 +19,7 @@ import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestm
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.nvidiaFirstStockPriceResponse;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.nvidiaSecondStockPriceResponse;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.nvidiaThirdStockPriceResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stockexchange.dto.StockSymbolResponseFixture.stockSymbolResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stocksymbol.dto.StockSymbolResponseFixture.stockSymbolResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 import static org.mockito.ArgumentMatchers.any;

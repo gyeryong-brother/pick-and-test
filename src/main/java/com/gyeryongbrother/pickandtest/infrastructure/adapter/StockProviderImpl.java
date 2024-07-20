@@ -9,8 +9,8 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.Kor
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.NasdaqClient;
-import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stockexchange.dto.StockSymbolDetail;
-import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stockexchange.dto.StockSymbolResponse;
+import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stocksymbol.dto.StockSymbolDetail;
+import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stocksymbol.dto.StockSymbolResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.mapper.StockFetcherDataMapper;
 import java.time.LocalDate;
 import java.util.List;
