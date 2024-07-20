@@ -32,7 +32,7 @@ class AccessTokenTest {
     @DisplayName("만료시간이 과거이면 만료이다")
     void isExpiredToken() {
         // given
-        accessToken.update("accessToken", LocalDateTime.now());
+        accessToken.update("accessToken", LocalDateTime.MIN);
 
         // when
         boolean result = accessToken.isExpired();
