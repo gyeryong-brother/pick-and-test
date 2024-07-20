@@ -69,7 +69,9 @@ class AccessTokenManagerTest {
     void renewalAccessToken() {
         // given
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String alreadyExpired = LocalDateTime.now().format(dateTimeFormatter);
+        String alreadyExpired = LocalDateTime.now()
+                .minusDays(1)
+                .format(dateTimeFormatter);
         TokenResponse firstTokenResponse = new TokenResponse("accessToken", alreadyExpired);
         TokenResponse secondTokenResponse = new TokenResponse("renewalAccessToken", alreadyExpired);
         given(accessTokenFetcher.fetchToken())
