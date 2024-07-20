@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Import;
 
 @DataJpaTest
 @Import(TestQuerydslConfig.class)
-public class StockPriceRepositoryImplTest {
+class StockPriceRepositoryImplTest {
 
     @Autowired
     private StockPriceRepository stockPriceRepository;
