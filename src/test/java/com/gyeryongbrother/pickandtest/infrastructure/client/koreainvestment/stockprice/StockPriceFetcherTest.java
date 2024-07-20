@@ -1,7 +1,7 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice;
 
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.FetchType.STOCK_PRICE;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchangeCode.NASDAQ_CODE;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.StockExchangeCode.NASDAQ_CODE;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.ContinuityCode.NEXT;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.Period.DAY;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBodyFixture.appleFirstStockPriceBody;
@@ -12,7 +12,7 @@ import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.infrastructure.client.FetcherSupport;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.HeaderHandler;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.UrlProvider;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.KoreaInvestmentUrlProvider;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBody;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import java.time.LocalDate;
@@ -37,7 +37,7 @@ class StockPriceFetcherTest {
 
     @BeforeEach
     void setUp() {
-        stockPriceFetcher = new StockPriceFetcher(new UrlProvider(), headerHandler, fetcherSupport);
+        stockPriceFetcher = new StockPriceFetcher(new KoreaInvestmentUrlProvider(), headerHandler, fetcherSupport);
     }
 
     @Test

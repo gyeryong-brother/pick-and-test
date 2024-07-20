@@ -1,9 +1,9 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.auth;
 
 import com.gyeryongbrother.pickandtest.infrastructure.client.FetcherSupport;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.UrlProvider;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.auth.dto.TokenRequest;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.auth.dto.TokenResponse;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.KoreaInvestmentUrlProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,11 +12,11 @@ import org.springframework.stereotype.Component;
 class AccessTokenFetcher {
 
     private final FetcherSupport fetcherSupport;
-    private final UrlProvider urlProvider;
-    private final ClientCredential clientCredential;
+    private final KoreaInvestmentUrlProvider koreaInvestmentUrlProvider;
+    private final KoreaInvestmentClientCredential koreaInvestmentClientCredential;
 
     public TokenResponse fetchToken() {
-        String tokenUrl = urlProvider.getTokenEndpoint();
+        String tokenUrl = koreaInvestmentUrlProvider.getTokenEndpoint();
         TokenRequest tokenRequest = createTokenRequest();
         return fetcherSupport.post(tokenUrl, tokenRequest, TokenResponse.class);
     }
@@ -24,8 +24,8 @@ class AccessTokenFetcher {
     private TokenRequest createTokenRequest() {
         return new TokenRequest(
                 "client_credentials",
-                clientCredential.getAppKey(),
-                clientCredential.getAppSecret()
+                koreaInvestmentClientCredential.getAppKey(),
+                koreaInvestmentClientCredential.getAppSecret()
         );
     }
 }

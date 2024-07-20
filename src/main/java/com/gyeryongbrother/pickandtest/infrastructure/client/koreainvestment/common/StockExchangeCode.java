@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock;
+package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common;
 
 import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.AMEX;
 import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;

@@ -6,12 +6,12 @@ import org.springframework.stereotype.Component;
 
 @Getter
 @Component
-public class ClientCredential {
+class KoreaInvestmentClientCredential {
 
     private final String appKey;
     private final String appSecret;
 
-    public ClientCredential(
+    public KoreaInvestmentClientCredential(
             @Value("${korea-investment-securities.app-key}") String appKey,
             @Value("${korea-investment-securities.app-secret}") String appSecret
     ) {

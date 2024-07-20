@@ -3,10 +3,10 @@ package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.st
 import com.gyeryongbrother.pickandtest.infrastructure.client.FetcherSupport;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.FetchType;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.HeaderHandler;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.UrlProvider;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockExchangeCode;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.KoreaInvestmentUrlProvider;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.StockExchangeCode;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBody;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class StockPriceFetcher {
 
-    private final UrlProvider urlProvider;
+    private final KoreaInvestmentUrlProvider koreaInvestmentUrlProvider;
     private final HeaderHandler headerHandler;
     private final FetcherSupport fetcherSupport;
 
@@ -27,7 +27,7 @@ public class StockPriceFetcher {
             Period period,
             LocalDate date
     ) {
-        String url = urlProvider.getStockPriceEndpoint(stockExchangeCode, symbol, period, date);
+        String url = koreaInvestmentUrlProvider.getStockPriceEndpoint(stockExchangeCode, symbol, period, date);
         HttpHeaders httpHeaders = headerHandler.getHeader(FetchType.STOCK_PRICE);
         ResponseEntity<StockPriceBody> responseEntity = fetcherSupport.get(url, httpHeaders, StockPriceBody.class);
         ContinuityCode continuityCode = headerHandler.parseContinuityCode(responseEntity.getHeaders());

@@ -20,7 +20,7 @@ class AuthManagerTest {
 
     @BeforeEach
     void setUp() {
-        authManager = new AuthManager(accessTokenManager, new ClientCredential("appKey", "appSecret"));
+        authManager = new AuthManager(accessTokenManager, new KoreaInvestmentClientCredential("appKey", "appSecret"));
     }
 
     @Test
