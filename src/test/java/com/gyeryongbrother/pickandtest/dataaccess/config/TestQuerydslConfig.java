@@ -14,6 +14,10 @@ import com.gyeryongbrother.pickandtest.domain.service.ports.output.DividendRepos
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockPriceRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
+import com.gyeryongbrother.pickandtest.member.dataaccess.adapter.MemberRepositoryImpl;
+import com.gyeryongbrother.pickandtest.member.dataaccess.mapper.MemberDataAccessMapper;
+import com.gyeryongbrother.pickandtest.member.dataaccess.repository.MemberJpaRepository;
+import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -36,6 +40,9 @@ public class TestQuerydslConfig {
     @Autowired
     private StockPriceJpaRepository stockPriceJpaRepository;
 
+    @Autowired
+    private MemberJpaRepository memberJpaRepository;
+
     @Bean
     public JPAQueryFactory queryFactory() {
         return new JPAQueryFactory(entityManager);
@@ -57,6 +64,11 @@ public class TestQuerydslConfig {
     }
 
     @Bean
+    public MemberDataAccessMapper memberDataAccessMapper() {
+        return new MemberDataAccessMapper();
+    }
+
+    @Bean
     public StockQueryRepository stockQueryRepository() {
         return new StockQueryRepositoryImpl(queryFactory(), stockDataAccessMapper());
     }
@@ -74,5 +86,10 @@ public class TestQuerydslConfig {
     @Bean
     public StockPriceRepository stockPriceRepository() {
         return new StockPriceRepositoryImpl(stockPriceJpaRepository, stockPriceDataAccessMapper());
+    }
+
+    @Bean
+    public MemberRepository memberRepository() {
+        return new MemberRepositoryImpl(memberJpaRepository, memberDataAccessMapper());
     }
 }
