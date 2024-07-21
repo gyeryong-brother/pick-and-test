@@ -11,9 +11,11 @@ import com.gyeryongbrother.pickandtest.dataaccess.config.TestQuerydslConfig;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.DividendEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.StockPriceEntity;
+import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.core.Dividend;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
+import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
 import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
@@ -32,6 +34,9 @@ class StockQueryRepositoryImplTest {
 
     @Autowired
     private EntityManager entityManager;
+
+    @Autowired
+    private StockJpaRepository stockJpaRepository;
 
     @Autowired
     private StockQueryRepository stockQueryRepository;
@@ -106,5 +111,42 @@ class StockQueryRepositoryImplTest {
                 .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
                 .ignoringExpectedNullFields()
                 .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("이름이나 심볼로 주식들을 조회한다")
+    void findAllByNameOrSymbol() {
+        // given
+        LocalDate januaryFirst = LocalDate.of(2024, 1, 1);
+        StockEntity keyword = stockEntity("Keyword", "symbol", NASDAQ, januaryFirst);
+        StockEntity keyboard = stockEntity("name", "keyboard", NASDAQ, januaryFirst);
+        StockEntity keyPoint = stockEntity("KEY POINT", "symbol", NASDAQ, januaryFirst);
+        stockJpaRepository.saveAll(List.of(
+                keyword,
+                stockEntity("name", "ke y pad", NASDAQ, januaryFirst),
+                keyboard,
+                stockEntity("a key player", "symbol", NASDAQ, januaryFirst),
+                keyPoint
+        ));
+        List<StockResponse> expected = List.of(
+                stockResponse(keyword),
+                stockResponse(keyboard),
+                stockResponse(keyPoint)
+        );
+
+        // when
+        List<StockResponse> result = stockQueryRepository.findAllByNameOrSymbol("key");
+
+        // then
+        assertThat(result).usingRecursiveComparison()
+                .isEqualTo(expected);
+    }
+
+    private StockResponse stockResponse(StockEntity stockEntity) {
+        return new StockResponse(
+                stockEntity.getId(),
+                stockEntity.getName(),
+                stockEntity.getSymbol()
+        );
     }
 }

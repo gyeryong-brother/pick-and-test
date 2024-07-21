@@ -6,8 +6,13 @@ import static com.gyeryongbrother.pickandtest.dataaccess.entity.QStockPriceEntit
 import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
+import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
+import com.querydsl.core.types.ConstructorExpression;
+import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -29,5 +34,28 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
         return Optional.ofNullable(stock)
                 .map(stockDataAccessMapper::stockEntityToStock)
                 .orElseThrow(() -> new IllegalArgumentException("not found stock"));
+    }
+
+    @Override
+    public List<StockResponse> findAllByNameOrSymbol(String keyword) {
+        return queryFactory.select(stockResponse())
+                .from(stockEntity)
+                .where(searchCondition(keyword))
+                .fetch();
+    }
+
+    private ConstructorExpression<StockResponse> stockResponse() {
+        return Projections.constructor(
+                StockResponse.class,
+                stockEntity.id,
+                stockEntity.name,
+                stockEntity.symbol
+        );
+    }
+
+    private BooleanExpression searchCondition(String keyword) {
+        BooleanExpression nameCondition = stockEntity.name.startsWithIgnoreCase(keyword);
+        BooleanExpression symbolCondition = stockEntity.symbol.startsWithIgnoreCase(keyword);
+        return nameCondition.or(symbolCondition);
     }
 }
