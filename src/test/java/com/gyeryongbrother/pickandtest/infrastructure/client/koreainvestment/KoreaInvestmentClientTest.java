@@ -18,12 +18,14 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.sto
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("한국투자증권 api 를 사용한다")
 class KoreaInvestmentClientTest {
 
     @Mock
@@ -40,6 +42,7 @@ class KoreaInvestmentClientTest {
     }
 
     @Test
+    @DisplayName("주식 정보를 가져온다")
     void fetchStock() {
         // given
         StockResponse appleStockResponse = appleStockResponse();
@@ -54,6 +57,7 @@ class KoreaInvestmentClientTest {
     }
 
     @Test
+    @DisplayName("주가 정보를 가져온다")
     void fetchStockPrice() {
         // given
         LocalDate date = LocalDate.of(2024, 1, 1);

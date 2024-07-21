@@ -7,8 +7,10 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.sto
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("100개씩 나눠져서 오는 주가 api 응답을 통합한다")
 class StockPriceAssemblerTest {
 
     private StockPriceAssembler stockPriceAssembler;
@@ -19,6 +21,7 @@ class StockPriceAssemblerTest {
     }
 
     @Test
+    @DisplayName("초기 상태에서 다음 응답은 존재한다")
     void hasNextTrueWithEmpty() {
         // when
         boolean result = stockPriceAssembler.hasNext();
@@ -28,6 +31,7 @@ class StockPriceAssemblerTest {
     }
 
     @Test
+    @DisplayName("최근 응답의 지속 코드가 NEXT 면 다음 응답은 존재한다")
     void hasNextTrueWithNext() {
         // given
         StockPriceResponse stockPriceResponse = new StockPriceResponse(ContinuityCode.NEXT, null);
@@ -41,6 +45,7 @@ class StockPriceAssemblerTest {
     }
 
     @Test
+    @DisplayName("최근 응답의 지속 코드가 END 면 다음 응답은 존재하지 않는다")
     void hasNextFalseWithEnd() {
         // given
         StockPriceResponse nextResponse = new StockPriceResponse(ContinuityCode.NEXT, null);
@@ -56,6 +61,7 @@ class StockPriceAssemblerTest {
     }
 
     @Test
+    @DisplayName("초기 상태에서 다음 날짜는 오늘이다")
     void getNextDateWithEmpty() {
         // given
         LocalDate expected = LocalDate.now();
@@ -68,6 +74,7 @@ class StockPriceAssemblerTest {
     }
 
     @Test
+    @DisplayName("다음 날짜는 가장 과거 날짜 하루 전이다")
     void getNextDate() {
         // given
         StockPriceResponse stockPriceResponse = appleFirstStockPriceResponse();

@@ -13,6 +13,7 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.com
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.StockExchangeCode;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponse;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -21,6 +22,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("주식을 가져온다")
 class StockFetcherTest {
 
     @Mock
@@ -37,6 +39,7 @@ class StockFetcherTest {
     }
 
     @Test
+    @DisplayName("주식을 가져온다")
     void fetchStock() {
         // given
         StockResponse appleStockResponse = appleStockResponse();

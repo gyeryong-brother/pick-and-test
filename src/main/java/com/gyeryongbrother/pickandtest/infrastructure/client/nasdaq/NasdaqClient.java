@@ -1,8 +1,8 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq;
 
 import com.gyeryongbrother.pickandtest.domain.core.StockExchange;
-import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stockexchange.StockExchangeFetcher;
-import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stockexchange.dto.StockSymbolResponse;
+import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stocksymbol.StockSymbolFetcher;
+import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stocksymbol.dto.StockSymbolResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class NasdaqClient {
 
-    private final StockExchangeFetcher stockExchangeFetcher;
+    private final StockSymbolFetcher stockSymbolFetcher;
 
     public StockSymbolResponse fetchStockSymbol(StockExchange stockExchange) {
-        return stockExchangeFetcher.fetchStockSymbol(stockExchange);
+        return stockSymbolFetcher.fetchStockSymbol(stockExchange);
     }
 }

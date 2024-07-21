@@ -19,7 +19,7 @@ import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestm
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.nvidiaFirstStockPriceResponse;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.nvidiaSecondStockPriceResponse;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.nvidiaThirdStockPriceResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stockexchange.dto.StockSymbolResponseFixture.stockSymbolResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stocksymbol.dto.StockSymbolResponseFixture.stockSymbolResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 import static org.mockito.ArgumentMatchers.any;
@@ -38,12 +38,14 @@ import com.gyeryongbrother.pickandtest.infrastructure.mapper.StockPriceFetcherDa
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("주식 정보를 제공한다")
 class StockProviderImplTest {
 
     @Mock
@@ -72,6 +74,7 @@ class StockProviderImplTest {
     }
 
     @Test
+    @DisplayName("주식거래소에 상장되어 있는 모든 주식들을 가져온다")
     void getStocksByStockExchange() {
         // given
         given(nasdaqClient.fetchStockSymbol(any(StockExchange.class)))

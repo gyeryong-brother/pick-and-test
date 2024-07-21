@@ -7,6 +7,7 @@ import static org.mockito.BDDMockito.given;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.auth.AuthManager;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.ContinuityCode;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -14,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("api 에서 사용되는 요청 헤더를 만들고 응답 헤더에서 데이터를 추출한다")
 class HeaderHandlerTest {
 
     @Mock
@@ -27,6 +29,7 @@ class HeaderHandlerTest {
     }
 
     @Test
+    @DisplayName("주식 api 용 헤더를 만든다")
     void getStockHeader() {
         // given
         HttpHeaders expected = new HttpHeaders();
@@ -42,6 +45,7 @@ class HeaderHandlerTest {
     }
 
     @Test
+    @DisplayName("주가 api 용 헤더를 만든다")
     void getStockPriceHeader() {
         // given
         HttpHeaders expected = new HttpHeaders();
@@ -57,6 +61,7 @@ class HeaderHandlerTest {
     }
 
     @Test
+    @DisplayName("응답 헤더에 F 가 있을 때 NEXT 를 추출한다")
     void parseContinuityCodeByF() {
         // given
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -70,6 +75,7 @@ class HeaderHandlerTest {
     }
 
     @Test
+    @DisplayName("응답 헤더에 D 가 있을 때 END 를 추출한다")
     void parseContinuityCodeByD() {
         // given
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -83,6 +89,7 @@ class HeaderHandlerTest {
     }
 
     @Test
+    @DisplayName("응답 헤더가 비어 있을 때 예외가 발생한다")
     void parseContinuityCodeByEmpty() {
         // given
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -97,6 +104,7 @@ class HeaderHandlerTest {
     }
 
     @Test
+    @DisplayName("응답 헤더에 여러 값이 있으면 예외가 발생한다")
     void parseContinuityCodeByTwoValue() {
         // given
         HttpHeaders httpHeaders = new HttpHeaders();

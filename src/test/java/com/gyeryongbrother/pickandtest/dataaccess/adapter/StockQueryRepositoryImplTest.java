@@ -19,6 +19,7 @@ import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -26,6 +27,7 @@ import org.springframework.context.annotation.Import;
 
 @DataJpaTest
 @Import(TestQuerydslConfig.class)
+@DisplayName("주식 조회 레포지토리를 구현한다")
 class StockQueryRepositoryImplTest {
 
     @Autowired
@@ -35,6 +37,7 @@ class StockQueryRepositoryImplTest {
     private StockQueryRepository stockQueryRepository;
 
     @Test
+    @DisplayName("아이디로 주식을 조회한다")
     void findById() {
         // given
         LocalDate januaryFirst = LocalDate.of(2024, 1, 1);

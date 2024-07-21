@@ -10,8 +10,10 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.divide
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("배당 응답과 배당을 매핑한다")
 class DividendFetcherDataMapperTest {
 
     private DividendFetcherDataMapper dividendFetcherDataMapper;
@@ -22,6 +24,7 @@ class DividendFetcherDataMapperTest {
     }
 
     @Test
+    @DisplayName("배당 응답을 배당들로 변환한다")
     void dividendResponseToDividends() {
         // given
         DividendResponse appleDividendResponse = appleDividendResponse();

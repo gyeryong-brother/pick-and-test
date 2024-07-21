@@ -5,8 +5,10 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("토큰 시간을 관리한다")
 class AccessTokenTest {
 
     private AccessToken accessToken;
@@ -17,6 +19,7 @@ class AccessTokenTest {
     }
 
     @Test
+    @DisplayName("초기 상태는 만료이다")
     void isExpiredTrue() {
         // when
         boolean result = accessToken.isExpired();
@@ -26,6 +29,7 @@ class AccessTokenTest {
     }
 
     @Test
+    @DisplayName("만료시간이 과거이면 만료이다")
     void isExpiredToken() {
         // given
         accessToken.update("accessToken", LocalDateTime.now());
@@ -38,6 +42,7 @@ class AccessTokenTest {
     }
 
     @Test
+    @DisplayName("만료 시간이 미래면 만료가 아니다")
     void isExpiredFalse() {
         // given
         accessToken.update("accessToken", LocalDateTime.MAX);
@@ -50,6 +55,7 @@ class AccessTokenTest {
     }
 
     @Test
+    @DisplayName("액세스 토큰과 만료 시간을 업데이트한다")
     void update() {
         // when & then
         assertThatCode(() -> accessToken.update("accessToken", LocalDateTime.now()))
