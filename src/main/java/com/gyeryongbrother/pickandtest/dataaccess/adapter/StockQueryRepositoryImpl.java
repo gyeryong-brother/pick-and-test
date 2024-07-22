@@ -37,7 +37,7 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
     }
 
     @Override
-    public Stock findByName(String name){
+    public Stock findByName(String name) {
         StockEntity stock = queryFactory.selectFrom(stockEntity)
                 .join(stockEntity.stockPrices, stockPriceEntity)
                 .fetchJoin()
@@ -49,7 +49,7 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
     }
 
     @Override
-    public Stock findBySymbol(String symbol){
+    public Stock findBySymbol(String symbol) {
         StockEntity stock = queryFactory.selectFrom(stockEntity)
                 .join(stockEntity.stockPrices, stockPriceEntity)
                 .fetchJoin()

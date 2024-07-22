@@ -3,6 +3,7 @@ package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.au
 import com.gyeryongbrother.pickandtest.infrastructure.client.FetcherSupport;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.auth.dto.TokenRequest;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.auth.dto.TokenResponse;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.UrlProvider;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.KoreaInvestmentUrlProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
