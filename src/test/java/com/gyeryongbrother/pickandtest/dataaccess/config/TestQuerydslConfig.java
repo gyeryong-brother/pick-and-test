@@ -11,6 +11,8 @@ import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockPriceDataAccessMap
 import com.gyeryongbrother.pickandtest.dataaccess.repository.DividendJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockPriceJpaRepository;
+import com.gyeryongbrother.pickandtest.domain.service.GetHistoryImpl;
+import com.gyeryongbrother.pickandtest.domain.service.ports.input.GetHistory;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.DividendRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockPriceQueryRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockPriceRepository;
@@ -20,6 +22,7 @@ import com.gyeryongbrother.pickandtest.member.dataaccess.adapter.MemberRepositor
 import com.gyeryongbrother.pickandtest.member.dataaccess.mapper.MemberDataAccessMapper;
 import com.gyeryongbrother.pickandtest.member.dataaccess.repository.MemberJpaRepository;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberRepository;
+import com.gyeryongbrother.pickandtest.infrastructure.mapper.AnnualDividendMapper;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
