@@ -1,5 +1,6 @@
 package com.gyeryongbrother.pickandtest.domain.service;
 
+import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.StockQueryService;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
@@ -15,6 +16,9 @@ public class StockQueryServiceImpl implements StockQueryService {
 
     @Override
     public List<StockResponse> findAllByNameOrSymbol(String keyword) {
-        return stockQueryRepository.findAllByNameOrSymbol(keyword);
+        List<Stock> stocks = stockQueryRepository.findAllByNameOrSymbol(keyword);
+        return stocks.stream()
+                .map(StockResponse::from)
+                .toList();
     }
 }
