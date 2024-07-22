@@ -1,7 +1,6 @@
 package com.gyeryongbrother.pickandtest.domain.core;
 
 import java.time.LocalDate;
-import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +15,4 @@ public class Stock {
     private final String symbol;
     private final StockExchange stockExchange;
     private final LocalDate listingDate;
-    private final List<StockPrice> stockPrices;
-    private final List<Dividend> dividends;
 }

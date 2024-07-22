@@ -5,7 +5,7 @@ import static com.gyeryongbrother.pickandtest.dataaccess.entity.QStockPriceEntit
 
 import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockDataAccessMapper;
-import com.gyeryongbrother.pickandtest.domain.core.Stock;
+import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
 import com.querydsl.core.types.ConstructorExpression;
@@ -25,14 +25,14 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
     private final StockDataAccessMapper stockDataAccessMapper;
 
     @Override
-    public Stock findById(Long id) {
+    public StockDetail findById(Long id) {
         StockEntity stock = queryFactory.selectFrom(stockEntity)
                 .join(stockEntity.stockPrices, stockPriceEntity)
                 .fetchJoin()
                 .where(stockEntity.id.eq(id))
                 .fetchOne();
         return Optional.ofNullable(stock)
-                .map(stockDataAccessMapper::stockEntityToStock)
+                .map(stockDataAccessMapper::stockEntityToStockDetail)
                 .orElseThrow(() -> new IllegalArgumentException("not found stock"));
     }
 

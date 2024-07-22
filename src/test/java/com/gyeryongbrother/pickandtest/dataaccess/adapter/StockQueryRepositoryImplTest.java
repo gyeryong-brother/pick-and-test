@@ -14,6 +14,7 @@ import com.gyeryongbrother.pickandtest.dataaccess.entity.StockPriceEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.core.Dividend;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
+import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
 import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
@@ -94,20 +95,23 @@ class StockQueryRepositoryImplTest {
                 .date(januarySecond)
                 .amount(twoHundred)
                 .build();
-        Stock expected = Stock.builder()
+        Stock stock = Stock.builder()
                 .name("name")
                 .symbol("symbol")
                 .stockExchange(NASDAQ)
                 .listingDate(januaryFirst)
+                .build();
+        StockDetail expected = StockDetail.builder()
+                .stock(stock)
                 .stockPrices(List.of(januaryFirstStockPrice, januarySecondStockPrice, januaryThirdStockPrice))
                 .dividends(List.of(januaryFirstDividend, januarySecondDividend))
                 .build();
 
         // when
-        Stock stock = stockQueryRepository.findById(stockEntity.getId());
+        StockDetail result = stockQueryRepository.findById(stockEntity.getId());
 
         // then
-        assertThat(stock).usingRecursiveComparison()
+        assertThat(result).usingRecursiveComparison()
                 .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
                 .ignoringExpectedNullFields()
                 .isEqualTo(expected);

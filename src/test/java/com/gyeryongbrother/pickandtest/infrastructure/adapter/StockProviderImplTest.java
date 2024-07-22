@@ -4,9 +4,9 @@ import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponseFixture.appleDividendResponse;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponseFixture.microsoftDividendResponse;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponseFixture.nvidiaDividendResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockFixture.apple;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockFixture.microsoft;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockFixture.nvidia;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockDetailFixture.apple;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockDetailFixture.microsoft;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockDetailFixture.nvidia;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponseFixture.appleStockResponse;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponseFixture.microsoftStockResponse;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponseFixture.nvidiaStockResponse;
@@ -26,7 +26,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 
-import com.gyeryongbrother.pickandtest.domain.core.Stock;
+import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
 import com.gyeryongbrother.pickandtest.domain.core.StockExchange;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockProvider;
 import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.AlphaVantageClient;
@@ -75,7 +75,7 @@ class StockProviderImplTest {
 
     @Test
     @DisplayName("주식거래소에 상장되어 있는 모든 주식들을 가져온다")
-    void getStocksByStockExchange() {
+    void getStockDetailsByStockExchange() {
         // given
         given(nasdaqClient.fetchStockSymbol(any(StockExchange.class)))
                 .willReturn(stockSymbolResponse());
@@ -100,14 +100,14 @@ class StockProviderImplTest {
                 microsoftDividendResponse(),
                 nvidiaDividendResponse()
         );
-        List<Stock> expected = List.of(
+        List<StockDetail> expected = List.of(
                 apple(),
                 microsoft(),
                 nvidia()
         );
 
         // when
-        List<Stock> result = stockProvider.getStocksByStockExchange(NASDAQ);
+        List<StockDetail> result = stockProvider.getStockDetailsByStockExchange(NASDAQ);
 
         // then
         assertThat(result).usingRecursiveComparison()
