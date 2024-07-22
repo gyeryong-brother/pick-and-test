@@ -25,7 +25,7 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
     @Override
     public StockDetail findById(Long id) {
         StockEntity stock = queryFactory.selectFrom(stockEntity)
-                .join(stockEntity.stockPrices, stockPriceEntity)
+                .leftJoin(stockEntity.stockPrices, stockPriceEntity)
                 .fetchJoin()
                 .where(stockEntity.id.eq(id))
                 .fetchOne();

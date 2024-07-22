@@ -1,8 +1,19 @@
 package com.gyeryongbrother.pickandtest.dataaccess.adapter;
 
+import static com.gyeryongbrother.pickandtest.dataaccess.entity.BigDecimalFixture.oneHundred;
+import static com.gyeryongbrother.pickandtest.dataaccess.entity.BigDecimalFixture.threeHundred;
+import static com.gyeryongbrother.pickandtest.dataaccess.entity.BigDecimalFixture.twoHundred;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.DividendEntityFixture.dividendEntity;
+import static com.gyeryongbrother.pickandtest.dataaccess.entity.LocalDateFixture.januaryFirst;
+import static com.gyeryongbrother.pickandtest.dataaccess.entity.LocalDateFixture.januarySecond;
+import static com.gyeryongbrother.pickandtest.dataaccess.entity.LocalDateFixture.januaryThird;
+import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntityFixture.apple;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntityFixture.stockEntity;
+import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntityFixture.toStock;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockPriceEntityFixture.stockPriceEntity;
+import static com.gyeryongbrother.pickandtest.domain.core.DividendFixture.januaryFirstDividend;
+import static com.gyeryongbrother.pickandtest.domain.core.DividendFixture.januarySecondDividend;
+import static com.gyeryongbrother.pickandtest.domain.core.DividendFixture.januaryThirdDividend;
 import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
@@ -11,6 +22,7 @@ import com.gyeryongbrother.pickandtest.dataaccess.config.TestQuerydslConfig;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.DividendEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.StockPriceEntity;
+import com.gyeryongbrother.pickandtest.dataaccess.repository.DividendJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.core.Dividend;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
@@ -39,7 +51,67 @@ class StockQueryRepositoryImplTest {
     private StockJpaRepository stockJpaRepository;
 
     @Autowired
+    private DividendJpaRepository dividendJpaRepository;
+
+    @Autowired
     private StockQueryRepository stockQueryRepository;
+
+    @Test
+    @DisplayName("주가와 배당이 없을 때 아이디로 주식을 조회한다")
+    void findByIdWithNoPricesAndNoDividends() {
+        // given
+        StockEntity apple = stockJpaRepository.save(apple());
+        Stock stock = toStock(apple);
+        StockDetail expected = StockDetail.builder()
+                .stock(stock)
+                .stockPrices(List.of())
+                .dividends(List.of())
+                .build();
+
+        // when
+        StockDetail result = stockQueryRepository.findById(apple.getId());
+
+        // then
+        assertThat(result).usingRecursiveComparison()
+                .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("주가가 없을 때 아이디로 주식을 조회한다")
+    void findByIdWithNoPrices() {
+        // given
+        StockEntity apple = stockJpaRepository.save(apple());
+        DividendEntity januaryFirstDividendEntity = dividendEntity(apple, januaryFirst(), oneHundred());
+        DividendEntity januarySecondDividendEntity = dividendEntity(apple, januarySecond(), twoHundred());
+        DividendEntity januaryThirdDividendEntity = dividendEntity(apple, januaryThird(), threeHundred());
+        dividendJpaRepository.saveAll(List.of(
+                januaryFirstDividendEntity,
+                januarySecondDividendEntity,
+                januaryThirdDividendEntity
+        ));
+        entityManager.clear();
+
+        Stock stock = toStock(apple);
+        List<Dividend> dividends = List.of(
+                januaryFirstDividend(apple.getId()),
+                januarySecondDividend(apple.getId()),
+                januaryThirdDividend(apple.getId())
+        );
+        StockDetail expected = StockDetail.builder()
+                .stock(stock)
+                .stockPrices(List.of())
+                .dividends(dividends)
+                .build();
+
+        // when
+        StockDetail result = stockQueryRepository.findById(apple.getId());
+
+        // then
+        assertThat(result).usingRecursiveComparison()
+                .ignoringExpectedNullFields()
+                .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
+                .isEqualTo(expected);
+    }
 
     @Test
     @DisplayName("아이디로 주식을 조회한다")
