@@ -1,6 +1,6 @@
 package com.gyeryongbrother.pickandtest.infrastructure.adapter;
 
-import com.gyeryongbrother.pickandtest.domain.core.Stock;
+import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
 import com.gyeryongbrother.pickandtest.domain.core.StockExchange;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockProvider;
 import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.AlphaVantageClient;
@@ -27,20 +27,20 @@ public class StockProviderImpl implements StockProvider {
     private final StockFetcherDataMapper stockFetcherDataMapper;
 
     @Override
-    public List<Stock> getStocksByStockExchange(StockExchange stockExchange) {
+    public List<StockDetail> getStockDetailsByStockExchange(StockExchange stockExchange) {
         StockSymbolResponse stockSymbolResponse = nasdaqClient.fetchStockSymbol(stockExchange);
         List<StockSymbolDetail> stockSymbolDetails = stockSymbolResponse.stockSymbolDetails();
         return stockSymbolDetails.stream()
                 .map(StockSymbolDetail::symbol)
-                .map(it -> getStock(stockExchange, it))
+                .map(it -> getStockDetail(stockExchange, it))
                 .toList();
     }
 
-    private Stock getStock(StockExchange stockExchange, String symbol) {
+    private StockDetail getStockDetail(StockExchange stockExchange, String symbol) {
         StockResponse stockResponse = koreaInvestmentClient.fetchStock(stockExchange, symbol);
         List<StockPriceResponse> stockPriceResponses = assembleStockPriceResponses(stockExchange, symbol);
         DividendResponse dividendResponse = alphaVantageClient.fetchDividend(symbol);
-        return stockFetcherDataMapper.stockResponseToStock(
+        return stockFetcherDataMapper.stockResponseToStockDetail(
                 stockResponse,
                 symbol,
                 stockExchange,
