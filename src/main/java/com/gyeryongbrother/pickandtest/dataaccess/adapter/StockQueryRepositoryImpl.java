@@ -5,11 +5,9 @@ import static com.gyeryongbrother.pickandtest.dataaccess.entity.QStockPriceEntit
 
 import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockDataAccessMapper;
+import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
-import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
-import com.querydsl.core.types.ConstructorExpression;
-import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -37,20 +35,13 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
     }
 
     @Override
-    public List<StockResponse> findAllByNameOrSymbol(String keyword) {
-        return queryFactory.select(stockResponse())
-                .from(stockEntity)
+    public List<Stock> findAllByNameOrSymbol(String keyword) {
+        List<StockEntity> stockEntities = queryFactory.selectFrom(stockEntity)
                 .where(searchCondition(keyword))
                 .fetch();
-    }
-
-    private ConstructorExpression<StockResponse> stockResponse() {
-        return Projections.constructor(
-                StockResponse.class,
-                stockEntity.id,
-                stockEntity.name,
-                stockEntity.symbol
-        );
+        return stockEntities.stream()
+                .map(stockDataAccessMapper::stockEntityToStock)
+                .toList();
     }
 
     private BooleanExpression searchCondition(String keyword) {
