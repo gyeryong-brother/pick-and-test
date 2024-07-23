@@ -14,4 +14,13 @@ public class StockFixture {
                 .listingDate(januaryFirst())
                 .build();
     }
+
+    public static Stock stock(String name, String symbol) {
+        return Stock.builder()
+                .name(name)
+                .symbol(symbol)
+                .stockExchange(NASDAQ)
+                .listingDate(januaryFirst())
+                .build();
+    }
 }

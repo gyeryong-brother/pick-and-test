@@ -3,6 +3,7 @@ package com.gyeryongbrother.pickandtest.application.rest;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntityFixture.stockEntity;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockPriceEntityFixture.stockPriceEntity;
 import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
+import static com.gyeryongbrother.pickandtest.domain.service.dto.StockResponseFixture.stockResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
@@ -49,21 +50,17 @@ class StockControllerTest {
     @DisplayName("키워드로 주식을 검색한다")
     void searchStocks() {
         // given
-        LocalDate januaryFirst = LocalDate.of(2024, 1, 1);
-        StockEntity advanceAutoParts = stockEntity("Advance Auto Parts, Inc.", "AAP", NASDAQ, januaryFirst);
-        StockEntity apple = stockEntity("Apple Inc.", "AAPL", NASDAQ, januaryFirst);
-        StockEntity aap = stockEntity("AAP, Inc.", "AAPJ", NASDAQ, januaryFirst);
         stockJpaRepository.saveAll(List.of(
-                advanceAutoParts,
-                stockEntity("Microsoft Corporation", "MSFT", NASDAQ, januaryFirst),
-                apple,
-                stockEntity("NVIDIA Corporation", "NVDA", NASDAQ, januaryFirst),
-                aap
+                stockEntity("Advance Auto Parts, Inc.", "AAP"),
+                stockEntity("Microsoft Corporation", "MSFT"),
+                stockEntity("Apple Inc.", "AAPL"),
+                stockEntity("NVIDIA Corporation", "NVDA"),
+                stockEntity("AAP, Inc.", "AAPJ")
         ));
         List<StockResponse> expected = List.of(
-                stockResponse(advanceAutoParts),
-                stockResponse(apple),
-                stockResponse(aap)
+                stockResponse("Advance Auto Parts, Inc.", "AAP"),
+                stockResponse("Apple Inc.", "AAPL"),
+                stockResponse("AAP, Inc.", "AAPJ")
         );
 
         // when
@@ -77,6 +74,7 @@ class StockControllerTest {
 
         // then
         assertThat(result).usingRecursiveComparison()
+                .ignoringExpectedNullFields()
                 .isEqualTo(expected);
     }
 

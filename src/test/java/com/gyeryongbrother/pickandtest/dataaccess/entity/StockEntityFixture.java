@@ -3,9 +3,6 @@ package com.gyeryongbrother.pickandtest.dataaccess.entity;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.LocalDateFixture.januaryFirst;
 import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
 
-import com.gyeryongbrother.pickandtest.domain.core.StockExchange;
-import java.time.LocalDate;
-
 public class StockEntityFixture {
 
     public static StockEntity stockEntity() {
@@ -17,17 +14,12 @@ public class StockEntityFixture {
                 .build();
     }
 
-    public static StockEntity stockEntity(
-            String name,
-            String symbol,
-            StockExchange stockExchange,
-            LocalDate listingDate
-    ) {
+    public static StockEntity stockEntity(String name, String symbol) {
         return StockEntity.builder()
                 .name(name)
                 .symbol(symbol)
-                .stockExchange(stockExchange)
-                .listingDate(listingDate)
+                .stockExchange(NASDAQ)
+                .listingDate(januaryFirst())
                 .build();
     }
 }
