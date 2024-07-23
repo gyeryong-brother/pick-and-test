@@ -30,4 +30,8 @@ public class StockPriceEntity {
 
     private LocalDate date;
     private BigDecimal price;
+
+    void setStock(StockEntity stockEntity) {
+        stock = stockEntity;
+    }
 }

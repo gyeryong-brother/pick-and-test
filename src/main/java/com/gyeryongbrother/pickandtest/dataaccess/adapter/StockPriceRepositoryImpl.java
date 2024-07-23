@@ -15,7 +15,7 @@ public class StockPriceRepositoryImpl implements StockPriceRepository {
 
     @Override
     public StockPrice save(StockPrice stockPrice) {
-        StockPriceEntity stockPriceEntity = stockPriceDataAccessMapper.stockPricetoStockPriceEntity(stockPrice);
+        StockPriceEntity stockPriceEntity = stockPriceDataAccessMapper.stockPriceToStockPriceEntity(stockPrice);
         StockPriceEntity savedStockPriceEntity = stockPriceJpaRepository.save(stockPriceEntity);
         return stockPriceDataAccessMapper.stockPriceEntityToStockPrice(savedStockPriceEntity);
     }
