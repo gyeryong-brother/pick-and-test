@@ -31,9 +31,6 @@ public class DividendDataAccessMapper {
     }
 
     List<Dividend> dividendEntitiesToDividends(List<DividendEntity> dividendEntities) {
-        if (dividendEntities == null) {
-            return List.of();
-        }
         return dividendEntities.stream()
                 .map(this::dividendEntityToDividend)
                 .toList();
