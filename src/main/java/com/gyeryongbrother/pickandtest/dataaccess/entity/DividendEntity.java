@@ -30,4 +30,8 @@ public class DividendEntity {
 
     private LocalDate date;
     private BigDecimal amount;
+
+    void setStock(StockEntity stockEntity) {
+        stock = stockEntity;
+    }
 }

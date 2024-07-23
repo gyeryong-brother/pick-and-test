@@ -1,12 +1,18 @@
 package com.gyeryongbrother.pickandtest.dataaccess.adapter;
 
-import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
+import static com.gyeryongbrother.pickandtest.domain.core.DividendFixture.dividends;
+import static com.gyeryongbrother.pickandtest.domain.core.StockFixture.stock;
+import static com.gyeryongbrother.pickandtest.domain.core.StockPriceFixture.stockPrices;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.gyeryongbrother.pickandtest.dataaccess.config.TestQuerydslConfig;
+import com.gyeryongbrother.pickandtest.domain.core.Dividend;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
+import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
+import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
-import java.time.LocalDate;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,18 +31,40 @@ class StockRepositoryImplTest {
     @DisplayName("주식을 저장한다")
     void save() {
         // given
-        LocalDate januaryFirst = LocalDate.of(2024, 1, 1);
-        Stock stock = Stock.builder()
-                .name("name")
-                .symbol("symbol")
-                .stockExchange(NASDAQ)
-                .listingDate(januaryFirst)
-                .build();
+        Stock stock = stock("name", "symbol");
 
         // when
         Stock result = stockRepository.save(stock);
 
         // then
         assertThat(result.getId()).isPositive();
+    }
+
+    @Test
+    @DisplayName("주식을 저장할 때 주가와 배당을 함께 저장한다")
+    void saveStockDetail() {
+        // given
+        StockDetail stockDetail = StockDetail.builder()
+                .stock(stock(null))
+                .stockPrices(stockPrices(null))
+                .dividends(dividends(null))
+                .build();
+
+        // when
+        StockDetail result = stockRepository.save(stockDetail);
+        Long stockId = result.getStock().getId();
+        List<Long> stockPriceIds = result.getStockPrices().stream()
+                .map(StockPrice::getId)
+                .toList();
+        List<Long> dividendIds = result.getDividends().stream()
+                .map(Dividend::getId)
+                .toList();
+
+        // then
+        assertAll(
+                () -> assertThat(stockId).isPositive(),
+                () -> assertThat(stockPriceIds).doesNotContainNull(),
+                () -> assertThat(dividendIds).doesNotContainNull()
+        );
     }
 }
