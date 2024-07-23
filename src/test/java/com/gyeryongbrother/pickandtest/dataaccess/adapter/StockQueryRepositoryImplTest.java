@@ -1,33 +1,22 @@
 package com.gyeryongbrother.pickandtest.dataaccess.adapter;
 
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.BigDecimalFixture.oneHundred;
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.BigDecimalFixture.threeHundred;
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.BigDecimalFixture.twoHundred;
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.DividendEntityFixture.dividendEntity;
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.LocalDateFixture.januaryFirst;
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.LocalDateFixture.januarySecond;
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.LocalDateFixture.januaryThird;
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntityFixture.apple;
+import static com.gyeryongbrother.pickandtest.dataaccess.entity.DividendEntityFixture.dividendEntities;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntityFixture.stockEntity;
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntityFixture.toStock;
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockPriceEntityFixture.stockPriceEntity;
-import static com.gyeryongbrother.pickandtest.domain.core.DividendFixture.januaryFirstDividend;
-import static com.gyeryongbrother.pickandtest.domain.core.DividendFixture.januarySecondDividend;
-import static com.gyeryongbrother.pickandtest.domain.core.DividendFixture.januaryThirdDividend;
+import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockPriceEntityFixture.stockPriceEntities;
+import static com.gyeryongbrother.pickandtest.domain.core.DividendFixture.dividends;
+import static com.gyeryongbrother.pickandtest.domain.core.StockDetailFixture.stockDetail;
 import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
+import static com.gyeryongbrother.pickandtest.domain.core.StockPriceFixture.stockPrices;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 
 import com.gyeryongbrother.pickandtest.dataaccess.config.TestQuerydslConfig;
-import com.gyeryongbrother.pickandtest.dataaccess.entity.DividendEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
-import com.gyeryongbrother.pickandtest.dataaccess.entity.StockPriceEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.DividendJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
-import com.gyeryongbrother.pickandtest.domain.core.Dividend;
+import com.gyeryongbrother.pickandtest.dataaccess.repository.StockPriceJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
-import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
 import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
@@ -51,6 +40,9 @@ class StockQueryRepositoryImplTest {
     private StockJpaRepository stockJpaRepository;
 
     @Autowired
+    private StockPriceJpaRepository stockPriceJpaRepository;
+
+    @Autowired
     private DividendJpaRepository dividendJpaRepository;
 
     @Autowired
@@ -60,16 +52,11 @@ class StockQueryRepositoryImplTest {
     @DisplayName("주가와 배당이 없을 때 아이디로 주식을 조회한다")
     void findByIdWithNoPricesAndNoDividends() {
         // given
-        StockEntity apple = stockJpaRepository.save(apple());
-        Stock stock = toStock(apple);
-        StockDetail expected = StockDetail.builder()
-                .stock(stock)
-                .stockPrices(List.of())
-                .dividends(List.of())
-                .build();
+        StockEntity stockEntity = stockJpaRepository.save(stockEntity());
+        StockDetail expected = stockDetail(stockEntity.getId(), List.of(), List.of());
 
         // when
-        StockDetail result = stockQueryRepository.findById(apple.getId());
+        StockDetail result = stockQueryRepository.findById(stockEntity.getId());
 
         // then
         assertThat(result).usingRecursiveComparison()
@@ -80,36 +67,19 @@ class StockQueryRepositoryImplTest {
     @DisplayName("주가가 없을 때 아이디로 주식을 조회한다")
     void findByIdWithNoPrices() {
         // given
-        StockEntity apple = stockJpaRepository.save(apple());
-        DividendEntity januaryFirstDividendEntity = dividendEntity(apple, januaryFirst(), oneHundred());
-        DividendEntity januarySecondDividendEntity = dividendEntity(apple, januarySecond(), twoHundred());
-        DividendEntity januaryThirdDividendEntity = dividendEntity(apple, januaryThird(), threeHundred());
-        dividendJpaRepository.saveAll(List.of(
-                januaryFirstDividendEntity,
-                januarySecondDividendEntity,
-                januaryThirdDividendEntity
-        ));
+        StockEntity stockEntity = stockJpaRepository.save(stockEntity());
+        dividendJpaRepository.saveAll(dividendEntities(stockEntity));
+        Long stockId = stockEntity.getId();
+        StockDetail expected = stockDetail(stockId, List.of(), dividends(stockId));
         entityManager.clear();
 
-        Stock stock = toStock(apple);
-        List<Dividend> dividends = List.of(
-                januaryFirstDividend(apple.getId()),
-                januarySecondDividend(apple.getId()),
-                januaryThirdDividend(apple.getId())
-        );
-        StockDetail expected = StockDetail.builder()
-                .stock(stock)
-                .stockPrices(List.of())
-                .dividends(dividends)
-                .build();
-
         // when
-        StockDetail result = stockQueryRepository.findById(apple.getId());
+        StockDetail result = stockQueryRepository.findById(stockId);
 
         // then
         assertThat(result).usingRecursiveComparison()
-                .ignoringExpectedNullFields()
                 .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
+                .ignoringExpectedNullFields()
                 .isEqualTo(expected);
     }
 
@@ -117,69 +87,15 @@ class StockQueryRepositoryImplTest {
     @DisplayName("아이디로 주식을 조회한다")
     void findById() {
         // given
-        LocalDate januaryFirst = LocalDate.of(2024, 1, 1);
-        LocalDate januarySecond = LocalDate.of(2024, 1, 2);
-        LocalDate januaryThird = LocalDate.of(2024, 1, 3);
-        BigDecimal oneHundred = BigDecimal.valueOf(100);
-        BigDecimal twoHundred = BigDecimal.valueOf(200);
-        BigDecimal threeHundred = BigDecimal.valueOf(200);
-
-        StockEntity stockEntity = stockEntity("name", "symbol", NASDAQ, januaryFirst);
-        StockPriceEntity januaryFirstStockPriceEntity = stockPriceEntity(stockEntity, januaryFirst, oneHundred);
-        StockPriceEntity januarySecondStockPriceEntity = stockPriceEntity(stockEntity, januarySecond, twoHundred);
-        StockPriceEntity januaryThirdStockPriceEntity = stockPriceEntity(stockEntity, januaryThird, threeHundred);
-        DividendEntity januaryFirstDividendEntity = dividendEntity(stockEntity, januaryFirst, oneHundred);
-        DividendEntity januarySecondDividendEntity = dividendEntity(stockEntity, januarySecond, twoHundred);
-
-        entityManager.persist(stockEntity);
-        entityManager.persist(januaryFirstStockPriceEntity);
-        entityManager.persist(januarySecondStockPriceEntity);
-        entityManager.persist(januaryThirdStockPriceEntity);
-        entityManager.persist(januaryFirstDividendEntity);
-        entityManager.persist(januarySecondDividendEntity);
-
-        entityManager.flush();
+        StockEntity stockEntity = stockJpaRepository.save(stockEntity());
+        stockPriceJpaRepository.saveAll(stockPriceEntities(stockEntity));
+        dividendJpaRepository.saveAll(dividendEntities(stockEntity));
+        Long stockId = stockEntity.getId();
+        StockDetail expected = stockDetail(stockId, stockPrices(stockId), dividends(stockId));
         entityManager.clear();
 
-        StockPrice januaryFirstStockPrice = StockPrice.builder()
-                .stockId(stockEntity.getId())
-                .date(januaryFirst)
-                .price(oneHundred)
-                .build();
-        StockPrice januarySecondStockPrice = StockPrice.builder()
-                .stockId(stockEntity.getId())
-                .date(januarySecond)
-                .price(twoHundred)
-                .build();
-        StockPrice januaryThirdStockPrice = StockPrice.builder()
-                .stockId(stockEntity.getId())
-                .date(januaryThird)
-                .price(threeHundred)
-                .build();
-        Dividend januaryFirstDividend = Dividend.builder()
-                .stockId(stockEntity.getId())
-                .date(januaryFirst)
-                .amount(oneHundred)
-                .build();
-        Dividend januarySecondDividend = Dividend.builder()
-                .stockId(stockEntity.getId())
-                .date(januarySecond)
-                .amount(twoHundred)
-                .build();
-        Stock stock = Stock.builder()
-                .name("name")
-                .symbol("symbol")
-                .stockExchange(NASDAQ)
-                .listingDate(januaryFirst)
-                .build();
-        StockDetail expected = StockDetail.builder()
-                .stock(stock)
-                .stockPrices(List.of(januaryFirstStockPrice, januarySecondStockPrice, januaryThirdStockPrice))
-                .dividends(List.of(januaryFirstDividend, januarySecondDividend))
-                .build();
-
         // when
-        StockDetail result = stockQueryRepository.findById(stockEntity.getId());
+        StockDetail result = stockQueryRepository.findById(stockId);
 
         // then
         assertThat(result).usingRecursiveComparison()
