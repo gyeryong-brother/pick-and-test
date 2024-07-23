@@ -31,9 +31,6 @@ public class StockPriceDataAccessMapper {
     }
 
     List<StockPrice> stockPriceEntitiesToStockPrices(List<StockPriceEntity> stockPriceEntities) {
-        if (stockPriceEntities == null) {
-            return List.of();
-        }
         return stockPriceEntities.stream()
                 .map(this::stockPriceEntityToStockPrice)
                 .toList();
