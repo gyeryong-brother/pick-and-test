@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class StockPriceDataAccessMapper {
 
-    public StockPriceEntity stockPricetoStockPriceEntity(StockPrice stockPrice) {
+    public StockPriceEntity stockPriceToStockPriceEntity(StockPrice stockPrice) {
         StockEntity stockEntity = StockEntity.builder()
                 .id(stockPrice.getStockId())
                 .build();
@@ -30,9 +30,9 @@ public class StockPriceDataAccessMapper {
                 .build();
     }
 
-    List<StockPrice> stockPriceEntitiesToStockPrices(java.util.List<StockPriceEntity> stockPriceEntities) {
+    List<StockPrice> stockPriceEntitiesToStockPrices(List<StockPriceEntity> stockPriceEntities) {
         if (stockPriceEntities == null) {
-            return java.util.List.of();
+            return List.of();
         }
         return stockPriceEntities.stream()
                 .map(this::stockPriceEntityToStockPrice)
