@@ -3,12 +3,16 @@ package com.gyeryongbrother.pickandtest.application.rest;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntityFixture.stockEntity;
 import static com.gyeryongbrother.pickandtest.domain.service.dto.StockResponseFixture.stockResponse;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
+import com.gyeryongbrother.pickandtest.application.dto.CreateFavoriteStockRequest;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
+import com.gyeryongbrother.pickandtest.domain.service.dto.CreateFavoriteStockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
 import io.restassured.RestAssured;
 import io.restassured.common.mapper.TypeRef;
+import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.util.List;
@@ -64,5 +68,32 @@ class StockControllerTest {
         assertThat(result).usingRecursiveComparison()
                 .ignoringExpectedNullFields()
                 .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("관심 주식을 저장한다")
+    void createFavoriteStock() {
+        // given
+        CreateFavoriteStockRequest createFavoriteStockRequest = new CreateFavoriteStockRequest(1L);
+        Long stockId = stockJpaRepository.save(stockEntity())
+                .getId();
+        CreateFavoriteStockResponse expected = new CreateFavoriteStockResponse(null, 1L, stockId);
+
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(createFavoriteStockRequest)
+                .when().post("/stocks/{stockId}/favorite", stockId)
+                .then().log().all()
+                .extract();
+        CreateFavoriteStockResponse result = response.as(CreateFavoriteStockResponse.class);
+
+        // then
+        assertAll(
+                () -> assertThat(result.id()).isPositive(),
+                () -> assertThat(result).usingRecursiveComparison()
+                        .ignoringExpectedNullFields()
+                        .isEqualTo(expected)
+        );
     }
 }
