@@ -40,8 +40,6 @@ public class StockProviderImpl implements StockProvider {
         StockResponse stockResponse = koreaInvestmentClient.fetchStock(stockExchange, symbol);
         List<StockPriceResponse> stockPriceResponses = assembleStockPriceResponses(stockExchange, symbol);
         DividendResponse dividendResponse = alphaVantageClient.fetchDividend(symbol);
-        return stockFetcherDataMapper.stockResponseToStock(stockResponse, symbol, stockPriceResponses,
-                dividendResponse);
         return stockFetcherDataMapper.stockResponseToStock(
                 stockResponse,
                 symbol,

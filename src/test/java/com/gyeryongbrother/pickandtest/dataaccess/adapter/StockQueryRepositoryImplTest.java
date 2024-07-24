@@ -108,7 +108,7 @@ class StockQueryRepositoryImplTest {
 
         // then
         assertThat(stock).usingRecursiveComparison()
-                .withComparatorForType(BigDecimalComparator.BIG_DECIMAL_COMPARATOR, BigDecimal.class)
+                .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
                 .ignoringExpectedNullFields()
                 .isEqualTo(expected);
     }
@@ -123,7 +123,7 @@ class StockQueryRepositoryImplTest {
         BigDecimal twoHundred = BigDecimal.valueOf(200);
         BigDecimal threeHundred = BigDecimal.valueOf(200);
 
-        StockEntity stockEntity = stockEntity("name", "symbol", januaryFirst);
+        StockEntity stockEntity = stockEntity("name", "symbol", NASDAQ, januaryFirst);
         StockPriceEntity januaryFirstStockPriceEntity = stockPriceEntity(stockEntity, januaryFirst, oneHundred);
         StockPriceEntity januarySecondStockPriceEntity = stockPriceEntity(stockEntity, januarySecond, twoHundred);
         StockPriceEntity januaryThirdStockPriceEntity = stockPriceEntity(stockEntity, januaryThird, threeHundred);
@@ -178,7 +178,7 @@ class StockQueryRepositoryImplTest {
 
         // then
         assertThat(stock).usingRecursiveComparison()
-                .withComparatorForType(BigDecimalComparator.BIG_DECIMAL_COMPARATOR, BigDecimal.class)
+                .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
                 .ignoringExpectedNullFields()
                 .isEqualTo(expected);
     }
@@ -193,7 +193,7 @@ class StockQueryRepositoryImplTest {
         BigDecimal twoHundred = BigDecimal.valueOf(200);
         BigDecimal threeHundred = BigDecimal.valueOf(200);
 
-        StockEntity stockEntity = stockEntity("name", "symbol", januaryFirst);
+        StockEntity stockEntity = stockEntity("name", "symbol", NASDAQ, januaryFirst);
         StockPriceEntity januaryFirstStockPriceEntity = stockPriceEntity(stockEntity, januaryFirst, oneHundred);
         StockPriceEntity januarySecondStockPriceEntity = stockPriceEntity(stockEntity, januarySecond, twoHundred);
         StockPriceEntity januaryThirdStockPriceEntity = stockPriceEntity(stockEntity, januaryThird, threeHundred);
