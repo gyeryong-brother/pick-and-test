@@ -6,7 +6,9 @@ import com.gyeryongbrother.pickandtest.dataaccess.repository.StockPriceJpaReposi
 import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockPriceRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
+@Repository
 @RequiredArgsConstructor
 public class StockPriceRepositoryImpl implements StockPriceRepository {
 
