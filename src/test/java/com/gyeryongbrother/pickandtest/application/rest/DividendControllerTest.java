@@ -1,44 +1,52 @@
-package com.gyeryongbrother.pickandtest.dataaccess.service;
+package com.gyeryongbrother.pickandtest.application.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.gyeryongbrother.pickandtest.dataaccess.mapper.DividendDataAccessMapper;
-import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.core.Dividend;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
-import com.gyeryongbrother.pickandtest.domain.service.ports.input.GetHistory;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.DividendRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.AnnualDividend;
+import io.restassured.RestAssured;
+import io.restassured.common.mapper.TypeRef;
+import io.restassured.response.ExtractableResponse;
+import io.restassured.response.Response;
 import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import org.assertj.core.util.BigDecimalComparator;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.web.server.LocalServerPort;
 
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@DisplayName("배당금 api를 제공한다")
+class DividendControllerTest {
 
-@SpringBootTest
-public class GetHistoryImplTest {
-
     @Autowired
-    public GetHistory getHistory;
-    @Autowired
-    public StockRepository stockRepository;
-    @Autowired
-    private StockJpaRepository stockJpaRepository;
-    @Autowired
-    private DividendDataAccessMapper dividendDataAccessMapper;
+    private StockRepository stockRepository;
     @Autowired
     private DividendRepository dividendRepository;
     @Autowired
     private EntityManager entityManager;
 
+    @LocalServerPort
+    private int port;
+
+    @BeforeEach
+    void setUp() {
+        RestAssured.port = port;
+    }
+
+
     @Test
-    void getAnnualDividendHistoryByName() {
+    @DisplayName("이름으로 배당기록을 가져온다")
+    void annualDividendsByName() {
         //given
         String name = "Apple";
         String symbol = "AAPL";
@@ -47,6 +55,7 @@ public class GetHistoryImplTest {
                 .symbol(symbol)
                 .build();
         Stock savedStock = stockRepository.save(stock);
+
         LocalDate date1 = LocalDate.of(2020, 3, 1);
         LocalDate date2 = LocalDate.of(2020, 6, 1);
         LocalDate date3 = LocalDate.of(2021, 4, 1);
@@ -60,34 +69,21 @@ public class GetHistoryImplTest {
         dividendRepository.save(dividend1);
         dividendRepository.save(dividend2);
         dividendRepository.save(dividend3);
-
-
-
-
-        /*List<DividendEntity> dividendEntities = dividends.stream()
-                .map(dividendDataAccessMapper::dividendToDividendEntity)
-                .toList();*/
-
-
-
-        /*StockEntity stockEntity = StockEntity.builder()
-                .name(name)
-                .symbol(symbol)
-                .dividends(dividendEntities)
-                .build();
-        stockJpaRepository.save(stockEntity);*/
-
         List<AnnualDividend> expected = new ArrayList<AnnualDividend>();
         expected.add(new AnnualDividend(2020, BigDecimal.valueOf(0.45)));
         expected.add(new AnnualDividend(2021, BigDecimal.valueOf(0.32)));
         entityManager.clear();
 
         //when
-        List<AnnualDividend> result = getHistory.getAnnualDividendHistoryByName(name);
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .when().get("/Apple/dividend")
+                .then().log().all()
+                .extract();
+        List<AnnualDividend> result = response.as(new TypeRef<>() {
+        });
 
         //then
         assertThat(result).usingRecursiveComparison()
-                .withComparatorForType(BigDecimalComparator.BIG_DECIMAL_COMPARATOR, BigDecimal.class)
                 .isEqualTo(expected);
     }
 
@@ -98,6 +94,4 @@ public class GetHistoryImplTest {
                 .amount(amount)
                 .build();
     }
-
-
 }
