@@ -6,12 +6,14 @@ import com.gyeryongbrother.pickandtest.domain.service.ports.input.GetHistory;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.AnnualDividend;
 import com.gyeryongbrother.pickandtest.infrastructure.mapper.AnnualDividendMapper;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class GetHistoryImpl implements GetHistory {
 
     public final StockQueryRepository stockQueryRepository;
