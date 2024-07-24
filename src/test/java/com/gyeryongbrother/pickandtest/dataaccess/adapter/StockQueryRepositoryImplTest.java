@@ -12,13 +12,10 @@ import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 
 import com.gyeryongbrother.pickandtest.dataaccess.config.TestQuerydslConfig;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
-import com.gyeryongbrother.pickandtest.dataaccess.repository.DividendJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
-import com.gyeryongbrother.pickandtest.dataaccess.repository.StockPriceJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
-import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -33,16 +30,7 @@ import org.springframework.context.annotation.Import;
 class StockQueryRepositoryImplTest {
 
     @Autowired
-    private EntityManager entityManager;
-
-    @Autowired
     private StockJpaRepository stockJpaRepository;
-
-    @Autowired
-    private StockPriceJpaRepository stockPriceJpaRepository;
-
-    @Autowired
-    private DividendJpaRepository dividendJpaRepository;
 
     @Autowired
     private StockQueryRepository stockQueryRepository;
@@ -52,10 +40,11 @@ class StockQueryRepositoryImplTest {
     void findByIdWithNoPricesAndNoDividends() {
         // given
         StockEntity stockEntity = stockJpaRepository.save(stockEntity());
-        StockDetail expected = stockDetail(stockEntity.getId(), List.of(), List.of());
+        Long stockId = stockEntity.getId();
+        StockDetail expected = stockDetail(stockId, List.of(), List.of());
 
         // when
-        StockDetail result = stockQueryRepository.findById(stockEntity.getId());
+        StockDetail result = stockQueryRepository.findById(stockId);
 
         // then
         assertThat(result).usingRecursiveComparison()
@@ -66,11 +55,11 @@ class StockQueryRepositoryImplTest {
     @DisplayName("주가가 없을 때 아이디로 주식을 조회한다")
     void findByIdWithNoPrices() {
         // given
-        StockEntity stockEntity = stockJpaRepository.save(stockEntity());
-        dividendJpaRepository.saveAll(dividendEntities(stockEntity));
+        StockEntity stockEntity = stockEntity();
+        dividendEntities(null).forEach(stockEntity::addDividend);
+        stockJpaRepository.save(stockEntity);
         Long stockId = stockEntity.getId();
         StockDetail expected = stockDetail(stockId, List.of(), dividends(stockId));
-        entityManager.clear();
 
         // when
         StockDetail result = stockQueryRepository.findById(stockId);
@@ -86,11 +75,11 @@ class StockQueryRepositoryImplTest {
     @DisplayName("배당이 없을 때 아이디로 주식을 조회한다")
     void findByIdWithNoDividends() {
         // given
-        StockEntity stockEntity = stockJpaRepository.save(stockEntity());
-        stockPriceJpaRepository.saveAll(stockPriceEntities(stockEntity));
+        StockEntity stockEntity = stockEntity();
+        stockPriceEntities(null).forEach(stockEntity::addStockPrice);
+        stockJpaRepository.save(stockEntity);
         Long stockId = stockEntity.getId();
         StockDetail expected = stockDetail(stockId, stockPrices(stockId), List.of());
-        entityManager.clear();
 
         // when
         StockDetail result = stockQueryRepository.findById(stockId);
@@ -106,12 +95,12 @@ class StockQueryRepositoryImplTest {
     @DisplayName("아이디로 주식을 조회한다")
     void findById() {
         // given
-        StockEntity stockEntity = stockJpaRepository.save(stockEntity());
-        stockPriceJpaRepository.saveAll(stockPriceEntities(stockEntity));
-        dividendJpaRepository.saveAll(dividendEntities(stockEntity));
+        StockEntity stockEntity = stockEntity();
+        stockPriceEntities(null).forEach(stockEntity::addStockPrice);
+        dividendEntities(null).forEach(stockEntity::addDividend);
+        stockJpaRepository.save(stockEntity);
         Long stockId = stockEntity.getId();
         StockDetail expected = stockDetail(stockId, stockPrices(stockId), dividends(stockId));
-        entityManager.clear();
 
         // when
         StockDetail result = stockQueryRepository.findById(stockId);
