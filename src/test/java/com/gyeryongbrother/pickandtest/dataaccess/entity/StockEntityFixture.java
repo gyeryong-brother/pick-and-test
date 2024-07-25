@@ -10,6 +10,7 @@ public class StockEntityFixture {
                 .name("Apple Inc.")
                 .symbol("AAPL")
                 .stockExchange(NASDAQ)
+                .outstandingShares(1000L)
                 .listingDate(januaryFirst())
                 .build();
     }
@@ -19,6 +20,7 @@ public class StockEntityFixture {
                 .name(name)
                 .symbol(symbol)
                 .stockExchange(NASDAQ)
+                .outstandingShares(1000L)
                 .listingDate(januaryFirst())
                 .build();
     }

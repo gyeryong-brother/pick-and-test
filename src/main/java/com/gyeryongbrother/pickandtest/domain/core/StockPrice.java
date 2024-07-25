@@ -15,4 +15,12 @@ public class StockPrice {
     private final Long stockId;
     private final LocalDate date;
     private final BigDecimal price;
+
+    public MarketCapitalization calculateMarketCapitalization(Long outstandingShares) {
+        BigDecimal marketValue = price.multiply(BigDecimal.valueOf(outstandingShares));
+        return MarketCapitalization.builder()
+                .date(date)
+                .value(marketValue.longValue())
+                .build();
+    }
 }
