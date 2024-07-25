@@ -44,6 +44,7 @@ public class StockFetcherDataMapper {
                 .name(stockResponse.stockDetail().productEnglishName())
                 .symbol(symbol)
                 .stockExchange(stockExchange)
+                .outstandingShares(Long.valueOf(stockResponse.stockDetail().listingStockNumber()))
                 .listingDate(parse(stockResponse.stockDetail().listingDate()))
                 .build();
     }

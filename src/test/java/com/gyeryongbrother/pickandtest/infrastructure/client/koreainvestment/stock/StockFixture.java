@@ -11,6 +11,7 @@ public class StockFixture {
                 .name("APPLE INC")
                 .symbol("AAPL")
                 .stockExchange(NASDAQ)
+                .outstandingShares(15334100000L)
                 .listingDate(null)
                 .build();
     }
@@ -20,6 +21,7 @@ public class StockFixture {
                 .name("MICROSOFT CORP")
                 .symbol("MSFT")
                 .stockExchange(NASDAQ)
+                .outstandingShares(7432310000L)
                 .listingDate(null)
                 .build();
     }
@@ -29,6 +31,7 @@ public class StockFixture {
                 .name("NVIDIA CORP")
                 .symbol("NVDA")
                 .stockExchange(NASDAQ)
+                .outstandingShares(24600000000L)
                 .listingDate(null)
                 .build();
     }
