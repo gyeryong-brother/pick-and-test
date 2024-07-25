@@ -7,6 +7,7 @@ import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
+import com.gyeryongbrother.pickandtest.domain.core.StockWithPrices;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -25,13 +26,23 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
     private final StockDataAccessMapper stockDataAccessMapper;
 
     @Override
-    public StockDetail findById(Long id) {
-        StockEntity stock = queryFactory.selectFrom(stockEntity)
+    public StockWithPrices findStockWithPricesById(Long id) {
+        return Optional.ofNullable(selectStockEntity(id))
+                .map(stockDataAccessMapper::stockEntityToStockWithPrices)
+                .orElseThrow(() -> new IllegalArgumentException("not found stock"));
+    }
+
+    private StockEntity selectStockEntity(Long id) {
+        return queryFactory.selectFrom(stockEntity)
                 .leftJoin(stockEntity.stockPrices, stockPriceEntity)
                 .fetchJoin()
                 .where(stockEntity.id.eq(id))
                 .fetchOne();
-        return Optional.ofNullable(stock)
+    }
+
+    @Override
+    public StockDetail findById(Long id) {
+        return Optional.ofNullable(selectStockEntity(id))
                 .map(stockDataAccessMapper::stockEntityToStockDetail)
                 .orElseThrow(() -> new IllegalArgumentException("not found stock"));
     }
