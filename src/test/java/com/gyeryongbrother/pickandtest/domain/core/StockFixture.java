@@ -11,6 +11,7 @@ public class StockFixture {
                 .name("Apple Inc.")
                 .symbol("AAPL")
                 .stockExchange(NASDAQ)
+                .outstandingShares(1000L)
                 .listingDate(januaryFirst())
                 .build();
     }
@@ -20,6 +21,7 @@ public class StockFixture {
                 .name(name)
                 .symbol(symbol)
                 .stockExchange(NASDAQ)
+                .outstandingShares(1000L)
                 .listingDate(januaryFirst())
                 .build();
     }

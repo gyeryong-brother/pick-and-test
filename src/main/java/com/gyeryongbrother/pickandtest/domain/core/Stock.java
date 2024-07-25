@@ -16,4 +16,8 @@ public class Stock {
     private final StockExchange stockExchange;
     private final Long outstandingShares;
     private final LocalDate listingDate;
+
+    public MarketCapitalization calculateMarketCapitalization(StockPrice stockPrice) {
+        return stockPrice.calculateMarketCapitalization(outstandingShares);
+    }
 }

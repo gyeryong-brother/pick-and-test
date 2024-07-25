@@ -36,6 +36,7 @@ public class StockEntity {
     @Enumerated(value = STRING)
     private StockExchange stockExchange;
 
+    private Long outstandingShares;
     private LocalDate listingDate;
 
     @OneToMany(mappedBy = "stock", cascade = PERSIST)
