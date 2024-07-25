@@ -2,9 +2,12 @@ package com.gyeryongbrother.pickandtest.domain.service.ports.output;
 
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
+import com.gyeryongbrother.pickandtest.domain.core.StockWithPrices;
 import java.util.List;
 
 public interface StockQueryRepository {
+
+    StockWithPrices findStockWithPricesById(Long id);
 
     StockDetail findById(Long id);
 

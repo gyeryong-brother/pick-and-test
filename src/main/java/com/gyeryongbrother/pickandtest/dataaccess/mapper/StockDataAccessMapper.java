@@ -3,6 +3,7 @@ package com.gyeryongbrother.pickandtest.dataaccess.mapper;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
+import com.gyeryongbrother.pickandtest.domain.core.StockWithPrices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +33,13 @@ public class StockDataAccessMapper {
                 .stockExchange(stockEntity.getStockExchange())
                 .outstandingShares(stockEntity.getOutstandingShares())
                 .listingDate(stockEntity.getListingDate())
+                .build();
+    }
+
+    public StockWithPrices stockEntityToStockWithPrices(StockEntity stockEntity) {
+        return StockWithPrices.builder()
+                .stock(stockEntityToStock(stockEntity))
+                .stockPrices(stockPriceDataAccessMapper.stockPriceEntitiesToStockPrices(stockEntity.getStockPrices()))
                 .build();
     }
 
