@@ -14,8 +14,8 @@ import com.gyeryongbrother.pickandtest.dataaccess.entity.StockPriceEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.core.Dividend;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
+import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
 import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
-import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
 import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
@@ -94,20 +94,23 @@ class StockQueryRepositoryImplTest {
                 .date(januarySecond)
                 .amount(twoHundred)
                 .build();
-        Stock expected = Stock.builder()
+        Stock stock = Stock.builder()
                 .name("name")
                 .symbol("symbol")
                 .stockExchange(NASDAQ)
                 .listingDate(januaryFirst)
+                .build();
+        StockDetail expected = StockDetail.builder()
+                .stock(stock)
                 .stockPrices(List.of(januaryFirstStockPrice, januarySecondStockPrice, januaryThirdStockPrice))
                 .dividends(List.of(januaryFirstDividend, januarySecondDividend))
                 .build();
 
         // when
-        Stock stock = stockQueryRepository.findById(stockEntity.getId());
+        StockDetail result = stockQueryRepository.findById(stockEntity.getId());
 
         // then
-        assertThat(stock).usingRecursiveComparison()
+        assertThat(result).usingRecursiveComparison()
                 .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
                 .ignoringExpectedNullFields()
                 .isEqualTo(expected);
@@ -128,25 +131,27 @@ class StockQueryRepositoryImplTest {
                 stockEntity("a key player", "symbol", NASDAQ, januaryFirst),
                 keyPoint
         ));
-        List<StockResponse> expected = List.of(
-                stockResponse(keyword),
-                stockResponse(keyboard),
-                stockResponse(keyPoint)
+        List<Stock> expected = List.of(
+                stock(keyword),
+                stock(keyboard),
+                stock(keyPoint)
         );
 
         // when
-        List<StockResponse> result = stockQueryRepository.findAllByNameOrSymbol("key");
+        List<Stock> result = stockQueryRepository.findAllByNameOrSymbol("key");
 
         // then
         assertThat(result).usingRecursiveComparison()
                 .isEqualTo(expected);
     }
 
-    private StockResponse stockResponse(StockEntity stockEntity) {
-        return new StockResponse(
-                stockEntity.getId(),
-                stockEntity.getName(),
-                stockEntity.getSymbol()
-        );
+    private Stock stock(StockEntity stockEntity) {
+        return Stock.builder()
+                .id(stockEntity.getId())
+                .name(stockEntity.getName())
+                .symbol(stockEntity.getSymbol())
+                .stockExchange(stockEntity.getStockExchange())
+                .listingDate(stockEntity.getListingDate())
+                .build();
     }
 }
