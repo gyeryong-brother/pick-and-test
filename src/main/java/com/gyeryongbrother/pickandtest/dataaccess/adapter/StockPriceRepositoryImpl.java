@@ -6,7 +6,9 @@ import com.gyeryongbrother.pickandtest.dataaccess.repository.StockPriceJpaReposi
 import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockPriceRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
+@Repository
 @RequiredArgsConstructor
 public class StockPriceRepositoryImpl implements StockPriceRepository {
 
@@ -15,7 +17,7 @@ public class StockPriceRepositoryImpl implements StockPriceRepository {
 
     @Override
     public StockPrice save(StockPrice stockPrice) {
-        StockPriceEntity stockPriceEntity = stockPriceDataAccessMapper.stockPricetoStockPriceEntity(stockPrice);
+        StockPriceEntity stockPriceEntity = stockPriceDataAccessMapper.stockPriceToStockPriceEntity(stockPrice);
         StockPriceEntity savedStockPriceEntity = stockPriceJpaRepository.save(stockPriceEntity);
         return stockPriceDataAccessMapper.stockPriceEntityToStockPrice(savedStockPriceEntity);
     }

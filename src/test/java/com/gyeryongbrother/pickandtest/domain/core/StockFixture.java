@@ -1,12 +1,13 @@
-package com.gyeryongbrother.pickandtest.dataaccess.entity;
+package com.gyeryongbrother.pickandtest.domain.core;
 
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.LocalDateFixture.januaryFirst;
 import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
 
-public class StockEntityFixture {
+public class StockFixture {
 
-    public static StockEntity stockEntity() {
-        return StockEntity.builder()
+    public static Stock stock(Long id) {
+        return Stock.builder()
+                .id(id)
                 .name("Apple Inc.")
                 .symbol("AAPL")
                 .stockExchange(NASDAQ)
@@ -14,8 +15,8 @@ public class StockEntityFixture {
                 .build();
     }
 
-    public static StockEntity stockEntity(String name, String symbol) {
-        return StockEntity.builder()
+    public static Stock stock(String name, String symbol) {
+        return Stock.builder()
                 .name(name)
                 .symbol(symbol)
                 .stockExchange(NASDAQ)

@@ -33,6 +33,17 @@ public class StockDataAccessMapper {
                 .build();
     }
 
+    public StockEntity stockDetailToStockEntity(StockDetail stockDetail) {
+        StockEntity stockEntity = stockToStockEntity(stockDetail.getStock());
+        stockDetail.getStockPrices().stream()
+                .map(stockPriceDataAccessMapper::stockPriceToStockPriceEntity)
+                .forEach(stockEntity::addStockPrice);
+        stockDetail.getDividends().stream()
+                .map(dividendDataAccessMapper::dividendToDividendEntity)
+                .forEach(stockEntity::addDividend);
+        return stockEntity;
+    }
+
     public StockDetail stockEntityToStockDetail(StockEntity stockEntity) {
         return StockDetail.builder()
                 .stock(stockEntityToStock(stockEntity))

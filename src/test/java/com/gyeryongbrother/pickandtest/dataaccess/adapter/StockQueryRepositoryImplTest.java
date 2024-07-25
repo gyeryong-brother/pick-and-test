@@ -1,25 +1,22 @@
 package com.gyeryongbrother.pickandtest.dataaccess.adapter;
 
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.DividendEntityFixture.dividendEntity;
+import static com.gyeryongbrother.pickandtest.dataaccess.entity.DividendEntityFixture.dividendEntities;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntityFixture.stockEntity;
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockPriceEntityFixture.stockPriceEntity;
-import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
+import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockPriceEntityFixture.stockPriceEntities;
+import static com.gyeryongbrother.pickandtest.domain.core.DividendFixture.dividends;
+import static com.gyeryongbrother.pickandtest.domain.core.StockDetailFixture.stockDetail;
+import static com.gyeryongbrother.pickandtest.domain.core.StockFixture.stock;
+import static com.gyeryongbrother.pickandtest.domain.core.StockPriceFixture.stockPrices;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 
 import com.gyeryongbrother.pickandtest.dataaccess.config.TestQuerydslConfig;
-import com.gyeryongbrother.pickandtest.dataaccess.entity.DividendEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
-import com.gyeryongbrother.pickandtest.dataaccess.entity.StockPriceEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
-import com.gyeryongbrother.pickandtest.domain.core.Dividend;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
-import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
-import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,81 +30,80 @@ import org.springframework.context.annotation.Import;
 class StockQueryRepositoryImplTest {
 
     @Autowired
-    private EntityManager entityManager;
-
-    @Autowired
     private StockJpaRepository stockJpaRepository;
 
     @Autowired
     private StockQueryRepository stockQueryRepository;
 
     @Test
+    @DisplayName("주가와 배당이 없을 때 아이디로 주식을 조회한다")
+    void findByIdWithNoPricesAndNoDividends() {
+        // given
+        StockEntity stockEntity = stockJpaRepository.save(stockEntity());
+        Long stockId = stockEntity.getId();
+        StockDetail expected = stockDetail(stockId, List.of(), List.of());
+
+        // when
+        StockDetail result = stockQueryRepository.findById(stockId);
+
+        // then
+        assertThat(result).usingRecursiveComparison()
+                .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("주가가 없을 때 아이디로 주식을 조회한다")
+    void findByIdWithNoPrices() {
+        // given
+        StockEntity stockEntity = stockEntity();
+        dividendEntities(null).forEach(stockEntity::addDividend);
+        stockJpaRepository.save(stockEntity);
+        Long stockId = stockEntity.getId();
+        StockDetail expected = stockDetail(stockId, List.of(), dividends(stockId));
+
+        // when
+        StockDetail result = stockQueryRepository.findById(stockId);
+
+        // then
+        assertThat(result).usingRecursiveComparison()
+                .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
+                .ignoringExpectedNullFields()
+                .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("배당이 없을 때 아이디로 주식을 조회한다")
+    void findByIdWithNoDividends() {
+        // given
+        StockEntity stockEntity = stockEntity();
+        stockPriceEntities(null).forEach(stockEntity::addStockPrice);
+        stockJpaRepository.save(stockEntity);
+        Long stockId = stockEntity.getId();
+        StockDetail expected = stockDetail(stockId, stockPrices(stockId), List.of());
+
+        // when
+        StockDetail result = stockQueryRepository.findById(stockId);
+
+        // then
+        assertThat(result).usingRecursiveComparison()
+                .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
+                .ignoringExpectedNullFields()
+                .isEqualTo(expected);
+    }
+
+    @Test
     @DisplayName("아이디로 주식을 조회한다")
     void findById() {
         // given
-        LocalDate januaryFirst = LocalDate.of(2024, 1, 1);
-        LocalDate januarySecond = LocalDate.of(2024, 1, 2);
-        LocalDate januaryThird = LocalDate.of(2024, 1, 3);
-        BigDecimal oneHundred = BigDecimal.valueOf(100);
-        BigDecimal twoHundred = BigDecimal.valueOf(200);
-        BigDecimal threeHundred = BigDecimal.valueOf(200);
-
-        StockEntity stockEntity = stockEntity("name", "symbol", NASDAQ, januaryFirst);
-        StockPriceEntity januaryFirstStockPriceEntity = stockPriceEntity(stockEntity, januaryFirst, oneHundred);
-        StockPriceEntity januarySecondStockPriceEntity = stockPriceEntity(stockEntity, januarySecond, twoHundred);
-        StockPriceEntity januaryThirdStockPriceEntity = stockPriceEntity(stockEntity, januaryThird, threeHundred);
-        DividendEntity januaryFirstDividendEntity = dividendEntity(stockEntity, januaryFirst, oneHundred);
-        DividendEntity januarySecondDividendEntity = dividendEntity(stockEntity, januarySecond, twoHundred);
-
-        entityManager.persist(stockEntity);
-        entityManager.persist(januaryFirstStockPriceEntity);
-        entityManager.persist(januarySecondStockPriceEntity);
-        entityManager.persist(januaryThirdStockPriceEntity);
-        entityManager.persist(januaryFirstDividendEntity);
-        entityManager.persist(januarySecondDividendEntity);
-
-        entityManager.flush();
-        entityManager.clear();
-
-        StockPrice januaryFirstStockPrice = StockPrice.builder()
-                .stockId(stockEntity.getId())
-                .date(januaryFirst)
-                .price(oneHundred)
-                .build();
-        StockPrice januarySecondStockPrice = StockPrice.builder()
-                .stockId(stockEntity.getId())
-                .date(januarySecond)
-                .price(twoHundred)
-                .build();
-        StockPrice januaryThirdStockPrice = StockPrice.builder()
-                .stockId(stockEntity.getId())
-                .date(januaryThird)
-                .price(threeHundred)
-                .build();
-        Dividend januaryFirstDividend = Dividend.builder()
-                .stockId(stockEntity.getId())
-                .date(januaryFirst)
-                .amount(oneHundred)
-                .build();
-        Dividend januarySecondDividend = Dividend.builder()
-                .stockId(stockEntity.getId())
-                .date(januarySecond)
-                .amount(twoHundred)
-                .build();
-        Stock stock = Stock.builder()
-                .name("name")
-                .symbol("symbol")
-                .stockExchange(NASDAQ)
-                .listingDate(januaryFirst)
-                .build();
-        StockDetail expected = StockDetail.builder()
-                .stock(stock)
-                .stockPrices(List.of(januaryFirstStockPrice, januarySecondStockPrice, januaryThirdStockPrice))
-                .dividends(List.of(januaryFirstDividend, januarySecondDividend))
-                .build();
+        StockEntity stockEntity = stockEntity();
+        stockPriceEntities(null).forEach(stockEntity::addStockPrice);
+        dividendEntities(null).forEach(stockEntity::addDividend);
+        stockJpaRepository.save(stockEntity);
+        Long stockId = stockEntity.getId();
+        StockDetail expected = stockDetail(stockId, stockPrices(stockId), dividends(stockId));
 
         // when
-        StockDetail result = stockQueryRepository.findById(stockEntity.getId());
+        StockDetail result = stockQueryRepository.findById(stockId);
 
         // then
         assertThat(result).usingRecursiveComparison()
@@ -120,21 +116,17 @@ class StockQueryRepositoryImplTest {
     @DisplayName("이름이나 심볼로 주식들을 조회한다")
     void findAllByNameOrSymbol() {
         // given
-        LocalDate januaryFirst = LocalDate.of(2024, 1, 1);
-        StockEntity keyword = stockEntity("Keyword", "symbol", NASDAQ, januaryFirst);
-        StockEntity keyboard = stockEntity("name", "keyboard", NASDAQ, januaryFirst);
-        StockEntity keyPoint = stockEntity("KEY POINT", "symbol", NASDAQ, januaryFirst);
         stockJpaRepository.saveAll(List.of(
-                keyword,
-                stockEntity("name", "ke y pad", NASDAQ, januaryFirst),
-                keyboard,
-                stockEntity("a key player", "symbol", NASDAQ, januaryFirst),
-                keyPoint
+                stockEntity("Keyword", "symbol"),
+                stockEntity("name", "ke y pad"),
+                stockEntity("name", "keyboard"),
+                stockEntity("a key player", "symbol"),
+                stockEntity("KEY POINT", "symbol")
         ));
         List<Stock> expected = List.of(
-                stock(keyword),
-                stock(keyboard),
-                stock(keyPoint)
+                stock("Keyword", "symbol"),
+                stock("name", "keyboard"),
+                stock("KEY POINT", "symbol")
         );
 
         // when
@@ -142,16 +134,7 @@ class StockQueryRepositoryImplTest {
 
         // then
         assertThat(result).usingRecursiveComparison()
+                .ignoringExpectedNullFields()
                 .isEqualTo(expected);
-    }
-
-    private Stock stock(StockEntity stockEntity) {
-        return Stock.builder()
-                .id(stockEntity.getId())
-                .name(stockEntity.getName())
-                .symbol(stockEntity.getSymbol())
-                .stockExchange(stockEntity.getStockExchange())
-                .listingDate(stockEntity.getListingDate())
-                .build();
     }
 }

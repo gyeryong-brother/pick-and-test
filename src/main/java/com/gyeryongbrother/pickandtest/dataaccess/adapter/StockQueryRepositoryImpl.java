@@ -14,9 +14,11 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class StockQueryRepositoryImpl implements StockQueryRepository {
 
     private final JPAQueryFactory queryFactory;
@@ -25,7 +27,7 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
     @Override
     public StockDetail findById(Long id) {
         StockEntity stock = queryFactory.selectFrom(stockEntity)
-                .join(stockEntity.stockPrices, stockPriceEntity)
+                .leftJoin(stockEntity.stockPrices, stockPriceEntity)
                 .fetchJoin()
                 .where(stockEntity.id.eq(id))
                 .fetchOne();

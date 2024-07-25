@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.dataaccess.entity;
+package com.gyeryongbrother.pickandtest.domain.core;
 
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.BigDecimalFixture.oneHundred;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.BigDecimalFixture.twoHundred;
@@ -9,22 +9,18 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-public class StockPriceEntityFixture {
+public class StockPriceFixture {
 
-    public static List<StockPriceEntity> stockPriceEntities(StockEntity stockEntity) {
+    public static List<StockPrice> stockPrices(Long stockId) {
         return List.of(
-                stockPriceEntity(stockEntity, januaryFirst(), oneHundred()),
-                stockPriceEntity(stockEntity, januarySecond(), twoHundred())
+                stockPrice(stockId, januaryFirst(), oneHundred()),
+                stockPrice(stockId, januarySecond(), twoHundred())
         );
     }
 
-    private static StockPriceEntity stockPriceEntity(
-            StockEntity stockEntity,
-            LocalDate date,
-            BigDecimal price
-    ) {
-        return StockPriceEntity.builder()
-                .stock(stockEntity)
+    private static StockPrice stockPrice(Long stockId, LocalDate date, BigDecimal price) {
+        return StockPrice.builder()
+                .stockId(stockId)
                 .date(date)
                 .price(price)
                 .build();

@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.dataaccess.entity;
+package com.gyeryongbrother.pickandtest.domain.core;
 
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.BigDecimalFixture.oneHundred;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.BigDecimalFixture.threeHundred;
@@ -11,23 +11,19 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-public class DividendEntityFixture {
+public class DividendFixture {
 
-    public static List<DividendEntity> dividendEntities(StockEntity stockEntity) {
+    public static List<Dividend> dividends(Long stockId) {
         return List.of(
-                dividendEntity(stockEntity, januaryFirst(), oneHundred()),
-                dividendEntity(stockEntity, januarySecond(), twoHundred()),
-                dividendEntity(stockEntity, januaryThird(), threeHundred())
+                dividend(stockId, januaryFirst(), oneHundred()),
+                dividend(stockId, januarySecond(), twoHundred()),
+                dividend(stockId, januaryThird(), threeHundred())
         );
     }
 
-    private static DividendEntity dividendEntity(
-            StockEntity stockEntity,
-            LocalDate date,
-            BigDecimal amount
-    ) {
-        return DividendEntity.builder()
-                .stock(stockEntity)
+    private static Dividend dividend(Long stockId, LocalDate date, BigDecimal amount) {
+        return Dividend.builder()
+                .stockId(stockId)
                 .date(date)
                 .amount(amount)
                 .build();
