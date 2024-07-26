@@ -6,6 +6,7 @@ import com.gyeryongbrother.pickandtest.application.dto.CreateFavoriteStockReques
 import com.gyeryongbrother.pickandtest.domain.service.dto.AnnualDividendResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.CreateFavoriteStockCommand;
 import com.gyeryongbrother.pickandtest.domain.service.dto.CreateFavoriteStockResponse;
+import com.gyeryongbrother.pickandtest.domain.service.dto.MarketCapitalizationResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockPriceResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.DividendQueryService;
@@ -60,5 +61,14 @@ public class StockController {
     @GetMapping("/{stockId}/dividends")
     ResponseEntity<List<AnnualDividendResponse>> findAnnualDividendsById(@PathVariable Long stockId) {
         return ResponseEntity.ok(dividendQueryService.getAnnualDividendsById(stockId));
+    }
+
+    @GetMapping("/{stockId}/market-capitalizations")
+    ResponseEntity<List<MarketCapitalizationResponse>> findAllMarketCapitalizations(
+            @PathVariable Long stockId
+    ) {
+        List<MarketCapitalizationResponse> marketCapitalizationResponses =
+                stockQueryService.findAllMarketCapitalizationsByStockId(stockId);
+        return ResponseEntity.ok(marketCapitalizationResponses);
     }
 }
