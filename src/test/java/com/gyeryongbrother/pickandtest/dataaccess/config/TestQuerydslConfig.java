@@ -1,8 +1,8 @@
 package com.gyeryongbrother.pickandtest.dataaccess.config;
 
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.DividendRepositoryImpl;
-import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockPriceQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.FavoriteStockRepositoryImpl;
+import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockPriceQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockPriceRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockRepositoryImpl;

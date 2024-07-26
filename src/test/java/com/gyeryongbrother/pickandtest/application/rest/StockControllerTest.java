@@ -9,12 +9,12 @@ import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
-import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
 import com.gyeryongbrother.pickandtest.application.dto.CreateFavoriteStockRequest;
+import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockPriceJpaRepository;
-import com.gyeryongbrother.pickandtest.domain.service.dto.StockPriceResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.CreateFavoriteStockResponse;
+import com.gyeryongbrother.pickandtest.domain.service.dto.StockPriceResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
 import io.restassured.RestAssured;
 import io.restassured.common.mapper.TypeRef;
