@@ -1,5 +1,6 @@
 package com.gyeryongbrother.pickandtest.application.rest;
 
+import com.gyeryongbrother.pickandtest.domain.service.dto.MarketCapitalizationResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockPriceResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.StockPriceQueryService;
@@ -31,5 +32,14 @@ public class StockController {
     ResponseEntity<List<StockPriceResponse>> findAllStockPrices(@PathVariable Long stockId) {
         List<StockPriceResponse> stockPriceResponses = stockPriceQueryService.findAllByStockId(stockId);
         return ResponseEntity.ok(stockPriceResponses);
+    }
+
+    @GetMapping("/{stockId}/market-capitalizations")
+    ResponseEntity<List<MarketCapitalizationResponse>> findAllMarketCapitalizations(
+            @PathVariable Long stockId
+    ) {
+        List<MarketCapitalizationResponse> marketCapitalizationResponses =
+                stockQueryService.findAllMarketCapitalizationsByStockId(stockId);
+        return ResponseEntity.ok(marketCapitalizationResponses);
     }
 }

@@ -2,6 +2,7 @@ package com.gyeryongbrother.pickandtest.application.rest;
 
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntityFixture.stockEntity;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockPriceEntityFixture.stockPriceEntities;
+import static com.gyeryongbrother.pickandtest.domain.service.dto.MarketCapitalizationResponseFixture.marketCapitalizationResponses;
 import static com.gyeryongbrother.pickandtest.domain.service.dto.StockPriceResponseFixture.stockPriceResponses;
 import static com.gyeryongbrother.pickandtest.domain.service.dto.StockResponseFixture.stockResponse;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,6 +12,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockPriceJpaRepository;
+import com.gyeryongbrother.pickandtest.domain.service.dto.MarketCapitalizationResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockPriceResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
 import io.restassured.RestAssured;
@@ -75,6 +77,28 @@ class StockControllerTest {
         // then
         assertThat(result).usingRecursiveComparison()
                 .ignoringExpectedNullFields()
+                .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("주식 아이디로 시가총액을 조회한다")
+    void findAllMarketCapitalizations() {
+        // given
+        StockEntity stockEntity = stockEntity();
+        stockPriceEntities(null).forEach(stockEntity::addStockPrice);
+        stockJpaRepository.save(stockEntity);
+        List<MarketCapitalizationResponse> expected = marketCapitalizationResponses();
+
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .when().get("/stocks/{stockId}/market-capitalizations", stockEntity.getId())
+                .then().log().all()
+                .extract();
+        List<MarketCapitalizationResponse> result = response.as(new TypeRef<>() {
+        });
+
+        // then
+        assertThat(result).usingRecursiveComparison()
                 .isEqualTo(expected);
     }
 
