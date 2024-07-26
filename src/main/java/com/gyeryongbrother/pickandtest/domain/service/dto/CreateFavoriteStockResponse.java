@@ -12,7 +12,7 @@ public record CreateFavoriteStockResponse(
         return new CreateFavoriteStockResponse(
                 favoriteStock.getId(),
                 favoriteStock.getMemberId(),
-                favoriteStock.getStock().getId()
+                favoriteStock.getStockDetail().getStock().getId()
         );
     }
 }
