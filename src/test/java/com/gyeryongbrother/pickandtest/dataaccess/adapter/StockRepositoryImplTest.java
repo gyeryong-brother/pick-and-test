@@ -8,9 +8,11 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.gyeryongbrother.pickandtest.dataaccess.config.TestQuerydslConfig;
 import com.gyeryongbrother.pickandtest.domain.core.Dividend;
+import com.gyeryongbrother.pickandtest.domain.core.Dividends;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
 import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
+import com.gyeryongbrother.pickandtest.domain.core.StockPrices;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -46,17 +48,17 @@ class StockRepositoryImplTest {
         // given
         StockDetail stockDetail = StockDetail.builder()
                 .stock(stock(null))
-                .stockPrices(stockPrices(null))
-                .dividends(dividends(null))
+                .stockPrices(StockPrices.from(stockPrices(null)))
+                .dividends(Dividends.from(dividends(null)))
                 .build();
 
         // when
         StockDetail result = stockRepository.save(stockDetail);
         Long stockId = result.getStock().getId();
-        List<Long> stockPriceIds = result.getStockPrices().stream()
+        List<Long> stockPriceIds = result.getStockPrices().getValues().stream()
                 .map(StockPrice::getId)
                 .toList();
-        List<Long> dividendIds = result.getDividends().stream()
+        List<Long> dividendIds = result.getDividends().getValues().stream()
                 .map(Dividend::getId)
                 .toList();
 

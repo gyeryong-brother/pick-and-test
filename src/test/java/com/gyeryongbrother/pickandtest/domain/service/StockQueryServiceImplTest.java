@@ -8,6 +8,7 @@ import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockExchange;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.StockQueryService;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.FavoriteStockQueryRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
 import java.time.LocalDate;
 import java.util.List;
@@ -25,11 +26,14 @@ class StockQueryServiceImplTest {
     @Mock
     private StockQueryRepository stockQueryRepository;
 
+    @Mock
+    private FavoriteStockQueryRepository favoriteStockQueryRepository;
+
     private StockQueryService stockQueryService;
 
     @BeforeEach
     void setUp() {
-        stockQueryService = new StockQueryServiceImpl(stockQueryRepository);
+        stockQueryService = new StockQueryServiceImpl(stockQueryRepository, favoriteStockQueryRepository);
     }
 
     @Test

@@ -1,9 +1,9 @@
 package com.gyeryongbrother.pickandtest.domain.service.dto;
 
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.BigDecimalFixture.oneHundred;
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.BigDecimalFixture.twoHundred;
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.LocalDateFixture.januaryFirst;
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.LocalDateFixture.januarySecond;
+import static com.gyeryongbrother.pickandtest.domain.core.BigDecimalFixture.oneHundred;
+import static com.gyeryongbrother.pickandtest.domain.core.BigDecimalFixture.twoHundred;
+import static com.gyeryongbrother.pickandtest.domain.core.LocalDateFixture.januaryFirst;
+import static com.gyeryongbrother.pickandtest.domain.core.LocalDateFixture.januarySecond;
 
 import java.util.List;
 

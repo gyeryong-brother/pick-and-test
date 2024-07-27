@@ -1,11 +1,11 @@
 package com.gyeryongbrother.pickandtest.dataaccess.entity;
 
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.BigDecimalFixture.oneHundred;
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.BigDecimalFixture.threeHundred;
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.BigDecimalFixture.twoHundred;
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.LocalDateFixture.januaryFirst;
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.LocalDateFixture.januarySecond;
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.LocalDateFixture.januaryThird;
+import static com.gyeryongbrother.pickandtest.domain.core.BigDecimalFixture.oneHundred;
+import static com.gyeryongbrother.pickandtest.domain.core.BigDecimalFixture.threeHundred;
+import static com.gyeryongbrother.pickandtest.domain.core.BigDecimalFixture.twoHundred;
+import static com.gyeryongbrother.pickandtest.domain.core.LocalDateFixture.januaryFirst;
+import static com.gyeryongbrother.pickandtest.domain.core.LocalDateFixture.januarySecond;
+import static com.gyeryongbrother.pickandtest.domain.core.LocalDateFixture.januaryThird;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
