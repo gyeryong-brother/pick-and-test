@@ -15,4 +15,8 @@ public class Dividend {
     private final Long stockId;
     private final LocalDate date;
     private final BigDecimal amount;
+
+    public int getYear() {
+        return date.getYear();
+    }
 }
