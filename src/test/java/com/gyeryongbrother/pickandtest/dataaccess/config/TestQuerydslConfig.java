@@ -1,5 +1,6 @@
 package com.gyeryongbrother.pickandtest.dataaccess.config;
 
+import com.gyeryongbrother.pickandtest.dataaccess.adapter.DividendQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.DividendRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockPriceRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockQueryRepositoryImpl;
@@ -12,6 +13,7 @@ import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockPriceJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.service.DividendQueryServiceImpl;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.DividendQueryService;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.DividendQueryRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.DividendRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockPriceRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
@@ -70,6 +72,11 @@ public class TestQuerydslConfig {
     }
 
     @Bean
+    public DividendQueryRepository dividendQueryRepository() {
+        return new DividendQueryRepositoryImpl(queryFactory(), dividendDataAccessMapper());
+    }
+
+    @Bean
     public StockRepository stockRepository() {
         return new StockRepositoryImpl(stockJpaRepository, stockDataAccessMapper());
     }
@@ -86,6 +93,6 @@ public class TestQuerydslConfig {
 
     @Bean
     public DividendQueryService getHistory() {
-        return new DividendQueryServiceImpl(stockQueryRepository(), annualDividendMapper());
+        return new DividendQueryServiceImpl(dividendQueryRepository());
     }
 }
