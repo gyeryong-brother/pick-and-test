@@ -3,7 +3,7 @@ package com.gyeryongbrother.pickandtest.infrastructure.mapper;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.gyeryongbrother.pickandtest.domain.core.Dividend;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.AnnualDividend;
+import com.gyeryongbrother.pickandtest.domain.service.dto.AnnualDividendResponse;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -37,19 +37,17 @@ public class AnnualDividendMapperTest {
         dividends.add(dividend1);
         dividends.add(dividend2);
         dividends.add(dividend3);
-        List<AnnualDividend> expected = new ArrayList<AnnualDividend>();
-        expected.add(new AnnualDividend(2020, BigDecimal.valueOf(0.45)));
-        expected.add(new AnnualDividend(2021, BigDecimal.valueOf(0.32)));
+        List<AnnualDividendResponse> expected = new ArrayList<AnnualDividendResponse>();
+        expected.add(new AnnualDividendResponse(2020, BigDecimal.valueOf(0.45)));
+        expected.add(new AnnualDividendResponse(2021, BigDecimal.valueOf(0.32)));
 
         //when
-        List<AnnualDividend> result = annualDividendMapper.DividendsToAnnualDividends(dividends);
+        List<AnnualDividendResponse> result = annualDividendMapper.DividendsToAnnualDividends(dividends);
 
         //then
         assertThat(result).usingRecursiveComparison()
                 .withComparatorForType(BigDecimalComparator.BIG_DECIMAL_COMPARATOR, BigDecimal.class)
                 .isEqualTo(expected);
-
-
     }
 
     private Dividend dividend(LocalDate date, BigDecimal amount) {

@@ -137,4 +137,11 @@ class StockQueryRepositoryImplTest {
                 .ignoringExpectedNullFields()
                 .isEqualTo(expected);
     }
+    private StockResponse stockResponse(StockEntity stockEntity) {
+        return new StockResponse(
+                stockEntity.getId(),
+                stockEntity.getName(),
+                stockEntity.getSymbol()
+        );
+    }
 }
