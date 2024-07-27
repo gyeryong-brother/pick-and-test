@@ -1,5 +1,6 @@
 package com.gyeryongbrother.pickandtest.domain.service;
 
+import com.gyeryongbrother.pickandtest.domain.core.AnnualDividend;
 import com.gyeryongbrother.pickandtest.domain.core.Dividends;
 import com.gyeryongbrother.pickandtest.domain.service.dto.AnnualDividendResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.DividendQueryService;
@@ -19,6 +20,9 @@ public class DividendQueryServiceImpl implements DividendQueryService {
     @Override
     public List<AnnualDividendResponse> getAnnualDividendsById(Long id) {
         Dividends dividends = new Dividends(dividendQueryRepository.findAllByStockId(id));
-        return dividends.getAnnualDividends();
+        List<AnnualDividend> annualDividends = dividends.getAnnualDividends();
+        return annualDividends.stream()
+                .map(AnnualDividendResponse::from)
+                .toList();
     }
 }
