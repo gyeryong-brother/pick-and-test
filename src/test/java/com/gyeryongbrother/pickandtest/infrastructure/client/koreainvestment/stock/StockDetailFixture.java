@@ -8,15 +8,17 @@ import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestm
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.StockPriceFixture.microsoftStockPrices;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.StockPriceFixture.nvidiaStockPrices;
 
+import com.gyeryongbrother.pickandtest.domain.core.Dividends;
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
+import com.gyeryongbrother.pickandtest.domain.core.StockPrices;
 
 public class StockDetailFixture {
 
     public static StockDetail apple() {
         return StockDetail.builder()
                 .stock(StockFixture.apple())
-                .stockPrices(appleStockPrices())
-                .dividends(appleDividends())
+                .stockPrices(StockPrices.from(appleStockPrices()))
+                .dividends(Dividends.from(appleDividends()))
                 .build();
     }
 
@@ -31,16 +33,16 @@ public class StockDetailFixture {
     public static StockDetail microsoft() {
         return StockDetail.builder()
                 .stock(StockFixture.microsoft())
-                .stockPrices(microsoftStockPrices())
-                .dividends(microsoftDividends())
+                .stockPrices(StockPrices.from(microsoftStockPrices()))
+                .dividends(Dividends.from(microsoftDividends()))
                 .build();
     }
 
     public static StockDetail nvidia() {
         return StockDetail.builder()
                 .stock(StockFixture.nvidia())
-                .stockPrices(nvidiaStockPrices())
-                .dividends(nvidiaDividends())
+                .stockPrices(StockPrices.from(nvidiaStockPrices()))
+                .dividends(Dividends.from(nvidiaDividends()))
                 .build();
     }
 }

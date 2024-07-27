@@ -1,6 +1,6 @@
 package com.gyeryongbrother.pickandtest.domain.core;
 
-import java.util.List;
+import java.math.BigDecimal;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +11,18 @@ import lombok.RequiredArgsConstructor;
 public class StockDetail {
 
     private final Stock stock;
-    private final List<StockPrice> stockPrices;
-    private final List<Dividend> dividends;
+    private final StockPrices stockPrices;
+    private final Dividends dividends;
+
+    public BigDecimal getLastStockPrice() {
+        return stockPrices.getLastStockPrice();
+    }
+
+    public BigDecimal calculateCompoundAnnualGrowthRate() {
+        return stockPrices.calculateCompoundAnnualGrowthRate();
+    }
+
+    public BigDecimal calculateDividendYield() {
+        return dividends.calculateDividendYield(getLastStockPrice());
+    }
 }

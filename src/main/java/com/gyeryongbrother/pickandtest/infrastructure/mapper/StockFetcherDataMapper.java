@@ -1,10 +1,12 @@
 package com.gyeryongbrother.pickandtest.infrastructure.mapper;
 
 import com.gyeryongbrother.pickandtest.domain.core.Dividend;
+import com.gyeryongbrother.pickandtest.domain.core.Dividends;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
 import com.gyeryongbrother.pickandtest.domain.core.StockExchange;
 import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
+import com.gyeryongbrother.pickandtest.domain.core.StockPrices;
 import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.DateTimeHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponse;
@@ -63,8 +65,8 @@ public class StockFetcherDataMapper {
     ) {
         return StockDetail.builder()
                 .stock(stock)
-                .stockPrices(stockPrices)
-                .dividends(dividends)
+                .stockPrices(StockPrices.from(stockPrices))
+                .dividends(Dividends.from(dividends))
                 .build();
     }
 }

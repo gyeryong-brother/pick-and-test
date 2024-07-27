@@ -15,16 +15,16 @@ public class StockDetailFixture {
     ) {
         return StockDetail.builder()
                 .stock(stock(stockId))
-                .stockPrices(stockPrices)
-                .dividends(dividends)
+                .stockPrices(StockPrices.from(stockPrices))
+                .dividends(Dividends.from(dividends))
                 .build();
     }
 
     public static StockDetail stockDetail(Long stockId) {
         return StockDetail.builder()
                 .stock(stock(stockId))
-                .stockPrices(stockPrices(stockId))
-                .dividends(dividends(stockId))
+                .stockPrices(StockPrices.from(stockPrices(stockId)))
+                .dividends(Dividends.from(dividends(stockId)))
                 .build();
     }
 }
