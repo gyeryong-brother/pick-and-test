@@ -4,9 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.gyeryongbrother.pickandtest.domain.core.Dividend;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
+import com.gyeryongbrother.pickandtest.domain.service.dto.AnnualDividendResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.DividendRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.AnnualDividend;
 import io.restassured.RestAssured;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.ExtractableResponse;
@@ -69,17 +69,17 @@ class DividendControllerTest {
         dividendRepository.save(dividend1);
         dividendRepository.save(dividend2);
         dividendRepository.save(dividend3);
-        List<AnnualDividend> expected = new ArrayList<AnnualDividend>();
-        expected.add(new AnnualDividend(2020, BigDecimal.valueOf(0.45)));
-        expected.add(new AnnualDividend(2021, BigDecimal.valueOf(0.32)));
+        List<AnnualDividendResponse> expected = new ArrayList<AnnualDividendResponse>();
+        expected.add(new AnnualDividendResponse(2020, BigDecimal.valueOf(0.45)));
+        expected.add(new AnnualDividendResponse(2021, BigDecimal.valueOf(0.32)));
         entityManager.clear();
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .when().get("/Apple/dividend")
+                .when().get("/{stockId}/dividend", savedStock.getId())
                 .then().log().all()
                 .extract();
-        List<AnnualDividend> result = response.as(new TypeRef<>() {
+        List<AnnualDividendResponse> result = response.as(new TypeRef<>() {
         });
 
         //then

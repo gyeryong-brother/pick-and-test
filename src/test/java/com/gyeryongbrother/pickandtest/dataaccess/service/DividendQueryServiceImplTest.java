@@ -6,10 +6,10 @@ import com.gyeryongbrother.pickandtest.dataaccess.mapper.DividendDataAccessMappe
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.core.Dividend;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
-import com.gyeryongbrother.pickandtest.domain.service.ports.input.GetHistory;
+import com.gyeryongbrother.pickandtest.domain.service.dto.AnnualDividendResponse;
+import com.gyeryongbrother.pickandtest.domain.service.ports.input.DividendQueryService;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.DividendRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.AnnualDividend;
 import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -22,10 +22,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 
 @SpringBootTest
-public class GetHistoryImplTest {
+public class DividendQueryServiceImplTest {
 
     @Autowired
-    public GetHistory getHistory;
+    public DividendQueryService dividendQueryService;
     @Autowired
     public StockRepository stockRepository;
     @Autowired
@@ -56,34 +56,15 @@ public class GetHistoryImplTest {
         Dividend dividend1 = dividend(savedStock, date1, amount1);
         Dividend dividend2 = dividend(savedStock, date2, amount2);
         Dividend dividend3 = dividend(savedStock, date3, amount3);
-        List<Dividend> dividends = new ArrayList<Dividend>();
         dividendRepository.save(dividend1);
         dividendRepository.save(dividend2);
         dividendRepository.save(dividend3);
-
-
-
-
-        /*List<DividendEntity> dividendEntities = dividends.stream()
-                .map(dividendDataAccessMapper::dividendToDividendEntity)
-                .toList();*/
-
-
-
-        /*StockEntity stockEntity = StockEntity.builder()
-                .name(name)
-                .symbol(symbol)
-                .dividends(dividendEntities)
-                .build();
-        stockJpaRepository.save(stockEntity);*/
-
-        List<AnnualDividend> expected = new ArrayList<AnnualDividend>();
-        expected.add(new AnnualDividend(2020, BigDecimal.valueOf(0.45)));
-        expected.add(new AnnualDividend(2021, BigDecimal.valueOf(0.32)));
-        entityManager.clear();
+        List<AnnualDividendResponse> expected = new ArrayList<AnnualDividendResponse>();
+        expected.add(new AnnualDividendResponse(2020, BigDecimal.valueOf(0.45)));
+        expected.add(new AnnualDividendResponse(2021, BigDecimal.valueOf(0.32)));
 
         //when
-        List<AnnualDividend> result = getHistory.getAnnualDividendHistoryByName(name);
+        List<AnnualDividendResponse> result = dividendQueryService.getAnnualDividendsById(savedStock.getId());
 
         //then
         assertThat(result).usingRecursiveComparison()
@@ -98,6 +79,4 @@ public class GetHistoryImplTest {
                 .amount(amount)
                 .build();
     }
-
-
 }

@@ -8,9 +8,5 @@ public interface StockQueryRepository {
 
     Stock findById(Long id);
 
-    Stock findByName(String name);
-
-    Stock findBySymbol(String symbol);
-
     List<StockResponse> findAllByNameOrSymbol(String keyword);
 }
