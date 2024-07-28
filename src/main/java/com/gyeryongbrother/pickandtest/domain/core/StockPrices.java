@@ -34,6 +34,9 @@ public class StockPrices {
     }
 
     public BigDecimal calculateCompoundAnnualGrowthRate() {
+        if (values.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
         StockPrice lastStockPrice = getLastValue();
         LocalDate dateFiveYearsAgo = lastStockPrice.getDateFiveYearsAgo();
         StockPrice stockPriceFiveYearsAgo = findFirstStockPriceAfterDate(dateFiveYearsAgo);
