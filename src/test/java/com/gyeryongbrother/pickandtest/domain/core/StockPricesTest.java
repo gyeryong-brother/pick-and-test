@@ -111,4 +111,17 @@ class StockPricesTest {
         // then
         assertThat(result).isEqualTo(BigDecimal.ZERO);
     }
+
+    @Test
+    @DisplayName("주가 데이터가 없으면 연평균 수익률은 0 이다")
+    void calculateCompoundAnnualGrowthRateWhenNoExist() {
+        // given
+        StockPrices stockPrices = StockPrices.from(List.of());
+
+        // when
+        BigDecimal result = stockPrices.calculateCompoundAnnualGrowthRate();
+
+        // then
+        assertThat(result).isEqualTo(BigDecimal.ZERO);
+    }
 }
