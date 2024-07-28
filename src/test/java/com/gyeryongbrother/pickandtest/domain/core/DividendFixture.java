@@ -13,6 +13,23 @@ import java.util.List;
 
 public class DividendFixture {
 
+    public static List<Dividend> dividends() {
+        return List.of(
+                dividend(LocalDate.of(2023, 3, 1), BigDecimal.valueOf(0.1)),
+                dividend(LocalDate.of(2023, 6, 1), BigDecimal.valueOf(0.2)),
+                dividend(LocalDate.of(2023, 9, 1), BigDecimal.valueOf(0.3)),
+                dividend(LocalDate.of(2023, 12, 1), BigDecimal.valueOf(0.4)),
+                dividend(LocalDate.of(2024, 3, 1), BigDecimal.valueOf(0.5))
+        );
+    }
+
+    public static List<Dividend> twoDividends() {
+        return List.of(
+                dividend(LocalDate.of(2023, 3, 1), BigDecimal.valueOf(0.1)),
+                dividend(LocalDate.of(2024, 3, 1), BigDecimal.valueOf(0.5))
+        );
+    }
+
     public static List<Dividend> dividends(Long stockId) {
         return List.of(
                 dividend(stockId, januaryFirst(), oneHundred()),

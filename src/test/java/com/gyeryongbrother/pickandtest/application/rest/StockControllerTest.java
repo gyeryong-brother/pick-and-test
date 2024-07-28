@@ -2,6 +2,12 @@ package com.gyeryongbrother.pickandtest.application.rest;
 
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntityFixture.stockEntity;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockPriceEntityFixture.stockPriceEntities;
+import static com.gyeryongbrother.pickandtest.domain.core.DividendFixture.dividends;
+import static com.gyeryongbrother.pickandtest.domain.core.DividendFixture.twoDividends;
+import static com.gyeryongbrother.pickandtest.domain.core.StockDetailFixture.stockDetail;
+import static com.gyeryongbrother.pickandtest.domain.core.StockPriceFixture.stockPrice;
+import static com.gyeryongbrother.pickandtest.domain.core.StockPriceFixture.stockPrices;
+import static com.gyeryongbrother.pickandtest.domain.service.dto.FavoriteStockResponseFixture.favoriteStockResponses;
 import static com.gyeryongbrother.pickandtest.domain.service.dto.MarketCapitalizationResponseFixture.marketCapitalizationResponses;
 import static com.gyeryongbrother.pickandtest.domain.service.dto.StockPriceResponseFixture.stockPriceResponses;
 import static com.gyeryongbrother.pickandtest.domain.service.dto.StockResponseFixture.stockResponse;
@@ -16,12 +22,17 @@ import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockPriceJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
 import com.gyeryongbrother.pickandtest.domain.service.dto.AnnualDividendResponse;
+import com.gyeryongbrother.pickandtest.domain.core.FavoriteStockFixture;
+import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
 import com.gyeryongbrother.pickandtest.domain.service.dto.CreateFavoriteStockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.MarketCapitalizationResponse;
+import com.gyeryongbrother.pickandtest.domain.service.dto.FavoriteStockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockPriceResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockDetailFixture;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.FavoriteStockRepository;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
 import io.restassured.RestAssured;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
@@ -49,6 +60,12 @@ class StockControllerTest {
 
     @Autowired
     private StockPriceJpaRepository stockPriceJpaRepository;
+
+    @Autowired
+    private StockRepository stockRepository;
+
+    @Autowired
+    private FavoriteStockRepository favoriteStockRepository;
 
     @LocalServerPort
     private int port;
@@ -182,5 +199,33 @@ class StockControllerTest {
                         .ignoringExpectedNullFields()
                         .isEqualTo(expected)
         );
+    }
+
+    @Test
+    @DisplayName("관심 주식들을 조회한다")
+    void findAllFavoriteStocks() {
+        // given
+        List<StockDetail> stockDetails = List.of(
+                stockRepository.save(stockDetail(null, stockPrices(), dividends())),
+                stockRepository.save(stockDetail(null, List.of(stockPrice()), twoDividends()))
+        );
+        stockDetails.stream()
+                .map(FavoriteStockFixture::favoriteStock)
+                .forEach(favoriteStockRepository::save);
+        List<FavoriteStockResponse> expected = favoriteStockResponses();
+
+        // when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .when().get("/stocks/favorite")
+                .then().log().all()
+                .extract();
+        List<FavoriteStockResponse> result = response.as(new TypeRef<>() {
+        });
+
+        // then
+        assertThat(result).usingRecursiveComparison()
+                .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
+                .ignoringExpectedNullFields()
+                .isEqualTo(expected);
     }
 }
