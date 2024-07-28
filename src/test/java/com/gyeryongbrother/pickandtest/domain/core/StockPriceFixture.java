@@ -1,6 +1,8 @@
 package com.gyeryongbrother.pickandtest.domain.core;
 
 import static com.gyeryongbrother.pickandtest.domain.core.BigDecimalFixture.oneHundred;
+import static com.gyeryongbrother.pickandtest.domain.core.BigDecimalFixture.oneThousand;
+import static com.gyeryongbrother.pickandtest.domain.core.BigDecimalFixture.threeHundred;
 import static com.gyeryongbrother.pickandtest.domain.core.BigDecimalFixture.twoHundred;
 import static com.gyeryongbrother.pickandtest.domain.core.LocalDateFixture.januaryFirst;
 import static com.gyeryongbrother.pickandtest.domain.core.LocalDateFixture.januarySecond;
@@ -10,6 +12,20 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class StockPriceFixture {
+
+    public static List<StockPrice> stockPrices() {
+        return List.of(
+                stockPrice(LocalDate.of(2018, 12, 31), twoHundred()),
+                stockPrice(LocalDate.of(2019, 1, 1), twoHundred()),
+                stockPrice(LocalDate.of(2019, 1, 2), oneHundred()),
+                stockPrice(LocalDate.of(2019, 1, 3), threeHundred()),
+                stockPrice(LocalDate.of(2024, 1, 1), oneThousand())
+        );
+    }
+
+    public static StockPrice stockPrice() {
+        return stockPrice(januaryFirst(), oneHundred());
+    }
 
     public static List<StockPrice> stockPrices(Long stockId) {
         return List.of(

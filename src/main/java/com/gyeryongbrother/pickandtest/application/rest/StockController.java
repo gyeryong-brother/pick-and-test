@@ -5,6 +5,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 import com.gyeryongbrother.pickandtest.application.dto.CreateFavoriteStockRequest;
 import com.gyeryongbrother.pickandtest.domain.service.dto.CreateFavoriteStockCommand;
 import com.gyeryongbrother.pickandtest.domain.service.dto.CreateFavoriteStockResponse;
+import com.gyeryongbrother.pickandtest.domain.service.dto.FavoriteStockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockPriceResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.StockPriceQueryService;
@@ -46,6 +47,12 @@ public class StockController {
                 stockService.createFavoriteStock(createFavoriteStockCommand);
         return ResponseEntity.status(CREATED)
                 .body(createFavoriteStockResponse);
+    }
+
+    @GetMapping("/favorite")
+    ResponseEntity<List<FavoriteStockResponse>> findAllFavoriteStocks() {
+        List<FavoriteStockResponse> favoriteStockResponses = stockQueryService.findAllFavoriteStocksByMemberId(1L);
+        return ResponseEntity.ok(favoriteStockResponses);
     }
 
     @GetMapping("/{stockId}/prices")
