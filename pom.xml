@@ -94,6 +94,12 @@
 				<artifactId>jib-maven-plugin</artifactId>
 				<version>3.4.3</version>
 				<configuration>
+					<container>
+						<mainClass>com.gyeryongbrother.pickandtest.PickandtestApplication</mainClass>
+					</container>
+					<from>
+						<image>amazoncorretto@sha256:489ad65bfd0f89253422fa5692f982c575731ce98a001d44449e37008f5464db</image>
+					</from>
 					<to>
 						<image>odo27/pick-and-test</image>
 					</to>
