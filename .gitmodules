@@ -1,0 +1,3 @@
+[submodule "pick-and-test-submodule"]
+	path = pick-and-test-submodule
+	url = https://github.com/gyeryong-brother/pick-and-test-submodule.git
