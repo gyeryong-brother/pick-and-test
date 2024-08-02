@@ -12,8 +12,8 @@ class KoreaInvestmentClientCredential {
     private final String appSecret;
 
     public KoreaInvestmentClientCredential(
-            @Value("${korea-investment-securities.app-key}") String appKey,
-            @Value("${korea-investment-securities.app-secret}") String appSecret
+            @Value("${korea-investment.app-key}") String appKey,
+            @Value("${korea-investment.app-secret}") String appSecret
     ) {
         this.appKey = appKey;
         this.appSecret = appSecret;
