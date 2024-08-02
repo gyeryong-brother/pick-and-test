@@ -1,0 +1,13 @@
+services:
+  mysql:
+    image: mysql:9.0.1
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: pickandtest
+      TZ: Asia/Seoul
+    ports:
+      - 13306:3306
+    volumes:
+      - ./data:/var/lib/mysql
+      - ./init:/docker-entrypoint-initdb.d
