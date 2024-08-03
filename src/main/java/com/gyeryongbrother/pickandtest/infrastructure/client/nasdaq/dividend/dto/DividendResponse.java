@@ -9,6 +9,6 @@ public record DividendResponse(
 ) {
 
     public List<DividendDetail> dividendDetails() {
-        return dividendData.dividends().dividendDetails();
+        return dividendData.dividends().getDividendDetails();
     }
 }

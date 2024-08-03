@@ -52,10 +52,14 @@ public class StockFetcherDataMapper {
     }
 
     private LocalDate parse(String listingDate) {
-        if (listingDate.isBlank()) {
+        if (isBlank(listingDate)) {
             return null;
         }
         return DateTimeHandler.toDate(listingDate);
+    }
+
+    private boolean isBlank(String listingDate) {
+        return listingDate == null || listingDate.isBlank();
     }
 
     private StockDetail createStockDetail(

@@ -7,4 +7,11 @@ public record Dividends(
         @JsonProperty("rows")
         List<DividendDetail> dividendDetails
 ) {
+
+    List<DividendDetail> getDividendDetails() {
+        if (dividendDetails == null) {
+            return List.of();
+        }
+        return dividendDetails;
+    }
 }
