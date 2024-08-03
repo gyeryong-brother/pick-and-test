@@ -3,12 +3,11 @@ package com.gyeryongbrother.pickandtest.infrastructure.adapter;
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
 import com.gyeryongbrother.pickandtest.domain.core.StockExchange;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockProvider;
-import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.AlphaVantageClient;
-import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.KoreaInvestmentClient;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.NasdaqClient;
+import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.dividend.dto.DividendResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stocksymbol.dto.StockSymbolDetail;
 import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stocksymbol.dto.StockSymbolResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.mapper.StockFetcherDataMapper;
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Component;
 public class StockProviderImpl implements StockProvider {
 
     private final KoreaInvestmentClient koreaInvestmentClient;
-    private final AlphaVantageClient alphaVantageClient;
     private final NasdaqClient nasdaqClient;
     private final StockFetcherDataMapper stockFetcherDataMapper;
 
@@ -39,7 +37,7 @@ public class StockProviderImpl implements StockProvider {
     private StockDetail getStockDetail(StockExchange stockExchange, String symbol) {
         StockResponse stockResponse = koreaInvestmentClient.fetchStock(stockExchange, symbol);
         List<StockPriceResponse> stockPriceResponses = assembleStockPriceResponses(stockExchange, symbol);
-        DividendResponse dividendResponse = alphaVantageClient.fetchDividend(symbol);
+        DividendResponse dividendResponse = nasdaqClient.fetchDividend(symbol, "stocks");
         return stockFetcherDataMapper.stockResponseToStockDetail(
                 stockResponse,
                 symbol,

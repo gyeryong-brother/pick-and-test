@@ -1,11 +1,15 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq;
 
 import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.dividend.dto.DividendResponseFixture.appleDividendResponse;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stocksymbol.dto.StockSymbolResponseFixture.stockSymbolResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.any;
+import static org.mockito.BDDMockito.anyString;
 import static org.mockito.BDDMockito.given;
 
+import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.dividend.DividendFetcher;
+import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.dividend.dto.DividendResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stocksymbol.StockSymbolFetcher;
 import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stocksymbol.dto.StockSymbolResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,11 +26,14 @@ class NasdaqClientTest {
     @Mock
     private StockSymbolFetcher stockSymbolFetcher;
 
+    @Mock
+    private DividendFetcher dividendFetcher;
+
     private NasdaqClient nasdaqClient;
 
     @BeforeEach
     void setUp() {
-        nasdaqClient = new NasdaqClient(stockSymbolFetcher);
+        nasdaqClient = new NasdaqClient(stockSymbolFetcher, dividendFetcher);
     }
 
     @Test
@@ -42,5 +49,20 @@ class NasdaqClientTest {
 
         // then
         assertThat(result).isEqualTo(stockSymbolResponse);
+    }
+
+    @Test
+    @DisplayName("배당 정보를 가져온다")
+    void fetchDividend() {
+        // given
+        DividendResponse appleDividendResponse = appleDividendResponse();
+        given(dividendFetcher.fetchDividend(anyString(), any()))
+                .willReturn(appleDividendResponse);
+
+        // when
+        DividendResponse result = nasdaqClient.fetchDividend("AAPL", "stocks");
+
+        // then
+        assertThat(result).isEqualTo(appleDividendResponse);
     }
 }

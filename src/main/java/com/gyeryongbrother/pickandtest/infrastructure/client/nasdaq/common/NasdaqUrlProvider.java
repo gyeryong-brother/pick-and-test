@@ -14,6 +14,8 @@ public class NasdaqUrlProvider {
     private static final String LIMIT_PARAM_NAME = "limit";
     private static final String LIMIT_PARAM_VALUE = "5000";
     private static final String EXCHANGE_PARAM_NAME = "exchange";
+    private static final String DIVIDEND_ENDPOINT = "/api/quote/%s/dividends";
+    private static final String ASSET_CLASS_PARAM_NAME = "assetclass";
 
     public String getStockSymbolEndpoint(StockExchange stockExchange) {
         return UriComponentsBuilder.fromHttpUrl(DOMAIN)
@@ -21,6 +23,15 @@ public class NasdaqUrlProvider {
                 .queryParam(TABLE_ONLY_PARAM_NAME, TABLE_ONLY_PARAM_VALUE)
                 .queryParam(LIMIT_PARAM_NAME, LIMIT_PARAM_VALUE)
                 .queryParam(EXCHANGE_PARAM_NAME, stockExchange.name())
+                .build()
+                .toUriString();
+    }
+
+    public String getDividendEndpoint(String symbol, String assetClass) {
+        String path = String.format(DIVIDEND_ENDPOINT, symbol);
+        return UriComponentsBuilder.fromHttpUrl(DOMAIN)
+                .path(path)
+                .queryParam(ASSET_CLASS_PARAM_NAME, assetClass)
                 .build()
                 .toUriString();
     }

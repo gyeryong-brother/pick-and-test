@@ -7,6 +7,3 @@ spring:
 korea-investment:
   app-key: "app-key"
   app-secret: "app-secret"
-
-alpha-vantage:
-  api-key: "api-key"
