@@ -12,7 +12,7 @@ public class KoreaInvestmentUrlProvider {
     private static final String STOCK_ENDPOINT = "/uapi/overseas-price/v1/quotations/search-info";
     private static final String STOCK_EXCHANGE_CODE_HEADER_NAME = "PRDT_TYPE_CD";
     private static final String SYMBOL_HEADER_NAME = "PDNO";
-    private static final String STOCK_PRICE_ENDPOINT = "/uapi/overseas-price/v1/quotations/daily-price";
+    private static final String STOCK_PRICE_ENDPOINT = "/uapi/overseas-price/v1/quotations/dailyprice";
     private static final String TOKEN_ENDPOINT = "/oauth2/tokenP";
 
     public String getStockEndpoint(StockExchangeCode stockExchangeCode, String symbol) {
