@@ -6,4 +6,6 @@ import com.gyeryongbrother.pickandtest.domain.service.dto.CreateFavoriteStockRes
 public interface StockService {
 
     CreateFavoriteStockResponse createFavoriteStock(CreateFavoriteStockCommand createFavoriteStockCommand);
+
+    void saveAll();
 }

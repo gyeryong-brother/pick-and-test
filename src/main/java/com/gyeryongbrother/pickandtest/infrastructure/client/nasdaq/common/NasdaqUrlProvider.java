@@ -1,6 +1,7 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.common;
 
 import com.gyeryongbrother.pickandtest.domain.core.StockExchange;
+import java.net.URI;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -27,12 +28,13 @@ public class NasdaqUrlProvider {
                 .toUriString();
     }
 
-    public String getDividendEndpoint(String symbol, String assetClass) {
-        String path = String.format(DIVIDEND_ENDPOINT, symbol);
+    public URI getDividendEndpoint(String symbol, String assetClass) {
+        String encodedSymbol = symbol.replace("/", "%25sl%25");
+        String path = String.format(DIVIDEND_ENDPOINT, encodedSymbol);
         return UriComponentsBuilder.fromHttpUrl(DOMAIN)
                 .path(path)
                 .queryParam(ASSET_CLASS_PARAM_NAME, assetClass)
-                .build()
-                .toUriString();
+                .build(true)
+                .toUri();
     }
 }
