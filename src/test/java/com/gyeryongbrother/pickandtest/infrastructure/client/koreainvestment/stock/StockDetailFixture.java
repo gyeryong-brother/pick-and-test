@@ -7,6 +7,9 @@ import static com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.StockPriceFixture.appleStockPrices;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.StockPriceFixture.microsoftStockPrices;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.StockPriceFixture.nvidiaStockPrices;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.dividend.DividendFixture.appleDividends;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.dividend.DividendFixture.microsoftDividends;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.dividend.DividendFixture.nvidiaDividends;
 
 import com.gyeryongbrother.pickandtest.domain.core.Dividends;
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;

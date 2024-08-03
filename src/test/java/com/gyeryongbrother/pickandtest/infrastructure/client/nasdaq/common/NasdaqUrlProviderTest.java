@@ -29,4 +29,17 @@ class NasdaqUrlProviderTest {
         // then
         assertThat(result).isEqualTo(expected);
     }
+
+    @Test
+    @DisplayName("배당 api endpoint 를 가져온다")
+    void getDividendEndpoint() {
+        // given
+        String expected = "https://api.nasdaq.com/api/quote/AAPL/dividends?assetclass=stocks";
+
+        // when
+        String result = nasdaqUrlProvider.getDividendEndpoint("AAPL", "stocks");
+
+        // then
+        assertThat(result).isEqualTo(expected);
+    }
 }

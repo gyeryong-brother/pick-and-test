@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend;
+package com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.dividend;
 
 import com.gyeryongbrother.pickandtest.domain.core.Dividend;
 import java.math.BigDecimal;

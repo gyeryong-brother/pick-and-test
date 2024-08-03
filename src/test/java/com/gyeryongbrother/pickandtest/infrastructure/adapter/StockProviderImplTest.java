@@ -1,9 +1,6 @@
 package com.gyeryongbrother.pickandtest.infrastructure.adapter;
 
 import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponseFixture.appleDividendResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponseFixture.microsoftDividendResponse;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponseFixture.nvidiaDividendResponse;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockDetailFixture.apple;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockDetailFixture.microsoft;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockDetailFixture.nvidia;
@@ -19,17 +16,19 @@ import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestm
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.nvidiaFirstStockPriceResponse;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.nvidiaSecondStockPriceResponse;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.nvidiaThirdStockPriceResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.dividend.dto.DividendResponseFixture.appleDividendResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.dividend.dto.DividendResponseFixture.microsoftDividendResponse;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.dividend.dto.DividendResponseFixture.nvidiaDividendResponse;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stocksymbol.dto.StockSymbolResponseFixture.stockSymbolResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.any;
+import static org.mockito.BDDMockito.anyString;
 import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
 import com.gyeryongbrother.pickandtest.domain.core.StockExchange;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockProvider;
-import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.AlphaVantageClient;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.KoreaInvestmentClient;
 import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.NasdaqClient;
 import com.gyeryongbrother.pickandtest.infrastructure.mapper.DividendFetcherDataMapper;
@@ -52,9 +51,6 @@ class StockProviderImplTest {
     private KoreaInvestmentClient koreaInvestmentClient;
 
     @Mock
-    private AlphaVantageClient alphaVantageClient;
-
-    @Mock
     private NasdaqClient nasdaqClient;
 
     private StockProvider stockProvider;
@@ -67,7 +63,6 @@ class StockProviderImplTest {
         );
         stockProvider = new StockProviderImpl(
                 koreaInvestmentClient,
-                alphaVantageClient,
                 nasdaqClient,
                 stockFetcherDataMapper
         );
@@ -95,7 +90,7 @@ class StockProviderImplTest {
                 nvidiaSecondStockPriceResponse(),
                 nvidiaThirdStockPriceResponse()
         );
-        given(alphaVantageClient.fetchDividend(anyString())).willReturn(
+        given(nasdaqClient.fetchDividend(anyString(), any())).willReturn(
                 appleDividendResponse(),
                 microsoftDividendResponse(),
                 nvidiaDividendResponse()

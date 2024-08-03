@@ -37,7 +37,7 @@ class KoreaInvestmentUrlProviderTest {
     void getStockPriceEndPoint() {
         // given
         String expected = "https://openapi.koreainvestment.com:9443"
-                + "/uapi/overseas-price/v1/quotations/daily-price"
+                + "/uapi/overseas-price/v1/quotations/dailyprice"
                 + "?AUTH=&EXCD=NAS&SYMB=AAPL&GUBN=0&BYMD=20240101&MODP=1";
 
         // when
