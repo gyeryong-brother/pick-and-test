@@ -3,6 +3,7 @@ package com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.common;
 import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.net.URI;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,10 +35,23 @@ class NasdaqUrlProviderTest {
     @DisplayName("배당 api endpoint 를 가져온다")
     void getDividendEndpoint() {
         // given
-        String expected = "https://api.nasdaq.com/api/quote/AAPL/dividends?assetclass=stocks";
+        URI expected = URI.create("https://api.nasdaq.com/api/quote/AAPL/dividends?assetclass=stocks");
 
         // when
-        String result = nasdaqUrlProvider.getDividendEndpoint("AAPL", "stocks");
+        URI result = nasdaqUrlProvider.getDividendEndpoint("AAPL", "stocks");
+
+        // then
+        assertThat(result).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("티커에 슬래시가 있을 때 배당 api endpoint 를 가져온다")
+    void getDividendEndpointWithSlash() {
+        // given
+        URI expected = URI.create("https://api.nasdaq.com/api/quote/BRK%25sl%25B/dividends?assetclass=stocks");
+
+        // when
+        URI result = nasdaqUrlProvider.getDividendEndpoint("BRK/B", "stocks");
 
         // then
         assertThat(result).isEqualTo(expected);

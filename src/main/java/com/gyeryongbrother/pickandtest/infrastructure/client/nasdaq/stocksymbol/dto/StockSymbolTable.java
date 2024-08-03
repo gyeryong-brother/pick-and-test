@@ -7,4 +7,11 @@ public record StockSymbolTable(
         @JsonProperty(value = "rows")
         List<StockSymbolDetail> stockSymbolDetails
 ) {
+
+    List<StockSymbolDetail> getStockSymbolDetails() {
+        if (stockSymbolDetails == null) {
+            return List.of();
+        }
+        return stockSymbolDetails;
+    }
 }

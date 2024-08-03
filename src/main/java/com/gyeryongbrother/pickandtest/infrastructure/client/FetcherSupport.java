@@ -1,5 +1,6 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client;
 
+import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -26,6 +27,20 @@ public class FetcherSupport {
         HttpEntity<String> httpEntity = new HttpEntity<>(httpHeaders);
         return restTemplate.exchange(
                 url,
+                HttpMethod.GET,
+                httpEntity,
+                responseType
+        );
+    }
+
+    public <T> ResponseEntity<T> get(
+            URI uri,
+            HttpHeaders httpHeaders,
+            Class<T> responseType
+    ) {
+        HttpEntity<String> httpEntity = new HttpEntity<>(httpHeaders);
+        return restTemplate.exchange(
+                uri,
                 HttpMethod.GET,
                 httpEntity,
                 responseType

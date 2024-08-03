@@ -3,13 +3,13 @@ package com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.dividend;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.dividend.dto.DividendResponseFixture.appleDividendResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.any;
-import static org.mockito.BDDMockito.anyString;
 import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.infrastructure.client.FetcherSupport;
 import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.common.HeaderProvider;
 import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.common.NasdaqUrlProvider;
 import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.dividend.dto.DividendResponse;
+import java.net.URI;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,7 @@ class DividendFetcherTest {
     void fetchDividend() {
         // given
         DividendResponse appleDividendResponse = appleDividendResponse();
-        given(fetcherSupport.get(anyString(), any(), any()))
+        given(fetcherSupport.get(any(URI.class), any(), any()))
                 .willReturn(ResponseEntity.ok(appleDividendResponse));
 
         // when
