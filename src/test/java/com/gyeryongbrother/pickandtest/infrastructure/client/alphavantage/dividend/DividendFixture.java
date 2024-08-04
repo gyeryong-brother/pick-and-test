@@ -15,7 +15,7 @@ public class DividendFixture {
         );
     }
 
-    public static List<Dividend> appleDividendsWithDifferentYears() {
+    public static List<Dividend> appleDividendsAtVariousYear() {
         return List.of(
                 dividend(2020, 3, 0.22),
                 dividend(2020, 6, 0.23),
