@@ -1,13 +1,9 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock;
 
-import static com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.DividendFixture.*;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.StockPriceFixture.appleStockPrices;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.StockPriceFixture.microsoftStockPrices;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.StockPriceFixture.nvidiaStockPrices;
-
-import com.gyeryongbrother.pickandtest.domain.core.DividendFixture;
-import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
+
+import static com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.DividendFixture.*;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.StockPriceFixture.*;
 
 public class StockDetailFixture {
 
@@ -19,7 +15,7 @@ public class StockDetailFixture {
                 .build();
     }
 
-    public static StockDetail appleWithDividendsOfVariousYear(){
+    public static StockDetail appleWithDividendsOfVariousYear() {
         return StockDetail.builder()
                 .stock(StockFixture.apple())
                 .stockPrices(appleStockPrices())

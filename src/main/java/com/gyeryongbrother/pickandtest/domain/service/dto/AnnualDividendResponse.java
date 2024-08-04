@@ -1,6 +1,7 @@
 package com.gyeryongbrother.pickandtest.domain.service.dto;
 
 import com.gyeryongbrother.pickandtest.domain.core.AnnualDividend;
+
 import java.math.BigDecimal;
 
 public record AnnualDividendResponse(

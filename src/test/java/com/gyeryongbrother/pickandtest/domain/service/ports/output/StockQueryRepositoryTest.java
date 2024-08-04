@@ -1,19 +1,20 @@
 package com.gyeryongbrother.pickandtest.domain.service.ports.output;
 
+import com.gyeryongbrother.pickandtest.domain.core.Stock;
+import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import java.math.BigDecimal;
+import java.util.List;
+
 import static com.gyeryongbrother.pickandtest.domain.core.DividendFixture.dividends;
 import static com.gyeryongbrother.pickandtest.domain.core.StockDetailFixture.stockDetail;
 import static com.gyeryongbrother.pickandtest.domain.core.StockFixture.stock;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
-
-import com.gyeryongbrother.pickandtest.domain.core.Stock;
-import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
-import java.math.BigDecimal;
-import java.util.List;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @DisplayName("주식을 조회한다")

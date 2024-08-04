@@ -35,8 +35,10 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.NasdaqClient
 import com.gyeryongbrother.pickandtest.infrastructure.mapper.DividendFetcherDataMapper;
 import com.gyeryongbrother.pickandtest.infrastructure.mapper.StockFetcherDataMapper;
 import com.gyeryongbrother.pickandtest.infrastructure.mapper.StockPriceFetcherDataMapper;
+
 import java.math.BigDecimal;
 import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

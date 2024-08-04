@@ -1,14 +1,15 @@
 package com.gyeryongbrother.pickandtest.infrastructure.adapter;
 
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.appleFirstStockPriceResponse;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.ContinuityCode;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
-import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.appleFirstStockPriceResponse;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("100개씩 나눠져서 오는 주가 api 응답을 통합한다")
 class StockPriceAssemblerTest {
