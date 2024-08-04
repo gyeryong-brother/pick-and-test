@@ -1,13 +1,14 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common;
 
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.StockExchangeCode.NASDAQ_CODE;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.Period.DAY;
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.StockExchangeCode.NASDAQ_CODE;
+import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.Period.DAY;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("한국투자증권 api url 을 제공한다")
 class KoreaInvestmentUrlProviderTest {

@@ -2,17 +2,18 @@ package com.gyeryongbrother.pickandtest.infrastructure.mapper;
 
 import com.gyeryongbrother.pickandtest.domain.core.Dividend;
 import com.gyeryongbrother.pickandtest.domain.service.dto.AnnualDividendResponse;
+import org.springframework.stereotype.Component;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.springframework.stereotype.Component;
 
 @Component
 public class AnnualDividendMapper {
 
-    public List<AnnualDividendResponse> DividendsToAnnualDividends(List<Dividend> dividends) {
+    public List<AnnualDividendResponse> dividendsToAnnualDividends(List<Dividend> dividends) {
         Map<Integer, BigDecimal> dividendHistory = new HashMap<>();
         for (Dividend dividend : dividends) {
             int year = dividend.getDate().getYear();

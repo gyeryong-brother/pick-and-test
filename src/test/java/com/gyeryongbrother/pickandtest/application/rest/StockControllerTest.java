@@ -13,6 +13,8 @@ import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockPriceJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockPriceResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.DividendRepository;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
 import io.restassured.RestAssured;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.ExtractableResponse;
@@ -27,6 +29,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntityFixture.stockEntity;
+import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @DisplayName("주식 api 를 제공한다")
 @Sql("/truncate.sql")
@@ -34,6 +44,10 @@ class StockControllerTest {
 
     @Autowired
     private StockJpaRepository stockJpaRepository;
+    @Autowired
+    private StockRepository stockRepository;
+    @Autowired
+    private DividendRepository dividendRepository;
 
     @Autowired
     private StockPriceJpaRepository stockPriceJpaRepository;

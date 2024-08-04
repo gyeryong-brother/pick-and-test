@@ -1,6 +1,7 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public record DividendResponse(

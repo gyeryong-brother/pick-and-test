@@ -19,6 +19,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
+import java.time.LocalDate;
+import java.util.List;
+
+import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
+import static org.assertj.core.api.Assertions.assertThat;
+
 @DataJpaTest
 @Import(TestQuerydslConfig.class)
 @DisplayName("주식 레포지토리를 구현한다")
