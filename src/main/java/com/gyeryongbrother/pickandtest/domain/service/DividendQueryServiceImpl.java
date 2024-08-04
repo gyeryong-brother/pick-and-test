@@ -5,11 +5,10 @@ import com.gyeryongbrother.pickandtest.domain.core.Dividends;
 import com.gyeryongbrother.pickandtest.domain.service.dto.AnnualDividendResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.DividendQueryService;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.DividendQueryRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

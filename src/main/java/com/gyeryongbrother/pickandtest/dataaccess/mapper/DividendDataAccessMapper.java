@@ -3,9 +3,8 @@ package com.gyeryongbrother.pickandtest.dataaccess.mapper;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.DividendEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
 import com.gyeryongbrother.pickandtest.domain.core.Dividend;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
+import org.springframework.stereotype.Component;
 
 @Component
 public class DividendDataAccessMapper {

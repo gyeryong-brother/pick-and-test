@@ -29,14 +29,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.jdbc.Sql;
 
-import java.time.LocalDate;
-import java.util.List;
-
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntityFixture.stockEntity;
-import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
-
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @DisplayName("주식 api 를 제공한다")
 @Sql("/truncate.sql")

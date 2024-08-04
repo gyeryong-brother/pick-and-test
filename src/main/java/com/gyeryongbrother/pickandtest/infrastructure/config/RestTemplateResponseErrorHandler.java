@@ -1,12 +1,11 @@
 package com.gyeryongbrother.pickandtest.infrastructure.config;
 
+import java.io.IOException;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResponseErrorHandler;
-
-import java.io.IOException;
 
 @Component
 public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {

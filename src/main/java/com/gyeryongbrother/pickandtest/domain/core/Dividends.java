@@ -1,12 +1,11 @@
 package com.gyeryongbrother.pickandtest.domain.core;
 
-import lombok.RequiredArgsConstructor;
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toMap;
 
 import java.util.List;
 import java.util.Map;
-
-import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.toMap;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class Dividends {

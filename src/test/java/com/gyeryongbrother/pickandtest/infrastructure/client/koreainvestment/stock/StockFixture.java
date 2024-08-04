@@ -4,10 +4,6 @@ import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
 
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 
-import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.DividendFixture.*;
-import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.StockPriceFixture.*;
-
 public class StockFixture {
 
     public static Stock apple() {
@@ -19,13 +15,12 @@ public class StockFixture {
                 .build();
     }
 
-    public static Stock appleWithDividendsOfDifferentYears(){
+    public static Stock appleWithDividendsOfDifferentYears() {
         return Stock.builder()
                 .name("APPLE INC")
                 .symbol("AAPL")
                 .stockExchange(NASDAQ)
                 .listingDate(null)
-                .dividends(appleDividendsWithDifferentYears())
                 .build();
     }
 

@@ -2,13 +2,12 @@ package com.gyeryongbrother.pickandtest.infrastructure.mapper;
 
 import com.gyeryongbrother.pickandtest.domain.core.Dividend;
 import com.gyeryongbrother.pickandtest.domain.service.dto.AnnualDividendResponse;
-import org.springframework.stereotype.Component;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.stereotype.Component;
 
 @Component
 public class AnnualDividendMapper {

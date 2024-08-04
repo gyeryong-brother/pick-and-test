@@ -1,8 +1,7 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice;
 
-import lombok.RequiredArgsConstructor;
-
 import java.util.Set;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum ContinuityCode {

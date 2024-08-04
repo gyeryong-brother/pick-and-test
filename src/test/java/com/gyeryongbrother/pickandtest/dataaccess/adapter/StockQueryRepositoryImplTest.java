@@ -15,8 +15,8 @@ import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
+import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
-import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -24,17 +24,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
-
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.DividendEntityFixture.dividendEntity;
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntityFixture.stockEntity;
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockPriceEntityFixture.stockPriceEntity;
-import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 
 @DataJpaTest
 @Import(TestQuerydslConfig.class)
@@ -149,6 +138,7 @@ class StockQueryRepositoryImplTest {
                 .ignoringExpectedNullFields()
                 .isEqualTo(expected);
     }
+
     private StockResponse stockResponse(StockEntity stockEntity) {
         return new StockResponse(
                 stockEntity.getId(),

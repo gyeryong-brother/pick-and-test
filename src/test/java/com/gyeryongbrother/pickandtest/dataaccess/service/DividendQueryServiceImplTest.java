@@ -1,5 +1,7 @@
 package com.gyeryongbrother.pickandtest.dataaccess.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.DividendDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.core.Dividend;
@@ -8,23 +10,19 @@ import com.gyeryongbrother.pickandtest.domain.service.dto.AnnualDividendResponse
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.DividendQueryService;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.DividendRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
-import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.DividendFixture;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockFixture;
 import jakarta.persistence.EntityManager;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
 import org.assertj.core.util.BigDecimalComparator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 
 @SpringBootTest
-public class DividendQueryServiceImplTest {
+class DividendQueryServiceImplTest {
 
     @Autowired
     public DividendQueryService dividendQueryService;

@@ -6,7 +6,6 @@ import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockPriceQueryReposit
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockPriceRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockRepositoryImpl;
-import com.gyeryongbrother.pickandtest.dataaccess.adapter.*;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.DividendDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockPriceDataAccessMapper;
@@ -15,7 +14,6 @@ import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockPriceJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.service.DividendQueryServiceImpl;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.DividendQueryService;
-import com.gyeryongbrother.pickandtest.domain.service.ports.output.*;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.DividendQueryRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.DividendRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockPriceQueryRepository;
@@ -26,7 +24,6 @@ import com.gyeryongbrother.pickandtest.member.dataaccess.adapter.MemberRepositor
 import com.gyeryongbrother.pickandtest.member.dataaccess.mapper.MemberDataAccessMapper;
 import com.gyeryongbrother.pickandtest.member.dataaccess.repository.MemberJpaRepository;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberRepository;
-import com.gyeryongbrother.pickandtest.infrastructure.mapper.AnnualDividendMapper;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -108,10 +105,12 @@ public class TestQuerydslConfig {
     }
 
     @Bean
-    public DividendQueryService getHistory() {
-        return new DividendQueryServiceImpl(stockQueryRepository(), annualDividendMapper());
+    public DividendQueryService dividendQueryService() {
+        return new DividendQueryServiceImpl(dividendQueryRepository());
+    }
+
+    @Bean
     public MemberRepository memberRepository() {
         return new MemberRepositoryImpl(memberJpaRepository, memberDataAccessMapper());
-        return new DividendQueryServiceImpl(dividendQueryRepository());
     }
 }
