@@ -1,6 +1,7 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stocksymbol.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public record StockSymbolTable(

@@ -1,6 +1,7 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice;
 
 import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;

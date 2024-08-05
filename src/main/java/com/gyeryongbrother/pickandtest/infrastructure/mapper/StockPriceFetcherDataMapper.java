@@ -5,9 +5,10 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.com
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBody;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceDetail;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
+import org.springframework.stereotype.Component;
+
 import java.math.BigDecimal;
 import java.util.List;
-import org.springframework.stereotype.Component;
 
 @Component
 public class StockPriceFetcherDataMapper {

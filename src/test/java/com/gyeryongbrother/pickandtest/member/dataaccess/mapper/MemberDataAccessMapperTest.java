@@ -1,12 +1,12 @@
 package com.gyeryongbrother.pickandtest.member.dataaccess.mapper;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.gyeryongbrother.pickandtest.member.dataaccess.entity.MemberEntity;
 import com.gyeryongbrother.pickandtest.member.domain.core.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("회원과 회원 엔티티를 매핑한다")
 class MemberDataAccessMapperTest {

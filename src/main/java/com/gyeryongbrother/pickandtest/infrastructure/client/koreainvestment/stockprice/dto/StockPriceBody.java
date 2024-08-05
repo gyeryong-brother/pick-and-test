@@ -2,6 +2,7 @@ package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.st
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)

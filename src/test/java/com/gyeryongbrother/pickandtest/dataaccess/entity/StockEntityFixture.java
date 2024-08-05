@@ -14,6 +14,7 @@ public class StockEntityFixture {
                 .build();
     }
 
+
     public static StockEntity stockEntity(String name, String symbol) {
         return StockEntity.builder()
                 .name(name)

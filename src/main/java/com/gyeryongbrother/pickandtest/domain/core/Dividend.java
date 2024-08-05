@@ -1,10 +1,11 @@
 package com.gyeryongbrother.pickandtest.domain.core;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Getter
 @Builder
@@ -15,4 +16,8 @@ public class Dividend {
     private final Long stockId;
     private final LocalDate date;
     private final BigDecimal amount;
+
+    public int getYear() {
+        return date.getYear();
+    }
 }
