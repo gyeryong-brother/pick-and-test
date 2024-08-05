@@ -115,22 +115,22 @@ class StockControllerTest {
     void findAnnualDividends() {
         // given
         StockDetail stockDetail = StockDetailFixture.appleWithDividendsOfVariousYear();
-        StockDetail saved=stockRepository.save(stockDetail);
+        StockDetail saved = stockRepository.save(stockDetail);
         List<AnnualDividendResponse> expected = List.of(
                 new AnnualDividendResponse(2020, BigDecimal.valueOf(0.45)),
                 new AnnualDividendResponse(2021, BigDecimal.valueOf(0.32))
         );
 
         // when
-       ExtractableResponse<Response> response = RestAssured.given().log().all()
-               .when().get("/stocks/{stockId}/dividends", saved.getStock().getId())
-               .then().log().all()
-               .extract();
-       List<AnnualDividendResponse> result = response.as(new TypeRef<>() {
-       });
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .when().get("/stocks/{stockId}/dividends", saved.getStock().getId())
+                .then().log().all()
+                .extract();
+        List<AnnualDividendResponse> result = response.as(new TypeRef<>() {
+        });
 
 
-       // then
-       assertThat(result).usingRecursiveComparison().isEqualTo(expected);
+        // then
+        assertThat(result).usingRecursiveComparison().isEqualTo(expected);
     }
 }
