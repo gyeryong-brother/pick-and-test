@@ -1,18 +1,17 @@
 package com.gyeryongbrother.pickandtest.infrastructure.mapper;
 
-import com.gyeryongbrother.pickandtest.domain.core.Dividend;
-import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponse;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import java.math.BigDecimal;
-import java.util.List;
-
 import static com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.DividendFixture.appleDividends;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponseFixture.appleDividendResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
+
+import com.gyeryongbrother.pickandtest.domain.core.Dividend;
+import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponse;
+import java.math.BigDecimal;
+import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 @DisplayName("배당 응답과 배당을 매핑한다")
 class DividendFetcherDataMapperTest {

@@ -1,8 +1,8 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock;
 
-import com.gyeryongbrother.pickandtest.domain.core.Stock;
-
 import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
+
+import com.gyeryongbrother.pickandtest.domain.core.Stock;
 
 public class StockFixture {
 

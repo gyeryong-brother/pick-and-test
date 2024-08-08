@@ -1,7 +1,9 @@
 package com.gyeryongbrother.pickandtest.dataaccess.config;
 
+import com.gyeryongbrother.pickandtest.dataaccess.adapter.DividendQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.DividendRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.FavoriteStockRepositoryImpl;
+import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockPriceQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockPriceRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockRepositoryImpl;
@@ -13,8 +15,12 @@ import com.gyeryongbrother.pickandtest.dataaccess.repository.DividendJpaReposito
 import com.gyeryongbrother.pickandtest.dataaccess.repository.FavoriteStockJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockPriceJpaRepository;
+import com.gyeryongbrother.pickandtest.domain.service.DividendQueryServiceImpl;
+import com.gyeryongbrother.pickandtest.domain.service.ports.input.DividendQueryService;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.DividendQueryRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.DividendRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.FavoriteStockRepository;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockPriceQueryRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockPriceRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;

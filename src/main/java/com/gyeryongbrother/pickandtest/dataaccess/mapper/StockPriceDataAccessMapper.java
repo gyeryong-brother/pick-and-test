@@ -3,9 +3,8 @@ package com.gyeryongbrother.pickandtest.dataaccess.mapper;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.StockPriceEntity;
 import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
+import org.springframework.stereotype.Component;
 
 @Component
 public class StockPriceDataAccessMapper {

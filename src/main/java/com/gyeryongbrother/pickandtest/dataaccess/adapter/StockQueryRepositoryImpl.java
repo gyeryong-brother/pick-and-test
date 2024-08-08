@@ -1,5 +1,8 @@
 package com.gyeryongbrother.pickandtest.dataaccess.adapter;
 
+import static com.gyeryongbrother.pickandtest.dataaccess.entity.QStockEntity.stockEntity;
+import static com.gyeryongbrother.pickandtest.dataaccess.entity.QStockPriceEntity.stockPriceEntity;
+
 import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
@@ -7,15 +10,11 @@ import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
-
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.QStockEntity.stockEntity;
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.QStockPriceEntity.stockPriceEntity;
 
 @Repository
 @RequiredArgsConstructor

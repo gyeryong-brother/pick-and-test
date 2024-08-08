@@ -3,9 +3,9 @@ package com.gyeryongbrother.pickandtest.application.rest;
 import static org.springframework.http.HttpStatus.CREATED;
 
 import com.gyeryongbrother.pickandtest.application.dto.CreateFavoriteStockRequest;
+import com.gyeryongbrother.pickandtest.domain.service.dto.AnnualDividendResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.CreateFavoriteStockCommand;
 import com.gyeryongbrother.pickandtest.domain.service.dto.CreateFavoriteStockResponse;
-import com.gyeryongbrother.pickandtest.domain.service.dto.AnnualDividendResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockPriceResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.DividendQueryService;

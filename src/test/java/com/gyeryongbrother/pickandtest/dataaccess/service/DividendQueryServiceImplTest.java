@@ -1,20 +1,19 @@
 package com.gyeryongbrother.pickandtest.dataaccess.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
 import com.gyeryongbrother.pickandtest.domain.service.dto.AnnualDividendResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.DividendQueryService;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockDetailFixture;
+import java.math.BigDecimal;
+import java.util.List;
 import org.assertj.core.util.BigDecimalComparator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.math.BigDecimal;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest
@@ -38,7 +37,8 @@ class DividendQueryServiceImplTest {
         );
 
         //when
-        List<AnnualDividendResponse> result = dividendQueryService.getAnnualDividendsById(savedStock.getStock().getId());
+        List<AnnualDividendResponse> result = dividendQueryService.getAnnualDividendsById(
+                savedStock.getStock().getId());
 
         //then
         assertThat(result).usingRecursiveComparison()
