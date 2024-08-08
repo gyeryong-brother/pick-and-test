@@ -1,7 +1,11 @@
 package com.gyeryongbrother.pickandtest.dataaccess.entity;
 
 import com.gyeryongbrother.pickandtest.domain.core.StockExchange;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
