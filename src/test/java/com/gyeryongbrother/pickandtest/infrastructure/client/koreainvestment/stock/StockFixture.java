@@ -15,15 +15,6 @@ public class StockFixture {
                 .build();
     }
 
-    public static Stock appleWithDividendsOfDifferentYears() {
-        return Stock.builder()
-                .name("APPLE INC")
-                .symbol("AAPL")
-                .stockExchange(NASDAQ)
-                .listingDate(null)
-                .build();
-    }
-
     public static Stock microsoft() {
         return Stock.builder()
                 .name("MICROSOFT CORP")

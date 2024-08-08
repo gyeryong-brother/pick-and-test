@@ -18,7 +18,6 @@ import com.gyeryongbrother.pickandtest.domain.service.dto.AnnualDividendResponse
 import com.gyeryongbrother.pickandtest.domain.service.dto.CreateFavoriteStockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockPriceResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
-import com.gyeryongbrother.pickandtest.domain.service.ports.output.DividendRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockDetailFixture;
 import io.restassured.RestAssured;
@@ -45,8 +44,6 @@ class StockControllerTest {
     private StockJpaRepository stockJpaRepository;
     @Autowired
     private StockRepository stockRepository;
-    @Autowired
-    private DividendRepository dividendRepository;
 
     @Autowired
     private StockPriceJpaRepository stockPriceJpaRepository;

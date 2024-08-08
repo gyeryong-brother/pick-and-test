@@ -15,7 +15,6 @@ import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
-import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
 import java.math.BigDecimal;
 import java.util.List;
@@ -137,13 +136,5 @@ class StockQueryRepositoryImplTest {
         assertThat(result).usingRecursiveComparison()
                 .ignoringExpectedNullFields()
                 .isEqualTo(expected);
-    }
-
-    private StockResponse stockResponse(StockEntity stockEntity) {
-        return new StockResponse(
-                stockEntity.getId(),
-                stockEntity.getName(),
-                stockEntity.getSymbol()
-        );
     }
 }
