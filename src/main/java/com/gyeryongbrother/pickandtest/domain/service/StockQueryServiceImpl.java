@@ -1,6 +1,9 @@
 package com.gyeryongbrother.pickandtest.domain.service;
 
+import com.gyeryongbrother.pickandtest.domain.core.MarketCapitalization;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
+import com.gyeryongbrother.pickandtest.domain.core.StockWithPrices;
+import com.gyeryongbrother.pickandtest.domain.service.dto.MarketCapitalizationResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.StockQueryService;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
@@ -13,6 +16,15 @@ import org.springframework.stereotype.Service;
 public class StockQueryServiceImpl implements StockQueryService {
 
     private final StockQueryRepository stockQueryRepository;
+
+    @Override
+    public List<MarketCapitalizationResponse> findAllMarketCapitalizationsByStockId(Long stockId) {
+        StockWithPrices stockWithPrices = stockQueryRepository.findStockWithPricesById(stockId);
+        List<MarketCapitalization> marketCapitalizations = stockWithPrices.getMarketCapitalizations();
+        return marketCapitalizations.stream()
+                .map(MarketCapitalizationResponse::from)
+                .toList();
+    }
 
     @Override
     public List<StockResponse> findAllByNameOrSymbol(String keyword) {

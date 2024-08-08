@@ -7,6 +7,7 @@ import static com.gyeryongbrother.pickandtest.domain.core.DividendFixture.divide
 import static com.gyeryongbrother.pickandtest.domain.core.StockDetailFixture.stockDetail;
 import static com.gyeryongbrother.pickandtest.domain.core.StockFixture.stock;
 import static com.gyeryongbrother.pickandtest.domain.core.StockPriceFixture.stockPrices;
+import static com.gyeryongbrother.pickandtest.domain.core.StockWithPricesFixture.stockWithPrices;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 
@@ -15,6 +16,7 @@ import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
+import com.gyeryongbrother.pickandtest.domain.core.StockWithPrices;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
 import java.math.BigDecimal;
 import java.util.List;
@@ -34,6 +36,42 @@ class StockQueryRepositoryImplTest {
 
     @Autowired
     private StockQueryRepository stockQueryRepository;
+
+    @Test
+    @DisplayName("주가가 없을 때 아이디로 주식과 주가를 조회한다")
+    void findStockWithPricesByIdWithNoPrices() {
+        // given
+        StockEntity stockEntity = stockJpaRepository.save(stockEntity());
+        Long stockId = stockEntity.getId();
+        StockWithPrices expected = stockWithPrices(stockId, List.of());
+
+        // when
+        StockWithPrices result = stockQueryRepository.findStockWithPricesById(stockId);
+
+        // then
+        assertThat(result).usingRecursiveComparison()
+                .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("아이디로 주식과 주가를 조회한다")
+    void findStockWithPricesById() {
+        // given
+        StockEntity stockEntity = stockEntity();
+        stockPriceEntities(null).forEach(stockEntity::addStockPrice);
+        stockJpaRepository.save(stockEntity);
+        Long stockId = stockEntity.getId();
+        StockWithPrices expected = stockWithPrices(stockId, stockPrices(stockId));
+
+        // when
+        StockWithPrices result = stockQueryRepository.findStockWithPricesById(stockId);
+
+        // then
+        assertThat(result).usingRecursiveComparison()
+                .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
+                .ignoringExpectedNullFields()
+                .isEqualTo(expected);
+    }
 
     @Test
     @DisplayName("주가와 배당이 없을 때 아이디로 주식을 조회한다")

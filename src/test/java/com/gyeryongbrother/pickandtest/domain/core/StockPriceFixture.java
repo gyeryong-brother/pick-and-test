@@ -18,7 +18,7 @@ public class StockPriceFixture {
         );
     }
 
-    private static StockPrice stockPrice(Long stockId, LocalDate date, BigDecimal price) {
+    public static StockPrice stockPrice(Long stockId, LocalDate date, BigDecimal price) {
         return StockPrice.builder()
                 .stockId(stockId)
                 .date(date)
