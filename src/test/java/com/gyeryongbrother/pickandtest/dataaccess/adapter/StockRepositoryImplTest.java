@@ -1,24 +1,23 @@
 package com.gyeryongbrother.pickandtest.dataaccess.adapter;
 
+import static com.gyeryongbrother.pickandtest.domain.core.DividendFixture.dividends;
+import static com.gyeryongbrother.pickandtest.domain.core.StockFixture.stock;
+import static com.gyeryongbrother.pickandtest.domain.core.StockPriceFixture.stockPrices;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 import com.gyeryongbrother.pickandtest.dataaccess.config.TestQuerydslConfig;
 import com.gyeryongbrother.pickandtest.domain.core.Dividend;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
 import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-
-import java.util.List;
-
-import static com.gyeryongbrother.pickandtest.domain.core.DividendFixture.dividends;
-import static com.gyeryongbrother.pickandtest.domain.core.StockFixture.stock;
-import static com.gyeryongbrother.pickandtest.domain.core.StockPriceFixture.stockPrices;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DataJpaTest
 @Import(TestQuerydslConfig.class)

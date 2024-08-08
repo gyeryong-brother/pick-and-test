@@ -1,10 +1,9 @@
 package com.gyeryongbrother.pickandtest.domain.core;
 
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
 
 @Getter
 @Builder

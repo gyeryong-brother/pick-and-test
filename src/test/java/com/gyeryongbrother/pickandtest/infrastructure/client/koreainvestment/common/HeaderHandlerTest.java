@@ -1,5 +1,9 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.BDDMockito.given;
+
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.auth.AuthManager;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.ContinuityCode;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,10 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpHeaders;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("api 에서 사용되는 요청 헤더를 만들고 응답 헤더에서 데이터를 추출한다")

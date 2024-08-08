@@ -1,21 +1,5 @@
 package com.gyeryongbrother.pickandtest.dataaccess.adapter;
 
-import com.gyeryongbrother.pickandtest.dataaccess.config.TestQuerydslConfig;
-import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
-import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
-import com.gyeryongbrother.pickandtest.domain.core.Stock;
-import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
-import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
-import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-
-import java.math.BigDecimal;
-import java.util.List;
-
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.DividendEntityFixture.dividendEntities;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntityFixture.stockEntity;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockPriceEntityFixture.stockPriceEntities;
@@ -25,6 +9,20 @@ import static com.gyeryongbrother.pickandtest.domain.core.StockFixture.stock;
 import static com.gyeryongbrother.pickandtest.domain.core.StockPriceFixture.stockPrices;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
+
+import com.gyeryongbrother.pickandtest.dataaccess.config.TestQuerydslConfig;
+import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
+import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
+import com.gyeryongbrother.pickandtest.domain.core.Stock;
+import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
+import java.math.BigDecimal;
+import java.util.List;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
 @DataJpaTest
 @Import(TestQuerydslConfig.class)
@@ -138,13 +136,5 @@ class StockQueryRepositoryImplTest {
         assertThat(result).usingRecursiveComparison()
                 .ignoringExpectedNullFields()
                 .isEqualTo(expected);
-    }
-
-    private StockResponse stockResponse(StockEntity stockEntity) {
-        return new StockResponse(
-                stockEntity.getId(),
-                stockEntity.getName(),
-                stockEntity.getSymbol()
-        );
     }
 }
