@@ -15,7 +15,7 @@ public class StockEntityFixture {
                 .build();
     }
 
-    public static StockEntity nvidiaStockEntity(){
+    public static StockEntity nvidiaStockEntity() {
         return stockEntity("Nvidia", "NVDA");
     }
 
