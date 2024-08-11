@@ -22,13 +22,13 @@ public class IncomeStatementRepositoryImplTest {
 
     @Test
     @DisplayName("기업 실적정보를 저장한다")
-    void save(){
+    void save() {
         //given
-        IncomeStatement incomeStatement= IncomeStatementFixture.appleIncomeStatement();
-        IncomeStatement expected=IncomeStatementFixture.appleIncomeStatement();
+        IncomeStatement incomeStatement = IncomeStatementFixture.appleIncomeStatement();
+        IncomeStatement expected = IncomeStatementFixture.appleIncomeStatement();
 
         //when
-        IncomeStatement result= incomeStatementRepository.save(incomeStatement);
+        IncomeStatement result = incomeStatementRepository.save(incomeStatement);
 
         //then
         assertThat(result).usingRecursiveComparison()

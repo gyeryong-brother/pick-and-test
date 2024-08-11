@@ -84,7 +84,9 @@ public class TestQuerydslConfig {
     }
 
     @Bean
-    public IncomeStatementDataAccessMapper incomeStatementDataAccessMapper(){return new IncomeStatementDataAccessMapper(stockDataAccessMapper());}
+    public IncomeStatementDataAccessMapper incomeStatementDataAccessMapper() {
+        return new IncomeStatementDataAccessMapper(stockDataAccessMapper());
+    }
 
     @Bean
     public StockQueryRepository stockQueryRepository() {
@@ -127,12 +129,12 @@ public class TestQuerydslConfig {
     }
 
     @Bean
-    public IncomeStatementRepository incomeStatementRepository(){
+    public IncomeStatementRepository incomeStatementRepository() {
         return new IncomeStatementRepositoryImpl(incomeStatementJpaRepository, incomeStatementDataAccessMapper());
     }
 
     @Bean
-    public IncomeStatementQueryRepository incomeStatementQueryRepository(){
-        return new IncomeStatementQueryRepositoryImpl(queryFactory(),stockDataAccessMapper(),incomeStatementDataAccessMapper());
+    public IncomeStatementQueryRepository incomeStatementQueryRepository() {
+        return new IncomeStatementQueryRepositoryImpl(queryFactory(), stockDataAccessMapper(), incomeStatementDataAccessMapper());
     }
 }
