@@ -27,9 +27,9 @@ public class IncomeStatementQueryRepositoryImpl implements IncomeStatementQueryR
     private final IncomeStatementDataAccessMapper incomeStatementDataAccessMapper;
 
     @Override
-    public List<IncomeStatement> findAllByStock(Stock stock){
+    public List<IncomeStatement> findAllByStockId(Long stockId){
         List<IncomeStatementEntity> incomeStatementEntities= queryFactory.selectFrom(incomeStatementEntity)
-                .where(incomeStatementEntity.stock.eq(stockDataAccessMapper.stockToStockEntity(stock)))
+                .where(incomeStatementEntity.stock.id.eq(stockId))
                 .fetch();
         return incomeStatementEntities.stream()
                 .map(incomeStatementDataAccessMapper::incomeStatementEntityToIncomeStatement)
