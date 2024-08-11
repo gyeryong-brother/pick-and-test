@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface IncomeStatementQueryRepository {
 
-    List<IncomeStatement> findAllByStock(Stock stock);
+    List<IncomeStatement> findAllByStockId(Long stockId);
 }

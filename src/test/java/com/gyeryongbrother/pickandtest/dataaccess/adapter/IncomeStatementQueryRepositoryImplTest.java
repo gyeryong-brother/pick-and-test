@@ -63,7 +63,7 @@ public class IncomeStatementQueryRepositoryImplTest {
 
 
         //when
-        List<IncomeStatement> result=incomeStatementQueryRepository.findAllByStock(apple);
+        List<IncomeStatement> result=incomeStatementQueryRepository.findAllByStockId(apple.getId());
 
         //then
         assertThat(result).usingRecursiveComparison()

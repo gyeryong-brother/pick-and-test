@@ -13,6 +13,7 @@ public class IncomeStatementDataAccessMapper {
 
     public IncomeStatementEntity incomeStatementToIncomeStatementEntity(IncomeStatement incomeStatement) {
         return IncomeStatementEntity.builder()
+                .id(incomeStatement.getId())
                 .stock(stockDataAccessMapper.stockToStockEntity(incomeStatement.getStock()))
                 .operatingIncome(incomeStatement.getOperatingIncome())
                 .netIncome(incomeStatement.getNetIncome())
@@ -23,6 +24,7 @@ public class IncomeStatementDataAccessMapper {
 
     public IncomeStatement incomeStatementEntityToIncomeStatement(IncomeStatementEntity incomeStatementEntity) {
         return IncomeStatement.builder()
+                .id(incomeStatementEntity.getId())
                 .stock(stockDataAccessMapper.stockEntityToStock(incomeStatementEntity.getStock()))
                 .date(incomeStatementEntity.getDate())
                 .operatingIncome(incomeStatementEntity.getOperatingIncome())
