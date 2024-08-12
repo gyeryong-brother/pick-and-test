@@ -19,7 +19,7 @@ public class DividendQueryServiceImpl implements DividendQueryService {
 
     @Override
     public List<AnnualDividendResponse> getAnnualDividendsById(Long id) {
-        Dividends dividends = new Dividends(dividendQueryRepository.findAllByStockId(id));
+        Dividends dividends = Dividends.from(dividendQueryRepository.findAllByStockId(id));
         List<AnnualDividend> annualDividends = dividends.getAnnualDividends();
         return annualDividends.stream()
                 .map(AnnualDividendResponse::from)

@@ -1,13 +1,11 @@
 package com.gyeryongbrother.pickandtest.domain.core;
 
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.LocalDateFixture.januaryFirst;
-import static com.gyeryongbrother.pickandtest.domain.core.MarketCapitalizationFixture.marketCapitalization;
-import static com.gyeryongbrother.pickandtest.domain.core.StockPriceFixture.stockPrice;
-import static org.assertj.core.api.Assertions.assertThat;
 import static com.gyeryongbrother.pickandtest.domain.core.BigDecimalFixture.oneHundred;
 import static com.gyeryongbrother.pickandtest.domain.core.BigDecimalFixture.oneThousand;
+import static com.gyeryongbrother.pickandtest.domain.core.LocalDateFixture.januaryFirst;
 import static com.gyeryongbrother.pickandtest.domain.core.LocalDateFixture.twentyTwenty;
 import static com.gyeryongbrother.pickandtest.domain.core.LocalDateFixture.twentyTwentyFour;
+import static com.gyeryongbrother.pickandtest.domain.core.MarketCapitalizationFixture.marketCapitalization;
 import static com.gyeryongbrother.pickandtest.domain.core.StockPriceFixture.stockPrice;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
@@ -79,6 +77,10 @@ class StockPriceTest {
         // then
         assertThat(result).usingRecursiveComparison()
                 .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
+                .isEqualTo(expected);
+    }
+
+    @Test
     @DisplayName("유통주식수를 받아 시가총액을 계산한다")
     void calculateMarketCapitalization() {
         // given

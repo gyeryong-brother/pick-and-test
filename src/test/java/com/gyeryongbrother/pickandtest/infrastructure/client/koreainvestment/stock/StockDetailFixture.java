@@ -25,8 +25,8 @@ public class StockDetailFixture {
     public static StockDetail appleWithDividendsOfVariousYear() {
         return StockDetail.builder()
                 .stock(StockFixture.apple())
-                .stockPrices(appleStockPrices())
-                .dividends(appleDividendsAtVariousYear())
+                .stockPrices(StockPrices.from(appleStockPrices()))
+                .dividends(Dividends.from(appleDividendsAtVariousYear()))
                 .build();
     }
 

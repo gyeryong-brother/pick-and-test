@@ -1,6 +1,6 @@
 package com.gyeryongbrother.pickandtest.domain.core;
 
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.LocalDateFixture.januaryFirst;
+import static com.gyeryongbrother.pickandtest.domain.core.LocalDateFixture.januaryFirst;
 import static com.gyeryongbrother.pickandtest.domain.core.MarketCapitalizationFixture.marketCapitalization;
 import static com.gyeryongbrother.pickandtest.domain.core.StockFixture.stock;
 import static com.gyeryongbrother.pickandtest.domain.core.StockPriceFixture.stockPrice;

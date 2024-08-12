@@ -20,19 +20,17 @@ import com.gyeryongbrother.pickandtest.application.dto.CreateFavoriteStockReques
 import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockPriceJpaRepository;
-import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
-import com.gyeryongbrother.pickandtest.domain.service.dto.AnnualDividendResponse;
 import com.gyeryongbrother.pickandtest.domain.core.FavoriteStockFixture;
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
+import com.gyeryongbrother.pickandtest.domain.service.dto.AnnualDividendResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.CreateFavoriteStockResponse;
-import com.gyeryongbrother.pickandtest.domain.service.dto.MarketCapitalizationResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.FavoriteStockResponse;
+import com.gyeryongbrother.pickandtest.domain.service.dto.MarketCapitalizationResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockPriceResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
-import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockDetailFixture;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.FavoriteStockRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockDetailFixture;
 import io.restassured.RestAssured;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
@@ -55,14 +53,12 @@ class StockControllerTest {
 
     @Autowired
     private StockJpaRepository stockJpaRepository;
+
     @Autowired
     private StockRepository stockRepository;
 
     @Autowired
     private StockPriceJpaRepository stockPriceJpaRepository;
-
-    @Autowired
-    private StockRepository stockRepository;
 
     @Autowired
     private FavoriteStockRepository favoriteStockRepository;
