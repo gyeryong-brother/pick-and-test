@@ -11,10 +11,12 @@ import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockPriceRepositoryIm
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.DividendDataAccessMapper;
+import com.gyeryongbrother.pickandtest.dataaccess.mapper.FavoriteStockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.IncomeStatementDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockPriceDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.DividendJpaRepository;
+import com.gyeryongbrother.pickandtest.dataaccess.repository.FavoriteStockJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.IncomeStatementJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockPriceJpaRepository;
@@ -62,6 +64,9 @@ public class TestQuerydslConfig {
     @Autowired
     private IncomeStatementJpaRepository incomeStatementJpaRepository;
 
+    @Autowired
+    private FavoriteStockJpaRepository favoriteStockJpaRepository;
+
     @Bean
     public JPAQueryFactory queryFactory() {
         return new JPAQueryFactory(entityManager);
@@ -75,6 +80,11 @@ public class TestQuerydslConfig {
     @Bean
     public StockPriceDataAccessMapper stockPriceDataAccessMapper() {
         return new StockPriceDataAccessMapper();
+    }
+
+    @Bean
+    public FavoriteStockDataAccessMapper favoriteStockDataAccessMapper() {
+        return new FavoriteStockDataAccessMapper(stockDataAccessMapper());
     }
 
     @Bean
@@ -110,6 +120,11 @@ public class TestQuerydslConfig {
     @Bean
     public FavoriteStockQueryRepository favoriteStockQueryRepository() {
         return new FavoriteStockQueryRepositoryImpl(queryFactory(), favoriteStockDataAccessMapper());
+    }
+
+    @Bean
+    public FavoriteStockRepository favoriteStockRepository() {
+        return new FavoriteStockRepositoryImpl(favoriteStockJpaRepository, favoriteStockDataAccessMapper());
     }
 
     @Bean
