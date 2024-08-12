@@ -3,7 +3,6 @@ package com.gyeryongbrother.pickandtest.dataaccess.entity;
 import com.gyeryongbrother.pickandtest.domain.core.IncomeStatement;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockFixture;
-
 import java.time.LocalDate;
 import java.util.List;
 

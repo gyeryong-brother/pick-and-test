@@ -1,5 +1,7 @@
 package com.gyeryongbrother.pickandtest.dataaccess.adapter;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.gyeryongbrother.pickandtest.dataaccess.config.TestQuerydslConfig;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.IncomeStatementEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.IncomeStatementEntityFixture;
@@ -13,15 +15,12 @@ import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.core.IncomeStatement;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.IncomeStatementQueryRepository;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @Import(TestQuerydslConfig.class)
@@ -46,11 +45,14 @@ public class IncomeStatementQueryRepositoryImplTest {
         StockEntity nvidiaEntity = stockJpaRepository.save(StockEntityFixture.nvidiaStockEntity());
         Stock apple = stockDataAccessMapper.stockEntityToStock(appleEntity);
         List<IncomeStatementEntity> appleIncomeStatementEntities = List.of(
-                IncomeStatementEntityFixture.incomeStatementEntity(appleEntity, 200L, 100L, 50L, LocalDateFixture.januaryFirst()),
-                IncomeStatementEntityFixture.incomeStatementEntity(appleEntity, 220L, 100L, 50L, LocalDateFixture.januarySecond())
+                IncomeStatementEntityFixture.incomeStatementEntity(appleEntity, 200L, 100L, 50L,
+                        LocalDateFixture.januaryFirst()),
+                IncomeStatementEntityFixture.incomeStatementEntity(appleEntity, 220L, 100L, 50L,
+                        LocalDateFixture.januarySecond())
         );
         List<IncomeStatementEntity> nvidiaIncomeStatementEntities = List.of(
-                IncomeStatementEntityFixture.incomeStatementEntity(nvidiaEntity, 100L, 50L, 20L, LocalDateFixture.januaryThird())
+                IncomeStatementEntityFixture.incomeStatementEntity(nvidiaEntity, 100L, 50L, 20L,
+                        LocalDateFixture.januaryThird())
         );
         List<IncomeStatement> expected = List.of(
                 IncomeStatementFixture.incomeStatement(apple, 200L, 100L, 50L, LocalDateFixture.januaryFirst()),
@@ -58,7 +60,6 @@ public class IncomeStatementQueryRepositoryImplTest {
         );
         incomeStatementJpaRepository.saveAll(appleIncomeStatementEntities);
         incomeStatementJpaRepository.saveAll(nvidiaIncomeStatementEntities);
-
 
         //when
         List<IncomeStatement> result = incomeStatementQueryRepository.findAllByStockId(apple.getId());

@@ -144,6 +144,7 @@ public class TestQuerydslConfig {
 
     @Bean
     public IncomeStatementQueryRepository incomeStatementQueryRepository() {
-        return new IncomeStatementQueryRepositoryImpl(queryFactory(), stockDataAccessMapper(), incomeStatementDataAccessMapper());
+        return new IncomeStatementQueryRepositoryImpl(queryFactory(), stockDataAccessMapper(),
+                incomeStatementDataAccessMapper());
     }
 }

@@ -17,7 +17,8 @@ public class IncomeStatementRepositoryImpl implements IncomeStatementRepository 
 
     @Override
     public IncomeStatement save(IncomeStatement incomeStatement) {
-        IncomeStatementEntity incomeStatementEntity = incomeStatementDataAccessMapper.incomeStatementToIncomeStatementEntity(incomeStatement);
+        IncomeStatementEntity incomeStatementEntity = incomeStatementDataAccessMapper.incomeStatementToIncomeStatementEntity(
+                incomeStatement);
         IncomeStatementEntity savedIncomeStatementEntity = incomeStatementJpaRepository.save(incomeStatementEntity);
         return incomeStatementDataAccessMapper.incomeStatementEntityToIncomeStatement(savedIncomeStatementEntity);
     }
