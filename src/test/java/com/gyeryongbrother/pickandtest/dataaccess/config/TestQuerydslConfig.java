@@ -4,16 +4,20 @@ import com.gyeryongbrother.pickandtest.dataaccess.adapter.DividendQueryRepositor
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.DividendRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.FavoriteStockQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.FavoriteStockRepositoryImpl;
+import com.gyeryongbrother.pickandtest.dataaccess.adapter.IncomeStatementQueryRepositoryImpl;
+import com.gyeryongbrother.pickandtest.dataaccess.adapter.IncomeStatementRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockPriceQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockPriceRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.DividendDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.FavoriteStockDataAccessMapper;
+import com.gyeryongbrother.pickandtest.dataaccess.mapper.IncomeStatementDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockPriceDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.DividendJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.FavoriteStockJpaRepository;
+import com.gyeryongbrother.pickandtest.dataaccess.repository.IncomeStatementJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockPriceJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.service.DividendQueryServiceImpl;
@@ -22,6 +26,8 @@ import com.gyeryongbrother.pickandtest.domain.service.ports.output.DividendQuery
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.DividendRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.FavoriteStockQueryRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.FavoriteStockRepository;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.IncomeStatementQueryRepository;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.IncomeStatementRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockPriceQueryRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockPriceRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
@@ -56,6 +62,9 @@ public class TestQuerydslConfig {
     private MemberJpaRepository memberJpaRepository;
 
     @Autowired
+    private IncomeStatementJpaRepository incomeStatementJpaRepository;
+
+    @Autowired
     private FavoriteStockJpaRepository favoriteStockJpaRepository;
 
     @Bean
@@ -74,6 +83,11 @@ public class TestQuerydslConfig {
     }
 
     @Bean
+    public FavoriteStockDataAccessMapper favoriteStockDataAccessMapper() {
+        return new FavoriteStockDataAccessMapper(stockDataAccessMapper());
+    }
+
+    @Bean
     public StockDataAccessMapper stockDataAccessMapper() {
         return new StockDataAccessMapper(stockPriceDataAccessMapper(), dividendDataAccessMapper());
     }
@@ -84,8 +98,8 @@ public class TestQuerydslConfig {
     }
 
     @Bean
-    public FavoriteStockDataAccessMapper favoriteStockDataAccessMapper() {
-        return new FavoriteStockDataAccessMapper(stockDataAccessMapper());
+    public IncomeStatementDataAccessMapper incomeStatementDataAccessMapper() {
+        return new IncomeStatementDataAccessMapper(stockDataAccessMapper());
     }
 
     @Bean
@@ -106,6 +120,11 @@ public class TestQuerydslConfig {
     @Bean
     public FavoriteStockQueryRepository favoriteStockQueryRepository() {
         return new FavoriteStockQueryRepositoryImpl(queryFactory(), favoriteStockDataAccessMapper());
+    }
+
+    @Bean
+    public FavoriteStockRepository favoriteStockRepository() {
+        return new FavoriteStockRepositoryImpl(favoriteStockJpaRepository, favoriteStockDataAccessMapper());
     }
 
     @Bean
@@ -134,7 +153,12 @@ public class TestQuerydslConfig {
     }
 
     @Bean
-    public FavoriteStockRepository favoriteStockRepository() {
-        return new FavoriteStockRepositoryImpl(favoriteStockJpaRepository, favoriteStockDataAccessMapper());
+    public IncomeStatementRepository incomeStatementRepository() {
+        return new IncomeStatementRepositoryImpl(incomeStatementJpaRepository, incomeStatementDataAccessMapper());
+    }
+
+    @Bean
+    public IncomeStatementQueryRepository incomeStatementQueryRepository() {
+        return new IncomeStatementQueryRepositoryImpl(queryFactory(), incomeStatementDataAccessMapper());
     }
 }

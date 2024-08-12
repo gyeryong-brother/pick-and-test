@@ -9,9 +9,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Builder
+@Getter
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
 public class IncomeStatementEntity {
