@@ -17,7 +17,6 @@ import org.springframework.stereotype.Repository;
 public class IncomeStatementQueryRepositoryImpl implements IncomeStatementQueryRepository {
 
     private final JPAQueryFactory queryFactory;
-    private final StockDataAccessMapper stockDataAccessMapper;
     private final IncomeStatementDataAccessMapper incomeStatementDataAccessMapper;
 
     @Override

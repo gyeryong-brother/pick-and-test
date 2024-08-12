@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Import;
 @DataJpaTest
 @Import(TestQuerydslConfig.class)
 @DisplayName("기업 실적 정보 리포지토리를 구현한다")
-public class IncomeStatementRepositoryImplTest {
+class IncomeStatementRepositoryImplTest {
 
     @Autowired
     private IncomeStatementRepository incomeStatementRepository;
