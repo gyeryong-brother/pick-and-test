@@ -7,8 +7,8 @@ import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
 import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
 import com.gyeryongbrother.pickandtest.domain.core.StockPrices;
-import java.util.List;
 import com.gyeryongbrother.pickandtest.domain.core.StockWithPrices;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

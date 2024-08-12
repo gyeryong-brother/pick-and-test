@@ -1,14 +1,13 @@
 package com.gyeryongbrother.pickandtest.domain.service;
 
 import static com.gyeryongbrother.pickandtest.domain.core.FavoriteStockFixture.favoriteStocks;
-import static com.gyeryongbrother.pickandtest.domain.service.dto.FavoriteStockResponseFixture.favoriteStockResponses;
 import static com.gyeryongbrother.pickandtest.domain.core.StockPriceFixture.stockPrices;
 import static com.gyeryongbrother.pickandtest.domain.core.StockWithPricesFixture.stockWithPrices;
+import static com.gyeryongbrother.pickandtest.domain.service.dto.FavoriteStockResponseFixture.favoriteStockResponses;
 import static com.gyeryongbrother.pickandtest.domain.service.dto.MarketCapitalizationResponseFixture.marketCapitalizationResponses;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 import static org.mockito.BDDMockito.anyLong;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.anyString;
 import static org.mockito.BDDMockito.given;
 
@@ -16,8 +15,8 @@ import com.gyeryongbrother.pickandtest.domain.core.FavoriteStock;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockExchange;
 import com.gyeryongbrother.pickandtest.domain.core.StockWithPrices;
-import com.gyeryongbrother.pickandtest.domain.service.dto.MarketCapitalizationResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.FavoriteStockResponse;
+import com.gyeryongbrother.pickandtest.domain.service.dto.MarketCapitalizationResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.StockQueryService;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.FavoriteStockQueryRepository;
