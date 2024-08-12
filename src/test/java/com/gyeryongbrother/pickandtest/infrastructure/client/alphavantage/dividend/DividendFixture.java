@@ -1,7 +1,6 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend;
 
 import com.gyeryongbrother.pickandtest.domain.core.Dividend;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;

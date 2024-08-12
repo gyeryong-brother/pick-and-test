@@ -1,8 +1,8 @@
 package com.gyeryongbrother.pickandtest.domain.core;
 
-import java.util.List;
-
 import static com.gyeryongbrother.pickandtest.domain.core.StockFixture.stock;
+
+import java.util.List;
 
 public class StockDetailFixture {
 

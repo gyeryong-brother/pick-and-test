@@ -1,13 +1,13 @@
 package com.gyeryongbrother.pickandtest.dataaccess.entity;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
-
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.BigDecimalFixture.oneHundred;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.BigDecimalFixture.twoHundred;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.LocalDateFixture.januaryFirst;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.LocalDateFixture.januarySecond;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
 
 public class StockPriceEntityFixture {
 

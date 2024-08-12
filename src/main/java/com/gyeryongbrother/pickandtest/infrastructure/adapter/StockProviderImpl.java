@@ -12,11 +12,10 @@ import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.NasdaqClient
 import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stocksymbol.dto.StockSymbolDetail;
 import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.stocksymbol.dto.StockSymbolResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.mapper.StockFetcherDataMapper;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-
 import java.time.LocalDate;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor

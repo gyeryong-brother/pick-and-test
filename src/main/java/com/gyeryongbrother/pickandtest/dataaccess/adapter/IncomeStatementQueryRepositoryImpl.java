@@ -1,17 +1,16 @@
 package com.gyeryongbrother.pickandtest.dataaccess.adapter;
 
+import static com.gyeryongbrother.pickandtest.dataaccess.entity.QIncomeStatementEntity.incomeStatementEntity;
+
 import com.gyeryongbrother.pickandtest.dataaccess.entity.IncomeStatementEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.IncomeStatementDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.domain.core.IncomeStatement;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.IncomeStatementQueryRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.QIncomeStatementEntity.incomeStatementEntity;
 
 @Repository
 @RequiredArgsConstructor

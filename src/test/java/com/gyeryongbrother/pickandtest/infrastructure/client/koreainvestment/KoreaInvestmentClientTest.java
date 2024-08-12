@@ -1,19 +1,5 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment;
 
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.StockExchangeCode;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockFetcher;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponse;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.StockPriceFetcher;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.time.LocalDate;
-
 import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.StockExchangeCode.NASDAQ_CODE;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponseFixture.appleStockResponse;
@@ -24,6 +10,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.anyString;
 import static org.mockito.BDDMockito.given;
+
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.StockExchangeCode;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockFetcher;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponse;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.StockPriceFetcher;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
+import java.time.LocalDate;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("한국투자증권 api 를 사용한다")

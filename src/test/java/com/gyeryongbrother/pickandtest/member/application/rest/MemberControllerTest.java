@@ -1,5 +1,9 @@
 package com.gyeryongbrother.pickandtest.member.application.rest;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+
 import com.gyeryongbrother.pickandtest.member.application.dto.RegisterMemberRequest;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberResponse;
 import io.restassured.RestAssured;
@@ -11,10 +15,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @DisplayName("회원 api 를 제공한다")

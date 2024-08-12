@@ -1,12 +1,12 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common;
 
-import com.gyeryongbrother.pickandtest.domain.core.StockExchange;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
 import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.AMEX;
 import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
 import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NYSE;
+
+import com.gyeryongbrother.pickandtest.domain.core.StockExchange;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor

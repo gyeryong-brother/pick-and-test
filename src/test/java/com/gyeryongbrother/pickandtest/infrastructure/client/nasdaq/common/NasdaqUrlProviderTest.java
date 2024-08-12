@@ -1,11 +1,11 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.common;
 
+import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
-import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Nasdaq api url 을 제공한다")
 class NasdaqUrlProviderTest {

@@ -1,24 +1,5 @@
 package com.gyeryongbrother.pickandtest.infrastructure.adapter;
 
-import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
-import com.gyeryongbrother.pickandtest.domain.core.StockExchange;
-import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockProvider;
-import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.AlphaVantageClient;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.KoreaInvestmentClient;
-import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.NasdaqClient;
-import com.gyeryongbrother.pickandtest.infrastructure.mapper.DividendFetcherDataMapper;
-import com.gyeryongbrother.pickandtest.infrastructure.mapper.StockFetcherDataMapper;
-import com.gyeryongbrother.pickandtest.infrastructure.mapper.StockPriceFetcherDataMapper;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.math.BigDecimal;
-import java.util.List;
-
 import static com.gyeryongbrother.pickandtest.domain.core.StockExchange.NASDAQ;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponseFixture.appleDividendResponse;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponseFixture.microsoftDividendResponse;
@@ -44,6 +25,24 @@ import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+
+import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
+import com.gyeryongbrother.pickandtest.domain.core.StockExchange;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockProvider;
+import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.AlphaVantageClient;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.KoreaInvestmentClient;
+import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.NasdaqClient;
+import com.gyeryongbrother.pickandtest.infrastructure.mapper.DividendFetcherDataMapper;
+import com.gyeryongbrother.pickandtest.infrastructure.mapper.StockFetcherDataMapper;
+import com.gyeryongbrother.pickandtest.infrastructure.mapper.StockPriceFetcherDataMapper;
+import java.math.BigDecimal;
+import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("주식 정보를 제공한다")

@@ -1,14 +1,5 @@
 package com.gyeryongbrother.pickandtest.infrastructure.mapper;
 
-import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
-import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import java.math.BigDecimal;
-import java.util.List;
-
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.StockPriceFixture.appleStockPrices;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.StockPriceFixture.stockPrice;
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.appleFirstStockPriceResponse;
@@ -16,6 +7,14 @@ import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestm
 import static com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.appleThirdStockPriceResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
+
+import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
+import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
+import java.math.BigDecimal;
+import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 @DisplayName("주가 응답과 주가를 매핑한다")
 class StockPriceFetcherDataMapperTest {
