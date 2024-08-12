@@ -4,7 +4,6 @@ import static com.gyeryongbrother.pickandtest.dataaccess.entity.QIncomeStatement
 
 import com.gyeryongbrother.pickandtest.dataaccess.entity.IncomeStatementEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.IncomeStatementDataAccessMapper;
-import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.domain.core.IncomeStatement;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.IncomeStatementQueryRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
