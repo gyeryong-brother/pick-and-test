@@ -1,7 +1,7 @@
 package com.gyeryongbrother.pickandtest.domain.core;
 
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.LocalDateFixture.januaryFirst;
-import static com.gyeryongbrother.pickandtest.dataaccess.entity.LocalDateFixture.januarySecond;
+import static com.gyeryongbrother.pickandtest.domain.core.LocalDateFixture.januaryFirst;
+import static com.gyeryongbrother.pickandtest.domain.core.LocalDateFixture.januarySecond;
 
 import java.time.LocalDate;
 import java.util.List;

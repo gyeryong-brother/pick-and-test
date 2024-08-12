@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.dataaccess.entity;
+package com.gyeryongbrother.pickandtest.domain.core;
 
 import java.math.BigDecimal;
 
@@ -14,5 +14,9 @@ public class BigDecimalFixture {
 
     public static BigDecimal threeHundred() {
         return BigDecimal.valueOf(300);
+    }
+
+    public static BigDecimal oneThousand() {
+        return BigDecimal.valueOf(1000);
     }
 }

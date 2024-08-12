@@ -11,5 +11,5 @@ public class FavoriteStock {
 
     private final Long id;
     private final Long memberId;
-    private final Stock stock;
+    private final StockDetail stockDetail;
 }

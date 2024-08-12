@@ -2,6 +2,7 @@ package com.gyeryongbrother.pickandtest.domain.service.dto;
 
 import com.gyeryongbrother.pickandtest.domain.core.FavoriteStock;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
+import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
 
 public record CreateFavoriteStockCommand(
         Long memberId,
@@ -9,11 +10,17 @@ public record CreateFavoriteStockCommand(
 ) {
 
     public FavoriteStock toDomain() {
+        return FavoriteStock.builder()
+                .memberId(memberId)
+                .stockDetail(stockDetail())
+                .build();
+    }
+
+    private StockDetail stockDetail() {
         Stock stock = Stock.builder()
                 .id(stockId)
                 .build();
-        return FavoriteStock.builder()
-                .memberId(memberId)
+        return StockDetail.builder()
                 .stock(stock)
                 .build();
     }
