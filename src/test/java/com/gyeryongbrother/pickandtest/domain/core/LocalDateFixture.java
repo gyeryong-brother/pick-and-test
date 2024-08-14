@@ -20,7 +20,5 @@ public class LocalDateFixture {
         return LocalDate.of(2020, 1, 1);
     }
 
-    public static LocalDate twentyTwentyFour() {
-        return LocalDate.of(2024, 1, 1);
-    }
+    public static LocalDate twentyTwentyFour() {return LocalDate.of(2024, 1, 1);}
 }
