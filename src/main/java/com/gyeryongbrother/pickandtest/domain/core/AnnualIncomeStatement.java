@@ -12,7 +12,7 @@ public class AnnualIncomeStatement {
     private final Long revenue;
     private final Long netIncome;
 
-    public static AnnualIncomeStatement from(IncomeStatement incomeStatement){
+    public static AnnualIncomeStatement from(IncomeStatement incomeStatement) {
         return new AnnualIncomeStatement(
                 incomeStatement.getDate().getYear(),
                 incomeStatement.getOperatingIncome(),
@@ -21,12 +21,12 @@ public class AnnualIncomeStatement {
         );
     }
 
-    public AnnualIncomeStatement add(AnnualIncomeStatement other){
+    public AnnualIncomeStatement add(AnnualIncomeStatement other) {
         return new AnnualIncomeStatement(
                 year,
-                operatingIncome+other.operatingIncome,
-                revenue+ other.revenue,
-                netIncome+ other.netIncome
+                operatingIncome + other.operatingIncome,
+                revenue + other.revenue,
+                netIncome + other.netIncome
         );
     }
 }

@@ -15,5 +15,7 @@ public class IncomeStatement {
     private final Long revenue;
     private final Long netIncome;
 
-    public int getYear(){return date.getYear();}
+    public int getYear() {
+        return date.getYear();
+    }
 }

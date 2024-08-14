@@ -22,7 +22,6 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 import com.gyeryongbrother.pickandtest.application.dto.CreateFavoriteStockRequest;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.IncomeStatementEntity;
-import com.gyeryongbrother.pickandtest.dataaccess.entity.IncomeStatementFixture;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntityFixture;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockDataAccessMapper;
@@ -30,7 +29,6 @@ import com.gyeryongbrother.pickandtest.dataaccess.repository.IncomeStatementJpaR
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockPriceJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.core.FavoriteStockFixture;
-import com.gyeryongbrother.pickandtest.domain.core.IncomeStatement;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
 import com.gyeryongbrother.pickandtest.domain.service.dto.AnnualDividendResponse;
@@ -64,23 +62,17 @@ import org.springframework.test.context.jdbc.Sql;
 class StockControllerTest {
 
     @Autowired
+    IncomeStatementJpaRepository incomeStatementJpaRepository;
+    @Autowired
     private StockJpaRepository stockJpaRepository;
-
     @Autowired
     private StockRepository stockRepository;
-
     @Autowired
     private StockPriceJpaRepository stockPriceJpaRepository;
-
     @Autowired
     private FavoriteStockRepository favoriteStockRepository;
-
     @Autowired
     private StockDataAccessMapper stockDataAccessMapper;
-
-    @Autowired
-    IncomeStatementJpaRepository incomeStatementJpaRepository;
-
     @LocalServerPort
     private int port;
 
@@ -190,7 +182,7 @@ class StockControllerTest {
 
     @Test
     @DisplayName("주식의 1년기준 기업실적을 가져온다")
-    void findAnnualIncomeStatements(){
+    void findAnnualIncomeStatements() {
         //given
         StockEntity appleEntity = stockJpaRepository.save(StockEntityFixture.stockEntity());
         Stock apple = stockDataAccessMapper.stockEntityToStock(appleEntity);
@@ -203,7 +195,7 @@ class StockControllerTest {
                         twentyTwenty())
         );
         incomeStatementJpaRepository.saveAll(appleIncomeStatementEntities);
-        List<AnnualIncomeStatementResponse> expected=List.of(
+        List<AnnualIncomeStatementResponse> expected = List.of(
                 new AnnualIncomeStatementResponse(2020, 220L, 100L, 50L),
                 new AnnualIncomeStatementResponse(2024, 420L, 200L, 100L)
         );

@@ -9,7 +9,7 @@ public record AnnualIncomeStatementResponse(
         Long netIncome
 ) {
 
-    public static AnnualIncomeStatementResponse from(AnnualIncomeStatement annualIncomeStatement){
+    public static AnnualIncomeStatementResponse from(AnnualIncomeStatement annualIncomeStatement) {
         return new AnnualIncomeStatementResponse(
                 annualIncomeStatement.getYear(),
                 annualIncomeStatement.getOperatingIncome(),

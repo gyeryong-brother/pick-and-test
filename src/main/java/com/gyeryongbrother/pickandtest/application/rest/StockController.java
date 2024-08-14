@@ -3,7 +3,6 @@ package com.gyeryongbrother.pickandtest.application.rest;
 import static org.springframework.http.HttpStatus.CREATED;
 
 import com.gyeryongbrother.pickandtest.application.dto.CreateFavoriteStockRequest;
-import com.gyeryongbrother.pickandtest.domain.core.IncomeStatement;
 import com.gyeryongbrother.pickandtest.domain.service.dto.AnnualDividendResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.AnnualIncomeStatementResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.CreateFavoriteStockCommand;
@@ -84,7 +83,7 @@ public class StockController {
     }
 
     @GetMapping("/{stockId}/incomeStatements")
-    ResponseEntity<List<AnnualIncomeStatementResponse>> findAnnualIncomeStatementsById(@PathVariable Long stockId){
+    ResponseEntity<List<AnnualIncomeStatementResponse>> findAnnualIncomeStatementsById(@PathVariable Long stockId) {
         return ResponseEntity.ok(incomeStatementQueryService.getAnnualIncomeStatementsById(stockId));
     }
 }
