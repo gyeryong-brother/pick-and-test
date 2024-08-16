@@ -7,7 +7,6 @@ import com.gyeryongbrother.pickandtest.domain.core.Portfolio;
 import com.gyeryongbrother.pickandtest.domain.core.PortfolioStock;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioRepository;
-import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioStockRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockFixture;
 import java.math.BigDecimal;
@@ -20,17 +19,17 @@ import org.springframework.context.annotation.Import;
 
 @DataJpaTest
 @Import(TestQuerydslConfig.class)
-@DisplayName("포트폴리오주식 리퍼지토리를 구현한다")
-public class PortfolioStockRepositoryImplTest {
+@DisplayName("포트폴리오 리퍼지토리를 구현한다")
+public class PortfolioRepositoryImplTest {
 
     @Autowired
     private StockRepository stockRepository;
 
     @Autowired
-    private PortfolioStockRepository portfolioStockRepository;
+    private PortfolioRepository portfolioRepository;
 
     @Test
-    @DisplayName("포트폴리오주식을 저장한다")
+    @DisplayName("포트폴리오를 저장한다")
     void save(){
         //given
         Stock apple= StockFixture.apple();
@@ -38,12 +37,17 @@ public class PortfolioStockRepositoryImplTest {
         Stock savedApple=stockRepository.save(apple);
         Stock savedNvidia=stockRepository.save(nvidia);
 
-        PortfolioStock appleInPortfolio= PortfolioStock.builder().stockId(savedApple.getId()).portion(BigDecimal.valueOf(0.5)).build();
-
-        PortfolioStock expected=appleInPortfolio;
+        List<PortfolioStock> portfolioStocks=List.of(
+                PortfolioStock.builder().stockId(savedApple.getId()).portion(BigDecimal.valueOf(0.5)).build(),
+                PortfolioStock.builder().stockId(savedNvidia.getId()).portion(BigDecimal.valueOf(0.5)).build()
+        );
+        Portfolio appleNvidia=Portfolio.builder()
+                .portfolioStocks(portfolioStocks)
+                .build();
+        Portfolio expected=appleNvidia;
 
         //when
-        PortfolioStock result= portfolioStockRepository.save(appleInPortfolio);
+        Portfolio result=portfolioRepository.save(appleNvidia);
 
         //then
         assertThat(result).usingRecursiveComparison()

@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @Entity
 @Getter
 @Builder
-@NoArgsConstructor(access = PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor
 public class PortfolioEntity {
 
@@ -28,6 +28,6 @@ public class PortfolioEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "portfolio", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "portfolioEntity", cascade = CascadeType.PERSIST)
     private List<PortfolioStockEntity> portfolioStockEntities;
 }

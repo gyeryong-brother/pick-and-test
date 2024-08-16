@@ -6,6 +6,8 @@ import com.gyeryongbrother.pickandtest.dataaccess.adapter.FavoriteStockQueryRepo
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.FavoriteStockRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.IncomeStatementQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.IncomeStatementRepositoryImpl;
+import com.gyeryongbrother.pickandtest.dataaccess.adapter.PortfolioRepositoryImpl;
+import com.gyeryongbrother.pickandtest.dataaccess.adapter.PortfolioStockRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockPriceQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockPriceRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockQueryRepositoryImpl;
@@ -13,11 +15,15 @@ import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.DividendDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.FavoriteStockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.IncomeStatementDataAccessMapper;
+import com.gyeryongbrother.pickandtest.dataaccess.mapper.PortfolioDataAccessMapper;
+import com.gyeryongbrother.pickandtest.dataaccess.mapper.PortfolioStockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockPriceDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.DividendJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.FavoriteStockJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.IncomeStatementJpaRepository;
+import com.gyeryongbrother.pickandtest.dataaccess.repository.PortfolioJpaRepository;
+import com.gyeryongbrother.pickandtest.dataaccess.repository.PortfolioStockJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockPriceJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.service.DividendQueryServiceImpl;
@@ -28,6 +34,8 @@ import com.gyeryongbrother.pickandtest.domain.service.ports.output.FavoriteStock
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.FavoriteStockRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.IncomeStatementQueryRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.IncomeStatementRepository;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioRepository;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioStockRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockPriceQueryRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockPriceRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockQueryRepository;
@@ -67,6 +75,12 @@ public class TestQuerydslConfig {
     @Autowired
     private FavoriteStockJpaRepository favoriteStockJpaRepository;
 
+    @Autowired
+    private PortfolioStockJpaRepository portfolioStockJpaRepository;
+
+    @Autowired
+    private PortfolioJpaRepository portfolioJpaRepository;
+
     @Bean
     public JPAQueryFactory queryFactory() {
         return new JPAQueryFactory(entityManager);
@@ -100,6 +114,16 @@ public class TestQuerydslConfig {
     @Bean
     public IncomeStatementDataAccessMapper incomeStatementDataAccessMapper() {
         return new IncomeStatementDataAccessMapper(stockDataAccessMapper());
+    }
+
+    @Bean
+    public PortfolioStockDataAccessMapper portfolioStockDataAccessMapper(){
+        return new PortfolioStockDataAccessMapper();
+    }
+
+    @Bean
+    public PortfolioDataAccessMapper portfolioDataAccessMapper(){
+        return new PortfolioDataAccessMapper(portfolioStockDataAccessMapper());
     }
 
     @Bean
@@ -160,5 +184,15 @@ public class TestQuerydslConfig {
     @Bean
     public IncomeStatementQueryRepository incomeStatementQueryRepository() {
         return new IncomeStatementQueryRepositoryImpl(queryFactory(), incomeStatementDataAccessMapper());
+    }
+
+    @Bean
+    public PortfolioStockRepository portfolioStockRepository(){
+        return new PortfolioStockRepositoryImpl(portfolioStockJpaRepository,portfolioStockDataAccessMapper());
+    }
+
+    @Bean
+    public PortfolioRepository portfolioRepository(){
+        return new PortfolioRepositoryImpl(portfolioDataAccessMapper(),portfolioJpaRepository);
     }
 }
