@@ -4,6 +4,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 
 import com.gyeryongbrother.pickandtest.application.dto.CreateFavoriteStockRequest;
 import com.gyeryongbrother.pickandtest.domain.service.dto.AnnualDividendResponse;
+import com.gyeryongbrother.pickandtest.domain.service.dto.AnnualIncomeStatementResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.CreateFavoriteStockCommand;
 import com.gyeryongbrother.pickandtest.domain.service.dto.CreateFavoriteStockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.FavoriteStockResponse;
@@ -11,6 +12,7 @@ import com.gyeryongbrother.pickandtest.domain.service.dto.MarketCapitalizationRe
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockPriceResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.DividendQueryService;
+import com.gyeryongbrother.pickandtest.domain.service.ports.input.IncomeStatementQueryService;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.StockPriceQueryService;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.StockQueryService;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.StockService;
@@ -34,6 +36,7 @@ public class StockController {
     private final DividendQueryService dividendQueryService;
     private final StockPriceQueryService stockPriceQueryService;
     private final StockService stockService;
+    private final IncomeStatementQueryService incomeStatementQueryService;
 
     @GetMapping
     ResponseEntity<List<StockResponse>> searchStocks(@RequestParam String keyword) {
@@ -77,5 +80,10 @@ public class StockController {
         List<MarketCapitalizationResponse> marketCapitalizationResponses =
                 stockQueryService.findAllMarketCapitalizationsByStockId(stockId);
         return ResponseEntity.ok(marketCapitalizationResponses);
+    }
+
+    @GetMapping("/{stockId}/incomeStatements")
+    ResponseEntity<List<AnnualIncomeStatementResponse>> findAnnualIncomeStatementsById(@PathVariable Long stockId) {
+        return ResponseEntity.ok(incomeStatementQueryService.getAnnualIncomeStatementsById(stockId));
     }
 }

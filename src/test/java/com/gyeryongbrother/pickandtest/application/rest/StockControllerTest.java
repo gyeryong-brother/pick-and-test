@@ -1,9 +1,13 @@
 package com.gyeryongbrother.pickandtest.application.rest;
 
+import static com.gyeryongbrother.pickandtest.dataaccess.entity.IncomeStatementEntityFixture.incomeStatementEntity;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntityFixture.stockEntity;
 import static com.gyeryongbrother.pickandtest.dataaccess.entity.StockPriceEntityFixture.stockPriceEntities;
 import static com.gyeryongbrother.pickandtest.domain.core.DividendFixture.dividends;
 import static com.gyeryongbrother.pickandtest.domain.core.DividendFixture.twoDividends;
+import static com.gyeryongbrother.pickandtest.domain.core.LocalDateFixture.januaryFirst;
+import static com.gyeryongbrother.pickandtest.domain.core.LocalDateFixture.januarySecond;
+import static com.gyeryongbrother.pickandtest.domain.core.LocalDateFixture.twentyTwenty;
 import static com.gyeryongbrother.pickandtest.domain.core.StockDetailFixture.stockDetail;
 import static com.gyeryongbrother.pickandtest.domain.core.StockPriceFixture.stockPrice;
 import static com.gyeryongbrother.pickandtest.domain.core.StockPriceFixture.stockPrices;
@@ -17,12 +21,18 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 import com.gyeryongbrother.pickandtest.application.dto.CreateFavoriteStockRequest;
+import com.gyeryongbrother.pickandtest.dataaccess.entity.IncomeStatementEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
+import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntityFixture;
+import com.gyeryongbrother.pickandtest.dataaccess.mapper.StockDataAccessMapper;
+import com.gyeryongbrother.pickandtest.dataaccess.repository.IncomeStatementJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockPriceJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.core.FavoriteStockFixture;
+import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
 import com.gyeryongbrother.pickandtest.domain.service.dto.AnnualDividendResponse;
+import com.gyeryongbrother.pickandtest.domain.service.dto.AnnualIncomeStatementResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.CreateFavoriteStockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.FavoriteStockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.MarketCapitalizationResponse;
@@ -52,17 +62,17 @@ import org.springframework.test.context.jdbc.Sql;
 class StockControllerTest {
 
     @Autowired
+    IncomeStatementJpaRepository incomeStatementJpaRepository;
+    @Autowired
     private StockJpaRepository stockJpaRepository;
-
     @Autowired
     private StockRepository stockRepository;
-
     @Autowired
     private StockPriceJpaRepository stockPriceJpaRepository;
-
     @Autowired
     private FavoriteStockRepository favoriteStockRepository;
-
+    @Autowired
+    private StockDataAccessMapper stockDataAccessMapper;
     @LocalServerPort
     private int port;
 
@@ -167,6 +177,38 @@ class StockControllerTest {
         });
 
         // then
+        assertThat(result).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("주식의 1년기준 기업실적을 가져온다")
+    void findAnnualIncomeStatements() {
+        //given
+        StockEntity appleEntity = stockJpaRepository.save(StockEntityFixture.stockEntity());
+        Stock apple = stockDataAccessMapper.stockEntityToStock(appleEntity);
+        List<IncomeStatementEntity> appleIncomeStatementEntities = List.of(
+                incomeStatementEntity(appleEntity, 200L, 100L, 50L,
+                        januaryFirst()),
+                incomeStatementEntity(appleEntity, 220L, 100L, 50L,
+                        januarySecond()),
+                incomeStatementEntity(appleEntity, 220L, 100L, 50L,
+                        twentyTwenty())
+        );
+        incomeStatementJpaRepository.saveAll(appleIncomeStatementEntities);
+        List<AnnualIncomeStatementResponse> expected = List.of(
+                new AnnualIncomeStatementResponse(2020, 220L, 100L, 50L),
+                new AnnualIncomeStatementResponse(2024, 420L, 200L, 100L)
+        );
+
+        //when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .when().get("/stocks/{stockId}/incomeStatements", apple.getId())
+                .then().log().all()
+                .extract();
+        List<AnnualIncomeStatementResponse> result = response.as(new TypeRef<>() {
+        });
+
+        //then
         assertThat(result).usingRecursiveComparison().isEqualTo(expected);
     }
 
