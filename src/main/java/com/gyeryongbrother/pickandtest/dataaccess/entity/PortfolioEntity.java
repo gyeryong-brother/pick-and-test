@@ -1,5 +1,8 @@
 package com.gyeryongbrother.pickandtest.dataaccess.entity;
 
+import static lombok.AccessLevel.PROTECTED;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +26,6 @@ public class PortfolioEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany
+    @OneToMany(mappedBy = "portfolio", cascade = CascadeType.PERSIST)
     private List<PortfolioStockEntity> portfolioStockEntities;
 }
