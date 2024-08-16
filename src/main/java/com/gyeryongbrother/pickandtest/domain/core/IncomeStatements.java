@@ -25,5 +25,4 @@ public class IncomeStatements {
                 .sorted(comparing(AnnualIncomeStatement::getYear))
                 .toList();
     }
-
 }

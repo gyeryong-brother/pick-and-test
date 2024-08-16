@@ -17,6 +17,4 @@ public record AnnualIncomeStatementResponse(
                 annualIncomeStatement.getNetIncome()
         );
     }
-
-
 }
