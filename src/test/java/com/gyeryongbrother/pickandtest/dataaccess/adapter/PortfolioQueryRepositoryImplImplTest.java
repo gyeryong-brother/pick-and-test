@@ -4,13 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.gyeryongbrother.pickandtest.dataaccess.config.TestQuerydslConfig;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.PortfolioDataAccessMapper;
-import com.gyeryongbrother.pickandtest.dataaccess.mapper.PortfolioStockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.PortfolioJpaRepository;
-import com.gyeryongbrother.pickandtest.dataaccess.repository.PortfolioStockJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.core.Portfolio;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
-import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioRepository;
-import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioStockQueryRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockFixture;
 import com.gyeryongbrother.pickandtest.member.domain.core.Member;
@@ -44,40 +40,41 @@ public class PortfolioQueryRepositoryImplImplTest {
 
     @Test
     @DisplayName("멤버 아이디로 해당 멤버의 모든 포트폴리오 조회")
-    void findAllbyMemberId(){
+    void findAllbyMemberId() {
         //given
         Stock apple = StockFixture.apple();
         Stock nvidia = StockFixture.nvidia();
         Stock savedApple = stockRepository.save(apple);
         Stock savedNvidia = stockRepository.save(nvidia);
 
-        Member member1= Member.builder().build();
-        Member member2= Member.builder().build();
-        Member savedMember1=memberRepository.save(member1);
-        Member savedMember2=memberRepository.save(member2);
+        Member member1 = Member.builder().build();
+        Member member2 = Member.builder().build();
+        Member savedMember1 = memberRepository.save(member1);
+        Member savedMember2 = memberRepository.save(member2);
 
-        Portfolio portfolio1=Portfolio.builder()
+        Portfolio portfolio1 = Portfolio.builder()
                 .memberId(savedMember1.getId())
                 .build();
-        Portfolio portfolio2=Portfolio.builder()
+        Portfolio portfolio2 = Portfolio.builder()
                 .memberId(savedMember2.getId())
                 .build();
-        Portfolio portfolio3=Portfolio.builder()
+        Portfolio portfolio3 = Portfolio.builder()
                 .memberId(savedMember1.getId())
                 .build();
 
-        List<Portfolio> portfolios=List.of(
+        List<Portfolio> portfolios = List.of(
                 portfolio1,
                 portfolio2,
                 portfolio3
         );
 
-        portfolioJpaRepository.saveAll(portfolios.stream().map(portfolioDataAccessMapper::portfolioToPortfolioEntity).toList());
+        portfolioJpaRepository.saveAll(
+                portfolios.stream().map(portfolioDataAccessMapper::portfolioToPortfolioEntity).toList());
 
-        List<Portfolio> expected=List.of(portfolio1,portfolio3);
+        List<Portfolio> expected = List.of(portfolio1, portfolio3);
 
         //when
-        List<Portfolio> result= portfolioQueryRepositoryImpl.findAllByMemberId(savedMember1.getId());
+        List<Portfolio> result = portfolioQueryRepositoryImpl.findAllByMemberId(savedMember1.getId());
 
         //then
         assertThat(result).usingRecursiveComparison()

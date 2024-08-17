@@ -205,7 +205,7 @@ public class TestQuerydslConfig {
     }
 
     @Bean
-    public PortfolioQueryRepositoryImpl portfolioQueryRepository(){
-        return new PortfolioQueryRepositoryImpl(queryFactory(),portfolioDataAccessMapper());
+    public PortfolioQueryRepositoryImpl portfolioQueryRepository() {
+        return new PortfolioQueryRepositoryImpl(queryFactory(), portfolioDataAccessMapper());
     }
 }

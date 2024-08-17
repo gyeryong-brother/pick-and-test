@@ -1,7 +1,6 @@
 package com.gyeryongbrother.pickandtest.dataaccess.entity;
 
 import com.gyeryongbrother.pickandtest.member.dataaccess.entity.MemberEntity;
-import com.gyeryongbrother.pickandtest.member.domain.core.Member;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

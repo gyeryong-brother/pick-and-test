@@ -54,8 +54,8 @@ public class PortfolioStockQueryRepositoryImplTest {
         Stock savedApple = stockRepository.save(apple);
         Stock savedNvidia = stockRepository.save(nvidia);
 
-        Member member= Member.builder().build();
-        Member savedMember=memberRepository.save(member);
+        Member member = Member.builder().build();
+        Member savedMember = memberRepository.save(member);
 
         Portfolio appleNvidia = Portfolio.builder()
                 .memberId(savedMember.getId())

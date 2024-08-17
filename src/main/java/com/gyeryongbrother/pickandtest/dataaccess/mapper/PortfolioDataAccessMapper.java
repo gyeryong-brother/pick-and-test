@@ -13,7 +13,7 @@ public class PortfolioDataAccessMapper {
     private final PortfolioStockDataAccessMapper portfolioStockDataAccessMapper;
 
     public PortfolioEntity portfolioToPortfolioEntity(Portfolio portfolio) {
-        MemberEntity memberEntity=MemberEntity.builder()
+        MemberEntity memberEntity = MemberEntity.builder()
                 .id(portfolio.getMemberId())
                 .build();
         return PortfolioEntity.builder()

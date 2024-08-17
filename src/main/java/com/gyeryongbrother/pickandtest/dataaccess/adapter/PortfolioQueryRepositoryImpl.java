@@ -21,8 +21,8 @@ public class PortfolioQueryRepositoryImpl implements
     private final PortfolioDataAccessMapper portfolioDataAccessMapper;
 
     @Override
-    public List<Portfolio> findAllByMemberId(Long memberId){
-        List<PortfolioEntity> portfolioEntities=
+    public List<Portfolio> findAllByMemberId(Long memberId) {
+        List<PortfolioEntity> portfolioEntities =
                 queryFactory.selectFrom(portfolioEntity)
                         .where(portfolioEntity.memberEntity.id.eq(memberId))
                         .fetch();

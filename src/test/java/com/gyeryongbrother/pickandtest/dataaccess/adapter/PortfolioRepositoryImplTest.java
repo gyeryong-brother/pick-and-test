@@ -42,8 +42,8 @@ public class PortfolioRepositoryImplTest {
         Stock savedApple = stockRepository.save(apple);
         Stock savedNvidia = stockRepository.save(nvidia);
 
-        Member member=Member.builder().build();
-        Member savedMember=memberRepository.save(member);
+        Member member = Member.builder().build();
+        Member savedMember = memberRepository.save(member);
 
         List<PortfolioStock> portfolioStocks = List.of(
                 PortfolioStock.builder().stock(savedApple).portion(BigDecimal.valueOf(0.5)).build(),
