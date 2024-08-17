@@ -6,6 +6,7 @@ import com.gyeryongbrother.pickandtest.dataaccess.adapter.FavoriteStockQueryRepo
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.FavoriteStockRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.IncomeStatementQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.IncomeStatementRepositoryImpl;
+import com.gyeryongbrother.pickandtest.dataaccess.adapter.PortfolioQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.PortfolioRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.PortfolioStockQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.PortfolioStockRepositoryImpl;
@@ -201,5 +202,10 @@ public class TestQuerydslConfig {
     @Bean
     public PortfolioStockQueryRepository portfolioStockQueryRepository() {
         return new PortfolioStockQueryRepositoryImpl(queryFactory(), portfolioStockDataAccessMapper());
+    }
+
+    @Bean
+    public PortfolioQueryRepositoryImpl portfolioQueryRepository(){
+        return new PortfolioQueryRepositoryImpl(queryFactory(),portfolioDataAccessMapper());
     }
 }

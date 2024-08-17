@@ -9,6 +9,8 @@ import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockFixture;
+import com.gyeryongbrother.pickandtest.member.domain.core.Member;
+import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberRepository;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -28,6 +30,9 @@ public class PortfolioRepositoryImplTest {
     @Autowired
     private PortfolioRepository portfolioRepository;
 
+    @Autowired
+    private MemberRepository memberRepository;
+
     @Test
     @DisplayName("포트폴리오를 저장한다")
     void save() {
@@ -37,11 +42,15 @@ public class PortfolioRepositoryImplTest {
         Stock savedApple = stockRepository.save(apple);
         Stock savedNvidia = stockRepository.save(nvidia);
 
+        Member member=Member.builder().build();
+        Member savedMember=memberRepository.save(member);
+
         List<PortfolioStock> portfolioStocks = List.of(
                 PortfolioStock.builder().stock(savedApple).portion(BigDecimal.valueOf(0.5)).build(),
                 PortfolioStock.builder().stock(savedNvidia).portion(BigDecimal.valueOf(0.5)).build()
         );
         Portfolio appleNvidia = Portfolio.builder()
+                .memberId(savedMember.getId())
                 .build();
         Portfolio expected = appleNvidia;
 
