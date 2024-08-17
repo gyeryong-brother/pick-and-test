@@ -12,6 +12,8 @@ import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioRepo
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioStockQueryRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockFixture;
+import com.gyeryongbrother.pickandtest.member.domain.core.Member;
+import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberRepository;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -40,17 +42,23 @@ public class PortfolioStockQueryRepositoryImplTest {
     @Autowired
     private PortfolioStockDataAccessMapper portfolioStockDataAccessMapper;
 
+    @Autowired
+    private MemberRepository memberRepository;
+
     @Test
     @DisplayName("포트폴리오 아이디를 사용하여 해당 포트폴리오에 들어있는 모든 포트폴리오주식을 불러옴")
     void findAllByPortfolioId() {
         //given
         Stock apple = StockFixture.apple();
         Stock nvidia = StockFixture.nvidia();
-        Stock microsoft = StockFixture.microsoft();
         Stock savedApple = stockRepository.save(apple);
         Stock savedNvidia = stockRepository.save(nvidia);
 
+        Member member= Member.builder().build();
+        Member savedMember=memberRepository.save(member);
+
         Portfolio appleNvidia = Portfolio.builder()
+                .memberId(savedMember.getId())
                 .build();
         Portfolio savedPortfolio = portfolioRepository.save(appleNvidia);
 

@@ -11,5 +11,6 @@ import lombok.RequiredArgsConstructor;
 public class Portfolio {
 
     private final Long id;
+    private final Long memberId;
     private final List<PortfolioStock> portfolioStocks;
 }

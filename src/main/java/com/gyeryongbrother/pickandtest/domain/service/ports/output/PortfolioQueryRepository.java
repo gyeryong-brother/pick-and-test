@@ -4,5 +4,5 @@ import com.gyeryongbrother.pickandtest.domain.core.Portfolio;
 
 public interface PortfolioQueryRepository {
 
-    Portfolio findAllByMemberId(Long id);
+    Portfolio findAllByMemberId(Long memberId);
 }
