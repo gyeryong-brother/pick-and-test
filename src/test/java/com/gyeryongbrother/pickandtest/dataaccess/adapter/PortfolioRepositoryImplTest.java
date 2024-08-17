@@ -38,11 +38,10 @@ public class PortfolioRepositoryImplTest {
         Stock savedNvidia=stockRepository.save(nvidia);
 
         List<PortfolioStock> portfolioStocks=List.of(
-                PortfolioStock.builder().stockId(savedApple.getId()).portion(BigDecimal.valueOf(0.5)).build(),
-                PortfolioStock.builder().stockId(savedNvidia.getId()).portion(BigDecimal.valueOf(0.5)).build()
+                PortfolioStock.builder().stock(savedApple).portion(BigDecimal.valueOf(0.5)).build(),
+                PortfolioStock.builder().stock(savedNvidia).portion(BigDecimal.valueOf(0.5)).build()
         );
         Portfolio appleNvidia=Portfolio.builder()
-                .portfolioStocks(portfolioStocks)
                 .build();
         Portfolio expected=appleNvidia;
 

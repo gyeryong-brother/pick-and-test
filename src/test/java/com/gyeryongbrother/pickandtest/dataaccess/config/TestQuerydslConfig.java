@@ -7,6 +7,7 @@ import com.gyeryongbrother.pickandtest.dataaccess.adapter.FavoriteStockRepositor
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.IncomeStatementQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.IncomeStatementRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.PortfolioRepositoryImpl;
+import com.gyeryongbrother.pickandtest.dataaccess.adapter.PortfolioStockQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.PortfolioStockRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockPriceQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.dataaccess.adapter.StockPriceRepositoryImpl;
@@ -35,6 +36,7 @@ import com.gyeryongbrother.pickandtest.domain.service.ports.output.FavoriteStock
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.IncomeStatementQueryRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.IncomeStatementRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioRepository;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioStockQueryRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioStockRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockPriceQueryRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockPriceRepository;
@@ -118,7 +120,7 @@ public class TestQuerydslConfig {
 
     @Bean
     public PortfolioStockDataAccessMapper portfolioStockDataAccessMapper(){
-        return new PortfolioStockDataAccessMapper();
+        return new PortfolioStockDataAccessMapper(stockDataAccessMapper());
     }
 
     @Bean
@@ -194,5 +196,10 @@ public class TestQuerydslConfig {
     @Bean
     public PortfolioRepository portfolioRepository(){
         return new PortfolioRepositoryImpl(portfolioDataAccessMapper(),portfolioJpaRepository);
+    }
+
+    @Bean
+    public PortfolioStockQueryRepository portfolioStockQueryRepository(){
+        return new PortfolioStockQueryRepositoryImpl(queryFactory(),portfolioStockDataAccessMapper());
     }
 }

@@ -15,20 +15,20 @@ public class PortfolioDataAccessMapper {
     private final PortfolioStockDataAccessMapper portfolioStockDataAccessMapper;
 
     public PortfolioEntity portfolioToPortfolioEntity(Portfolio portfolio){
-        List<PortfolioStockEntity> portfolioStockEntities=portfolio.getPortfolioStocks().stream()
-                .map(portfolioStockDataAccessMapper::portfolioStockToPortfolioStockEntity).toList();
+        /*List<PortfolioStockEntity> portfolioStockEntities=portfolio.getPortfolioStocks().stream()
+                .map(portfolioStockDataAccessMapper::portfolioStockToPortfolioStockEntity).toList();*/
         return PortfolioEntity.builder()
                 .id(portfolio.getId())
-                .portfolioStockEntities(portfolioStockEntities)
+                //.portfolioStockEntities(portfolioStockEntities)
                 .build();
     }
 
     public Portfolio portfolioEntityToPortfolio(PortfolioEntity portfolioEntity){
-        List<PortfolioStock> portfolioStocks=portfolioEntity.getPortfolioStockEntities().stream()
-                .map(portfolioStockDataAccessMapper::portfolioStockEntityToPortfolioStock).toList();
+        /*List<PortfolioStock> portfolioStocks=portfolioEntity.getPortfolioStockEntities().stream()
+                .map(portfolioStockDataAccessMapper::portfolioStockEntityToPortfolioStock).toList();*/
         return Portfolio.builder()
                 .id(portfolioEntity.getId())
-                .portfolioStocks(portfolioStocks)
+                //.portfolioStocks(portfolioStocks)
                 .build();
     }
 }

@@ -12,6 +12,6 @@ public class PortfolioStock {
 
     private final Long id;
     private final Long portfolioId;
-    private final Long stockId;
+    private final Stock stock;
     private final BigDecimal portion;
 }

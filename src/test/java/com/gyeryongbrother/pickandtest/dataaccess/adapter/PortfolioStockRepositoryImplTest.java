@@ -34,11 +34,9 @@ public class PortfolioStockRepositoryImplTest {
     void save(){
         //given
         Stock apple= StockFixture.apple();
-        Stock nvidia= StockFixture.nvidia();
         Stock savedApple=stockRepository.save(apple);
-        Stock savedNvidia=stockRepository.save(nvidia);
 
-        PortfolioStock appleInPortfolio= PortfolioStock.builder().stockId(savedApple.getId()).portion(BigDecimal.valueOf(0.5)).build();
+        PortfolioStock appleInPortfolio= PortfolioStock.builder().stock(savedApple).portion(BigDecimal.valueOf(0.5)).build();
 
         PortfolioStock expected=appleInPortfolio;
 
