@@ -14,7 +14,6 @@ import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockReposito
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockFixture;
 import java.math.BigDecimal;
 import java.util.List;
-import javax.sound.sampled.Port;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,30 +42,32 @@ public class PortfolioStockQueryRepositoryImplTest {
 
     @Test
     @DisplayName("포트폴리오 아이디를 사용하여 해당 포트폴리오에 들어있는 모든 포트폴리오주식을 불러옴")
-    void findAllByPortfolioId(){
+    void findAllByPortfolioId() {
         //given
-        Stock apple= StockFixture.apple();
-        Stock nvidia= StockFixture.nvidia();
-        Stock microsoft=StockFixture.microsoft();
-        Stock savedApple=stockRepository.save(apple);
-        Stock savedNvidia=stockRepository.save(nvidia);
+        Stock apple = StockFixture.apple();
+        Stock nvidia = StockFixture.nvidia();
+        Stock microsoft = StockFixture.microsoft();
+        Stock savedApple = stockRepository.save(apple);
+        Stock savedNvidia = stockRepository.save(nvidia);
 
-        Portfolio appleNvidia=Portfolio.builder()
+        Portfolio appleNvidia = Portfolio.builder()
                 .build();
-        Portfolio savedPortfolio=portfolioRepository.save(appleNvidia);
+        Portfolio savedPortfolio = portfolioRepository.save(appleNvidia);
 
-        List<PortfolioStock> portfolioStocks=List.of(
-                PortfolioStock.builder().stock(savedApple).portfolioId(savedPortfolio.getId()).portion(BigDecimal.valueOf(0.5)).build(),
-                PortfolioStock.builder().stock(savedNvidia).portfolioId(savedPortfolio.getId()).portion(BigDecimal.valueOf(0.5)).build()
+        List<PortfolioStock> portfolioStocks = List.of(
+                PortfolioStock.builder().stock(savedApple).portfolioId(savedPortfolio.getId())
+                        .portion(BigDecimal.valueOf(0.5)).build(),
+                PortfolioStock.builder().stock(savedNvidia).portfolioId(savedPortfolio.getId())
+                        .portion(BigDecimal.valueOf(0.5)).build()
         );
         portfolioStockJpaRepository.saveAll(portfolioStocks.stream()
                 .map(portfolioStockDataAccessMapper::portfolioStockToPortfolioStockEntity)
                 .toList()
         );
-        List<PortfolioStock> expected=portfolioStocks;
+        List<PortfolioStock> expected = portfolioStocks;
 
         //when
-        List<PortfolioStock> result=portfolioStockQueryRepository.findAllByPortfolioId(savedPortfolio.getId());
+        List<PortfolioStock> result = portfolioStockQueryRepository.findAllByPortfolioId(savedPortfolio.getId());
 
         //then
         assertThat(result).usingRecursiveComparison()

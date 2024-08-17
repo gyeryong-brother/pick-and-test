@@ -2,8 +2,6 @@ package com.gyeryongbrother.pickandtest.dataaccess.mapper;
 
 import com.gyeryongbrother.pickandtest.dataaccess.entity.PortfolioEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.entity.PortfolioStockEntity;
-import com.gyeryongbrother.pickandtest.dataaccess.entity.StockEntity;
-import com.gyeryongbrother.pickandtest.domain.core.Portfolio;
 import com.gyeryongbrother.pickandtest.domain.core.PortfolioStock;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,8 +12,8 @@ public class PortfolioStockDataAccessMapper {
 
     private final StockDataAccessMapper stockDataAccessMapper;
 
-    public PortfolioStockEntity portfolioStockToPortfolioStockEntity(PortfolioStock portfolioStock){
-        PortfolioEntity portfolioEntity=PortfolioEntity.builder()
+    public PortfolioStockEntity portfolioStockToPortfolioStockEntity(PortfolioStock portfolioStock) {
+        PortfolioEntity portfolioEntity = PortfolioEntity.builder()
                 .id(portfolioStock.getPortfolioId())
                 .build();
         return PortfolioStockEntity.builder()
@@ -26,7 +24,7 @@ public class PortfolioStockDataAccessMapper {
                 .build();
     }
 
-    public PortfolioStock portfolioStockEntityToPortfolioStock(PortfolioStockEntity portfolioStockEntity){
+    public PortfolioStock portfolioStockEntityToPortfolioStock(PortfolioStockEntity portfolioStockEntity) {
         return PortfolioStock.builder()
                 .id(portfolioStockEntity.getId())
                 .portfolioId(portfolioStockEntity.getPortfolioEntity().getId())

@@ -30,23 +30,23 @@ public class PortfolioRepositoryImplTest {
 
     @Test
     @DisplayName("포트폴리오를 저장한다")
-    void save(){
+    void save() {
         //given
-        Stock apple= StockFixture.apple();
-        Stock nvidia= StockFixture.nvidia();
-        Stock savedApple=stockRepository.save(apple);
-        Stock savedNvidia=stockRepository.save(nvidia);
+        Stock apple = StockFixture.apple();
+        Stock nvidia = StockFixture.nvidia();
+        Stock savedApple = stockRepository.save(apple);
+        Stock savedNvidia = stockRepository.save(nvidia);
 
-        List<PortfolioStock> portfolioStocks=List.of(
+        List<PortfolioStock> portfolioStocks = List.of(
                 PortfolioStock.builder().stock(savedApple).portion(BigDecimal.valueOf(0.5)).build(),
                 PortfolioStock.builder().stock(savedNvidia).portion(BigDecimal.valueOf(0.5)).build()
         );
-        Portfolio appleNvidia=Portfolio.builder()
+        Portfolio appleNvidia = Portfolio.builder()
                 .build();
-        Portfolio expected=appleNvidia;
+        Portfolio expected = appleNvidia;
 
         //when
-        Portfolio result=portfolioRepository.save(appleNvidia);
+        Portfolio result = portfolioRepository.save(appleNvidia);
 
         //then
         assertThat(result).usingRecursiveComparison()

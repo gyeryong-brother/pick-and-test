@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class PortfolioRepositoryImpl implements PortfolioRepository{
+public class PortfolioRepositoryImpl implements PortfolioRepository {
 
     private final PortfolioDataAccessMapper portfolioDataAccessMapper;
     private final PortfolioJpaRepository portfolioJpaRepository;
@@ -18,8 +18,8 @@ public class PortfolioRepositoryImpl implements PortfolioRepository{
 
     @Override
     public Portfolio save(Portfolio portfolio) {
-        PortfolioEntity portfolioEntity=portfolioDataAccessMapper.portfolioToPortfolioEntity(portfolio);
-        PortfolioEntity saved=portfolioJpaRepository.save(portfolioEntity);
+        PortfolioEntity portfolioEntity = portfolioDataAccessMapper.portfolioToPortfolioEntity(portfolio);
+        PortfolioEntity saved = portfolioJpaRepository.save(portfolioEntity);
         return portfolioDataAccessMapper.portfolioEntityToPortfolio(saved);
     }
 }

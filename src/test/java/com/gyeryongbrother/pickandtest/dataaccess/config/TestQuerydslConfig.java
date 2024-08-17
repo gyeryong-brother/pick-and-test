@@ -119,12 +119,12 @@ public class TestQuerydslConfig {
     }
 
     @Bean
-    public PortfolioStockDataAccessMapper portfolioStockDataAccessMapper(){
+    public PortfolioStockDataAccessMapper portfolioStockDataAccessMapper() {
         return new PortfolioStockDataAccessMapper(stockDataAccessMapper());
     }
 
     @Bean
-    public PortfolioDataAccessMapper portfolioDataAccessMapper(){
+    public PortfolioDataAccessMapper portfolioDataAccessMapper() {
         return new PortfolioDataAccessMapper(portfolioStockDataAccessMapper());
     }
 
@@ -189,17 +189,17 @@ public class TestQuerydslConfig {
     }
 
     @Bean
-    public PortfolioStockRepository portfolioStockRepository(){
-        return new PortfolioStockRepositoryImpl(portfolioStockJpaRepository,portfolioStockDataAccessMapper());
+    public PortfolioStockRepository portfolioStockRepository() {
+        return new PortfolioStockRepositoryImpl(portfolioStockJpaRepository, portfolioStockDataAccessMapper());
     }
 
     @Bean
-    public PortfolioRepository portfolioRepository(){
-        return new PortfolioRepositoryImpl(portfolioDataAccessMapper(),portfolioJpaRepository);
+    public PortfolioRepository portfolioRepository() {
+        return new PortfolioRepositoryImpl(portfolioDataAccessMapper(), portfolioJpaRepository);
     }
 
     @Bean
-    public PortfolioStockQueryRepository portfolioStockQueryRepository(){
-        return new PortfolioStockQueryRepositoryImpl(queryFactory(),portfolioStockDataAccessMapper());
+    public PortfolioStockQueryRepository portfolioStockQueryRepository() {
+        return new PortfolioStockQueryRepositoryImpl(queryFactory(), portfolioStockDataAccessMapper());
     }
 }

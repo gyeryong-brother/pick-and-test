@@ -5,7 +5,6 @@ import static jakarta.persistence.EnumType.STRING;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.gyeryongbrother.pickandtest.domain.core.PortfolioStock;
 import com.gyeryongbrother.pickandtest.domain.core.StockExchange;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
@@ -50,7 +49,7 @@ public class StockEntity {
 
     @OneToMany(mappedBy = "stock", cascade = PERSIST)
     @Builder.Default
-    private List<IncomeStatementEntity> incomeStatements=new ArrayList<>();
+    private List<IncomeStatementEntity> incomeStatements = new ArrayList<>();
 
     public void addStockPrice(StockPriceEntity stockPriceEntity) {
         stockPrices.add(stockPriceEntity);

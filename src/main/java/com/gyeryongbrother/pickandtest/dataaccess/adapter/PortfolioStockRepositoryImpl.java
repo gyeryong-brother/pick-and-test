@@ -2,7 +2,6 @@ package com.gyeryongbrother.pickandtest.dataaccess.adapter;
 
 import com.gyeryongbrother.pickandtest.dataaccess.entity.PortfolioStockEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.PortfolioStockDataAccessMapper;
-import com.gyeryongbrother.pickandtest.dataaccess.repository.PortfolioJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.PortfolioStockJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.core.PortfolioStock;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioStockRepository;
@@ -18,9 +17,9 @@ public class PortfolioStockRepositoryImpl implements PortfolioStockRepository {
 
     @Override
     public PortfolioStock save(PortfolioStock portfolioStock) {
-        PortfolioStockEntity portfolioStockEntity=
+        PortfolioStockEntity portfolioStockEntity =
                 portfolioStockDataAccessMapper.portfolioStockToPortfolioStockEntity(portfolioStock);
-        PortfolioStockEntity saved=portfolioStockJpaRepository.save(portfolioStockEntity);
+        PortfolioStockEntity saved = portfolioStockJpaRepository.save(portfolioStockEntity);
         return portfolioStockDataAccessMapper.portfolioStockEntityToPortfolioStock(saved);
     }
 }
