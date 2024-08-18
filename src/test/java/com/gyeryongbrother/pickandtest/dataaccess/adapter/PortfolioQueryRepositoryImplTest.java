@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Import;
 @DataJpaTest
 @Import(TestQuerydslConfig.class)
 @DisplayName("포트폴리오 조회 리퍼지터리 구현")
-public class PortfolioQueryRepositoryImplImplTest {
+public class PortfolioQueryRepositoryImplTest {
 
     @Autowired
     private StockRepository stockRepository;
