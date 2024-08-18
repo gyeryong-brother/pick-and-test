@@ -47,6 +47,10 @@ public class StockEntity {
     @Builder.Default
     private List<DividendEntity> dividends = new ArrayList<>();
 
+    @OneToMany(mappedBy = "stock", cascade = PERSIST)
+    @Builder.Default
+    private List<IncomeStatementEntity> incomeStatements = new ArrayList<>();
+
     public void addStockPrice(StockPriceEntity stockPriceEntity) {
         stockPrices.add(stockPriceEntity);
         stockPriceEntity.setStock(this);
