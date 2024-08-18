@@ -8,7 +8,7 @@ public record PortfolioStockResponse(
         BigDecimal portion
 ) {
 
-    public static PortfolioStockResponse from(PortfolioStock portfolioStock){
+    public static PortfolioStockResponse from(PortfolioStock portfolioStock) {
         return new PortfolioStockResponse(
                 portfolioStock.getStock().getId(),
                 portfolioStock.getPortion()

@@ -1,15 +1,11 @@
 package com.gyeryongbrother.pickandtest.member.application.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
-import com.gyeryongbrother.pickandtest.dataaccess.mapper.PortfolioDataAccessMapper;
-import com.gyeryongbrother.pickandtest.dataaccess.repository.PortfolioJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.core.Portfolio;
 import com.gyeryongbrother.pickandtest.domain.service.dto.PortfolioResponse;
-import com.gyeryongbrother.pickandtest.domain.service.dto.PortfolioStockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioRepository;
 import com.gyeryongbrother.pickandtest.member.application.dto.RegisterMemberRequest;
 import com.gyeryongbrother.pickandtest.member.domain.core.Member;
@@ -20,7 +16,6 @@ import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -69,7 +64,7 @@ class MemberControllerTest {
 
     @Test
     @DisplayName("멤버 아이디로 해당 멤버의 모든 포트폴리오를 조회한다")
-    void findAllPortfolios(){
+    void findAllPortfolios() {
         //given
         Member member1 = Member.builder().build();
         Member member2 = Member.builder().build();
@@ -85,9 +80,9 @@ class MemberControllerTest {
         Portfolio portfolio3 = Portfolio.builder()
                 .memberId(savedMember1.getId())
                 .build();
-        Portfolio savedPortfolio1=portfolioRepository.save(portfolio1);
-        Portfolio savedPortfolio2=portfolioRepository.save(portfolio2);
-        Portfolio savedPortfolio3=portfolioRepository.save(portfolio3);
+        Portfolio savedPortfolio1 = portfolioRepository.save(portfolio1);
+        Portfolio savedPortfolio2 = portfolioRepository.save(portfolio2);
+        Portfolio savedPortfolio3 = portfolioRepository.save(portfolio3);
 
         List<PortfolioResponse> expected = List.of(savedPortfolio1, savedPortfolio3).stream()
                 .map(PortfolioResponse::from)

@@ -28,7 +28,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<PortfolioResponse> findAllPortfolios(Long memberId) {
-        List<Portfolio> portfolios=portfolioQueryRepository.findAllByMemberId(memberId);
+        List<Portfolio> portfolios = portfolioQueryRepository.findAllByMemberId(memberId);
         return portfolios.stream().map(PortfolioResponse::from).toList();
     }
 }

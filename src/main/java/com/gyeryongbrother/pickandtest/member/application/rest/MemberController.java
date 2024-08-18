@@ -2,9 +2,7 @@ package com.gyeryongbrother.pickandtest.member.application.rest;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
-import com.gyeryongbrother.pickandtest.domain.core.Portfolio;
 import com.gyeryongbrother.pickandtest.domain.service.dto.PortfolioResponse;
-import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioQueryRepository;
 import com.gyeryongbrother.pickandtest.member.application.dto.RegisterMemberRequest;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberResponse;
@@ -35,8 +33,8 @@ public class MemberController {
     }
 
     @GetMapping("/{memberId}/portfolios")
-    ResponseEntity<List<PortfolioResponse>> findAllPortfolios(@PathVariable Long memberId){
-        List<PortfolioResponse> portfolioResponses=memberService.findAllPortfolios(memberId);
+    ResponseEntity<List<PortfolioResponse>> findAllPortfolios(@PathVariable Long memberId) {
+        List<PortfolioResponse> portfolioResponses = memberService.findAllPortfolios(memberId);
         return ResponseEntity.ok(portfolioResponses);
     }
 }

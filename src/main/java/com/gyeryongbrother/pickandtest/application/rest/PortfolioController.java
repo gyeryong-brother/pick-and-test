@@ -18,8 +18,8 @@ public class PortfolioController {
     private final PortfolioStockQueryService portfolioStockQueryService;
 
     @GetMapping("/{portfolioId}/portfolioStocks")
-    ResponseEntity<List<PortfolioStockResponse>> findAllPortfolioStocks(@PathVariable Long portfolioId){
-        List<PortfolioStockResponse> portfolioStockResponses=
+    ResponseEntity<List<PortfolioStockResponse>> findAllPortfolioStocks(@PathVariable Long portfolioId) {
+        List<PortfolioStockResponse> portfolioStockResponses =
                 portfolioStockQueryService.findAllByPortfolioId(portfolioId);
         return ResponseEntity.ok(portfolioStockResponses);
     }

@@ -17,7 +17,7 @@ public class PortfolioStockQueryServiceImpl implements PortfolioStockQueryServic
 
     @Override
     public List<PortfolioStockResponse> findAllByPortfolioId(Long portfolioId) {
-        List<PortfolioStock> portfolioStocks=portfolioStockQueryRepository.findAllByPortfolioId(portfolioId);
+        List<PortfolioStock> portfolioStocks = portfolioStockQueryRepository.findAllByPortfolioId(portfolioId);
         return portfolioStocks.stream().map(PortfolioStockResponse::from).toList();
     }
 }
