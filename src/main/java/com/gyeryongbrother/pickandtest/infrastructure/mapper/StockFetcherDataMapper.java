@@ -7,10 +7,10 @@ import com.gyeryongbrother.pickandtest.domain.core.StockDetail;
 import com.gyeryongbrother.pickandtest.domain.core.StockExchange;
 import com.gyeryongbrother.pickandtest.domain.core.StockPrice;
 import com.gyeryongbrother.pickandtest.domain.core.StockPrices;
-import com.gyeryongbrother.pickandtest.infrastructure.client.alphavantage.dividend.dto.DividendResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.common.DateTimeHandler;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
+import com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.dividend.dto.DividendResponse;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -52,10 +52,14 @@ public class StockFetcherDataMapper {
     }
 
     private LocalDate parse(String listingDate) {
-        if (listingDate.isBlank()) {
+        if (isBlank(listingDate)) {
             return null;
         }
         return DateTimeHandler.toDate(listingDate);
+    }
+
+    private boolean isBlank(String listingDate) {
+        return listingDate == null || listingDate.isBlank();
     }
 
     private StockDetail createStockDetail(

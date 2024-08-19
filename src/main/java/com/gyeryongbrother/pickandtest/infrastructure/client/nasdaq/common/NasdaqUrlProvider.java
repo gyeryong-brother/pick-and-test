@@ -1,6 +1,7 @@
 package com.gyeryongbrother.pickandtest.infrastructure.client.nasdaq.common;
 
 import com.gyeryongbrother.pickandtest.domain.core.StockExchange;
+import java.net.URI;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -14,6 +15,8 @@ public class NasdaqUrlProvider {
     private static final String LIMIT_PARAM_NAME = "limit";
     private static final String LIMIT_PARAM_VALUE = "5000";
     private static final String EXCHANGE_PARAM_NAME = "exchange";
+    private static final String DIVIDEND_ENDPOINT = "/api/quote/%s/dividends";
+    private static final String ASSET_CLASS_PARAM_NAME = "assetclass";
 
     public String getStockSymbolEndpoint(StockExchange stockExchange) {
         return UriComponentsBuilder.fromHttpUrl(DOMAIN)
@@ -23,5 +26,15 @@ public class NasdaqUrlProvider {
                 .queryParam(EXCHANGE_PARAM_NAME, stockExchange.name())
                 .build()
                 .toUriString();
+    }
+
+    public URI getDividendEndpoint(String symbol, String assetClass) {
+        String encodedSymbol = symbol.replace("/", "%25sl%25");
+        String path = String.format(DIVIDEND_ENDPOINT, encodedSymbol);
+        return UriComponentsBuilder.fromHttpUrl(DOMAIN)
+                .path(path)
+                .queryParam(ASSET_CLASS_PARAM_NAME, assetClass)
+                .build(true)
+                .toUri();
     }
 }

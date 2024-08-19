@@ -9,6 +9,8 @@ import com.gyeryongbrother.pickandtest.domain.service.dto.CreateFavoriteStockCom
 import com.gyeryongbrother.pickandtest.domain.service.dto.CreateFavoriteStockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.StockService;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.FavoriteStockRepository;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockProvider;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,11 +25,17 @@ class StockServiceImplTest {
     @Mock
     private FavoriteStockRepository favoriteStockRepository;
 
+    @Mock
+    private StockProvider stockProvider;
+
+    @Mock
+    private StockRepository stockRepository;
+
     private StockService stockService;
 
     @BeforeEach
     void setUp() {
-        stockService = new StockServiceImpl(favoriteStockRepository);
+        stockService = new StockServiceImpl(favoriteStockRepository, stockProvider, stockRepository);
     }
 
     @Test

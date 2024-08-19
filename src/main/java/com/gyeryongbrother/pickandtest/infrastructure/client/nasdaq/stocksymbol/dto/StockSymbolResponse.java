@@ -10,6 +10,6 @@ public record StockSymbolResponse(
 
     public List<StockSymbolDetail> stockSymbolDetails() {
         return stockSymbolData.stockSymbolTable()
-                .stockSymbolDetails();
+                .getStockSymbolDetails();
     }
 }
