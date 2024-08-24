@@ -1,7 +1,8 @@
 package com.gyeryongbrother.pickandtest.application.rest;
 
+import com.gyeryongbrother.pickandtest.domain.service.dto.PortfolioResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.PortfolioStockResponse;
-import com.gyeryongbrother.pickandtest.domain.service.ports.input.PortfolioStockQueryService;
+import com.gyeryongbrother.pickandtest.domain.service.ports.input.PortfolioQueryService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/portfolios")
 public class PortfolioController {
 
-    private final PortfolioStockQueryService portfolioStockQueryService;
+    private final PortfolioQueryService portfolioQueryService;
 
-    @GetMapping("/{portfolioId}/portfolioStocks")
+    @GetMapping("/{portfolioId}")
     ResponseEntity<List<PortfolioStockResponse>> findAllPortfolioStocks(@PathVariable Long portfolioId) {
         List<PortfolioStockResponse> portfolioStockResponses =
-                portfolioStockQueryService.findAllByPortfolioId(portfolioId);
+                portfolioQueryService.findAllByPortfolioId(portfolioId);
         return ResponseEntity.ok(portfolioStockResponses);
+    }
+
+    @GetMapping
+    ResponseEntity<List<PortfolioResponse>> findAllPortfolios() {
+        List<PortfolioResponse> portfolioResponses = portfolioQueryService.findAllPortfolios();
+        return ResponseEntity.ok(portfolioResponses);
     }
 }

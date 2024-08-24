@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.given;
 
-import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioQueryRepository;
 import com.gyeryongbrother.pickandtest.member.domain.core.Member;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberResponse;
@@ -26,11 +25,9 @@ class MemberServiceImplTest {
 
     private MemberService memberService;
 
-    private PortfolioQueryRepository portfolioQueryRepository;
-
     @BeforeEach
     void setUp() {
-        memberService = new MemberServiceImpl(memberRepository, portfolioQueryRepository);
+        memberService = new MemberServiceImpl(memberRepository);
     }
 
     @Test

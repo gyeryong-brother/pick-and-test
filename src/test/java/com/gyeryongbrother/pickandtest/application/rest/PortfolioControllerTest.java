@@ -9,6 +9,7 @@ import com.gyeryongbrother.pickandtest.dataaccess.repository.PortfolioStockJpaRe
 import com.gyeryongbrother.pickandtest.domain.core.Portfolio;
 import com.gyeryongbrother.pickandtest.domain.core.PortfolioStock;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
+import com.gyeryongbrother.pickandtest.domain.service.dto.PortfolioResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.PortfolioStockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
@@ -83,7 +84,7 @@ public class PortfolioControllerTest {
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .when().get("/portfolios/{portfolioId}/portfolioStocks", savedPortfolio.getId())
+                .when().get("/portfolios/{portfolioId}", savedPortfolio.getId())
                 .then().log().all()
                 .extract();
         List<PortfolioStockResponse> result = response.as(new TypeRef<>() {
@@ -94,5 +95,43 @@ public class PortfolioControllerTest {
                 .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
                 .isEqualTo(expected);
 
+    }
+
+    @Test
+    @DisplayName("멤버 아이디로 해당 멤버의 모든 포트폴리오를 조회한다")
+    void findAllPortfolios() {
+        //given
+        Member member1 = Member.builder().build();
+        Member member2 = Member.builder().build();
+        Member savedMember1 = memberRepository.save(member1);
+        Member savedMember2 = memberRepository.save(member2);
+
+        Portfolio portfolio1 = Portfolio.builder()
+                .memberId(savedMember1.getId())
+                .build();
+        Portfolio portfolio2 = Portfolio.builder()
+                .memberId(savedMember2.getId())
+                .build();
+        Portfolio portfolio3 = Portfolio.builder()
+                .memberId(savedMember1.getId())
+                .build();
+        Portfolio savedPortfolio1 = portfolioRepository.save(portfolio1);
+        Portfolio savedPortfolio2 = portfolioRepository.save(portfolio2);
+        Portfolio savedPortfolio3 = portfolioRepository.save(portfolio3);
+
+        List<PortfolioResponse> expected = List.of(savedPortfolio1, savedPortfolio3).stream()
+                .map(PortfolioResponse::from)
+                .toList();
+
+        //when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .when().get("/portfolios")
+                .then().log().all()
+                .extract();
+        List<PortfolioResponse> result = response.as(new TypeRef<>() {
+        });
+
+        //then
+        assertThat(result).usingRecursiveComparison().isEqualTo(expected);
     }
 }
