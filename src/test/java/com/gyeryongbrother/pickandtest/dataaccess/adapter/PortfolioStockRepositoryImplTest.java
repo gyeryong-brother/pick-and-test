@@ -124,6 +124,64 @@ public class PortfolioStockRepositoryImplTest {
                 .ignoringExpectedNullFields()
                 .isEqualTo(expected);
     }
+
+    @Test
+    @DisplayName("포트폴리오 아이디를 통해 포트폴리오 주식 삭제-삭제 할 내용이 없을 경우")
+    void deleteAllByPortfolioIdWhenNone(){
+        //given
+        Stock apple=StockFixture.apple();
+        Stock nvidia=StockFixture.nvidia();
+        Stock microsoft=StockFixture.microsoft();
+
+        Stock savedApple=stockRepository.save(apple);
+        Stock savedNvidia=stockRepository.save(nvidia);
+        Stock savedMicrosoft=stockRepository.save(microsoft);
+
+        Member member=Member.builder().build();
+
+        Member savedMember=memberRepository.save(member);
+
+        Portfolio portfolio1=Portfolio.builder().memberId(savedMember.getId()).build();
+        Portfolio portfolio2=Portfolio.builder().memberId(savedMember.getId()).build();
+
+        Portfolio savedPortfolio1=portfolioRepository.save(portfolio1);
+        Portfolio savedPortfolio2=portfolioRepository.save(portfolio2);
+
+        PortfolioStock applePortfolioStock=PortfolioStock.builder()
+                .portfolioId(savedPortfolio1.getId())
+                .stock(savedApple)
+                .portion(BigDecimal.valueOf(0.5))
+                .build();
+        PortfolioStock nvidiaPortfolioStock=PortfolioStock.builder()
+                .portfolioId(savedPortfolio2.getId())
+                .stock(savedNvidia)
+                .portion(BigDecimal.valueOf(1.0))
+                .build();
+        PortfolioStock microsoftPortfolioStock=PortfolioStock.builder()
+                .portfolioId(savedPortfolio1.getId())
+                .stock(savedMicrosoft)
+                .portion(BigDecimal.valueOf(0.5))
+                .build();
+
+        PortfolioStock savedApplePortfolioStock=portfolioStockRepository.save(applePortfolioStock);
+        //PortfolioStock savedNvidiaPortfolioStock=portfolioStockRepository.save(nvidiaPortfolioStock);
+        PortfolioStock savedMicrosoftPortfolioStock=portfolioStockRepository.save(microsoftPortfolioStock);
+
+        portfolioStockRepository.deleteAllByPortfolioId(savedPortfolio2.getId());
+
+        List<PortfolioStockEntity> expected=List.of(
+                portfolioStockDataAccessMapper.portfolioStockToPortfolioStockEntity(savedApplePortfolioStock),
+                portfolioStockDataAccessMapper.portfolioStockToPortfolioStockEntity(savedMicrosoftPortfolioStock)
+        );
+
+        //when
+        List<PortfolioStockEntity> result=portfolioStockJpaRepository.findAll();
+
+        //then
+        assertThat(result).usingRecursiveComparison()
+                .ignoringExpectedNullFields()
+                .isEqualTo(expected);
+    }
 }
 
 
