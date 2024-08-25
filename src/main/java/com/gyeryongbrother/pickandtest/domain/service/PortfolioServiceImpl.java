@@ -1,6 +1,5 @@
 package com.gyeryongbrother.pickandtest.domain.service;
 
-import com.gyeryongbrother.pickandtest.application.dto.UpdatePortfolioStockRequest;
 import com.gyeryongbrother.pickandtest.application.dto.UpdatePortfolioStockRequests;
 import com.gyeryongbrother.pickandtest.domain.core.PortfolioStock;
 import com.gyeryongbrother.pickandtest.domain.service.dto.UpdatePortfolioStockCommand;
@@ -17,12 +16,13 @@ public class PortfolioServiceImpl implements PortfolioService {
     private final PortfolioStockRepository portfolioStockRepository;
 
     @Override
-    public List<PortfolioStock> updatePortfolioStocks(Long portfolioId , UpdatePortfolioStockRequests updatePortfolioStockRequests) {
-        List<UpdatePortfolioStockCommand> updatePortfolioStockCommands=
+    public List<PortfolioStock> updatePortfolioStocks(Long portfolioId,
+                                                      UpdatePortfolioStockRequests updatePortfolioStockRequests) {
+        List<UpdatePortfolioStockCommand> updatePortfolioStockCommands =
                 updatePortfolioStockRequests.updatePortfolioStockRequests().stream()
                         .map(updatePortfolioStockRequest -> updatePortfolioStockRequest.toCommand(portfolioId))
                         .toList();
-        List<PortfolioStock> portfolioStocks=updatePortfolioStockCommands.stream()
+        List<PortfolioStock> portfolioStocks = updatePortfolioStockCommands.stream()
                 .map(UpdatePortfolioStockCommand::toDomain)
                 .toList();
         portfolioStockRepository.deleteAllByPortfolioId(portfolioId);

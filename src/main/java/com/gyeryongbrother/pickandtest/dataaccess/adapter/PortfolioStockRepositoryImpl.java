@@ -28,19 +28,20 @@ public class PortfolioStockRepositoryImpl implements PortfolioStockRepository {
 
     @Override
     public void deleteAllByPortfolioId(Long portfolioId) {
-        List<PortfolioStock> portfolioStocks=portfolioStockQueryRepository.findAllByPortfolioId(portfolioId);
-        List<PortfolioStockEntity> portfolioStockEntities= portfolioStocks.stream()
-                        .map(portfolioStockDataAccessMapper::portfolioStockToPortfolioStockEntity)
-                        .toList();
+        List<PortfolioStock> portfolioStocks = portfolioStockQueryRepository.findAllByPortfolioId(portfolioId);
+        List<PortfolioStockEntity> portfolioStockEntities = portfolioStocks.stream()
+                .map(portfolioStockDataAccessMapper::portfolioStockToPortfolioStockEntity)
+                .toList();
         portfolioStockJpaRepository.deleteAll(portfolioStockEntities);
     }
 
     @Override
     public List<PortfolioStock> saveAll(List<PortfolioStock> portfolioStocks) {
-        List<PortfolioStockEntity> portfolioStockEntities=portfolioStocks.stream()
+        List<PortfolioStockEntity> portfolioStockEntities = portfolioStocks.stream()
                 .map(portfolioStockDataAccessMapper::portfolioStockToPortfolioStockEntity)
                 .toList();
-        List<PortfolioStockEntity> savedPortfolioStockEntities=portfolioStockJpaRepository.saveAll(portfolioStockEntities);
+        List<PortfolioStockEntity> savedPortfolioStockEntities = portfolioStockJpaRepository.saveAll(
+                portfolioStockEntities);
         return savedPortfolioStockEntities.stream()
                 .map(portfolioStockDataAccessMapper::portfolioStockEntityToPortfolioStock)
                 .toList();

@@ -42,10 +42,10 @@ public class PortfolioController {
     ResponseEntity<List<PortfolioStockResponse>> updatePortfolio(
             @PathVariable Long portfolioId,
             @RequestBody UpdatePortfolioStockRequests updatePortfolioStockRequests
-    ){
-        List<PortfolioStock> updatedPortfolioStocks=
-                portfolioService.updatePortfolioStocks(portfolioId,updatePortfolioStockRequests);
-        List<PortfolioStockResponse> portfolioStockResponses=updatedPortfolioStocks.stream()
+    ) {
+        List<PortfolioStock> updatedPortfolioStocks =
+                portfolioService.updatePortfolioStocks(portfolioId, updatePortfolioStockRequests);
+        List<PortfolioStockResponse> portfolioStockResponses = updatedPortfolioStocks.stream()
                 .map(PortfolioStockResponse::from)
                 .toList();
         return ResponseEntity.ok(portfolioStockResponses);

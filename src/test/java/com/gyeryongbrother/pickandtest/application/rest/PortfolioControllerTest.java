@@ -144,67 +144,66 @@ public class PortfolioControllerTest {
 
     @Test
     @DisplayName("특정 포트폴리오에 있는 포트폴리오 주식 정보들을 업데이트 한다")
-    void updatePortfolio(){
+    void updatePortfolio() {
         //given
-        Stock apple= StockFixture.apple();
-        Stock nvidia=StockFixture.nvidia();
-        Stock microsoft=StockFixture.microsoft();
+        Stock apple = StockFixture.apple();
+        Stock nvidia = StockFixture.nvidia();
+        Stock microsoft = StockFixture.microsoft();
 
-        Stock savedApple=stockRepository.save(apple);
-        Stock savedNvidia=stockRepository.save(nvidia);
-        Stock savedMicrosoft=stockRepository.save(microsoft);
+        Stock savedApple = stockRepository.save(apple);
+        Stock savedNvidia = stockRepository.save(nvidia);
+        Stock savedMicrosoft = stockRepository.save(microsoft);
 
-        Member member=Member.builder().build();
+        Member member = Member.builder().build();
 
-        Member savedMember=memberRepository.save(member);
+        Member savedMember = memberRepository.save(member);
 
-        Portfolio portfolio1=Portfolio.builder().memberId(savedMember.getId()).build();
-        Portfolio portfolio2=Portfolio.builder().memberId(savedMember.getId()).build();
+        Portfolio portfolio1 = Portfolio.builder().memberId(savedMember.getId()).build();
+        Portfolio portfolio2 = Portfolio.builder().memberId(savedMember.getId()).build();
 
-        Portfolio savedPortfolio1=portfolioRepository.save(portfolio1);
-        Portfolio savedPortfolio2=portfolioRepository.save(portfolio2);
+        Portfolio savedPortfolio1 = portfolioRepository.save(portfolio1);
+        Portfolio savedPortfolio2 = portfolioRepository.save(portfolio2);
 
-        PortfolioStock applePortfolioStock=PortfolioStock.builder()
+        PortfolioStock applePortfolioStock = PortfolioStock.builder()
                 .portfolioId(savedPortfolio1.getId())
                 .stock(savedApple)
                 .portion(BigDecimal.valueOf(0.5))
                 .build();
-        PortfolioStock nvidiaPortfolioStock=PortfolioStock.builder()
+        PortfolioStock nvidiaPortfolioStock = PortfolioStock.builder()
                 .portfolioId(savedPortfolio2.getId())
                 .stock(savedNvidia)
                 .portion(BigDecimal.valueOf(1.0))
                 .build();
-        PortfolioStock microsoftPortfolioStock=PortfolioStock.builder()
+        PortfolioStock microsoftPortfolioStock = PortfolioStock.builder()
                 .portfolioId(savedPortfolio1.getId())
                 .stock(savedMicrosoft)
                 .portion(BigDecimal.valueOf(0.5))
                 .build();
 
-        portfolioStockRepository.saveAll(List.of(applePortfolioStock,nvidiaPortfolioStock,microsoftPortfolioStock));
+        portfolioStockRepository.saveAll(List.of(applePortfolioStock, nvidiaPortfolioStock, microsoftPortfolioStock));
 
-        UpdatePortfolioStockRequest updatePortfolioStockRequest=
-                new UpdatePortfolioStockRequest(savedApple.getId(),BigDecimal.valueOf(1.0));
-        UpdatePortfolioStockRequests updatePortfolioStockRequests=
+        UpdatePortfolioStockRequest updatePortfolioStockRequest =
+                new UpdatePortfolioStockRequest(savedApple.getId(), BigDecimal.valueOf(1.0));
+        UpdatePortfolioStockRequests updatePortfolioStockRequests =
                 new UpdatePortfolioStockRequests(List.of(updatePortfolioStockRequest));
 
-        PortfolioStock portfolioStock=PortfolioStock.builder()
+        PortfolioStock portfolioStock = PortfolioStock.builder()
                 .portfolioId(savedPortfolio1.getId())
                 .stock(savedApple)
                 .portion(BigDecimal.valueOf(1.0))
                 .build();
 
-        List<PortfolioStockResponse> expected=List.of(PortfolioStockResponse.from(portfolioStock));
+        List<PortfolioStockResponse> expected = List.of(PortfolioStockResponse.from(portfolioStock));
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(updatePortfolioStockRequests)
-                .when().post("/portfolios/{portfolioId}/update",savedPortfolio1.getId())
+                .when().post("/portfolios/{portfolioId}/update", savedPortfolio1.getId())
                 .then().log().all()
                 .extract();
         List<PortfolioStockResponse> result = response.as(new TypeRef<>() {
         });
-
 
         //then
         assertThat(result).usingRecursiveComparison().isEqualTo(expected);
