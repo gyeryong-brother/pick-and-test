@@ -4,7 +4,9 @@ import com.gyeryongbrother.pickandtest.dataaccess.entity.PortfolioStockEntity;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.PortfolioStockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.PortfolioStockJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.core.PortfolioStock;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioStockQueryRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioStockRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +16,7 @@ public class PortfolioStockRepositoryImpl implements PortfolioStockRepository {
 
     private final PortfolioStockJpaRepository portfolioStockJpaRepository;
     private final PortfolioStockDataAccessMapper portfolioStockDataAccessMapper;
+    private final PortfolioStockQueryRepository portfolioStockQueryRepository;
 
     @Override
     public PortfolioStock save(PortfolioStock portfolioStock) {
@@ -21,5 +24,14 @@ public class PortfolioStockRepositoryImpl implements PortfolioStockRepository {
                 portfolioStockDataAccessMapper.portfolioStockToPortfolioStockEntity(portfolioStock);
         PortfolioStockEntity saved = portfolioStockJpaRepository.save(portfolioStockEntity);
         return portfolioStockDataAccessMapper.portfolioStockEntityToPortfolioStock(saved);
+    }
+
+    @Override
+    public void deleteAllByPortfolioId(Long portfolioId) {
+        List<PortfolioStock> portfolioStocks=portfolioStockQueryRepository.findAllByPortfolioId(portfolioId);
+        List<PortfolioStockEntity> portfolioStockEntities= portfolioStocks.stream()
+                        .map(portfolioStockDataAccessMapper::portfolioStockToPortfolioStockEntity)
+                        .toList();
+        portfolioStockJpaRepository.deleteAll(portfolioStockEntities);
     }
 }

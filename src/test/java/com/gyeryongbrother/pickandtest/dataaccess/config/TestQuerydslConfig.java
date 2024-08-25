@@ -191,7 +191,7 @@ public class TestQuerydslConfig {
 
     @Bean
     public PortfolioStockRepository portfolioStockRepository() {
-        return new PortfolioStockRepositoryImpl(portfolioStockJpaRepository, portfolioStockDataAccessMapper());
+        return new PortfolioStockRepositoryImpl(portfolioStockJpaRepository, portfolioStockDataAccessMapper(), portfolioStockQueryRepository());
     }
 
     @Bean
