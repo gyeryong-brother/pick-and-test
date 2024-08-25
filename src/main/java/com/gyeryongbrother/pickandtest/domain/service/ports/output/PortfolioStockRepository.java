@@ -9,5 +9,5 @@ public interface PortfolioStockRepository {
 
     void deleteAllByPortfolioId(Long portfolioId);
 
-
+    List<PortfolioStock> saveAll(List<PortfolioStock> portfolioStocks);
 }

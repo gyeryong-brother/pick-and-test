@@ -34,4 +34,15 @@ public class PortfolioStockRepositoryImpl implements PortfolioStockRepository {
                         .toList();
         portfolioStockJpaRepository.deleteAll(portfolioStockEntities);
     }
+
+    @Override
+    public List<PortfolioStock> saveAll(List<PortfolioStock> portfolioStocks) {
+        List<PortfolioStockEntity> portfolioStockEntities=portfolioStocks.stream()
+                .map(portfolioStockDataAccessMapper::portfolioStockToPortfolioStockEntity)
+                .toList();
+        List<PortfolioStockEntity> savedPortfolioStockEntities=portfolioStockJpaRepository.saveAll(portfolioStockEntities);
+        return savedPortfolioStockEntities.stream()
+                .map(portfolioStockDataAccessMapper::portfolioStockEntityToPortfolioStock)
+                .toList();
+    }
 }

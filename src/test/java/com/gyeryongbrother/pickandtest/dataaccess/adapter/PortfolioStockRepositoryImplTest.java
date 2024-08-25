@@ -182,6 +182,61 @@ public class PortfolioStockRepositoryImplTest {
                 .ignoringExpectedNullFields()
                 .isEqualTo(expected);
     }
+
+    @Test
+    @DisplayName("포트폴리오 주식들을 한번에 저장")
+    void saveAll(){
+        //given
+        Stock apple=StockFixture.apple();
+        Stock nvidia=StockFixture.nvidia();
+        Stock microsoft=StockFixture.microsoft();
+
+        Stock savedApple=stockRepository.save(apple);
+        Stock savedNvidia=stockRepository.save(nvidia);
+        Stock savedMicrosoft=stockRepository.save(microsoft);
+
+        Member member=Member.builder().build();
+
+        Member savedMember=memberRepository.save(member);
+
+        Portfolio portfolio1=Portfolio.builder().memberId(savedMember.getId()).build();
+        Portfolio portfolio2=Portfolio.builder().memberId(savedMember.getId()).build();
+
+        Portfolio savedPortfolio1=portfolioRepository.save(portfolio1);
+        Portfolio savedPortfolio2=portfolioRepository.save(portfolio2);
+
+        PortfolioStock applePortfolioStock=PortfolioStock.builder()
+                .portfolioId(savedPortfolio1.getId())
+                .stock(savedApple)
+                .portion(BigDecimal.valueOf(0.5))
+                .build();
+        PortfolioStock nvidiaPortfolioStock=PortfolioStock.builder()
+                .portfolioId(savedPortfolio2.getId())
+                .stock(savedNvidia)
+                .portion(BigDecimal.valueOf(1.0))
+                .build();
+        PortfolioStock microsoftPortfolioStock=PortfolioStock.builder()
+                .portfolioId(savedPortfolio1.getId())
+                .stock(savedMicrosoft)
+                .portion(BigDecimal.valueOf(0.5))
+                .build();
+
+        List<PortfolioStock> portfolioStocks=List.of(
+                applePortfolioStock,
+                nvidiaPortfolioStock,
+                microsoftPortfolioStock
+        );
+
+        List<PortfolioStock> expected=portfolioStocks;
+
+        //when
+        List<PortfolioStock> result=portfolioStockRepository.saveAll(portfolioStocks);
+
+        //then
+        assertThat(result).usingRecursiveComparison()
+                .ignoringExpectedNullFields()
+                .isEqualTo(expected);
+    }
 }
 
 
