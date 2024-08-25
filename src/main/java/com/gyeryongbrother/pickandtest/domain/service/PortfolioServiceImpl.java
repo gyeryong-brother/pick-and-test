@@ -8,7 +8,9 @@ import com.gyeryongbrother.pickandtest.domain.service.ports.input.PortfolioServi
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioStockRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+@Service
 @RequiredArgsConstructor
 public class PortfolioServiceImpl implements PortfolioService {
 
@@ -21,7 +23,7 @@ public class PortfolioServiceImpl implements PortfolioService {
                         .map(updatePortfolioStockRequest -> updatePortfolioStockRequest.toCommand(portfolioId))
                         .toList();
         List<PortfolioStock> portfolioStocks=updatePortfolioStockCommands.stream()
-                .map(updatePortfolioStockCommand -> updatePortfolioStockCommand.toDomain())
+                .map(UpdatePortfolioStockCommand::toDomain)
                 .toList();
         portfolioStockRepository.deleteAllByPortfolioId(portfolioId);
         return portfolioStockRepository.saveAll(portfolioStocks);

@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
+import com.gyeryongbrother.pickandtest.application.dto.UpdatePortfolioStockRequest;
+import com.gyeryongbrother.pickandtest.application.dto.UpdatePortfolioStockRequests;
 import com.gyeryongbrother.pickandtest.dataaccess.mapper.PortfolioStockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.PortfolioStockJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.core.Portfolio;
@@ -12,12 +14,14 @@ import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.service.dto.PortfolioResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.PortfolioStockResponse;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioRepository;
+import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioStockRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
 import com.gyeryongbrother.pickandtest.infrastructure.client.koreainvestment.stock.StockFixture;
 import com.gyeryongbrother.pickandtest.member.domain.core.Member;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberRepository;
 import io.restassured.RestAssured;
 import io.restassured.common.mapper.TypeRef;
+import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.math.BigDecimal;
@@ -45,12 +49,15 @@ public class PortfolioControllerTest {
     private PortfolioRepository portfolioRepository;
     @Autowired
     private PortfolioStockJpaRepository portfolioStockJpaRepository;
+    @Autowired
+    private PortfolioStockRepository portfolioStockRepository;
     @LocalServerPort
     private int port;
 
     @BeforeEach
     void setUp() {
         RestAssured.port = port;
+
     }
 
     @Test
@@ -130,6 +137,74 @@ public class PortfolioControllerTest {
                 .extract();
         List<PortfolioResponse> result = response.as(new TypeRef<>() {
         });
+
+        //then
+        assertThat(result).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("특정 포트폴리오에 있는 포트폴리오 주식 정보들을 업데이트 한다")
+    void updatePortfolio(){
+        //given
+        Stock apple= StockFixture.apple();
+        Stock nvidia=StockFixture.nvidia();
+        Stock microsoft=StockFixture.microsoft();
+
+        Stock savedApple=stockRepository.save(apple);
+        Stock savedNvidia=stockRepository.save(nvidia);
+        Stock savedMicrosoft=stockRepository.save(microsoft);
+
+        Member member=Member.builder().build();
+
+        Member savedMember=memberRepository.save(member);
+
+        Portfolio portfolio1=Portfolio.builder().memberId(savedMember.getId()).build();
+        Portfolio portfolio2=Portfolio.builder().memberId(savedMember.getId()).build();
+
+        Portfolio savedPortfolio1=portfolioRepository.save(portfolio1);
+        Portfolio savedPortfolio2=portfolioRepository.save(portfolio2);
+
+        PortfolioStock applePortfolioStock=PortfolioStock.builder()
+                .portfolioId(savedPortfolio1.getId())
+                .stock(savedApple)
+                .portion(BigDecimal.valueOf(0.5))
+                .build();
+        PortfolioStock nvidiaPortfolioStock=PortfolioStock.builder()
+                .portfolioId(savedPortfolio2.getId())
+                .stock(savedNvidia)
+                .portion(BigDecimal.valueOf(1.0))
+                .build();
+        PortfolioStock microsoftPortfolioStock=PortfolioStock.builder()
+                .portfolioId(savedPortfolio1.getId())
+                .stock(savedMicrosoft)
+                .portion(BigDecimal.valueOf(0.5))
+                .build();
+
+        portfolioStockRepository.saveAll(List.of(applePortfolioStock,nvidiaPortfolioStock,microsoftPortfolioStock));
+
+        UpdatePortfolioStockRequest updatePortfolioStockRequest=
+                new UpdatePortfolioStockRequest(savedApple.getId(),BigDecimal.valueOf(1.0));
+        UpdatePortfolioStockRequests updatePortfolioStockRequests=
+                new UpdatePortfolioStockRequests(List.of(updatePortfolioStockRequest));
+
+        PortfolioStock portfolioStock=PortfolioStock.builder()
+                .portfolioId(savedPortfolio1.getId())
+                .stock(savedApple)
+                .portion(BigDecimal.valueOf(1.0))
+                .build();
+
+        List<PortfolioStockResponse> expected=List.of(PortfolioStockResponse.from(portfolioStock));
+
+        //when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(updatePortfolioStockRequests)
+                .when().post("/portfolios/{portfolioId}/update",savedPortfolio1.getId())
+                .then().log().all()
+                .extract();
+        List<PortfolioStockResponse> result = response.as(new TypeRef<>() {
+        });
+
 
         //then
         assertThat(result).usingRecursiveComparison().isEqualTo(expected);
