@@ -29,7 +29,9 @@ import com.gyeryongbrother.pickandtest.dataaccess.repository.PortfolioStockJpaRe
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.dataaccess.repository.StockPriceJpaRepository;
 import com.gyeryongbrother.pickandtest.domain.service.DividendQueryServiceImpl;
+import com.gyeryongbrother.pickandtest.domain.service.PortfolioServiceImpl;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.DividendQueryService;
+import com.gyeryongbrother.pickandtest.domain.service.ports.input.PortfolioService;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.DividendQueryRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.DividendRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.FavoriteStockQueryRepository;
@@ -207,5 +209,10 @@ public class TestQuerydslConfig {
     @Bean
     public PortfolioQueryRepositoryImpl portfolioQueryRepository() {
         return new PortfolioQueryRepositoryImpl(queryFactory(), portfolioDataAccessMapper());
+    }
+
+    @Bean
+    public PortfolioService portfolioService(){
+        return new PortfolioServiceImpl(portfolioStockRepository());
     }
 }
