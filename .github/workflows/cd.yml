@@ -12,7 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          submodules: 'true'
+          submodules: true
+          token: ${{ secrets.ACTION_TOKEN }}
       - uses: actions/setup-java@v4
         with:
           java-version: '17'
