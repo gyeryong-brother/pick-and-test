@@ -1,6 +1,7 @@
 package com.gyeryongbrother.pickandtest.dataaccess.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,10 +23,10 @@ public class PortfolioStockEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private PortfolioEntity portfolioEntity;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private StockEntity stockEntity;
 
     private BigDecimal portion;

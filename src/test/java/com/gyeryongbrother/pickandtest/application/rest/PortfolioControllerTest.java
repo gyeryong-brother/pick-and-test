@@ -13,6 +13,7 @@ import com.gyeryongbrother.pickandtest.domain.core.PortfolioStock;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.service.dto.PortfolioResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.PortfolioStockResponse;
+import com.gyeryongbrother.pickandtest.domain.service.dto.UpdatePortfolioCommand;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioStockRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
@@ -57,7 +58,6 @@ public class PortfolioControllerTest {
     @BeforeEach
     void setUp() {
         RestAssured.port = port;
-
     }
 
     @Test
@@ -101,7 +101,6 @@ public class PortfolioControllerTest {
         assertThat(result).usingRecursiveComparison()
                 .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
                 .isEqualTo(expected);
-
     }
 
     @Test
@@ -113,14 +112,37 @@ public class PortfolioControllerTest {
         Member savedMember1 = memberRepository.save(member1);
         Member savedMember2 = memberRepository.save(member2);
 
+        Stock apple = StockFixture.apple();
+        Stock nvidia = StockFixture.nvidia();
+        Stock savedApple = stockRepository.save(apple);
+        Stock savedNvidia = stockRepository.save(nvidia);
+
+        List<PortfolioStock> portfolioStocks1 = List.of(
+                PortfolioStock.builder().stock(savedApple).portion(BigDecimal.valueOf(0.5)).build(),
+                PortfolioStock.builder().stock(savedNvidia).portion(BigDecimal.valueOf(0.5)).build()
+        );
+
+        List<PortfolioStock> portfolioStocks2 = List.of(
+                PortfolioStock.builder().stock(savedApple).portion(BigDecimal.valueOf(0.5)).build(),
+                PortfolioStock.builder().stock(savedNvidia).portion(BigDecimal.valueOf(0.5)).build()
+        );
+
+        List<PortfolioStock> portfolioStocks3 = List.of(
+                PortfolioStock.builder().stock(savedApple).portion(BigDecimal.valueOf(0.5)).build(),
+                PortfolioStock.builder().stock(savedNvidia).portion(BigDecimal.valueOf(0.5)).build()
+        );
+
         Portfolio portfolio1 = Portfolio.builder()
                 .memberId(savedMember1.getId())
+                .portfolioStocks(portfolioStocks1)
                 .build();
         Portfolio portfolio2 = Portfolio.builder()
                 .memberId(savedMember2.getId())
+                .portfolioStocks(portfolioStocks2)
                 .build();
         Portfolio portfolio3 = Portfolio.builder()
                 .memberId(savedMember1.getId())
+                .portfolioStocks(portfolioStocks3)
                 .build();
         Portfolio savedPortfolio1 = portfolioRepository.save(portfolio1);
         Portfolio savedPortfolio2 = portfolioRepository.save(portfolio2);
@@ -186,6 +208,8 @@ public class PortfolioControllerTest {
                 new UpdatePortfolioStockRequest(savedApple.getId(), BigDecimal.valueOf(1.0));
         UpdatePortfolioStockRequests updatePortfolioStockRequests =
                 new UpdatePortfolioStockRequests(List.of(updatePortfolioStockRequest));
+        UpdatePortfolioCommand updatePortfolioCommand=
+                new UpdatePortfolioCommand(savedPortfolio1.getId(),updatePortfolioStockRequests);
 
         PortfolioStock portfolioStock = PortfolioStock.builder()
                 .portfolioId(savedPortfolio1.getId())
@@ -198,8 +222,8 @@ public class PortfolioControllerTest {
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
-                .body(updatePortfolioStockRequests)
-                .when().post("/portfolios/{portfolioId}/update", savedPortfolio1.getId())
+                .body(updatePortfolioCommand)
+                .when().put("/portfolios/update")
                 .then().log().all()
                 .extract();
         List<PortfolioStockResponse> result = response.as(new TypeRef<>() {

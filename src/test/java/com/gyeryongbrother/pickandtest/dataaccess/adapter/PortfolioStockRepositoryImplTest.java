@@ -163,7 +163,6 @@ public class PortfolioStockRepositoryImplTest {
                 .build();
 
         PortfolioStock savedApplePortfolioStock = portfolioStockRepository.save(applePortfolioStock);
-        //PortfolioStock savedNvidiaPortfolioStock=portfolioStockRepository.save(nvidiaPortfolioStock);
         PortfolioStock savedMicrosoftPortfolioStock = portfolioStockRepository.save(microsoftPortfolioStock);
 
         portfolioStockRepository.deleteAllByPortfolioId(savedPortfolio2.getId());
@@ -237,10 +236,3 @@ public class PortfolioStockRepositoryImplTest {
                 .isEqualTo(expected);
     }
 }
-
-
-
-
-
-
-

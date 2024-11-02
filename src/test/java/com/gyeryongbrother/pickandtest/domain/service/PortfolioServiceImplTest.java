@@ -8,6 +8,7 @@ import com.gyeryongbrother.pickandtest.dataaccess.config.TestQuerydslConfig;
 import com.gyeryongbrother.pickandtest.domain.core.Portfolio;
 import com.gyeryongbrother.pickandtest.domain.core.PortfolioStock;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
+import com.gyeryongbrother.pickandtest.domain.service.dto.UpdatePortfolioCommand;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.PortfolioService;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioStockQueryRepository;
@@ -92,8 +93,10 @@ public class PortfolioServiceImplTest {
         UpdatePortfolioStockRequests updatePortfolioStockRequests =
                 new UpdatePortfolioStockRequests(List.of(updatePortfolioStockRequest));
 
-        List<PortfolioStock> expected = portfolioService.updatePortfolioStocks(savedPortfolio1.getId(),
-                updatePortfolioStockRequests);
+        UpdatePortfolioCommand updatePortfolioCommand=
+                new UpdatePortfolioCommand(savedPortfolio1.getId(),updatePortfolioStockRequests);
+
+        List<PortfolioStock> expected = portfolioService.updatePortfolioStocks(updatePortfolioCommand);
 
         //when
         List<PortfolioStock> result = portfolioStockQueryRepository.findAllByPortfolioId(savedPortfolio1.getId());

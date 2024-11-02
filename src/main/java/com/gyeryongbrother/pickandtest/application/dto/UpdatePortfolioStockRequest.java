@@ -7,6 +7,7 @@ public record UpdatePortfolioStockRequest(
         Long stockId,
         BigDecimal portion
 ) {
+
     public UpdatePortfolioStockCommand toCommand(Long portfolioId) {
         return new UpdatePortfolioStockCommand(portfolioId, stockId, portion);
     }

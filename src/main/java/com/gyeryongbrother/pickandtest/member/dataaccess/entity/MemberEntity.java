@@ -3,14 +3,10 @@ package com.gyeryongbrother.pickandtest.member.dataaccess.entity;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.gyeryongbrother.pickandtest.dataaccess.entity.PortfolioEntity;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,7 +25,4 @@ public class MemberEntity {
     private Long id;
 
     private String name;
-
-    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.PERSIST)
-    private List<PortfolioEntity> portfolioEntities;
 }

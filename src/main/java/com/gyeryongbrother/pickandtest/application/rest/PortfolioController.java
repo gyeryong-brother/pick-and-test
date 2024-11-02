@@ -1,9 +1,9 @@
 package com.gyeryongbrother.pickandtest.application.rest;
 
-import com.gyeryongbrother.pickandtest.application.dto.UpdatePortfolioStockRequests;
 import com.gyeryongbrother.pickandtest.domain.core.PortfolioStock;
 import com.gyeryongbrother.pickandtest.domain.service.dto.PortfolioResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.PortfolioStockResponse;
+import com.gyeryongbrother.pickandtest.domain.service.dto.UpdatePortfolioCommand;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.PortfolioQueryService;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.PortfolioService;
 import java.util.List;
@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,13 +38,13 @@ public class PortfolioController {
         return ResponseEntity.ok(portfolioResponses);
     }
 
-    @PostMapping("/{portfolioId}/update")
+    @PutMapping("/update")
     ResponseEntity<List<PortfolioStockResponse>> updatePortfolio(
-            @PathVariable Long portfolioId,
-            @RequestBody UpdatePortfolioStockRequests updatePortfolioStockRequests
+            @RequestBody UpdatePortfolioCommand updatePortfolioCommand
     ) {
+
         List<PortfolioStock> updatedPortfolioStocks =
-                portfolioService.updatePortfolioStocks(portfolioId, updatePortfolioStockRequests);
+                portfolioService.updatePortfolioStocks(updatePortfolioCommand);
         List<PortfolioStockResponse> portfolioStockResponses = updatedPortfolioStocks.stream()
                 .map(PortfolioStockResponse::from)
                 .toList();

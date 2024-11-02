@@ -22,10 +22,9 @@ public class PortfolioStockQueryRepositoryImpl implements PortfolioStockQueryRep
 
     @Override
     public List<PortfolioStock> findAllByPortfolioId(Long portfolioId) {
-        List<PortfolioStockEntity> portfolioStockEntities =
-                queryFactory.selectFrom(portfolioStockEntity)
-                        .where(portfolioStockEntity.portfolioEntity.id.eq(portfolioId))
-                        .fetch();
+        List<PortfolioStockEntity> portfolioStockEntities = queryFactory.selectFrom(portfolioStockEntity)
+                .where(portfolioStockEntity.portfolioEntity.id.eq(portfolioId))
+                .fetch();
         return portfolioStockEntities.stream()
                 .map(portfolioStockDataAccessMapper::portfolioStockEntityToPortfolioStock)
                 .toList();
