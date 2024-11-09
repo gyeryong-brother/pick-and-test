@@ -10,10 +10,12 @@ import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioStoc
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class PortfolioQueryServiceImpl implements PortfolioQueryService {
 
     private final PortfolioStockQueryRepository portfolioStockQueryRepository;

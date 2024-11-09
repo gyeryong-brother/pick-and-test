@@ -147,6 +147,8 @@ public class PortfolioControllerTest {
         Portfolio savedPortfolio2 = portfolioRepository.save(portfolio2);
         Portfolio savedPortfolio3 = portfolioRepository.save(portfolio3);
 
+
+
         List<PortfolioResponse> expected = List.of(savedPortfolio1, savedPortfolio3).stream()
                 .map(PortfolioResponse::from)
                 .toList();
