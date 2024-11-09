@@ -1,9 +1,10 @@
 package com.gyeryongbrother.pickandtest.application.rest;
 
+import com.gyeryongbrother.pickandtest.application.dto.UpdatePortfolioStockRequests;
 import com.gyeryongbrother.pickandtest.domain.core.PortfolioStock;
 import com.gyeryongbrother.pickandtest.domain.service.dto.PortfolioResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.PortfolioStockResponse;
-import com.gyeryongbrother.pickandtest.domain.service.dto.UpdatePortfolioCommand;
+import com.gyeryongbrother.pickandtest.domain.service.dto.UpdatePortfolioStockCommands;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.PortfolioQueryService;
 import com.gyeryongbrother.pickandtest.domain.service.ports.input.PortfolioService;
 import java.util.List;
@@ -38,13 +39,15 @@ public class PortfolioController {
         return ResponseEntity.ok(portfolioResponses);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/{portfolioId}")
     ResponseEntity<List<PortfolioStockResponse>> updatePortfolio(
-            @RequestBody UpdatePortfolioCommand updatePortfolioCommand
+            @PathVariable Long portfolioId,
+            @RequestBody UpdatePortfolioStockRequests updatePortfolioStockRequests
     ) {
 
+        UpdatePortfolioStockCommands updatePortfolioStockCommands = updatePortfolioStockRequests.toCommand(portfolioId);
         List<PortfolioStock> updatedPortfolioStocks =
-                portfolioService.updatePortfolioStocks(updatePortfolioCommand);
+                portfolioService.updatePortfolioStocks(updatePortfolioStockCommands);
         List<PortfolioStockResponse> portfolioStockResponses = updatedPortfolioStocks.stream()
                 .map(PortfolioStockResponse::from)
                 .toList();

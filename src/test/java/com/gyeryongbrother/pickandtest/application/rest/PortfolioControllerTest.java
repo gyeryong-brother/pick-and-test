@@ -13,7 +13,6 @@ import com.gyeryongbrother.pickandtest.domain.core.PortfolioStock;
 import com.gyeryongbrother.pickandtest.domain.core.Stock;
 import com.gyeryongbrother.pickandtest.domain.service.dto.PortfolioResponse;
 import com.gyeryongbrother.pickandtest.domain.service.dto.PortfolioStockResponse;
-import com.gyeryongbrother.pickandtest.domain.service.dto.UpdatePortfolioCommand;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.PortfolioStockRepository;
 import com.gyeryongbrother.pickandtest.domain.service.ports.output.StockRepository;
@@ -208,8 +207,7 @@ public class PortfolioControllerTest {
                 new UpdatePortfolioStockRequest(savedApple.getId(), BigDecimal.valueOf(1.0));
         UpdatePortfolioStockRequests updatePortfolioStockRequests =
                 new UpdatePortfolioStockRequests(List.of(updatePortfolioStockRequest));
-        UpdatePortfolioCommand updatePortfolioCommand=
-                new UpdatePortfolioCommand(savedPortfolio1.getId(),updatePortfolioStockRequests);
+
 
         PortfolioStock portfolioStock = PortfolioStock.builder()
                 .portfolioId(savedPortfolio1.getId())
@@ -222,8 +220,8 @@ public class PortfolioControllerTest {
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
-                .body(updatePortfolioCommand)
-                .when().put("/portfolios/update")
+                .body(updatePortfolioStockRequests)
+                .when().put("/portfolios/{portfolioId}", savedPortfolio1.getId())
                 .then().log().all()
                 .extract();
         List<PortfolioStockResponse> result = response.as(new TypeRef<>() {
