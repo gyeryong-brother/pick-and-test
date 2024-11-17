@@ -1,9 +1,0 @@
-spring:
-  jpa:
-    properties:
-      hibernate:
-        format_sql: true
-
-korea-investment:
-  app-key: "app-key"
-  app-secret: "app-secret"
