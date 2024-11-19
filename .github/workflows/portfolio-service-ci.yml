@@ -1,8 +1,12 @@
-name: pick-and-test CI
+name: portfolio-service CI
 
 on:
   push:
+    paths:
+      - portfolio-service/**
   pull_request:
+    paths:
+      - portfolio-service/**
 
 jobs:
   build:
@@ -14,4 +18,6 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
           cache: maven
-      - run: mvn package
+      - run: |
+          cd portfolio-service
+          mvn package

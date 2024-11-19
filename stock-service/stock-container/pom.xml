@@ -52,7 +52,7 @@
                 <directory>src/main/resources</directory>
             </resource>
             <resource>
-                <directory>pick-and-test-submodule/resources</directory>
+                <directory>../../pick-and-test-submodule/stock-service/resources</directory>
             </resource>
         </resources>
         <plugins>
@@ -74,13 +74,13 @@
                 <version>3.4.3</version>
                 <configuration>
                     <container>
-                        <mainClass>com.gyeryongbrother.pickandtest.PickandtestApplication</mainClass>
+                        <mainClass>com.gyeryongbrother.pickandtest.stock.StockServiceApplication</mainClass>
                     </container>
                     <from>
                         <image>amazoncorretto@sha256:489ad65bfd0f89253422fa5692f982c575731ce98a001d44449e37008f5464db</image>
                     </from>
                     <to>
-                        <image>gyeryongbrother/pick-and-test</image>
+                        <image>gyeryongbrother/pick-and-test-stock</image>
                     </to>
                 </configuration>
             </plugin>
