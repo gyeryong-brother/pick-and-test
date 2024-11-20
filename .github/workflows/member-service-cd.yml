@@ -1,19 +1,18 @@
-name: pick-and-test CD
+name: member-service CD
 
 on:
   push:
     branches:
       - main
       - develop
+    paths:
+      - member-service/**
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: true
-          token: ${{ secrets.ACTION_TOKEN }}
       - uses: actions/setup-java@v4
         with:
           java-version: '17'
@@ -23,9 +22,9 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - run: mvn compile jib:build
+      - run: mvn compile jib:build -pl member-service/member-container
   deploy:
     needs: build
     runs-on: self-hosted
     steps:
-      - run: sh /home/ubuntu/pick-and-test-server/deploy.sh
+      - run: sh /home/ubuntu/pick-and-test-server/member-service/deploy.sh
