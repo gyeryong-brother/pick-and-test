@@ -26,7 +26,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - run: |
           cd member-service
-          mvn compile jib:build -pl member-container
+          mvn install jib:build -pl member-container
   deploy:
     needs: build
     runs-on: self-hosted
