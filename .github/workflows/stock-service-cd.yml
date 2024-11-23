@@ -34,4 +34,4 @@ jobs:
     needs: build
     runs-on: self-hosted
     steps:
-      - run: sh /home/ubuntu/pick-and-test-server/stock-service/deploy.sh
+      - run: sh /home/ubuntu/pick-and-test-server/actions-runner/stock-service/deploy.sh
