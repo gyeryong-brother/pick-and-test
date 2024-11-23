@@ -15,12 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
       - uses: actions/setup-java@v4
         with:
           java-version: '17'
@@ -30,8 +24,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - run: |
-          mvn install jib:build -pl member-service/member-container
+      - run: mvn install -X
+      - run: mvn jib:build -pl member-service/member-container
   deploy:
     needs: build
     runs-on: self-hosted
