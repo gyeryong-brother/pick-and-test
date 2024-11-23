@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - develop
+      - refactor/#83-test
     paths:
       - portfolio-service/**
 
