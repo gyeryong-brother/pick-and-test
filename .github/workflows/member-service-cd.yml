@@ -35,4 +35,4 @@ jobs:
     needs: build
     runs-on: self-hosted
     steps:
-      - run: sh /home/ubuntu/pick-and-test-server/actions-runner/member-service/deploy.sh
+      - run: sh /home/ubuntu/pick-and-test-server/member-service/deploy.sh

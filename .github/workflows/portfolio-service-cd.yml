@@ -7,6 +7,7 @@ on:
       - develop
       - refactor/#83-test
     paths:
+      - .github/**
       - portfolio-service/**
 
 jobs:
@@ -34,4 +35,4 @@ jobs:
     needs: build
     runs-on: self-hosted
     steps:
-      - run: sh /home/ubuntu/pick-and-test-server/actions-runner/portfolio-service/deploy.sh
+      - run: sh /home/ubuntu/pick-and-test-server/portfolio-service/deploy.sh
