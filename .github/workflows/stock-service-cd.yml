@@ -1,0 +1,36 @@
+name: stock-service CD
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - stock-service/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          token: ${{ secrets.ACTION_TOKEN }}
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: corretto
+          cache: maven
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - run: |
+          cd stock-service
+          mvn install
+          mvn jib:build -pl stock-container
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - run: sh /home/ubuntu/pick-and-test-server/stock-service/deploy.sh
