@@ -5,10 +5,8 @@ on:
     branches:
       - main
       - develop
-      - chore/#86
     paths:
       - portfolio-service/**
-      - .github/**
 
 jobs:
   build:
