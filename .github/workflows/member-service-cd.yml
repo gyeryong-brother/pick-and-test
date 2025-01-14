@@ -33,6 +33,7 @@ jobs:
           mvn jib:build -pl member-container
   deploy:
     needs: build
+    runs-on: ubuntu-latest
     steps:
       - uses: aws-actions/configure-aws-credentials@v4
         with:
