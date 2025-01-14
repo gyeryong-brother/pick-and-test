@@ -5,8 +5,10 @@ on:
     branches:
       - main
       - develop
+      - chore/#86
     paths:
       - portfolio-service/**
+      - .github/**
 
 jobs:
   build:
@@ -31,6 +33,14 @@ jobs:
           mvn jib:build -pl portfolio-container
   deploy:
     needs: build
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
-      - run: sh /home/ubuntu/pick-and-test-server/portfolio-service/deploy.sh
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+      - run: |
+          aws eks update-kubeconfig --region ap-northeast-2 --name gb
+      - run: |
+          kubectl rollout restart deployment portfolio-service-deployment
