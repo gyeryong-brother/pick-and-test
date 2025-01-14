@@ -33,7 +33,6 @@ jobs:
           mvn jib:build -pl member-container
   deploy:
     needs: build
-    runs-on: self-hosted
     steps:
       - uses: aws-actions/configure-aws-credentials@v4
         with:
