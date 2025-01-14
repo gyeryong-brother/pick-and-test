@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.stock.infrastructure.data;
+package com.gyeryongbrother.pickandtest.stock.dataaccess.data;
 
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.Dividend;
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.Dividends;
