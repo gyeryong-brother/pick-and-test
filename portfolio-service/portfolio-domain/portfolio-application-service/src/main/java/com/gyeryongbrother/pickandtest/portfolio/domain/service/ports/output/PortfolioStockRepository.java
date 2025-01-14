@@ -5,4 +5,6 @@ import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioSto
 public interface PortfolioStockRepository {
 
     PortfolioStock save(PortfolioStock portfolioStock);
+
+    void deleteAllByPortfolioEntity_Id(Long portfolioId);
 }

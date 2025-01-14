@@ -22,4 +22,9 @@ public class PortfolioStockRepositoryImpl implements PortfolioStockRepository {
         PortfolioStockEntity saved = portfolioStockJpaRepository.save(portfolioStockEntity);
         return portfolioStockDataAccessMapper.portfolioStockEntityToPortfolioStock(saved);
     }
+
+    @Override
+    public void deleteAllByPortfolioEntity_Id(Long portfolioId){
+        portfolioStockJpaRepository.deleteAllByPortfolioEntity_Id(portfolioId);
+    }
 }
