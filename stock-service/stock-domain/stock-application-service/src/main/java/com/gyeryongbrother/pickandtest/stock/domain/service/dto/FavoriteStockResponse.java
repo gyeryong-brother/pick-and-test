@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 
 public record FavoriteStockResponse(
         Long id,
+        Long stockId,
         String name,
         String symbol,
         BigDecimal price,
@@ -19,6 +20,7 @@ public record FavoriteStockResponse(
         Stock stock = stockDetail.getStock();
         return new FavoriteStockResponse(
                 favoriteStock.getId(),
+                stock.getId(),
                 stock.getName(),
                 stock.getSymbol(),
                 stockDetail.getLastStockPrice(),

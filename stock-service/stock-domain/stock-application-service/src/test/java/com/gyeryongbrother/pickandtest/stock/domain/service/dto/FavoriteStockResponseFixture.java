@@ -22,6 +22,7 @@ public class FavoriteStockResponseFixture {
     ) {
         return new FavoriteStockResponse(
                 null,
+                null,
                 "Apple Inc.",
                 "AAPL",
                 price,
