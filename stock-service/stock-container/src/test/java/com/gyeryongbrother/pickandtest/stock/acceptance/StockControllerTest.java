@@ -265,6 +265,7 @@ class StockControllerTest {
     ) {
         return new FavoriteStockResponse(
                 null,
+                null,
                 "Apple Inc.",
                 "AAPL",
                 price,
