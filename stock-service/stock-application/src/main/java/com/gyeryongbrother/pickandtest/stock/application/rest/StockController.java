@@ -9,6 +9,7 @@ import com.gyeryongbrother.pickandtest.stock.domain.service.dto.CreateFavoriteSt
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.CreateFavoriteStockResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.FavoriteStockResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.MarketCapitalizationResponse;
+import com.gyeryongbrother.pickandtest.stock.domain.service.dto.StockDetailResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.StockPriceResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.input.DividendQueryService;
@@ -42,6 +43,12 @@ public class StockController {
     ResponseEntity<List<StockResponse>> searchStocks(@RequestParam String keyword) {
         List<StockResponse> stockResponses = stockQueryService.findAllByNameOrSymbol(keyword);
         return ResponseEntity.ok(stockResponses);
+    }
+
+    @GetMapping("/{stockId}")
+    ResponseEntity<StockDetailResponse> findStockById(@PathVariable Long stockId) {
+        StockDetailResponse response = stockQueryService.findStockById(stockId);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/{stockId}/favorite")

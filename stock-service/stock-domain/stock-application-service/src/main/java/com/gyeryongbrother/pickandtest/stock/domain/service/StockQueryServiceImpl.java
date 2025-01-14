@@ -1,7 +1,9 @@
 package com.gyeryongbrother.pickandtest.stock.domain.service;
 
+import com.gyeryongbrother.pickandtest.stock.domain.core.entity.StockDetail;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.FavoriteStockResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.MarketCapitalizationResponse;
+import com.gyeryongbrother.pickandtest.stock.domain.service.dto.StockDetailResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.FavoriteStock;
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.Stock;
@@ -36,6 +38,12 @@ public class StockQueryServiceImpl implements StockQueryService {
         return stocks.stream()
                 .map(StockResponse::from)
                 .toList();
+    }
+
+    @Override
+    public StockDetailResponse findStockById(Long stockId) {
+        StockDetail stockDetail = stockQueryRepository.findById(stockId);
+        return StockDetailResponse.from(stockDetail);
     }
 
     @Override

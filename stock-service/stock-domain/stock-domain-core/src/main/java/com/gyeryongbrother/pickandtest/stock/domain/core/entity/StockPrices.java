@@ -25,7 +25,7 @@ public class StockPrices {
         return getLastValue().getPrice();
     }
 
-    private StockPrice getLastValue() {
+    public StockPrice getLastValue() {
         return values.get(getLastIndex());
     }
 
