@@ -5,9 +5,9 @@ on:
     branches:
       - main
       - develop
-      - chore/#86
     paths:
       - member-service/**
+      - .github/**
 
 jobs:
   build:
