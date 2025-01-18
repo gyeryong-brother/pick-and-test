@@ -12,10 +12,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
 @Builder
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "portfolio")
@@ -27,6 +29,13 @@ public class PortfolioEntity {
 
     private Long memberId;
 
-    @OneToMany(mappedBy = "portfolioEntity", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "portfolioEntity", cascade = CascadeType.ALL)
     private List<PortfolioStockEntity> portfolioStockEntities;
+
+    public void setPortfolioStockEntities(){
+        List<PortfolioStockEntity> portfolioStockEntities=this.portfolioStockEntities;
+        for(PortfolioStockEntity portfolioStock:portfolioStockEntities){
+            portfolioStock.setPortfolioEntity(this);
+        }
+    }
 }

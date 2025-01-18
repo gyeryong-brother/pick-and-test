@@ -1,6 +1,9 @@
-package com.gyeryongbrother.pickandtest.portfolio.domain.core.entity;
+package com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity;
 
+import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
+import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStock;
 import java.util.List;
+import javax.sound.sampled.Port;
 
 public class PortfolioFixture {
 
@@ -31,5 +34,13 @@ public class PortfolioFixture {
                 PortfolioStockFixture.amazon()
         );
         return new Portfolio(null,1L,portfolioStocks);
+    }
+
+    public static Portfolio portfolio1Update(){
+        List<PortfolioStock> portfolioStocks=List.of(
+                PortfolioStockFixture.apple(),
+                PortfolioStockFixture.tesla()
+        );
+        return new Portfolio(null,3L,portfolioStocks);
     }
 }

@@ -6,5 +6,5 @@ public interface PortfolioStockRepository {
 
     PortfolioStock save(PortfolioStock portfolioStock);
 
-    void deleteAllByPortfolioEntity_Id(Long portfolioId);
+    void deleteAllByPortfolioId(Long portfolioId);
 }

@@ -1,10 +1,14 @@
 package com.gyeryongbrother.pickandtest.portfolio.dataaccess.adapter;
 
+import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioEntity;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioStockEntity;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.mapper.PortfolioStockDataAccessMapper;
+import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioJpaRepository;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioStockJpaRepository;
+import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStock;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +18,7 @@ public class PortfolioStockRepositoryImpl implements PortfolioStockRepository {
 
     private final PortfolioStockJpaRepository portfolioStockJpaRepository;
     private final PortfolioStockDataAccessMapper portfolioStockDataAccessMapper;
+    private final PortfolioJpaRepository portfolioJpaRepository;
 
     @Override
     public PortfolioStock save(PortfolioStock portfolioStock) {
@@ -24,7 +29,9 @@ public class PortfolioStockRepositoryImpl implements PortfolioStockRepository {
     }
 
     @Override
-    public void deleteAllByPortfolioEntity_Id(Long portfolioId){
+    public void deleteAllByPortfolioId(Long portfolioId) {
+        PortfolioEntity portfolioEntity=portfolioJpaRepository.findById(portfolioId).orElse(new PortfolioEntity());
+        portfolioEntity.setPortfolioStockEntities(List.of());
         portfolioStockJpaRepository.deleteAllByPortfolioEntity_Id(portfolioId);
     }
 }
