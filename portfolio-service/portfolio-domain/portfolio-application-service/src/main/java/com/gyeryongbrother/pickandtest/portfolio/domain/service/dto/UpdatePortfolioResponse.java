@@ -1,6 +1,6 @@
 package com.gyeryongbrother.pickandtest.portfolio.domain.service.dto;
 
-import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStocks;
+import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
 import java.util.List;
 
 public record UpdatePortfolioResponse(
@@ -8,12 +8,12 @@ public record UpdatePortfolioResponse(
         Long portfolioId
 ) {
 
-    UpdatePortfolioResponse from(PortfolioStocks portfolioStocks){
-        List<UpdatePortfolioStockResponse> updatePortfolioStockResponses=portfolioStocks.getPortfolioStocks().stream()
+    public static UpdatePortfolioResponse from(Portfolio portfolio){
+        List<UpdatePortfolioStockResponse> updatePortfolioStockResponses=portfolio.getPortfolioStocks().stream()
                 .map(UpdatePortfolioStockResponse::from)
                 .toList();
         return new UpdatePortfolioResponse(updatePortfolioStockResponses
-                ,portfolioStocks.getPortfolioId()
+                ,portfolio.getId()
         );
     }
 }
