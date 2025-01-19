@@ -1,27 +1,20 @@
 package com.gyeryongbrother.pickandtest.stock.domain.service;
 
 import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange.NASDAQ;
-import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.FavoriteStockFixture.favoriteStocks;
 import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockPriceFixture.stockPrices;
 import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockWithPricesFixture.stockWithPrices;
-import static com.gyeryongbrother.pickandtest.stock.domain.service.dto.FavoriteStockResponseFixture.favoriteStockResponses;
 import static com.gyeryongbrother.pickandtest.stock.domain.service.dto.MarketCapitalizationResponseFixture.marketCapitalizationResponses;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 import static org.mockito.BDDMockito.anyLong;
 import static org.mockito.BDDMockito.anyString;
 import static org.mockito.BDDMockito.given;
 
-import com.gyeryongbrother.pickandtest.stock.domain.core.entity.FavoriteStock;
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.Stock;
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.StockWithPrices;
-import com.gyeryongbrother.pickandtest.stock.domain.service.dto.FavoriteStockResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.MarketCapitalizationResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.input.StockQueryService;
-import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.FavoriteStockQueryRepository;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.StockQueryRepository;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,14 +31,11 @@ class StockQueryServiceImplTest {
     @Mock
     private StockQueryRepository stockQueryRepository;
 
-    @Mock
-    private FavoriteStockQueryRepository favoriteStockQueryRepository;
-
     private StockQueryService stockQueryService;
 
     @BeforeEach
     void setUp() {
-        stockQueryService = new StockQueryServiceImpl(stockQueryRepository, favoriteStockQueryRepository);
+        stockQueryService = new StockQueryServiceImpl(stockQueryRepository);
     }
 
     @Test
@@ -97,23 +87,5 @@ class StockQueryServiceImplTest {
                 .stockExchange(NASDAQ)
                 .listingDate(LocalDate.of(2024, 1, 1))
                 .build();
-    }
-
-    @Test
-    @DisplayName("회원 아이디로 관심 주식들을 조회한다")
-    void findAllFavoriteStocksByMemberId() {
-        // given
-        List<FavoriteStock> favoriteStocks = favoriteStocks();
-        given(favoriteStockQueryRepository.findAllByMemberId(anyLong()))
-                .willReturn(favoriteStocks);
-        List<FavoriteStockResponse> expected = favoriteStockResponses();
-
-        // when
-        List<FavoriteStockResponse> result = stockQueryService.findAllFavoriteStocksByMemberId(1L);
-
-        // then
-        assertThat(result).usingRecursiveComparison()
-                .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
-                .isEqualTo(expected);
     }
 }

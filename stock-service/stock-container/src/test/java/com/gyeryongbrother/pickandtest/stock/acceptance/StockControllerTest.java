@@ -202,16 +202,16 @@ class StockControllerTest {
     @DisplayName("관심 주식을 저장한다")
     void createFavoriteStock() {
         // given
-        CreateFavoriteStockRequest createFavoriteStockRequest = new CreateFavoriteStockRequest(1L);
         Long stockId = stockRepository.save(StockFixture.stock(null))
                 .getId();
+        CreateFavoriteStockRequest createFavoriteStockRequest = new CreateFavoriteStockRequest(stockId, 1L);
         CreateFavoriteStockResponse expected = new CreateFavoriteStockResponse(null, 1L, stockId);
 
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(createFavoriteStockRequest)
-                .when().post("/stocks/{stockId}/favorite", stockId)
+                .when().post("/favorite-stocks")
                 .then().log().all()
                 .extract();
         CreateFavoriteStockResponse result = response.as(CreateFavoriteStockResponse.class);
@@ -245,7 +245,7 @@ class StockControllerTest {
 
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .when().get("/stocks/favorite")
+                .when().get("/favorite-stocks")
                 .then().log().all()
                 .extract();
         List<FavoriteStockResponse> result = response.as(new TypeRef<>() {

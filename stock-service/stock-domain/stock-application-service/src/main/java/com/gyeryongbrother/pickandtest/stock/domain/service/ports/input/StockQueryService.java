@@ -1,6 +1,5 @@
 package com.gyeryongbrother.pickandtest.stock.domain.service.ports.input;
 
-import com.gyeryongbrother.pickandtest.stock.domain.service.dto.FavoriteStockResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.MarketCapitalizationResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.StockDetailResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.StockResponse;
@@ -13,6 +12,4 @@ public interface StockQueryService {
     List<StockResponse> findAllByNameOrSymbol(String keyword);
 
     StockDetailResponse findStockById(Long stockId);
-
-    List<FavoriteStockResponse> findAllFavoriteStocksByMemberId(Long memberId);
 }

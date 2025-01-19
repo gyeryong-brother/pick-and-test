@@ -7,7 +7,8 @@ import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.CreateFavoriteStockCommand;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.CreateFavoriteStockResponse;
-import com.gyeryongbrother.pickandtest.stock.domain.service.ports.input.StockService;
+import com.gyeryongbrother.pickandtest.stock.domain.service.ports.input.FavoriteStockService;
+import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.FavoriteStockQueryRepository;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.FavoriteStockRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,16 +19,19 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("주식 서비스를 구현한다")
-class StockServiceImplTest {
+class FavoriteStockServiceImplTest {
 
     @Mock
     private FavoriteStockRepository favoriteStockRepository;
 
-    private StockService stockService;
+    @Mock
+    private FavoriteStockQueryRepository favoriteStockQueryRepository;
+
+    private FavoriteStockService favoriteStockService;
 
     @BeforeEach
     void setUp() {
-        stockService = new StockServiceImpl(favoriteStockRepository);
+        favoriteStockService = new FavoriteStockServiceImpl(favoriteStockRepository, favoriteStockQueryRepository);
     }
 
     @Test
@@ -40,7 +44,7 @@ class StockServiceImplTest {
         CreateFavoriteStockResponse expected = new CreateFavoriteStockResponse(1L, 1L, 1L);
 
         // when
-        CreateFavoriteStockResponse result = stockService.createFavoriteStock(createFavoriteStockCommand);
+        CreateFavoriteStockResponse result = favoriteStockService.createFavoriteStock(createFavoriteStockCommand);
 
         // then
         assertThat(result).isEqualTo(expected);

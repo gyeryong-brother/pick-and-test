@@ -6,4 +6,8 @@ import java.util.List;
 public interface FavoriteStockQueryRepository {
 
     List<FavoriteStock> findAllByMemberId(Long memberId);
+
+    FavoriteStock findById(Long id);
+
+    FavoriteStock findByStockIdAndMemberId(Long stockId, Long memberId);
 }

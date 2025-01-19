@@ -22,4 +22,11 @@ public class FavoriteStockRepositoryImpl implements FavoriteStockRepository {
         FavoriteStockEntity savedFavoriteStockEntity = favoriteStockJpaRepository.save(favoriteStockEntity);
         return favoriteStockDataAccessMapper.favoriteStockEntityToFavoriteStock(savedFavoriteStockEntity);
     }
+
+    @Override
+    public void delete(FavoriteStock favoriteStock) {
+        FavoriteStockEntity favoriteStockEntity =
+                favoriteStockDataAccessMapper.favoriteStockToFavoriteStockEntity(favoriteStock);
+        favoriteStockJpaRepository.delete(favoriteStockEntity);
+    }
 }
