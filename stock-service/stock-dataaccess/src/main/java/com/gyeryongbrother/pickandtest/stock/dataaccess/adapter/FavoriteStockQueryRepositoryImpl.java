@@ -10,6 +10,7 @@ import com.gyeryongbrother.pickandtest.stock.domain.core.entity.FavoriteStock;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.FavoriteStockQueryRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,5 +33,25 @@ public class FavoriteStockQueryRepositoryImpl implements FavoriteStockQueryRepos
                 .where(favoriteStockEntity.memberId.eq(memberId))
                 .fetch();
         return favoriteStockDataAccessMapper.favoriteStockEntitiesToFavoriteStocks(favoriteStockEntities);
+    }
+
+    @Override
+    public FavoriteStock findById(Long id) {
+        FavoriteStockEntity fetchedFavoriteStockEntity = queryFactory.selectFrom(favoriteStockEntity)
+                .where(favoriteStockEntity.id.eq(id))
+                .fetchOne();
+        return Optional.ofNullable(fetchedFavoriteStockEntity)
+                .map(favoriteStockDataAccessMapper::favoriteStockEntityToFavoriteStock)
+                .orElseThrow(() -> new IllegalArgumentException("not found favorite stock"));
+    }
+
+    @Override
+    public FavoriteStock findByStockIdAndMemberId(Long stockId, Long memberId) {
+        FavoriteStockEntity fetchedFavoriteStockEntity = queryFactory.selectFrom(favoriteStockEntity)
+                .where(favoriteStockEntity.stock.id.eq(stockId), favoriteStockEntity.memberId.eq(memberId))
+                .fetchOne();
+        return Optional.ofNullable(fetchedFavoriteStockEntity)
+                .map(favoriteStockDataAccessMapper::favoriteStockEntityToFavoriteStock)
+                .orElseThrow(() -> new IllegalArgumentException("not found favorite stock"));
     }
 }

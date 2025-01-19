@@ -5,8 +5,8 @@ import com.gyeryongbrother.pickandtest.stock.domain.core.entity.Stock;
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.StockDetail;
 
 public record CreateFavoriteStockCommand(
-        Long memberId,
-        Long stockId
+        Long stockId,
+        Long memberId
 ) {
 
     public FavoriteStock toDomain() {
