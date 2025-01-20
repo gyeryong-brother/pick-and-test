@@ -46,12 +46,11 @@ public class FavoriteStockQueryRepositoryImpl implements FavoriteStockQueryRepos
     }
 
     @Override
-    public FavoriteStock findByStockIdAndMemberId(Long stockId, Long memberId) {
+    public Optional<FavoriteStock> findByStockIdAndMemberId(Long stockId, Long memberId) {
         FavoriteStockEntity fetchedFavoriteStockEntity = queryFactory.selectFrom(favoriteStockEntity)
                 .where(favoriteStockEntity.stock.id.eq(stockId), favoriteStockEntity.memberId.eq(memberId))
                 .fetchOne();
         return Optional.ofNullable(fetchedFavoriteStockEntity)
-                .map(favoriteStockDataAccessMapper::favoriteStockEntityToFavoriteStock)
-                .orElseThrow(() -> new IllegalArgumentException("not found favorite stock"));
+                .map(favoriteStockDataAccessMapper::favoriteStockEntityToFavoriteStock);
     }
 }
