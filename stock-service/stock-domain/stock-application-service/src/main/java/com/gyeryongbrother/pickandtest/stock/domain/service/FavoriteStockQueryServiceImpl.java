@@ -26,7 +26,8 @@ public class FavoriteStockQueryServiceImpl implements FavoriteStockQueryService 
 
     @Override
     public FavoriteStockResponse findFavoriteStockByStockIdAndMemberId(Long stockId, Long memberId) {
-        FavoriteStock favoriteStock = favoriteStockQueryRepository.findByStockIdAndMemberId(stockId, memberId);
+        FavoriteStock favoriteStock = favoriteStockQueryRepository.findByStockIdAndMemberId(stockId, memberId)
+                .orElseThrow(() -> new IllegalArgumentException("not found favorite stock"));
         return FavoriteStockResponse.from(favoriteStock);
     }
 }

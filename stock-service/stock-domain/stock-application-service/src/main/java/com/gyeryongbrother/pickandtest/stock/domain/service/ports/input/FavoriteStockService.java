@@ -6,7 +6,7 @@ import com.gyeryongbrother.pickandtest.stock.domain.service.dto.DeleteFavoriteSt
 
 public interface FavoriteStockService {
 
-    CreateFavoriteStockResponse createFavoriteStock(CreateFavoriteStockCommand createFavoriteStockCommand);
+    CreateFavoriteStockResponse createFavoriteStock(CreateFavoriteStockCommand command);
 
     void deleteFavoriteStock(DeleteFavoriteStockCommand command);
 }

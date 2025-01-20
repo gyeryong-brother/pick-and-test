@@ -7,6 +7,7 @@ import com.gyeryongbrother.pickandtest.stock.domain.service.dto.DeleteFavoriteSt
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.input.FavoriteStockService;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.FavoriteStockQueryRepository;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.FavoriteStockRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +21,21 @@ public class FavoriteStockServiceImpl implements FavoriteStockService {
     private final FavoriteStockQueryRepository favoriteStockQueryRepository;
 
     @Override
-    public CreateFavoriteStockResponse createFavoriteStock(CreateFavoriteStockCommand createFavoriteStockCommand) {
-        FavoriteStock favoriteStock = createFavoriteStockCommand.toDomain();
+    public CreateFavoriteStockResponse createFavoriteStock(CreateFavoriteStockCommand command) {
+        validateAlreadyLiked(command);
+        FavoriteStock favoriteStock = command.toDomain();
         FavoriteStock savedFavoriteStock = favoriteStockRepository.save(favoriteStock);
         return CreateFavoriteStockResponse.from(savedFavoriteStock);
+    }
+
+    private void validateAlreadyLiked(CreateFavoriteStockCommand command) {
+        Optional<FavoriteStock> favoriteStockOptional = favoriteStockQueryRepository.findByStockIdAndMemberId(
+                command.stockId(),
+                command.memberId()
+        );
+        if (favoriteStockOptional.isPresent()) {
+            throw new IllegalStateException("stock is already liked");
+        }
     }
 
     @Override
