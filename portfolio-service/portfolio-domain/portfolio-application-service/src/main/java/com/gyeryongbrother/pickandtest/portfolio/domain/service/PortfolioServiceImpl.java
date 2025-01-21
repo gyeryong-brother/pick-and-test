@@ -8,11 +8,13 @@ import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfo
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.input.PortfolioService;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockRepository;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class PortfolioServiceImpl implements PortfolioService {
 
@@ -23,7 +25,8 @@ public class PortfolioServiceImpl implements PortfolioService {
     public UpdatePortfolioResponse updatePortfolio(UpdatePortfolioCommand updatePortfolioCommand){
         Portfolio portfolio=updatePortfolioCommand.toDomain(updatePortfolioCommand.portfolioId());
         portfolioStockRepository.deleteAllByPortfolioId(portfolio.getId());
-        Portfolio updated = portfolioRepository.save(portfolio);
+        Portfolio updated=portfolioRepository.update(portfolio);
+        portfolioStockRepository.saveAll(portfolio.getPortfolioStocks());
         return UpdatePortfolioResponse.from(updated);
     }
 }

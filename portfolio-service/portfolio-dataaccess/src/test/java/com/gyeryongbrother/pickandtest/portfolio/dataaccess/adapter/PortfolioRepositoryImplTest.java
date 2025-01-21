@@ -3,6 +3,7 @@ package com.gyeryongbrother.pickandtest.portfolio.dataaccess.adapter;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.config.TestQuerydslConfig;
+import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioEntity;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioFixture;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioStockEntity;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.mapper.PortfolioStockDataAccessMapper;
@@ -45,6 +46,9 @@ class PortfolioRepositoryImplTest {
     @Autowired
     private PortfolioJpaRepository portfolioJpaRepository;
 
+    @Autowired
+    PortfolioStockRepository portfolioStockRepository;
+
     @Test
     @DisplayName("포트폴리오를 저장한다")
     void save() {
@@ -65,5 +69,44 @@ class PortfolioRepositoryImplTest {
         assertThat(result).usingRecursiveComparison()
                 .ignoringExpectedNullFields()
                 .isEqualTo(portfolio);
+    }
+
+    @Test
+    @DisplayName("포트폴리오를 업데이트한다")
+    void update() {
+        //given
+        List<PortfolioStock> portfolioStocks1 = List.of(
+                PortfolioStock.builder().stockId(1L).portion(BigDecimal.valueOf(0.5)).build(),
+                PortfolioStock.builder().stockId(2L).portion(BigDecimal.valueOf(0.5)).build()
+        );
+
+        List<PortfolioStock> portfolioStocks2 = List.of(
+                PortfolioStock.builder().stockId(3L).portion(BigDecimal.valueOf(0.5)).build(),
+                PortfolioStock.builder().stockId(4L).portion(BigDecimal.valueOf(0.5)).build()
+        );
+
+        Portfolio portfolio = Portfolio.builder()
+                .memberId(1L)
+                .portfolioStocks(portfolioStocks1)
+                .build();
+
+        Portfolio saved=portfolioRepository.save(portfolio);
+        portfolioStockRepository.deleteAllByPortfolioId(saved.getId());
+
+        Portfolio updated=Portfolio.builder()
+                .id(saved.getId())
+                .memberId(1L)
+                .portfolioStocks(portfolioStocks2)
+                .build();
+
+        Portfolio expected=updated;
+
+        //when
+        Portfolio result = portfolioRepository.update(updated);
+
+        //then
+        assertThat(result).usingRecursiveComparison()
+                .ignoringExpectedNullFields()
+                .isEqualTo(expected);
     }
 }

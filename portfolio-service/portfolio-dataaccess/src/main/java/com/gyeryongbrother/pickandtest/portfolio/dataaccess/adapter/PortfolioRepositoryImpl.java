@@ -9,6 +9,7 @@ import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.Por
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @RequiredArgsConstructor
@@ -21,13 +22,19 @@ public class PortfolioRepositoryImpl implements PortfolioRepository {
     @Override
     public Portfolio save(Portfolio portfolio) {
         PortfolioEntity portfolioEntity = portfolioDataAccessMapper.portfolioToPortfolioEntity(portfolio);
+        portfolioEntity.setPortfolioStockEntities();
         PortfolioEntity saved = portfolioJpaRepository.save(portfolioEntity);
-        saved.setPortfolioStockEntities();
         return portfolioDataAccessMapper.portfolioEntityToPortfolio(saved);
     }
 
     @Override
-    public void deleteById(Long Id) {
-        portfolioJpaRepository.deleteById(Id);
+    public Portfolio update(Portfolio portfolio) {
+        PortfolioEntity portfolioEntity = portfolioDataAccessMapper.portfolioToPortfolioEntity(portfolio);
+        PortfolioEntity updatedEntity=portfolioJpaRepository.findById(portfolio.getId()).orElse(new PortfolioEntity());
+        updatedEntity.setPortfolioStockEntities(portfolioEntity.getPortfolioStockEntities());
+        updatedEntity.setPortfolioStockEntities();
+        return portfolioDataAccessMapper.portfolioEntityToPortfolio(updatedEntity);
     }
+
+
 }

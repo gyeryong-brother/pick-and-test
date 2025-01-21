@@ -11,6 +11,7 @@ import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.Por
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @RequiredArgsConstructor
@@ -33,5 +34,16 @@ public class PortfolioStockRepositoryImpl implements PortfolioStockRepository {
         PortfolioEntity portfolioEntity=portfolioJpaRepository.findById(portfolioId).orElse(new PortfolioEntity());
         portfolioEntity.setPortfolioStockEntities(List.of());
         portfolioStockJpaRepository.deleteAllByPortfolioEntity_Id(portfolioId);
+    }
+
+    @Override
+    public List<PortfolioStock> saveAll(List<PortfolioStock> portfolioStocks) {
+        List<PortfolioStockEntity> portfolioStockEntities=portfolioStocks.stream()
+                .map(portfolioStockDataAccessMapper::portfolioStockToPortfolioStockEntity)
+                .toList();
+        List<PortfolioStockEntity> saved=portfolioStockJpaRepository.saveAll(portfolioStockEntities);
+        return saved.stream()
+                .map(portfolioStockDataAccessMapper::portfolioStockEntityToPortfolioStock)
+                .toList();
     }
 }

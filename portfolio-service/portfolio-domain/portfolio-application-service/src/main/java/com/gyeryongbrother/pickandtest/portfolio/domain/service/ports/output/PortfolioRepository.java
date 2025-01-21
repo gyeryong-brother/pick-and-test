@@ -6,5 +6,5 @@ public interface PortfolioRepository {
 
     Portfolio save(Portfolio portfolio);
 
-    void deleteById(Long Id);
+    Portfolio update(Portfolio portfolio);
 }

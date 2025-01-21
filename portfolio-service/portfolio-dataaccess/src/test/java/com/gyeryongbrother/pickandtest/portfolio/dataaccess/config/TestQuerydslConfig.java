@@ -8,6 +8,8 @@ import com.gyeryongbrother.pickandtest.portfolio.dataaccess.mapper.PortfolioData
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.mapper.PortfolioStockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioJpaRepository;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioStockJpaRepository;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.PortfolioServiceImpl;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.input.PortfolioService;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioQueryRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockQueryRepository;
@@ -64,5 +66,10 @@ public class TestQuerydslConfig {
     @Bean
     public PortfolioStockRepository portfolioStockRepository() {
         return new PortfolioStockRepositoryImpl(portfolioStockJpaRepository, portfolioStockDataAccessMapper(), portfolioJpaRepository);
+    }
+
+    @Bean
+    public PortfolioService portfolioService(){
+        return new PortfolioServiceImpl(portfolioRepository(),portfolioStockRepository());
     }
 }

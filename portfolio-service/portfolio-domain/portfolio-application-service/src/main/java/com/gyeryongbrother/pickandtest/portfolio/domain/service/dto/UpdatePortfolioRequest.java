@@ -6,7 +6,7 @@ public record UpdatePortfolioRequest(
         List<UpdatePortfolioStockRequest> updatePortfolioStockRequests
 ) {
 
-    UpdatePortfolioCommand toCommand(Long portfolioId){
+    public UpdatePortfolioCommand toCommand(Long portfolioId){
         List<UpdatePortfolioStockCommand> updatePortfolioStockCommands=updatePortfolioStockRequests.stream()
                 .map(UpdatePortfolioStockRequest::toCommand)
                 .toList();
