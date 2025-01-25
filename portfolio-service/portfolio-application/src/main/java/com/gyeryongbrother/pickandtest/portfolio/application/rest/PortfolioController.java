@@ -43,10 +43,10 @@ public class PortfolioController {
 
     @PutMapping("/{portfolioId}/update")
     ResponseEntity<UpdatePortfolioResponse> updatePortfolio(
-            @PathVariable Long porfolioId,
+            @PathVariable Long portfolioId,
             @RequestBody UpdatePortfolioRequest updatePortfolioRequest
     ){
-        UpdatePortfolioCommand updatePortfolioCommand=updatePortfolioRequest.toCommand(porfolioId);
+        UpdatePortfolioCommand updatePortfolioCommand=updatePortfolioRequest.toCommand(portfolioId);
         UpdatePortfolioResponse updatePortfolioResponse=portfolioService.updatePortfolio(updatePortfolioCommand);
         return ResponseEntity.ok(updatePortfolioResponse);
     }

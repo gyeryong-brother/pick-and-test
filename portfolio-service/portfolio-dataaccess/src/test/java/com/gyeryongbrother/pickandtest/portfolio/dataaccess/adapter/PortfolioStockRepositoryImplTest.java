@@ -87,7 +87,7 @@ class PortfolioStockRepositoryImplTest {
         Portfolio savedPortfolio=portfolioRepository.save(portfolio1);
 
         //when
-        portfolioStockRepository.deleteAllByPortfolioId(2L);
+        portfolioStockRepository.deleteAllByPortfolioId(-1L);
         List<PortfolioStockEntity> result=portfolioStockJpaRepository.findAll();
         List<PortfolioStockEntity> expected=savedPortfolio.getPortfolioStocks().stream()
                 .map(portfolioStockDataAccessMapper::portfolioStockToPortfolioStockEntity)
