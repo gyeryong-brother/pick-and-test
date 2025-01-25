@@ -5,9 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.config.TestQuerydslConfig;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioFixture;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioStockEntity;
-import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioStockFixture;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.mapper.PortfolioStockDataAccessMapper;
-import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioJpaRepository;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioStockJpaRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStock;
@@ -16,7 +14,6 @@ import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.Por
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockRepository;
 import java.math.BigDecimal;
 import java.util.List;
-import javax.sound.sampled.Port;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,16 +58,16 @@ class PortfolioStockRepositoryImplTest {
 
     @Test
     @DisplayName("포트폴리오 Id로 포트폴리오주식을 전부 삭제")
-    void deleteByPortfolioId(){
+    void deleteByPortfolioId() {
         //given
-        List<PortfolioStockEntity> initial=portfolioStockJpaRepository.findAll();
-        Portfolio portfolio1= PortfolioFixture.portfolio1();
-        Portfolio savedPortfolio=portfolioRepository.save(portfolio1);
+        List<PortfolioStockEntity> initial = portfolioStockJpaRepository.findAll();
+        Portfolio portfolio1 = PortfolioFixture.portfolio1();
+        Portfolio savedPortfolio = portfolioRepository.save(portfolio1);
 
         //when
         portfolioStockRepository.deleteAllByPortfolioId(savedPortfolio.getId());
-        List<PortfolioStockEntity> result=portfolioStockJpaRepository.findAll();
-        List<PortfolioStockEntity> expected=List.of();
+        List<PortfolioStockEntity> result = portfolioStockJpaRepository.findAll();
+        List<PortfolioStockEntity> expected = List.of();
 
         //then
         assertThat(result).usingRecursiveComparison()
@@ -80,16 +77,16 @@ class PortfolioStockRepositoryImplTest {
 
     @Test
     @DisplayName("없는 Portfolio Id를 입력받는 경우에도 에러를 일으키지 않고 데이터베이스를 유지")
-    void deleteByNonExistPortfolioId(){
+    void deleteByNonExistPortfolioId() {
         //given
-        List<PortfolioStockEntity> initial=portfolioStockJpaRepository.findAll();
-        Portfolio portfolio1= PortfolioFixture.portfolio1();
-        Portfolio savedPortfolio=portfolioRepository.save(portfolio1);
+        List<PortfolioStockEntity> initial = portfolioStockJpaRepository.findAll();
+        Portfolio portfolio1 = PortfolioFixture.portfolio1();
+        Portfolio savedPortfolio = portfolioRepository.save(portfolio1);
 
         //when
         portfolioStockRepository.deleteAllByPortfolioId(-1L);
-        List<PortfolioStockEntity> result=portfolioStockJpaRepository.findAll();
-        List<PortfolioStockEntity> expected=savedPortfolio.getPortfolioStocks().stream()
+        List<PortfolioStockEntity> result = portfolioStockJpaRepository.findAll();
+        List<PortfolioStockEntity> expected = savedPortfolio.getPortfolioStocks().stream()
                 .map(portfolioStockDataAccessMapper::portfolioStockToPortfolioStockEntity)
                 .toList();
 

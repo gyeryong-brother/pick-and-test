@@ -5,13 +5,11 @@ import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioStoc
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.mapper.PortfolioStockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioJpaRepository;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioStockJpaRepository;
-import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStock;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @RequiredArgsConstructor
@@ -31,17 +29,17 @@ public class PortfolioStockRepositoryImpl implements PortfolioStockRepository {
 
     @Override
     public void deleteAllByPortfolioId(Long portfolioId) {
-        PortfolioEntity portfolioEntity=portfolioJpaRepository.findById(portfolioId).orElse(new PortfolioEntity());
+        PortfolioEntity portfolioEntity = portfolioJpaRepository.findById(portfolioId).orElse(new PortfolioEntity());
         portfolioEntity.setPortfolioStockEntities(List.of());
         portfolioStockJpaRepository.deleteAllByPortfolioEntity_Id(portfolioId);
     }
 
     @Override
     public List<PortfolioStock> saveAll(List<PortfolioStock> portfolioStocks) {
-        List<PortfolioStockEntity> portfolioStockEntities=portfolioStocks.stream()
+        List<PortfolioStockEntity> portfolioStockEntities = portfolioStocks.stream()
                 .map(portfolioStockDataAccessMapper::portfolioStockToPortfolioStockEntity)
                 .toList();
-        List<PortfolioStockEntity> saved=portfolioStockJpaRepository.saveAll(portfolioStockEntities);
+        List<PortfolioStockEntity> saved = portfolioStockJpaRepository.saveAll(portfolioStockEntities);
         return saved.stream()
                 .map(portfolioStockDataAccessMapper::portfolioStockEntityToPortfolioStock)
                 .toList();

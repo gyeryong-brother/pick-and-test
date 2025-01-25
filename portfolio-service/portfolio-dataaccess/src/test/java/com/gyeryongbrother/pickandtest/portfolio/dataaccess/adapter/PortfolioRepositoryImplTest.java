@@ -3,23 +3,12 @@ package com.gyeryongbrother.pickandtest.portfolio.dataaccess.adapter;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.config.TestQuerydslConfig;
-import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioEntity;
-import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioFixture;
-import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioStockEntity;
-import com.gyeryongbrother.pickandtest.portfolio.dataaccess.mapper.PortfolioStockDataAccessMapper;
-import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioJpaRepository;
-import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioStockJpaRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStock;
-import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStocks;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioRepository;
-import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockQueryRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockRepository;
 import java.math.BigDecimal;
 import java.util.List;
-import javax.sound.sampled.Port;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,22 +21,9 @@ import org.springframework.context.annotation.Import;
 class PortfolioRepositoryImplTest {
 
     @Autowired
-    private PortfolioRepository portfolioRepository;
-
-    @Autowired
-    private PortfolioStockQueryRepository portfolioStockQueryRepository;
-
-    @Autowired
-    private PortfolioStockJpaRepository portfolioStockJpaRepository;
-
-    @Autowired
-    private PortfolioStockDataAccessMapper portfolioStockDataAccessMapper;
-
-    @Autowired
-    private PortfolioJpaRepository portfolioJpaRepository;
-
-    @Autowired
     PortfolioStockRepository portfolioStockRepository;
+    @Autowired
+    private PortfolioRepository portfolioRepository;
 
     @Test
     @DisplayName("포트폴리오를 저장한다")
@@ -90,16 +66,16 @@ class PortfolioRepositoryImplTest {
                 .portfolioStocks(portfolioStocks1)
                 .build();
 
-        Portfolio saved=portfolioRepository.save(portfolio);
+        Portfolio saved = portfolioRepository.save(portfolio);
         portfolioStockRepository.deleteAllByPortfolioId(saved.getId());
 
-        Portfolio updated=Portfolio.builder()
+        Portfolio updated = Portfolio.builder()
                 .id(saved.getId())
                 .memberId(1L)
                 .portfolioStocks(portfolioStocks2)
                 .build();
 
-        Portfolio expected=updated;
+        Portfolio expected = updated;
 
         //when
         Portfolio result = portfolioRepository.update(updated);

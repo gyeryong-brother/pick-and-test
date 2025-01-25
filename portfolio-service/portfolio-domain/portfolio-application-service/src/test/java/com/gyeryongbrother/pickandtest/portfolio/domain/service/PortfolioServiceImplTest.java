@@ -11,7 +11,6 @@ import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfo
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.input.PortfolioService;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockRepository;
-import io.restassured.RestAssured;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,33 +34,37 @@ public class PortfolioServiceImplTest {
     private PortfolioService portfolioService;
 
     @BeforeEach
-    void setUp(){portfolioService=new PortfolioServiceImpl(portfolioRepository,portfolioStockRepository);}
+    void setUp() {
+        portfolioService = new PortfolioServiceImpl(portfolioRepository, portfolioStockRepository);
+    }
 
     @Test
     @DisplayName("포트폴리오 업데이트 기능을 구현한다")
-    void updatePortfolio(){
+    void updatePortfolio() {
         //given
-        PortfolioStock apple= new PortfolioStock(null,null,1L, BigDecimal.valueOf(0.5));
-        PortfolioStock nvidia= new PortfolioStock(null,null,2L, BigDecimal.valueOf(0.5));
-        PortfolioStock google= new PortfolioStock(null,null,3L, BigDecimal.valueOf(0.5));
-        PortfolioStock microsoft= new PortfolioStock(null,null,4L, BigDecimal.valueOf(0.5));
+        PortfolioStock apple = new PortfolioStock(null, null, 1L, BigDecimal.valueOf(0.5));
+        PortfolioStock nvidia = new PortfolioStock(null, null, 2L, BigDecimal.valueOf(0.5));
+        PortfolioStock google = new PortfolioStock(null, null, 3L, BigDecimal.valueOf(0.5));
+        PortfolioStock microsoft = new PortfolioStock(null, null, 4L, BigDecimal.valueOf(0.5));
 
-        Portfolio initial=new Portfolio(null,1L, List.of(apple,nvidia));
-        Portfolio saved=portfolioRepository.save(initial);
+        Portfolio initial = new Portfolio(null, 1L, List.of(apple, nvidia));
+        Portfolio saved = portfolioRepository.save(initial);
 
-        UpdatePortfolioStockCommand updatePortfolioStockCommand1=new UpdatePortfolioStockCommand(3L,BigDecimal.valueOf(0.5));
-        UpdatePortfolioStockCommand updatePortfolioStockCommand2=new UpdatePortfolioStockCommand(4L,BigDecimal.valueOf(0.5));
-        UpdatePortfolioCommand updatePortfolioCommand=new UpdatePortfolioCommand(
-                List.of(updatePortfolioStockCommand1,updatePortfolioStockCommand2),
+        UpdatePortfolioStockCommand updatePortfolioStockCommand1 = new UpdatePortfolioStockCommand(3L,
+                BigDecimal.valueOf(0.5));
+        UpdatePortfolioStockCommand updatePortfolioStockCommand2 = new UpdatePortfolioStockCommand(4L,
+                BigDecimal.valueOf(0.5));
+        UpdatePortfolioCommand updatePortfolioCommand = new UpdatePortfolioCommand(
+                List.of(updatePortfolioStockCommand1, updatePortfolioStockCommand2),
                 1L
         );
 
-        UpdatePortfolioResponse expected=UpdatePortfolioResponse.from(updatePortfolioCommand.toDomain(1L));
+        UpdatePortfolioResponse expected = UpdatePortfolioResponse.from(updatePortfolioCommand.toDomain(1L));
 
         Mockito.when(portfolioRepository.update(any())).thenReturn(updatePortfolioCommand.toDomain(1L));
 
         //when
-        UpdatePortfolioResponse result=portfolioService.updatePortfolio(updatePortfolioCommand);
+        UpdatePortfolioResponse result = portfolioService.updatePortfolio(updatePortfolioCommand);
 
         //then
         assertThat(result).usingRecursiveComparison()

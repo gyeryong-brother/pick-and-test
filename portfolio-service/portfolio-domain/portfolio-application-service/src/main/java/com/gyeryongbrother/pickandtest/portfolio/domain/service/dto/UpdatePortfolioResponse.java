@@ -8,12 +8,12 @@ public record UpdatePortfolioResponse(
         Long portfolioId
 ) {
 
-    public static UpdatePortfolioResponse from(Portfolio portfolio){
-        List<UpdatePortfolioStockResponse> updatePortfolioStockResponses=portfolio.getPortfolioStocks().stream()
+    public static UpdatePortfolioResponse from(Portfolio portfolio) {
+        List<UpdatePortfolioStockResponse> updatePortfolioStockResponses = portfolio.getPortfolioStocks().stream()
                 .map(UpdatePortfolioStockResponse::from)
                 .toList();
-        return new UpdatePortfolioResponse(updatePortfolioStockResponses
-                ,portfolio.getId()
+        return new UpdatePortfolioResponse(updatePortfolioStockResponses,
+                portfolio.getId()
         );
     }
 }

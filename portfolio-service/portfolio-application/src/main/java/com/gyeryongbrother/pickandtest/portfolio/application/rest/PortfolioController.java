@@ -1,7 +1,5 @@
 package com.gyeryongbrother.pickandtest.portfolio.application.rest;
 
-import static org.springframework.http.HttpStatus.CREATED;
-
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioStockResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfolioCommand;
@@ -13,7 +11,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,9 +42,9 @@ public class PortfolioController {
     ResponseEntity<UpdatePortfolioResponse> updatePortfolio(
             @PathVariable Long portfolioId,
             @RequestBody UpdatePortfolioRequest updatePortfolioRequest
-    ){
-        UpdatePortfolioCommand updatePortfolioCommand=updatePortfolioRequest.toCommand(portfolioId);
-        UpdatePortfolioResponse updatePortfolioResponse=portfolioService.updatePortfolio(updatePortfolioCommand);
+    ) {
+        UpdatePortfolioCommand updatePortfolioCommand = updatePortfolioRequest.toCommand(portfolioId);
+        UpdatePortfolioResponse updatePortfolioResponse = portfolioService.updatePortfolio(updatePortfolioCommand);
         return ResponseEntity.ok(updatePortfolioResponse);
     }
 }

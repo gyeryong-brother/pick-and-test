@@ -1,13 +1,11 @@
 package com.gyeryongbrother.pickandtest.portfolio.acceptance;
 
-import static org.assertj.core.api.Assertions.anyOf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStock;
-import com.gyeryongbrother.pickandtest.portfolio.domain.service.PortfolioServiceImpl;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioStockResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfolioRequest;
@@ -25,12 +23,9 @@ import io.restassured.response.Response;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Stream;
-import org.hibernate.sql.Update;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -46,9 +41,6 @@ class PortfolioAcceptanceTest {
 
     @Autowired
     private PortfolioStockRepository portfolioStockRepository;
-
-    @Autowired
-    private PortfolioService portfolioService;
 
     @LocalServerPort
     private int port;
@@ -126,21 +118,27 @@ class PortfolioAcceptanceTest {
 
     @Test
     @DisplayName("포트폴리오를 업데이트 한다")
-    void updatePortfolio(){
+    void updatePortfolio() {
         //given
-        PortfolioStock portfolioStock1=new PortfolioStock(null,null,1L,BigDecimal.valueOf(0.5));
-        PortfolioStock portfolioStock2=new PortfolioStock(null,null,2L,BigDecimal.valueOf(0.5));
+        PortfolioStock portfolioStock1 = new PortfolioStock(null, null, 1L, BigDecimal.valueOf(0.5));
+        PortfolioStock portfolioStock2 = new PortfolioStock(null, null, 2L, BigDecimal.valueOf(0.5));
 
-        Portfolio portfolio1=new Portfolio(null,1L,List.of(portfolioStock1,portfolioStock2));
-        Portfolio savedPortfolio=portfolioRepository.save(portfolio1);
+        Portfolio portfolio1 = new Portfolio(null, 1L, List.of(portfolioStock1, portfolioStock2));
+        Portfolio savedPortfolio = portfolioRepository.save(portfolio1);
 
-        UpdatePortfolioStockRequest updatePortfolioStockRequest1=new UpdatePortfolioStockRequest(3L, BigDecimal.valueOf(0.5));
-        UpdatePortfolioStockRequest updatePortfolioStockRequest2=new UpdatePortfolioStockRequest(4L, BigDecimal.valueOf(0.5));
-        UpdatePortfolioRequest updatePortfolioRequest=new UpdatePortfolioRequest(List.of(updatePortfolioStockRequest1,updatePortfolioStockRequest2));
+        UpdatePortfolioStockRequest updatePortfolioStockRequest1 = new UpdatePortfolioStockRequest(3L,
+                BigDecimal.valueOf(0.5));
+        UpdatePortfolioStockRequest updatePortfolioStockRequest2 = new UpdatePortfolioStockRequest(4L,
+                BigDecimal.valueOf(0.5));
+        UpdatePortfolioRequest updatePortfolioRequest = new UpdatePortfolioRequest(
+                List.of(updatePortfolioStockRequest1, updatePortfolioStockRequest2));
 
-        UpdatePortfolioStockResponse updatePortfolioStockResponse1=new UpdatePortfolioStockResponse(3L,BigDecimal.valueOf(0.5));
-        UpdatePortfolioStockResponse updatePortfolioStockResponse2=new UpdatePortfolioStockResponse(4L,BigDecimal.valueOf(0.5));
-        UpdatePortfolioResponse expected=new UpdatePortfolioResponse(List.of(updatePortfolioStockResponse1,updatePortfolioStockResponse2),1L);
+        UpdatePortfolioStockResponse updatePortfolioStockResponse1 = new UpdatePortfolioStockResponse(3L,
+                BigDecimal.valueOf(0.5));
+        UpdatePortfolioStockResponse updatePortfolioStockResponse2 = new UpdatePortfolioStockResponse(4L,
+                BigDecimal.valueOf(0.5));
+        UpdatePortfolioResponse expected = new UpdatePortfolioResponse(
+                List.of(updatePortfolioStockResponse1, updatePortfolioStockResponse2), 1L);
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()

@@ -8,10 +8,10 @@ public record UpdatePortfolioStockResponse(
         BigDecimal portion
 ) {
 
-    public static UpdatePortfolioStockResponse from(PortfolioStock portfolioStock){
+    public static UpdatePortfolioStockResponse from(PortfolioStock portfolioStock) {
         return new UpdatePortfolioStockResponse(
-                portfolioStock.getStockId()
-                ,portfolioStock.getPortion()
+                portfolioStock.getStockId(),
+                portfolioStock.getPortion()
         );
     }
 }

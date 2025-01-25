@@ -65,11 +65,12 @@ public class TestQuerydslConfig {
 
     @Bean
     public PortfolioStockRepository portfolioStockRepository() {
-        return new PortfolioStockRepositoryImpl(portfolioStockJpaRepository, portfolioStockDataAccessMapper(), portfolioJpaRepository);
+        return new PortfolioStockRepositoryImpl(portfolioStockJpaRepository, portfolioStockDataAccessMapper(),
+                portfolioJpaRepository);
     }
 
     @Bean
-    public PortfolioService portfolioService(){
-        return new PortfolioServiceImpl(portfolioRepository(),portfolioStockRepository());
+    public PortfolioService portfolioService() {
+        return new PortfolioServiceImpl(portfolioRepository(), portfolioStockRepository());
     }
 }

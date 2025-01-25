@@ -32,9 +32,9 @@ public class PortfolioEntity {
     @OneToMany(mappedBy = "portfolioEntity", cascade = CascadeType.ALL)
     private List<PortfolioStockEntity> portfolioStockEntities;
 
-    public void setPortfolioStockEntities(){
-        List<PortfolioStockEntity> portfolioStockEntities=this.portfolioStockEntities;
-        for(PortfolioStockEntity portfolioStock:portfolioStockEntities){
+    public void syncPortfolioStockEntities() {
+        List<PortfolioStockEntity> portfolioStockEntities = this.portfolioStockEntities;
+        for (PortfolioStockEntity portfolioStock : portfolioStockEntities) {
             portfolioStock.setPortfolioEntity(this);
         }
     }

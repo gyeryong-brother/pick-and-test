@@ -8,7 +8,7 @@ public record UpdatePortfolioStockCommand(
         BigDecimal portion
 ) {
 
-    PortfolioStock toDomain(Long portfolioId){
+    PortfolioStock toDomain(Long portfolioId) {
         return PortfolioStock.builder()
                 .stockId(stockId)
                 .portion(portion)
