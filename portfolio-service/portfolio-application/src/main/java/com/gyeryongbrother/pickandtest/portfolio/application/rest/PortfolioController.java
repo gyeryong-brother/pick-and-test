@@ -38,7 +38,7 @@ public class PortfolioController {
         return ResponseEntity.ok(portfolioResponses);
     }
 
-    @PutMapping("/{portfolioId}/update")
+    @PutMapping("/{portfolioId}")
     ResponseEntity<UpdatePortfolioResponse> updatePortfolio(
             @PathVariable Long portfolioId,
             @RequestBody UpdatePortfolioRequest updatePortfolioRequest

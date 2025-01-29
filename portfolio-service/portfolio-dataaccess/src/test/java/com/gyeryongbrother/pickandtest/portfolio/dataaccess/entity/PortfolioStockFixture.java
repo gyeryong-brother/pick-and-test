@@ -29,5 +29,7 @@ public class PortfolioStockFixture {
         return new PortfolioStock(null, null, 6L, BigDecimal.valueOf(0.3));
     }
 
-    public static PortfolioStock amazon() {return new PortfolioStock(null, null, 7L, BigDecimal.valueOf(0.3));}
+    public static PortfolioStock amazon() {
+        return new PortfolioStock(null, null, 7L, BigDecimal.valueOf(0.3));
+    }
 }

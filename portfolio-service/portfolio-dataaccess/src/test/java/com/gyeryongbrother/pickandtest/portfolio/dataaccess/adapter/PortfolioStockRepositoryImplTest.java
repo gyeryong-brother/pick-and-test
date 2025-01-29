@@ -1,6 +1,7 @@
 package com.gyeryongbrother.pickandtest.portfolio.dataaccess.adapter;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.config.TestQuerydslConfig;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioFixture;
@@ -84,15 +85,11 @@ class PortfolioStockRepositoryImplTest {
         Portfolio savedPortfolio = portfolioRepository.save(portfolio1);
 
         //when
-        portfolioStockRepository.deleteAllByPortfolioId(-1L);
-        List<PortfolioStockEntity> result = portfolioStockJpaRepository.findAll();
-        List<PortfolioStockEntity> expected = savedPortfolio.getPortfolioStocks().stream()
-                .map(portfolioStockDataAccessMapper::portfolioStockToPortfolioStockEntity)
-                .toList();
+        RuntimeException expectedException = new RuntimeException("값이 없습니다.");
+        RuntimeException resultException = assertThrows(RuntimeException.class,
+                () -> portfolioStockRepository.deleteAllByPortfolioId(-1L));
 
         //then
-        assertThat(result).usingRecursiveComparison()
-                .ignoringExpectedNullFields()
-                .isEqualTo(expected);
+        assertThat(resultException.toString()).isEqualTo(expectedException.toString());
     }
 }

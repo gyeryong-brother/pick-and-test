@@ -12,7 +12,6 @@ import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfo
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfolioResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfolioStockRequest;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfolioStockResponse;
-import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.input.PortfolioService;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockRepository;
 import io.restassured.RestAssured;
@@ -144,7 +143,7 @@ class PortfolioAcceptanceTest {
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(updatePortfolioRequest)
-                .when().put("/portfolios/{portfolioId}/update", savedPortfolio.getId())
+                .when().put("/portfolios/{portfolioId}", savedPortfolio.getId())
                 .then().log().all()
                 .extract();
 

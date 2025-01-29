@@ -29,9 +29,10 @@ public class PortfolioStockRepositoryImpl implements PortfolioStockRepository {
 
     @Override
     public void deleteAllByPortfolioId(Long portfolioId) {
-        PortfolioEntity portfolioEntity = portfolioJpaRepository.findById(portfolioId).orElse(new PortfolioEntity());
+        PortfolioEntity portfolioEntity = portfolioJpaRepository.findById(portfolioId)
+                .orElseThrow(() -> new RuntimeException("값이 없습니다."));
         portfolioEntity.setPortfolioStockEntities(List.of());
-        portfolioStockJpaRepository.deleteAllByPortfolioEntity_Id(portfolioId);
+        portfolioStockJpaRepository.deleteAllByPortfolioEntityId(portfolioId);
     }
 
     @Override

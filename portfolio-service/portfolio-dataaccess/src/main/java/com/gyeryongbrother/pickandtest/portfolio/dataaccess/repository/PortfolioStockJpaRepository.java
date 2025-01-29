@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PortfolioStockJpaRepository extends JpaRepository<PortfolioStockEntity, Long> {
 
-    void deleteAllByPortfolioEntity_Id(Long portfolioId);
+    void deleteAllByPortfolioEntityId(Long portfolioId);
 }

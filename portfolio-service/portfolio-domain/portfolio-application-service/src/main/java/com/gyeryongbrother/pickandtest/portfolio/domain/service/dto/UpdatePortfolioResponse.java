@@ -12,7 +12,8 @@ public record UpdatePortfolioResponse(
         List<UpdatePortfolioStockResponse> updatePortfolioStockResponses = portfolio.getPortfolioStocks().stream()
                 .map(UpdatePortfolioStockResponse::from)
                 .toList();
-        return new UpdatePortfolioResponse(updatePortfolioStockResponses,
+        return new UpdatePortfolioResponse(
+                updatePortfolioStockResponses,
                 portfolio.getId()
         );
     }
