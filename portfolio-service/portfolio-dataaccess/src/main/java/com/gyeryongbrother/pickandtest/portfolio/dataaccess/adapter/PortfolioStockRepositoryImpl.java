@@ -8,7 +8,9 @@ import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.Portfolio
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStock;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockRepository;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -28,11 +30,18 @@ public class PortfolioStockRepositoryImpl implements PortfolioStockRepository {
     }
 
     @Override
+    @Modifying(clearAutomatically = true)
     public void deleteAllByPortfolioId(Long portfolioId) {
-        PortfolioEntity portfolioEntity = portfolioJpaRepository.findById(portfolioId)
-                .orElseThrow(() -> new RuntimeException("값이 없습니다."));
-        portfolioEntity.setPortfolioStockEntities(List.of());
+        validatePortfolioExist(portfolioId);
         portfolioStockJpaRepository.deleteAllByPortfolioEntityId(portfolioId);
+    }
+
+    private void validatePortfolioExist(Long portfolioId) {
+        Optional<PortfolioEntity> portfolio = portfolioJpaRepository.findById(portfolioId);
+        if (portfolio.isPresent()) {
+            return;
+        }
+        throw new RuntimeException("값이 없습니다.");
     }
 
     @Override

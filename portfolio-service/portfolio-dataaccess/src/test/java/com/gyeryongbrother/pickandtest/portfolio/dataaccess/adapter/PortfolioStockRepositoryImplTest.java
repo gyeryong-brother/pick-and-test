@@ -13,6 +13,7 @@ import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioSto
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockQueryRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockRepository;
+import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -41,6 +42,9 @@ class PortfolioStockRepositoryImplTest {
     @Autowired
     private PortfolioStockDataAccessMapper portfolioStockDataAccessMapper;
 
+    @Autowired
+    private EntityManager entityManager;
+
     @Test
     @DisplayName("포트폴리오주식을 저장한다")
     void save() {
@@ -64,6 +68,8 @@ class PortfolioStockRepositoryImplTest {
         List<PortfolioStockEntity> initial = portfolioStockJpaRepository.findAll();
         Portfolio portfolio1 = PortfolioFixture.portfolio1();
         Portfolio savedPortfolio = portfolioRepository.save(portfolio1);
+        entityManager.flush();
+        entityManager.clear();
 
         //when
         portfolioStockRepository.deleteAllByPortfolioId(savedPortfolio.getId());
