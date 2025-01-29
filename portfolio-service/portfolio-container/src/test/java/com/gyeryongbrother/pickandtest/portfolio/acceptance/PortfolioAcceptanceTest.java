@@ -4,6 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
+import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioEntity;
+import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioStockEntity;
+import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioJpaRepository;
+import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioStockJpaRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStock;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioResponse;
@@ -19,6 +23,7 @@ import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Stream;
@@ -29,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @DisplayName("포트폴리오 api 를 제공한다")
@@ -40,6 +46,15 @@ class PortfolioAcceptanceTest {
 
     @Autowired
     private PortfolioStockRepository portfolioStockRepository;
+
+    @Autowired
+    private EntityManager entityManager;
+
+    @Autowired
+    private PortfolioJpaRepository portfolioJpaRepository;
+
+    @Autowired
+    private PortfolioStockJpaRepository portfolioStockJpaRepository;
 
     @LocalServerPort
     private int port;
@@ -137,7 +152,9 @@ class PortfolioAcceptanceTest {
         UpdatePortfolioStockResponse updatePortfolioStockResponse2 = new UpdatePortfolioStockResponse(4L,
                 BigDecimal.valueOf(0.5));
         UpdatePortfolioResponse expected = new UpdatePortfolioResponse(
-                List.of(updatePortfolioStockResponse1, updatePortfolioStockResponse2), 1L);
+                List.of(updatePortfolioStockResponse1, updatePortfolioStockResponse2),
+                1L
+        );
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
@@ -148,6 +165,9 @@ class PortfolioAcceptanceTest {
                 .extract();
 
         UpdatePortfolioResponse result = response.as(UpdatePortfolioResponse.class);
+
+        List<PortfolioEntity> allPortfolios= portfolioJpaRepository.findAll();
+        List<PortfolioStockEntity> allPortfolioStocks=portfolioStockJpaRepository.findAll();
 
         //then
         assertThat(result).usingRecursiveComparison()

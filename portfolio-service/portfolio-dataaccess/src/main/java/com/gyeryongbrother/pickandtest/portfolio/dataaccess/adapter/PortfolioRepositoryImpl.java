@@ -27,7 +27,7 @@ public class PortfolioRepositoryImpl implements PortfolioRepository {
     public Portfolio update(Portfolio portfolio) {
         PortfolioEntity portfolioEntity = portfolioDataAccessMapper.portfolioToPortfolioEntity(portfolio);
         PortfolioEntity updatedEntity = portfolioJpaRepository.findById(portfolio.getId())
-                .orElse(new PortfolioEntity());
+                .orElseThrow(()->new RuntimeException("존재하지 않는 포트폴리오입니다"));
         updatedEntity.setPortfolioStockEntities(portfolioEntity.getPortfolioStockEntities());
         updatedEntity.syncPortfolioStockEntities();
         return portfolioDataAccessMapper.portfolioEntityToPortfolio(updatedEntity);

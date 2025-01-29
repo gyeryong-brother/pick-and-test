@@ -9,6 +9,7 @@ import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfo
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfolioResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfolioStockCommand;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.input.PortfolioService;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioQueryRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockRepository;
 import java.math.BigDecimal;
@@ -20,6 +21,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("포트폴리오 서비스를 구현한다")
@@ -31,11 +33,18 @@ public class PortfolioServiceImplTest {
     @Mock
     private PortfolioStockRepository portfolioStockRepository;
 
+    @Mock
+    private PortfolioQueryRepository portfolioQueryRepository;
+
     private PortfolioService portfolioService;
 
     @BeforeEach
     void setUp() {
-        portfolioService = new PortfolioServiceImpl(portfolioRepository, portfolioStockRepository);
+        portfolioService = new PortfolioServiceImpl(
+                portfolioRepository,
+                portfolioStockRepository,
+                portfolioQueryRepository
+        );
     }
 
     @Test
@@ -61,7 +70,7 @@ public class PortfolioServiceImplTest {
 
         UpdatePortfolioResponse expected = UpdatePortfolioResponse.from(updatePortfolioCommand.toDomain(1L));
 
-        Mockito.when(portfolioRepository.update(any())).thenReturn(updatePortfolioCommand.toDomain(1L));
+        Mockito.when(portfolioQueryRepository.findById(any())).thenReturn(updatePortfolioCommand.toDomain(1L));
 
         //when
         UpdatePortfolioResponse result = portfolioService.updatePortfolio(updatePortfolioCommand);
