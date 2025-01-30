@@ -68,7 +68,8 @@ public class TestQuerydslConfig {
         return new PortfolioStockRepositoryImpl(
                 portfolioStockJpaRepository,
                 portfolioStockDataAccessMapper(),
-                portfolioJpaRepository
+                portfolioJpaRepository,
+                queryFactory()
         );
     }
 

@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
-import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioEntity;
-import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioStockEntity;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioJpaRepository;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioStockJpaRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
@@ -23,7 +21,6 @@ import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Stream;
@@ -45,12 +42,6 @@ class PortfolioAcceptanceTest {
 
     @Autowired
     private PortfolioStockRepository portfolioStockRepository;
-
-    @Autowired
-    private PortfolioJpaRepository portfolioJpaRepository;
-
-    @Autowired
-    private PortfolioStockJpaRepository portfolioStockJpaRepository;
 
     @LocalServerPort
     private int port;
