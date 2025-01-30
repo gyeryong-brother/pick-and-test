@@ -37,9 +37,6 @@ class PortfolioStockRepositoryImplTest {
     @Autowired
     private EntityManager entityManager;
 
-    @Autowired
-    private EntityManager entityManager;
-
     @Test
     @DisplayName("포트폴리오주식을 저장한다")
     void save() {
