@@ -15,10 +15,10 @@ public class PortfolioRepositoryImpl implements PortfolioRepository {
     private final PortfolioDataAccessMapper portfolioDataAccessMapper;
     private final PortfolioJpaRepository portfolioJpaRepository;
 
-
     @Override
     public Portfolio save(Portfolio portfolio) {
         PortfolioEntity portfolioEntity = portfolioDataAccessMapper.portfolioToPortfolioEntity(portfolio);
+        portfolioEntity.syncPortfolioStockEntities();
         PortfolioEntity saved = portfolioJpaRepository.save(portfolioEntity);
         return portfolioDataAccessMapper.portfolioEntityToPortfolio(saved);
     }

@@ -1,11 +1,19 @@
 package com.gyeryongbrother.pickandtest.portfolio.dataaccess.adapter;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.config.TestQuerydslConfig;
+import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioFixture;
+import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioStockEntity;
+import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioStockJpaRepository;
+import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStock;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockRepository;
+import jakarta.persistence.EntityManager;
 import java.math.BigDecimal;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +27,15 @@ class PortfolioStockRepositoryImplTest {
 
     @Autowired
     private PortfolioStockRepository portfolioStockRepository;
+
+    @Autowired
+    private PortfolioRepository portfolioRepository;
+
+    @Autowired
+    private PortfolioStockJpaRepository portfolioStockJpaRepository;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @Test
     @DisplayName("포트폴리오주식을 저장한다")
@@ -34,5 +51,46 @@ class PortfolioStockRepositoryImplTest {
         assertThat(result).usingRecursiveComparison()
                 .ignoringExpectedNullFields()
                 .isEqualTo(appleInPortfolio);
+    }
+
+    @Test
+    @DisplayName("포트폴리오 Id로 포트폴리오주식을 전부 삭제")
+    void deleteByPortfolioId() {
+        //given
+        List<PortfolioStockEntity> initial = portfolioStockJpaRepository.findAll();
+        Portfolio portfolio1 = PortfolioFixture.portfolio1();
+        Portfolio savedPortfolio = portfolioRepository.save(portfolio1);
+        entityManager.flush();
+        entityManager.clear();
+
+        entityManager.flush();
+        entityManager.clear();
+
+        //when
+        portfolioStockRepository.deleteAllByPortfolioId(savedPortfolio.getId());
+        List<PortfolioStockEntity> result = portfolioStockJpaRepository.findAll();
+        List<PortfolioStockEntity> expected = List.of();
+
+        //then
+        assertThat(result).usingRecursiveComparison()
+                .ignoringExpectedNullFields()
+                .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("없는 Portfolio Id를 입력받는 경우에도 에러를 일으키지 않고 데이터베이스를 유지")
+    void deleteByNonExistPortfolioId() {
+        //given
+        List<PortfolioStockEntity> initial = portfolioStockJpaRepository.findAll();
+        Portfolio portfolio1 = PortfolioFixture.portfolio1();
+        Portfolio savedPortfolio = portfolioRepository.save(portfolio1);
+
+        //when
+        RuntimeException expectedException = new RuntimeException("존재하지 않는 포트폴리오입니다");
+        RuntimeException resultException = assertThrows(RuntimeException.class,
+                () -> portfolioStockRepository.deleteAllByPortfolioId(-1L));
+
+        //then
+        assertThat(resultException.toString()).isEqualTo(expectedException.toString());
     }
 }

@@ -4,4 +4,6 @@ import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioStoc
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PortfolioStockJpaRepository extends JpaRepository<PortfolioStockEntity, Long> {
+
+    void deleteAllByPortfolioEntityId(Long portfolioId);
 }

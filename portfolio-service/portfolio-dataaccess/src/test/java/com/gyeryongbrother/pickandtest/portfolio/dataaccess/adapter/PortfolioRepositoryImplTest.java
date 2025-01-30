@@ -6,6 +6,7 @@ import com.gyeryongbrother.pickandtest.portfolio.dataaccess.config.TestQuerydslC
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStock;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioRepository;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockRepository;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +20,8 @@ import org.springframework.context.annotation.Import;
 @DisplayName("포트폴리오 리퍼지토리를 구현한다")
 class PortfolioRepositoryImplTest {
 
+    @Autowired
+    PortfolioStockRepository portfolioStockRepository;
     @Autowired
     private PortfolioRepository portfolioRepository;
 

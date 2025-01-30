@@ -8,10 +8,15 @@ import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStock;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioStockResponse;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfolioRequest;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfolioResponse;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfolioStockRequest;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfolioStockResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockRepository;
 import io.restassured.RestAssured;
 import io.restassured.common.mapper.TypeRef;
+import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.math.BigDecimal;
@@ -108,5 +113,47 @@ class PortfolioAcceptanceTest {
 
         //then
         assertThat(result).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("포트폴리오를 업데이트 한다")
+    void updatePortfolio() {
+        //given
+        PortfolioStock portfolioStock1 = new PortfolioStock(null, null, 1L, BigDecimal.valueOf(0.5));
+        PortfolioStock portfolioStock2 = new PortfolioStock(null, null, 2L, BigDecimal.valueOf(0.5));
+
+        Portfolio portfolio1 = new Portfolio(null, 1L, List.of(portfolioStock1, portfolioStock2));
+        Portfolio savedPortfolio = portfolioRepository.save(portfolio1);
+
+        UpdatePortfolioStockRequest updatePortfolioStockRequest1 = new UpdatePortfolioStockRequest(3L,
+                BigDecimal.valueOf(0.5));
+        UpdatePortfolioStockRequest updatePortfolioStockRequest2 = new UpdatePortfolioStockRequest(4L,
+                BigDecimal.valueOf(0.5));
+        UpdatePortfolioRequest updatePortfolioRequest = new UpdatePortfolioRequest(
+                List.of(updatePortfolioStockRequest1, updatePortfolioStockRequest2));
+
+        UpdatePortfolioStockResponse updatePortfolioStockResponse1 = new UpdatePortfolioStockResponse(3L,
+                BigDecimal.valueOf(0.5));
+        UpdatePortfolioStockResponse updatePortfolioStockResponse2 = new UpdatePortfolioStockResponse(4L,
+                BigDecimal.valueOf(0.5));
+        UpdatePortfolioResponse expected = new UpdatePortfolioResponse(
+                List.of(updatePortfolioStockResponse1, updatePortfolioStockResponse2),
+                1L
+        );
+
+        //when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(updatePortfolioRequest)
+                .when().put("/portfolios/{portfolioId}", savedPortfolio.getId())
+                .then().log().all()
+                .extract();
+
+        UpdatePortfolioResponse result = response.as(UpdatePortfolioResponse.class);
+
+        //then
+        assertThat(result).usingRecursiveComparison()
+                .ignoringExpectedNullFields()
+                .isEqualTo(expected);
     }
 }
