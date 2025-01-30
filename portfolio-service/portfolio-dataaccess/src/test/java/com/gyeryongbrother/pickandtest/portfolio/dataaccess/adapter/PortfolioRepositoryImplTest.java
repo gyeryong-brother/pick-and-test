@@ -46,43 +46,4 @@ class PortfolioRepositoryImplTest {
                 .ignoringExpectedNullFields()
                 .isEqualTo(portfolio);
     }
-
-    @Test
-    @DisplayName("포트폴리오를 업데이트한다")
-    void update() {
-        //given
-        List<PortfolioStock> portfolioStocks1 = List.of(
-                PortfolioStock.builder().stockId(1L).portion(BigDecimal.valueOf(0.5)).build(),
-                PortfolioStock.builder().stockId(2L).portion(BigDecimal.valueOf(0.5)).build()
-        );
-
-        List<PortfolioStock> portfolioStocks2 = List.of(
-                PortfolioStock.builder().stockId(3L).portion(BigDecimal.valueOf(0.5)).build(),
-                PortfolioStock.builder().stockId(4L).portion(BigDecimal.valueOf(0.5)).build()
-        );
-
-        Portfolio portfolio = Portfolio.builder()
-                .memberId(1L)
-                .portfolioStocks(portfolioStocks1)
-                .build();
-
-        Portfolio saved = portfolioRepository.save(portfolio);
-        portfolioStockRepository.deleteAllByPortfolioId(saved.getId());
-
-        Portfolio updated = Portfolio.builder()
-                .id(saved.getId())
-                .memberId(1L)
-                .portfolioStocks(portfolioStocks2)
-                .build();
-
-        Portfolio expected = updated;
-
-        //when
-        Portfolio result = portfolioRepository.update(updated);
-
-        //then
-        assertThat(result).usingRecursiveComparison()
-                .ignoringExpectedNullFields()
-                .isEqualTo(expected);
-    }
 }

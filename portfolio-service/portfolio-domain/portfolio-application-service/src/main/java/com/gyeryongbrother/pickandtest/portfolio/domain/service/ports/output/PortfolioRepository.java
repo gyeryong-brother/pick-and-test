@@ -5,6 +5,4 @@ import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
 public interface PortfolioRepository {
 
     Portfolio save(Portfolio portfolio);
-
-    Portfolio update(Portfolio portfolio);
 }

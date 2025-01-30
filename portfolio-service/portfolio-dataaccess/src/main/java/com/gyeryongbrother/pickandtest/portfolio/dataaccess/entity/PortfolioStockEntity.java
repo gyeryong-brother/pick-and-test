@@ -16,7 +16,6 @@ import lombok.Setter;
 @Entity
 @Getter
 @Builder
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "portfolio_stock")
@@ -27,6 +26,7 @@ public class PortfolioStockEntity {
     private Long id;
 
     @ManyToOne
+    @Setter
     private PortfolioEntity portfolioEntity;
 
     private Long stockId;
