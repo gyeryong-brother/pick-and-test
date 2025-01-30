@@ -2,6 +2,7 @@ package com.gyeryongbrother.pickandtest.portfolio.domain.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStock;
@@ -19,7 +20,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -69,7 +69,7 @@ public class PortfolioServiceImplTest {
 
         UpdatePortfolioResponse expected = UpdatePortfolioResponse.from(updatePortfolioCommand.toDomain(1L));
 
-        Mockito.when(portfolioQueryRepository.findById(any())).thenReturn(updatePortfolioCommand.toDomain(1L));
+        given(portfolioQueryRepository.findById(any())).willReturn(updatePortfolioCommand.toDomain(1L));
 
         //when
         UpdatePortfolioResponse result = portfolioService.updatePortfolio(updatePortfolioCommand);
