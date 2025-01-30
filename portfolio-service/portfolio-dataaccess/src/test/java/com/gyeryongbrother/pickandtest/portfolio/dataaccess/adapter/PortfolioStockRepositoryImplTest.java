@@ -31,16 +31,13 @@ class PortfolioStockRepositoryImplTest {
     private PortfolioStockRepository portfolioStockRepository;
 
     @Autowired
-    private PortfolioStockQueryRepository portfolioStockQueryRepository;
-
-    @Autowired
     private PortfolioRepository portfolioRepository;
 
     @Autowired
     private PortfolioStockJpaRepository portfolioStockJpaRepository;
 
     @Autowired
-    private PortfolioStockDataAccessMapper portfolioStockDataAccessMapper;
+    private EntityManager entityManager;
 
     @Autowired
     private EntityManager entityManager;
@@ -71,6 +68,9 @@ class PortfolioStockRepositoryImplTest {
         entityManager.flush();
         entityManager.clear();
 
+        entityManager.flush();
+        entityManager.clear();
+
         //when
         portfolioStockRepository.deleteAllByPortfolioId(savedPortfolio.getId());
         List<PortfolioStockEntity> result = portfolioStockJpaRepository.findAll();
@@ -91,7 +91,7 @@ class PortfolioStockRepositoryImplTest {
         Portfolio savedPortfolio = portfolioRepository.save(portfolio1);
 
         //when
-        RuntimeException expectedException = new RuntimeException("값이 없습니다.");
+        RuntimeException expectedException = new RuntimeException("존재하지 않는 포트폴리오입니다");
         RuntimeException resultException = assertThrows(RuntimeException.class,
                 () -> portfolioStockRepository.deleteAllByPortfolioId(-1L));
 

@@ -34,7 +34,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @DisplayName("포트폴리오 api 를 제공한다")
@@ -46,9 +45,6 @@ class PortfolioAcceptanceTest {
 
     @Autowired
     private PortfolioStockRepository portfolioStockRepository;
-
-    @Autowired
-    private EntityManager entityManager;
 
     @Autowired
     private PortfolioJpaRepository portfolioJpaRepository;
@@ -165,9 +161,6 @@ class PortfolioAcceptanceTest {
                 .extract();
 
         UpdatePortfolioResponse result = response.as(UpdatePortfolioResponse.class);
-
-        List<PortfolioEntity> allPortfolios= portfolioJpaRepository.findAll();
-        List<PortfolioStockEntity> allPortfolioStocks=portfolioStockJpaRepository.findAll();
 
         //then
         assertThat(result).usingRecursiveComparison()

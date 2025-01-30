@@ -1,11 +1,9 @@
 package com.gyeryongbrother.pickandtest.portfolio.dataaccess.adapter;
 
 import static com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.QPortfolioEntity.portfolioEntity;
-import static com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.QPortfolioStockEntity.*;
+import static com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.QPortfolioStockEntity.portfolioStockEntity;
 
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioEntity;
-import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.QPortfolioEntity;
-import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.QPortfolioStockEntity;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.mapper.PortfolioDataAccessMapper;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioJpaRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;

@@ -1,6 +1,5 @@
 package com.gyeryongbrother.pickandtest.portfolio.dataaccess.adapter;
 
-import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioEntity;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioStockEntity;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.mapper.PortfolioStockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioJpaRepository;
@@ -8,9 +7,7 @@ import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.Portfolio
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStock;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockRepository;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -30,18 +27,11 @@ public class PortfolioStockRepositoryImpl implements PortfolioStockRepository {
     }
 
     @Override
-    @Modifying(clearAutomatically = true)
     public void deleteAllByPortfolioId(Long portfolioId) {
-        validatePortfolioExist(portfolioId);
-        portfolioStockJpaRepository.deleteAllByPortfolioEntityId(portfolioId);
-    }
-
-    private void validatePortfolioExist(Long portfolioId) {
-        Optional<PortfolioEntity> portfolio = portfolioJpaRepository.findById(portfolioId);
-        if (portfolio.isPresent()) {
-            return;
+        if (!portfolioJpaRepository.existsById(portfolioId)) {
+            throw new RuntimeException("존재하지 않는 포트폴리오입니다");
         }
-        throw new RuntimeException("값이 없습니다.");
+        portfolioStockJpaRepository.deleteAllByPortfolioEntityId(portfolioId);
     }
 
     @Override
