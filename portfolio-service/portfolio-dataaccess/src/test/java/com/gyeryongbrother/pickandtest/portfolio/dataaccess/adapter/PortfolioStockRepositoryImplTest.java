@@ -1,5 +1,6 @@
 package com.gyeryongbrother.pickandtest.portfolio.dataaccess.adapter;
 
+import static com.gyeryongbrother.pickandtest.portfolio.domain.service.exception.PortfolioExceptionType.PORTFOLIO_NOT_FOUND;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -9,6 +10,8 @@ import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioStoc
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioStockJpaRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStock;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.exception.BaseExceptionType;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.exception.PortfolioException;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockRepository;
 import jakarta.persistence.EntityManager;
@@ -86,11 +89,11 @@ class PortfolioStockRepositoryImplTest {
         Portfolio savedPortfolio = portfolioRepository.save(portfolio1);
 
         //when
-        RuntimeException expectedException = new RuntimeException("존재하지 않는 포트폴리오입니다");
-        RuntimeException resultException = assertThrows(RuntimeException.class,
-                () -> portfolioStockRepository.deleteAllByPortfolioId(-1L));
+        BaseExceptionType result = assertThrows(PortfolioException.class,
+                () -> portfolioStockRepository.deleteAllByPortfolioId(-1L)
+        ).getExceptionType();
 
         //then
-        assertThat(resultException.toString()).isEqualTo(expectedException.toString());
+        assertThat(result).isEqualTo(PORTFOLIO_NOT_FOUND);
     }
 }

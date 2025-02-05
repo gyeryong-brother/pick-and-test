@@ -2,8 +2,11 @@ package com.gyeryongbrother.pickandtest.portfolio.acceptance;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+import com.gyeryongbrother.pickandtest.portfolio.application.exception.handler.dto.ErrorResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStock;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioResponse;
@@ -155,5 +158,29 @@ class PortfolioAcceptanceTest {
         assertThat(result).usingRecursiveComparison()
                 .ignoringExpectedNullFields()
                 .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("포트폴리오를 업데이트 한다")
+    void updatePortfolioByNonExistId() {
+        //given
+        UpdatePortfolioRequest updatePortfolioRequest = new UpdatePortfolioRequest(List.of());
+        ErrorResponse expected = new ErrorResponse("포트폴리오가 존재하지 않습니다");
+
+        //when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(updatePortfolioRequest)
+                .when().put("/portfolios/{portfolioId}", -1)
+                .then().log().all()
+                .extract();
+
+        ErrorResponse result = response.as(ErrorResponse.class);
+
+        //then
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(NOT_FOUND.value()),
+                () -> assertThat(result).isEqualTo(expected)
+        );
     }
 }

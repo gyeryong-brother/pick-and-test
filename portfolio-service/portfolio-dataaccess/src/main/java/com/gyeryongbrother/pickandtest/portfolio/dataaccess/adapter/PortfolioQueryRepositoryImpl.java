@@ -2,11 +2,13 @@ package com.gyeryongbrother.pickandtest.portfolio.dataaccess.adapter;
 
 import static com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.QPortfolioEntity.portfolioEntity;
 import static com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.QPortfolioStockEntity.portfolioStockEntity;
+import static com.gyeryongbrother.pickandtest.portfolio.domain.service.exception.PortfolioExceptionType.PORTFOLIO_NOT_FOUND;
 
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioEntity;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.mapper.PortfolioDataAccessMapper;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioJpaRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.exception.PortfolioException;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioQueryRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -43,6 +45,6 @@ public class PortfolioQueryRepositoryImpl implements PortfolioQueryRepository {
                 .fetchOne();
         Optional<PortfolioEntity> portfolioEntityOptional = Optional.ofNullable(fetchedPortfolioEntity);
         return portfolioEntityOptional.map(portfolioDataAccessMapper::portfolioEntityToPortfolio)
-                .orElseThrow(() -> new RuntimeException("값이 없습니다."));
+                .orElseThrow(() -> new PortfolioException(PORTFOLIO_NOT_FOUND));
     }
 }

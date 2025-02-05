@@ -1,12 +1,14 @@
 package com.gyeryongbrother.pickandtest.portfolio.dataaccess.adapter;
 
 import static com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.QPortfolioStockEntity.portfolioStockEntity;
+import static com.gyeryongbrother.pickandtest.portfolio.domain.service.exception.PortfolioExceptionType.PORTFOLIO_NOT_FOUND;
 
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioStockEntity;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.mapper.PortfolioStockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioJpaRepository;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioStockJpaRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStock;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.exception.PortfolioException;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -33,7 +35,7 @@ public class PortfolioStockRepositoryImpl implements PortfolioStockRepository {
     @Override
     public void deleteAllByPortfolioId(Long portfolioId) {
         if (!portfolioJpaRepository.existsById(portfolioId)) {
-            throw new RuntimeException("존재하지 않는 포트폴리오입니다");
+            throw new PortfolioException(PORTFOLIO_NOT_FOUND);
         }
         queryFactory
                 .delete(portfolioStockEntity)
