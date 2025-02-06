@@ -1,6 +1,6 @@
 package com.gyeryongbrother.pickandtest.portfolio.dataaccess.adapter;
 
-import static com.gyeryongbrother.pickandtest.portfolio.domain.service.exception.PortfolioExceptionType.PORTFOLIO_NOT_FOUND;
+import static com.gyeryongbrother.pickandtest.portfolio.dataaccess.exception.PortfolioExceptionType.PORTFOLIO_NOT_FOUND;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -11,7 +11,7 @@ import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.Portfolio
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStock;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.exception.BaseExceptionType;
-import com.gyeryongbrother.pickandtest.portfolio.domain.service.exception.PortfolioException;
+import com.gyeryongbrother.pickandtest.portfolio.dataaccess.exception.PortfolioException;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockRepository;
 import jakarta.persistence.EntityManager;
@@ -91,7 +91,7 @@ class PortfolioStockRepositoryImplTest {
         //when
         BaseExceptionType result = assertThrows(PortfolioException.class,
                 () -> portfolioStockRepository.deleteAllByPortfolioId(-1L)
-        ).getExceptionType();
+        ).exceptionType();
 
         //then
         assertThat(result).isEqualTo(PORTFOLIO_NOT_FOUND);

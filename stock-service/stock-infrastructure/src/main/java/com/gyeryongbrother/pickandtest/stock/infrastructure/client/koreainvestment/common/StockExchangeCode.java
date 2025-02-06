@@ -3,8 +3,10 @@ package com.gyeryongbrother.pickandtest.stock.infrastructure.client.koreainvestm
 import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange.AMEX;
 import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange.NASDAQ;
 import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange.NYSE;
+import static com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureExceptionType.NOT_SUPPORTED_STOCK_EXCHANGE;
 
 import com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange;
+import com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -30,6 +32,6 @@ public enum StockExchangeCode {
         if (stockExchange == AMEX) {
             return AMEX_CODE;
         }
-        throw new IllegalArgumentException("not supported stock exchange");
+        throw new StockInfrastructureException(NOT_SUPPORTED_STOCK_EXCHANGE);
     }
 }

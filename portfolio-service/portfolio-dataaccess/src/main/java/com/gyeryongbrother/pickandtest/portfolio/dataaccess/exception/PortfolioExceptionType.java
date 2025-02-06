@@ -1,12 +1,11 @@
-package com.gyeryongbrother.pickandtest.portfolio.domain.service.exception;
+package com.gyeryongbrother.pickandtest.portfolio.dataaccess.exception;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
-import lombok.Getter;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.exception.BaseExceptionType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
-@Getter
 @RequiredArgsConstructor
 public enum PortfolioExceptionType implements BaseExceptionType {
 
@@ -15,4 +14,14 @@ public enum PortfolioExceptionType implements BaseExceptionType {
 
     private final HttpStatus httpStatus;
     private final String errorMessage;
+
+    @Override
+    public HttpStatus httpStatus() {
+        return httpStatus;
+    }
+
+    @Override
+    public String errorMessage() {
+        return errorMessage;
+    }
 }

@@ -14,9 +14,9 @@ public class PortfolioExceptionHandler {
 
     @ExceptionHandler
     ResponseEntity<ErrorResponse> handleException(BaseException exception) {
-        BaseExceptionType exceptionType = exception.getExceptionType();
-        return ResponseEntity.status(exceptionType.getHttpStatus())
-                .body(new ErrorResponse(exceptionType.getErrorMessage()));
+        BaseExceptionType exceptionType = exception.exceptionType();
+        return ResponseEntity.status(exceptionType.httpStatus())
+                .body(new ErrorResponse(exceptionType.errorMessage()));
     }
 
     @ExceptionHandler

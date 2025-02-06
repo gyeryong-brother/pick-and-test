@@ -41,7 +41,7 @@ class StockQueryRepositoryTest {
         StockDetail expected = stockDetail(stockId, List.of(), dividends(stockId));
 
         // when
-        StockDetail result = stockQueryRepository.findById(stockId);
+        StockDetail result = stockQueryRepository.getById(stockId);
 
         // then
         assertThat(result).usingRecursiveComparison()

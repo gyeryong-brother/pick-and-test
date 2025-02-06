@@ -1,5 +1,8 @@
 package com.gyeryongbrother.pickandtest.stock.infrastructure.client.koreainvestment.stockprice;
 
+import static com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureExceptionType.INVALID_CONTINUITY_CODE;
+
+import com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureException;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +23,7 @@ public enum ContinuityCode {
         if (END.codes.contains(code)) {
             return END;
         }
-        throw new IllegalArgumentException("invalid code");
+        throw new StockInfrastructureException(INVALID_CONTINUITY_CODE);
     }
 
     public boolean hasNext() {

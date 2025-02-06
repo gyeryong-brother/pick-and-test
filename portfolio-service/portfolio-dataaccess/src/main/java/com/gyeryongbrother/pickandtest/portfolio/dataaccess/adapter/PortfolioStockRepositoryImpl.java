@@ -1,14 +1,14 @@
 package com.gyeryongbrother.pickandtest.portfolio.dataaccess.adapter;
 
 import static com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.QPortfolioStockEntity.portfolioStockEntity;
-import static com.gyeryongbrother.pickandtest.portfolio.domain.service.exception.PortfolioExceptionType.PORTFOLIO_NOT_FOUND;
+import static com.gyeryongbrother.pickandtest.portfolio.dataaccess.exception.PortfolioExceptionType.PORTFOLIO_NOT_FOUND;
 
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioStockEntity;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.mapper.PortfolioStockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioJpaRepository;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioStockJpaRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStock;
-import com.gyeryongbrother.pickandtest.portfolio.domain.service.exception.PortfolioException;
+import com.gyeryongbrother.pickandtest.portfolio.dataaccess.exception.PortfolioException;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;

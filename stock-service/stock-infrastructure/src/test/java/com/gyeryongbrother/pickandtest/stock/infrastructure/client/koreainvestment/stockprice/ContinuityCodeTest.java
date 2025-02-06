@@ -1,8 +1,11 @@
 package com.gyeryongbrother.pickandtest.stock.infrastructure.client.koreainvestment.stockprice;
 
+import static com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureExceptionType.INVALID_CONTINUITY_CODE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.gyeryongbrother.pickandtest.stock.domain.service.exception.BaseExceptionType;
+import com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -37,12 +40,12 @@ class ContinuityCodeTest {
     @DisplayName("지원하지 않는 코드면 예외가 발생한다")
     void createByInvalidCode() {
         // when
-        String result = assertThrows(IllegalArgumentException.class, () ->
+        BaseExceptionType result = assertThrows(StockInfrastructureException.class, () ->
                 ContinuityCode.from("A")
-        ).getMessage();
+        ).exceptionType();
 
         // then
-        assertThat(result).isEqualTo("invalid code");
+        assertThat(result).isEqualTo(INVALID_CONTINUITY_CODE);
     }
 
     @Test

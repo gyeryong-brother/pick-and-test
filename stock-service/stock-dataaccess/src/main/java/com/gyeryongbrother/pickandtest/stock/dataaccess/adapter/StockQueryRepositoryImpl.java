@@ -2,8 +2,10 @@ package com.gyeryongbrother.pickandtest.stock.dataaccess.adapter;
 
 import static com.gyeryongbrother.pickandtest.stock.dataaccess.entity.QStockEntity.stockEntity;
 import static com.gyeryongbrother.pickandtest.stock.dataaccess.entity.QStockPriceEntity.stockPriceEntity;
+import static com.gyeryongbrother.pickandtest.stock.dataaccess.exception.StockDataExceptionType.STOCK_NOT_FOUND;
 
 import com.gyeryongbrother.pickandtest.stock.dataaccess.entity.StockEntity;
+import com.gyeryongbrother.pickandtest.stock.dataaccess.exception.StockDataException;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.mapper.StockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.Stock;
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.StockDetail;
@@ -29,7 +31,7 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
     public StockWithPrices findStockWithPricesById(Long id) {
         return Optional.ofNullable(selectStockEntity(id))
                 .map(stockDataAccessMapper::stockEntityToStockWithPrices)
-                .orElseThrow(() -> new IllegalArgumentException("not found stock"));
+                .orElseThrow(() -> new StockDataException(STOCK_NOT_FOUND));
     }
 
     private StockEntity selectStockEntity(Long id) {
@@ -41,10 +43,10 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
     }
 
     @Override
-    public StockDetail findById(Long id) {
+    public StockDetail getById(Long id) {
         return Optional.ofNullable(selectStockEntity(id))
                 .map(stockDataAccessMapper::stockEntityToStockDetail)
-                .orElseThrow(() -> new IllegalArgumentException("not found stock"));
+                .orElseThrow(() -> new StockDataException(STOCK_NOT_FOUND));
     }
 
     @Override

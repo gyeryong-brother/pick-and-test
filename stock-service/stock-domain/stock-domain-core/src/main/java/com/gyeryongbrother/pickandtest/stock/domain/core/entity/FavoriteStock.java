@@ -14,10 +14,7 @@ public class FavoriteStock {
     private final Long memberId;
     private final StockDetail stockDetail;
 
-    public void validateCanDeleteBy(Long memberId) {
-        if (Objects.equals(this.memberId, memberId)) {
-            return;
-        }
-        throw new IllegalArgumentException("can not delete favorite stock");
+    public boolean canDeleteBy(Long memberId) {
+        return Objects.equals(this.memberId, memberId);
     }
 }

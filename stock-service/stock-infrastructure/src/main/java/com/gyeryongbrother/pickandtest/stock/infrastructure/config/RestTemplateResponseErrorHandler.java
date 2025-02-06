@@ -1,5 +1,10 @@
 package com.gyeryongbrother.pickandtest.stock.infrastructure.config;
 
+import static com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureExceptionType.API_FETCH_CLIENT_ERROR;
+import static com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureExceptionType.API_FETCH_FAILED;
+import static com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureExceptionType.API_FETCH_SERVER_ERROR;
+
+import com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureException;
 import java.io.IOException;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.client.ClientHttpResponse;
@@ -20,7 +25,7 @@ public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
         try {
             return response.getStatusCode();
         } catch (IOException exception) {
-            throw new IllegalStateException();
+            throw new StockInfrastructureException(API_FETCH_FAILED);
         }
     }
 
@@ -28,10 +33,10 @@ public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
     public void handleError(@NonNull ClientHttpResponse response) {
         HttpStatusCode statusCode = getStatusCode(response);
         if (statusCode.is4xxClientError()) {
-            throw new IllegalArgumentException("client error");
+            throw new StockInfrastructureException(API_FETCH_CLIENT_ERROR);
         }
         if (statusCode.is5xxServerError()) {
-            throw new IllegalStateException("server error");
+            throw new StockInfrastructureException(API_FETCH_SERVER_ERROR);
         }
     }
 }

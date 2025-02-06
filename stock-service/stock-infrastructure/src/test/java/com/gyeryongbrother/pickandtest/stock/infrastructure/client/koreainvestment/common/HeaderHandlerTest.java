@@ -1,11 +1,15 @@
 package com.gyeryongbrother.pickandtest.stock.infrastructure.client.koreainvestment.common;
 
+import static com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureExceptionType.HEADER_CAN_NOT_BE_NULL;
+import static com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureExceptionType.HEADER_SHOULD_HAVE_ONLY_ONE_VALUE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 
+import com.gyeryongbrother.pickandtest.stock.domain.service.exception.BaseExceptionType;
 import com.gyeryongbrother.pickandtest.stock.infrastructure.client.koreainvestment.auth.AuthManager;
 import com.gyeryongbrother.pickandtest.stock.infrastructure.client.koreainvestment.stockprice.ContinuityCode;
+import com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -95,12 +99,12 @@ class HeaderHandlerTest {
         HttpHeaders httpHeaders = new HttpHeaders();
 
         // when
-        String result = assertThrows(IllegalStateException.class, () ->
+        BaseExceptionType result = assertThrows(StockInfrastructureException.class, () ->
                 headerHandler.parseContinuityCode(httpHeaders)
-        ).getMessage();
+        ).exceptionType();
 
         // then
-        assertThat(result).isEqualTo("can not be null");
+        assertThat(result).isEqualTo(HEADER_CAN_NOT_BE_NULL);
     }
 
     @Test
@@ -112,11 +116,11 @@ class HeaderHandlerTest {
         httpHeaders.add("tr_cont", "F");
 
         // when
-        String result = assertThrows(IllegalStateException.class, () ->
+        BaseExceptionType result = assertThrows(StockInfrastructureException.class, () ->
                 headerHandler.parseContinuityCode(httpHeaders)
-        ).getMessage();
+        ).exceptionType();
 
         // then
-        assertThat(result).isEqualTo("should be only one value");
+        assertThat(result).isEqualTo(HEADER_SHOULD_HAVE_ONLY_ONE_VALUE);
     }
 }

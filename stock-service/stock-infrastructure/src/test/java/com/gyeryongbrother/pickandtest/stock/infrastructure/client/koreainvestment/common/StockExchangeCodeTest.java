@@ -3,9 +3,12 @@ package com.gyeryongbrother.pickandtest.stock.infrastructure.client.koreainvestm
 import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange.KOSPI;
 import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange.NASDAQ;
 import static com.gyeryongbrother.pickandtest.stock.infrastructure.client.koreainvestment.common.StockExchangeCode.NASDAQ_CODE;
+import static com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureExceptionType.NOT_SUPPORTED_STOCK_EXCHANGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.gyeryongbrother.pickandtest.stock.domain.service.exception.BaseExceptionType;
+import com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -26,11 +29,11 @@ class StockExchangeCodeTest {
     @DisplayName("지원하지 않는 거래소면 예외가 발생한다")
     void fromFail() {
         // when
-        String result = assertThrows(IllegalArgumentException.class, () ->
+        BaseExceptionType result = assertThrows(StockInfrastructureException.class, () ->
                 StockExchangeCode.from(KOSPI)
-        ).getMessage();
+        ).exceptionType();
 
         // then
-        assertThat(result).isEqualTo("not supported stock exchange");
+        assertThat(result).isEqualTo(NOT_SUPPORTED_STOCK_EXCHANGE);
     }
 }
