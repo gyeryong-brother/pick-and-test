@@ -9,7 +9,7 @@ public interface StockQueryRepository {
 
     StockWithPrices findStockWithPricesById(Long id);
 
-    StockDetail findById(Long id);
+    StockDetail getById(Long id);
 
     List<Stock> findAllByNameOrSymbol(String keyword);
 }

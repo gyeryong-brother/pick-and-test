@@ -1,7 +1,11 @@
 package com.gyeryongbrother.pickandtest.stock.infrastructure.client.koreainvestment.common;
 
+import static com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureExceptionType.HEADER_CAN_NOT_BE_NULL;
+import static com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureExceptionType.HEADER_SHOULD_HAVE_ONLY_ONE_VALUE;
+
 import com.gyeryongbrother.pickandtest.stock.infrastructure.client.koreainvestment.auth.AuthManager;
 import com.gyeryongbrother.pickandtest.stock.infrastructure.client.koreainvestment.stockprice.ContinuityCode;
+import com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -25,10 +29,10 @@ public class HeaderHandler {
     public ContinuityCode parseContinuityCode(HttpHeaders httpHeaders) {
         List<String> headerValues = httpHeaders.get(TRANSACTION_CONTINUITY);
         if (headerValues == null) {
-            throw new IllegalStateException("can not be null");
+            throw new StockInfrastructureException(HEADER_CAN_NOT_BE_NULL);
         }
         if (headerValues.size() != 1) {
-            throw new IllegalStateException("should be only one value");
+            throw new StockInfrastructureException(HEADER_SHOULD_HAVE_ONLY_ONE_VALUE);
         }
         String code = headerValues.get(0);
         return ContinuityCode.from(code);

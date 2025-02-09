@@ -1,9 +1,13 @@
 package com.gyeryongbrother.pickandtest.stock.domain.service;
 
+import static com.gyeryongbrother.pickandtest.stock.domain.service.exception.StockServiceExceptionType.CAN_NOT_DELETE_FAVORITE_STOCK;
+import static com.gyeryongbrother.pickandtest.stock.domain.service.exception.StockServiceExceptionType.STOCK_IS_ALREADY_LIKED;
+
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.FavoriteStock;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.CreateFavoriteStockCommand;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.CreateFavoriteStockResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.DeleteFavoriteStockCommand;
+import com.gyeryongbrother.pickandtest.stock.domain.service.exception.StockServiceException;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.input.FavoriteStockService;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.FavoriteStockQueryRepository;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.FavoriteStockRepository;
@@ -34,15 +38,18 @@ public class FavoriteStockServiceImpl implements FavoriteStockService {
                 command.memberId()
         );
         if (favoriteStockOptional.isPresent()) {
-            throw new IllegalStateException("stock is already liked");
+            throw new StockServiceException(STOCK_IS_ALREADY_LIKED);
         }
     }
 
     @Override
     public void deleteFavoriteStock(DeleteFavoriteStockCommand command) {
         Long id = command.favoriteStockId();
-        FavoriteStock favoriteStock = favoriteStockQueryRepository.findById(id);
-        favoriteStock.validateCanDeleteBy(command.memberId());
-        favoriteStockRepository.delete(favoriteStock);
+        FavoriteStock favoriteStock = favoriteStockQueryRepository.getById(id);
+        if (favoriteStock.canDeleteBy(command.memberId())) {
+            favoriteStockRepository.delete(favoriteStock);
+            return;
+        }
+        throw new StockServiceException(CAN_NOT_DELETE_FAVORITE_STOCK);
     }
 }

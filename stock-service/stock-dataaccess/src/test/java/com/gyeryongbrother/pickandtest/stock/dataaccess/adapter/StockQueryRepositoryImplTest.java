@@ -82,7 +82,7 @@ class StockQueryRepositoryImplTest {
         StockDetail expected = stockDetail(stockId, List.of(), List.of());
 
         // when
-        StockDetail result = stockQueryRepository.findById(stockId);
+        StockDetail result = stockQueryRepository.getById(stockId);
 
         // then
         assertThat(result).usingRecursiveComparison()
@@ -100,7 +100,7 @@ class StockQueryRepositoryImplTest {
         StockDetail expected = stockDetail(stockId, List.of(), dividends(stockId));
 
         // when
-        StockDetail result = stockQueryRepository.findById(stockId);
+        StockDetail result = stockQueryRepository.getById(stockId);
 
         // then
         assertThat(result).usingRecursiveComparison()
@@ -120,7 +120,7 @@ class StockQueryRepositoryImplTest {
         StockDetail expected = stockDetail(stockId, stockPrices(stockId), List.of());
 
         // when
-        StockDetail result = stockQueryRepository.findById(stockId);
+        StockDetail result = stockQueryRepository.getById(stockId);
 
         // then
         assertThat(result).usingRecursiveComparison()
@@ -141,7 +141,7 @@ class StockQueryRepositoryImplTest {
         StockDetail expected = stockDetail(stockId, stockPrices(stockId), dividends(stockId));
 
         // when
-        StockDetail result = stockQueryRepository.findById(stockId);
+        StockDetail result = stockQueryRepository.getById(stockId);
 
         // then
         assertThat(result).usingRecursiveComparison()

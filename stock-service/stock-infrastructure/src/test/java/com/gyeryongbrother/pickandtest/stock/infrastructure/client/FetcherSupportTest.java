@@ -1,8 +1,12 @@
 package com.gyeryongbrother.pickandtest.stock.infrastructure.client;
 
+import static com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureExceptionType.API_FETCH_CLIENT_ERROR;
+import static com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureExceptionType.API_FETCH_SERVER_ERROR;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.gyeryongbrother.pickandtest.stock.domain.service.exception.BaseExceptionType;
+import com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,16 +49,16 @@ class FetcherSupportTest {
         HttpHeaders httpHeaders = new HttpHeaders();
 
         // when
-        String result = assertThrows(IllegalArgumentException.class, () ->
+        BaseExceptionType result = assertThrows(StockInfrastructureException.class, () ->
                 fetcherSupport.get(
                         "http://localhost:" + port + "/test/bad-request",
                         httpHeaders,
                         String.class
                 )
-        ).getMessage();
+        ).exceptionType();
 
         // then
-        assertThat(result).isEqualTo("client error");
+        assertThat(result).isEqualTo(API_FETCH_CLIENT_ERROR);
     }
 
     @Test
@@ -64,15 +68,15 @@ class FetcherSupportTest {
         HttpHeaders httpHeaders = new HttpHeaders();
 
         // when
-        String result = assertThrows(IllegalStateException.class, () ->
+        BaseExceptionType result = assertThrows(StockInfrastructureException.class, () ->
                 fetcherSupport.get(
                         "http://localhost:" + port + "/test/internal-server-error",
                         httpHeaders,
                         String.class
                 )
-        ).getMessage();
+        ).exceptionType();
 
         // then
-        assertThat(result).isEqualTo("server error");
+        assertThat(result).isEqualTo(API_FETCH_SERVER_ERROR);
     }
 }

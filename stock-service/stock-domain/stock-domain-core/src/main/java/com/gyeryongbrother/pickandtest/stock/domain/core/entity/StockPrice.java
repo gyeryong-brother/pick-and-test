@@ -1,5 +1,8 @@
 package com.gyeryongbrother.pickandtest.stock.domain.core.entity;
 
+import static com.gyeryongbrother.pickandtest.stock.domain.core.exception.StockCoreExceptionType.INVALID_YEAR;
+
+import com.gyeryongbrother.pickandtest.stock.domain.core.exception.StockCoreException;
 import com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.MarketCapitalization;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -56,7 +59,7 @@ public class StockPrice {
         if (date.getYear() < other.getYear()) {
             return other.getYear() - date.getYear();
         }
-        throw new IllegalArgumentException("invalid year");
+        throw new StockCoreException(INVALID_YEAR);
     }
 
     private double calculateCompoundAnnualGrowthRate(BigDecimal other, int year) {

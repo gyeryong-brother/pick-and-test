@@ -40,7 +40,7 @@ public class StockQueryServiceImpl implements StockQueryService {
 
     @Override
     public StockDetailResponse findStockById(Long stockId) {
-        StockDetail stockDetail = stockQueryRepository.findById(stockId);
+        StockDetail stockDetail = stockQueryRepository.getById(stockId);
         return StockDetailResponse.from(stockDetail);
     }
 }

@@ -8,7 +8,9 @@ public interface FavoriteStockQueryRepository {
 
     List<FavoriteStock> findAllByMemberId(Long memberId);
 
-    FavoriteStock findById(Long id);
+    FavoriteStock getById(Long id);
 
     Optional<FavoriteStock> findByStockIdAndMemberId(Long stockId, Long memberId);
+
+    FavoriteStock getByStockIdAndMemberId(Long stockId, Long memberId);
 }

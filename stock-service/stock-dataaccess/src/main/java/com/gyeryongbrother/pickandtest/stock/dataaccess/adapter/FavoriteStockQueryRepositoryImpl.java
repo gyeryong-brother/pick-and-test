@@ -3,8 +3,10 @@ package com.gyeryongbrother.pickandtest.stock.dataaccess.adapter;
 import static com.gyeryongbrother.pickandtest.stock.dataaccess.entity.QFavoriteStockEntity.favoriteStockEntity;
 import static com.gyeryongbrother.pickandtest.stock.dataaccess.entity.QStockEntity.stockEntity;
 import static com.gyeryongbrother.pickandtest.stock.dataaccess.entity.QStockPriceEntity.stockPriceEntity;
+import static com.gyeryongbrother.pickandtest.stock.dataaccess.exception.StockDataExceptionType.FAVORITE_STOCK_NOT_FOUND;
 
 import com.gyeryongbrother.pickandtest.stock.dataaccess.entity.FavoriteStockEntity;
+import com.gyeryongbrother.pickandtest.stock.dataaccess.exception.StockDataException;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.mapper.FavoriteStockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.FavoriteStock;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.FavoriteStockQueryRepository;
@@ -36,13 +38,13 @@ public class FavoriteStockQueryRepositoryImpl implements FavoriteStockQueryRepos
     }
 
     @Override
-    public FavoriteStock findById(Long id) {
+    public FavoriteStock getById(Long id) {
         FavoriteStockEntity fetchedFavoriteStockEntity = queryFactory.selectFrom(favoriteStockEntity)
                 .where(favoriteStockEntity.id.eq(id))
                 .fetchOne();
         return Optional.ofNullable(fetchedFavoriteStockEntity)
                 .map(favoriteStockDataAccessMapper::favoriteStockEntityToFavoriteStock)
-                .orElseThrow(() -> new IllegalArgumentException("not found favorite stock"));
+                .orElseThrow(() -> new StockDataException(FAVORITE_STOCK_NOT_FOUND));
     }
 
     @Override
@@ -52,5 +54,11 @@ public class FavoriteStockQueryRepositoryImpl implements FavoriteStockQueryRepos
                 .fetchOne();
         return Optional.ofNullable(fetchedFavoriteStockEntity)
                 .map(favoriteStockDataAccessMapper::favoriteStockEntityToFavoriteStock);
+    }
+
+    @Override
+    public FavoriteStock getByStockIdAndMemberId(Long stockId, Long memberId) {
+        return findByStockIdAndMemberId(stockId, memberId)
+                .orElseThrow(() -> new StockDataException(FAVORITE_STOCK_NOT_FOUND));
     }
 }
