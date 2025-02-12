@@ -25,4 +25,6 @@ public class MemberEntity {
     private Long id;
 
     private String name;
+
+    private String refreshToken;
 }

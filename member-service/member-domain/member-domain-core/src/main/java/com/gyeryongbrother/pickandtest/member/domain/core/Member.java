@@ -11,4 +11,5 @@ public class Member {
 
     private final Long id;
     private final String name;
+    private String refreshToken;
 }
