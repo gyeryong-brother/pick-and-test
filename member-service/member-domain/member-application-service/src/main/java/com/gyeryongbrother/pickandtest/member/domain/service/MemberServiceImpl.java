@@ -18,6 +18,6 @@ public class MemberServiceImpl implements MemberService {
     public RegisterMemberResponse register(RegisterMemberCommand registerMemberCommand) {
         Member member = registerMemberCommand.toDomain();
         Member registeredMember = memberRepository.save(member);
-        return RegisterMemberResponse.from(registeredMember);
+        return new RegisterMemberResponse("accessToken","refreshToken");
     }
 }

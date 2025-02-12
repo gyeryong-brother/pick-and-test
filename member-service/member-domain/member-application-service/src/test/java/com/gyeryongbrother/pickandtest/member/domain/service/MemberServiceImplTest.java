@@ -40,8 +40,8 @@ class MemberServiceImplTest {
                 .build();
         given(memberRepository.save(any(Member.class)))
                 .willReturn(member);
-        RegisterMemberCommand registerMemberCommand = new RegisterMemberCommand("name");
-        RegisterMemberResponse expected = new RegisterMemberResponse(1L, "name");
+        RegisterMemberCommand registerMemberCommand = new RegisterMemberCommand("name","userId","password");
+        RegisterMemberResponse expected = new RegisterMemberResponse("accessToken", "refreshToken");
 
         // when
         RegisterMemberResponse result = memberService.register(registerMemberCommand);

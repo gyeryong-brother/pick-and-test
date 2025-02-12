@@ -32,7 +32,7 @@ class MemberControllerTest {
     @DisplayName("회원가입을 진행한다")
     void register() {
         // given
-        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name");
+        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name","userId","password");
 
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
@@ -45,8 +45,8 @@ class MemberControllerTest {
 
         // then
         assertAll(
-                () -> assertThat(result.id()).isPositive(),
-                () -> assertThat(result.name()).isEqualTo("name")
+                () -> assertThat(result.accessToken()).isEqualTo("accessToken"),
+                () -> assertThat(result.refreshToken()).isEqualTo("refreshToken")
         );
     }
 }
