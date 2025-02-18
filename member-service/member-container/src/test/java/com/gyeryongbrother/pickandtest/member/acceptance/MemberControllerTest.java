@@ -5,14 +5,22 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 import com.gyeryongbrother.pickandtest.member.application.dto.RegisterMemberRequest;
+import com.gyeryongbrother.pickandtest.member.dataaccess.entity.MemberEntity;
+import com.gyeryongbrother.pickandtest.member.dataaccess.repository.MemberJpaRepository;
+import com.gyeryongbrother.pickandtest.member.domain.core.UserRole;
+import com.gyeryongbrother.pickandtest.member.domain.service.JwtUtil;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberResponse;
+import io.jsonwebtoken.Claims;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import jakarta.persistence.EntityManager;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
@@ -22,6 +30,15 @@ class MemberControllerTest {
 
     @LocalServerPort
     private int port;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    @Autowired
+    private MemberJpaRepository memberJpaRepository;
+
+    @Autowired
+    EntityManager entityManager;
 
     @BeforeEach
     void setUp() {
@@ -41,12 +58,21 @@ class MemberControllerTest {
                 .when().post("/members")
                 .then().log().all()
                 .extract();
+
         RegisterMemberResponse result = response.as(RegisterMemberResponse.class);
+        String accessToken=result.accessToken();
+        String refreshToken=result.refreshToken();
+        UserRole role=jwtUtil.getRoleFromToken(accessToken);
+        Long memberIdfromAccess=jwtUtil.getMemberIdFromToken(accessToken);
+        MemberEntity memberEntity=memberJpaRepository.findById(1L).orElseThrow();
+        List<MemberEntity> memberEntities=memberJpaRepository.findAll();
+        String expectedRefreshToken=memberEntity.getRefreshToken();
 
         // then
         assertAll(
-                () -> assertThat(result.accessToken()).isEqualTo("accessToken"),
-                () -> assertThat(result.refreshToken()).isEqualTo("refreshToken")
+                () -> assertThat(role).isEqualTo(UserRole.ROLE_USER),
+                () -> assertThat(memberIdfromAccess).isEqualTo(1L),
+                () -> assertThat(refreshToken).isEqualTo(expectedRefreshToken)
         );
     }
 }

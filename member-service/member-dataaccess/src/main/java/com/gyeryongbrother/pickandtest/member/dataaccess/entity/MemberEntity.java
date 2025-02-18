@@ -12,9 +12,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
@@ -31,7 +33,7 @@ public class MemberEntity {
 
     private String password;
 
-    private String refreshToken;
-
     private UserRole userRole;
+
+    private String refreshToken;
 }

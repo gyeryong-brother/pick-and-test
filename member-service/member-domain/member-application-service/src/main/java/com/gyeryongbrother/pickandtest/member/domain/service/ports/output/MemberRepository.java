@@ -5,4 +5,6 @@ import com.gyeryongbrother.pickandtest.member.domain.core.Member;
 public interface MemberRepository {
 
     Member save(Member member);
+
+    Member updateRefreshToken(Long memberId, String accessToken);
 }

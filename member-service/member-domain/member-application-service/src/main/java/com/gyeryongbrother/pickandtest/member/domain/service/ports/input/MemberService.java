@@ -6,4 +6,6 @@ import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberR
 public interface MemberService {
 
     RegisterMemberResponse register(RegisterMemberCommand registerMemberCommand);
+
+
 }

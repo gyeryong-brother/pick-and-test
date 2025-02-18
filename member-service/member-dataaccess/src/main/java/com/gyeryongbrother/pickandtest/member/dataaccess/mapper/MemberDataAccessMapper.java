@@ -24,7 +24,6 @@ public class MemberDataAccessMapper {
                 .userId(memberEntity.getUserId())
                 .password(memberEntity.getPassword())
                 .refreshToken(memberEntity.getRefreshToken())
-                .userRole(memberEntity.getUserRole())
                 .build();
     }
 }

@@ -3,6 +3,7 @@ package com.gyeryongbrother.pickandtest.member.dataaccess.config;
 import com.gyeryongbrother.pickandtest.member.dataaccess.adapter.MemberRepositoryImpl;
 import com.gyeryongbrother.pickandtest.member.dataaccess.mapper.MemberDataAccessMapper;
 import com.gyeryongbrother.pickandtest.member.dataaccess.repository.MemberJpaRepository;
+import com.gyeryongbrother.pickandtest.member.domain.service.JwtUtil;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -29,7 +30,6 @@ public class TestQuerydslConfig {
     public MemberRepository memberRepository() {
         return new MemberRepositoryImpl(memberJpaRepository, memberDataAccessMapper());
     }
-
     @Bean
     public MemberDataAccessMapper memberDataAccessMapper() {
         return new MemberDataAccessMapper();

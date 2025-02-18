@@ -13,6 +13,6 @@ public class Member {
     private final String name;
     private final String userId;
     private final String password;
-    private final String refreshToken;
     private final UserRole userRole;
+    private final String refreshToken;
 }
