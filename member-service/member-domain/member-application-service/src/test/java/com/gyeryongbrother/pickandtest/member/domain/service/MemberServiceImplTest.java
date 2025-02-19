@@ -6,9 +6,11 @@ import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.member.domain.core.Member;
 import com.gyeryongbrother.pickandtest.member.domain.core.UserRole;
+import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.input.MemberService;
+import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberQueryRepository;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -30,9 +32,12 @@ class MemberServiceImplTest {
     @Mock
     private JwtUtil jwtUtil;
 
+    @Mock
+    private MemberQueryRepository memberQueryRepository;
+
     @BeforeEach
     void setUp() {
-        memberService = new MemberServiceImpl(memberRepository,jwtUtil);
+        memberService = new MemberServiceImpl(memberRepository,memberQueryRepository,jwtUtil);
     }
 
     @Test
@@ -57,6 +62,30 @@ class MemberServiceImplTest {
         RegisterMemberResponse result = memberService.register(registerMemberCommand);
 
         // then
+        assertThat(result).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("로그인을 한다")
+    void login(){
+        //given
+        Member member=Member.builder()
+                .userId("userId")
+                .password("password")
+                .build();
+        given(memberQueryRepository.findByUserId(any(String.class)))
+                .willReturn(member);
+        given(jwtUtil.generateAccessToken(any(),any()))
+                .willReturn("accessToken");
+        given(jwtUtil.generateRefreshToken(any()))
+                .willReturn("refreshToken");
+        LoginCommand loginCommand=new LoginCommand("userId","password");
+        RegisterMemberResponse expected = new RegisterMemberResponse("accessToken", "refreshToken");
+
+        //when
+        RegisterMemberResponse result=memberService.login(loginCommand);
+
+        //then
         assertThat(result).isEqualTo(expected);
     }
 }
