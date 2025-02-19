@@ -5,7 +5,6 @@ import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.member.domain.core.Member;
-import com.gyeryongbrother.pickandtest.member.domain.core.UserRole;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberResponse;
@@ -18,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("회원 서비스를 구현한다")
@@ -37,7 +35,7 @@ class MemberServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        memberService = new MemberServiceImpl(memberRepository,memberQueryRepository,jwtUtil);
+        memberService = new MemberServiceImpl(memberRepository, memberQueryRepository, jwtUtil);
     }
 
     @Test
@@ -50,12 +48,12 @@ class MemberServiceImplTest {
                 .build();
         given(memberRepository.save(any(Member.class)))
                 .willReturn(member);
-        given(jwtUtil.generateAccessToken(any(),any()))
+        given(jwtUtil.generateAccessToken(any(), any()))
                 .willReturn("accessToken");
         given(jwtUtil.generateRefreshToken(any()))
                 .willReturn("refreshToken");
 
-        RegisterMemberCommand registerMemberCommand = new RegisterMemberCommand("name","userId","password");
+        RegisterMemberCommand registerMemberCommand = new RegisterMemberCommand("name", "userId", "password");
         RegisterMemberResponse expected = new RegisterMemberResponse("accessToken", "refreshToken");
 
         // when
@@ -67,23 +65,23 @@ class MemberServiceImplTest {
 
     @Test
     @DisplayName("로그인을 한다")
-    void login(){
+    void login() {
         //given
-        Member member=Member.builder()
+        Member member = Member.builder()
                 .userId("userId")
                 .password("password")
                 .build();
         given(memberQueryRepository.findByUserId(any(String.class)))
                 .willReturn(member);
-        given(jwtUtil.generateAccessToken(any(),any()))
+        given(jwtUtil.generateAccessToken(any(), any()))
                 .willReturn("accessToken");
         given(jwtUtil.generateRefreshToken(any()))
                 .willReturn("refreshToken");
-        LoginCommand loginCommand=new LoginCommand("userId","password");
+        LoginCommand loginCommand = new LoginCommand("userId", "password");
         RegisterMemberResponse expected = new RegisterMemberResponse("accessToken", "refreshToken");
 
         //when
-        RegisterMemberResponse result=memberService.login(loginCommand);
+        RegisterMemberResponse result = memberService.login(loginCommand);
 
         //then
         assertThat(result).isEqualTo(expected);

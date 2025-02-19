@@ -9,6 +9,6 @@ public record RegisterMemberRequest(
 ) {
 
     public RegisterMemberCommand toCommand() {
-        return new RegisterMemberCommand(name,userId,password);
+        return new RegisterMemberCommand(name, userId, password);
     }
 }

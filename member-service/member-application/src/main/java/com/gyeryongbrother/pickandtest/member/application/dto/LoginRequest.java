@@ -7,7 +7,7 @@ public record LoginRequest(
         String password
 ) {
 
-    public LoginCommand toCommand(){
-        return new LoginCommand(userId,password);
+    public LoginCommand toCommand() {
+        return new LoginCommand(userId, password);
     }
 }

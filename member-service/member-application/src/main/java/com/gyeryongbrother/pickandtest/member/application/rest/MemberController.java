@@ -33,9 +33,9 @@ public class MemberController {
     }
 
     @GetMapping("/login")
-    ResponseEntity<RegisterMemberResponse> login(@RequestBody LoginRequest loginRequest){
-        LoginCommand loginCommand=loginRequest.toCommand();
-        RegisterMemberResponse registerMemberResponse=memberService.login(loginCommand);
+    ResponseEntity<RegisterMemberResponse> login(@RequestBody LoginRequest loginRequest) {
+        LoginCommand loginCommand = loginRequest.toCommand();
+        RegisterMemberResponse registerMemberResponse = memberService.login(loginCommand);
         return ResponseEntity.status(OK)
                 .body(registerMemberResponse);
     }

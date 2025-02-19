@@ -4,7 +4,6 @@ import com.gyeryongbrother.pickandtest.member.dataaccess.adapter.MemberQueryRepo
 import com.gyeryongbrother.pickandtest.member.dataaccess.adapter.MemberRepositoryImpl;
 import com.gyeryongbrother.pickandtest.member.dataaccess.mapper.MemberDataAccessMapper;
 import com.gyeryongbrother.pickandtest.member.dataaccess.repository.MemberJpaRepository;
-import com.gyeryongbrother.pickandtest.member.domain.service.JwtUtil;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberQueryRepository;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -39,7 +38,7 @@ public class TestQuerydslConfig {
     }
 
     @Bean
-    public MemberQueryRepository memberQueryRepository(){
-        return new MemberQueryRepositoryImpl(memberJpaRepository,memberDataAccessMapper());
+    public MemberQueryRepository memberQueryRepository() {
+        return new MemberQueryRepositoryImpl(memberJpaRepository, memberDataAccessMapper());
     }
 }

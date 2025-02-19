@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @RequiredArgsConstructor
-public enum MemberServiceExceptionType implements BaseExceptionType{
+public enum MemberServiceExceptionType implements BaseExceptionType {
 
     ;
 

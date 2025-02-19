@@ -22,7 +22,7 @@ public class MemberQueryRepositoryImpl implements MemberQueryRepository {
         if (memberEntities.isEmpty()) {
             throw new RuntimeException("userId is not exists");
         }
-        MemberEntity memberEntity=memberEntities.get(0);
+        MemberEntity memberEntity = memberEntities.get(0);
         return memberDataAccessMapper.memberEntityToMember(memberEntity);
     }
 }

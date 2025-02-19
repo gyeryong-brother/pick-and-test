@@ -13,20 +13,20 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JwtUtil {
-    private static final String SECRET_KEY="my-secret-key-for-the-project-pickandtest";
+    private static final String SECRET_KEY = "my-secret-key-for-the-project-pickandtest";
     private static final long ACCESS_TOKEN_EXPIRATION = 1000 * 60 * 30;
     private static final long REFRESH_TOKEN_EXPIRATION = 1000 * 60 * 60 * 24;
 
-    private Key getSigningKey(){
+    private Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateAccessToken(Long memberId, UserRole role){
+    public String generateAccessToken(Long memberId, UserRole role) {
         return Jwts.builder()
                 .setSubject(String.valueOf(memberId))
-                .claim("role",role.name())
+                .claim("role", role.name())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis()+ACCESS_TOKEN_EXPIRATION))
+                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -62,7 +62,7 @@ public class JwtUtil {
     }
 
     public UserRole getRoleFromToken(String token) {
-        String roleName=extractClaims(token).get("role", String.class);
+        String roleName = extractClaims(token).get("role", String.class);
         return UserRole.fromString(roleName);
     }
 }

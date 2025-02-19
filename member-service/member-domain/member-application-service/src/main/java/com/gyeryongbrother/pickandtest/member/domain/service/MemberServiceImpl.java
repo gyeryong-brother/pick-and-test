@@ -8,7 +8,6 @@ import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberR
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.input.MemberService;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberQueryRepository;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberRepository;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,23 +23,23 @@ public class MemberServiceImpl implements MemberService {
     public RegisterMemberResponse register(RegisterMemberCommand registerMemberCommand) {
         Member member = registerMemberCommand.toDomain();
         Member registeredMember = memberRepository.save(member);
-        String accessToken= jwtUtil.generateAccessToken(registeredMember.getId(),UserRole.ROLE_USER);
-        String refreshToken=jwtUtil.generateRefreshToken(registeredMember.getId());
-        memberRepository.updateRefreshToken(registeredMember.getId(),refreshToken);
-        RegisterMemberResponse registerMemberResponse=new RegisterMemberResponse(accessToken,refreshToken);
+        String accessToken = jwtUtil.generateAccessToken(registeredMember.getId(), UserRole.ROLE_USER);
+        String refreshToken = jwtUtil.generateRefreshToken(registeredMember.getId());
+        memberRepository.updateRefreshToken(registeredMember.getId(), refreshToken);
+        RegisterMemberResponse registerMemberResponse = new RegisterMemberResponse(accessToken, refreshToken);
         return registerMemberResponse;
     }
 
     @Override
     public RegisterMemberResponse login(LoginCommand loginCommand) {
-        Member member=memberQueryRepository.findByUserId(loginCommand.userId());
+        Member member = memberQueryRepository.findByUserId(loginCommand.userId());
         if (!member.getPassword().equals(loginCommand.password())) {
             throw new RuntimeException("password is incorrect");
         }
-        String accessToken= jwtUtil.generateAccessToken(member.getId(),UserRole.ROLE_USER);
-        String refreshToken=jwtUtil.generateRefreshToken(member.getId());
-        memberRepository.updateRefreshToken(member.getId(),refreshToken);
-        RegisterMemberResponse registerMemberResponse=new RegisterMemberResponse(accessToken,refreshToken);
+        String accessToken = jwtUtil.generateAccessToken(member.getId(), UserRole.ROLE_USER);
+        String refreshToken = jwtUtil.generateRefreshToken(member.getId());
+        memberRepository.updateRefreshToken(member.getId(), refreshToken);
+        RegisterMemberResponse registerMemberResponse = new RegisterMemberResponse(accessToken, refreshToken);
         return registerMemberResponse;
     }
 }

@@ -13,7 +13,6 @@ import com.gyeryongbrother.pickandtest.member.domain.core.UserRole;
 import com.gyeryongbrother.pickandtest.member.domain.service.JwtUtil;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberRepository;
-import io.jsonwebtoken.Claims;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
@@ -33,16 +32,10 @@ class MemberControllerTest {
 
     @LocalServerPort
     private int port;
-
     @Autowired
     private JwtUtil jwtUtil;
-
     @Autowired
     private MemberJpaRepository memberJpaRepository;
-
-    @Autowired
-    EntityManager entityManager;
-
     @Autowired
     private MemberRepository memberRepository;
 
@@ -55,7 +48,7 @@ class MemberControllerTest {
     @DisplayName("회원가입을 진행한다")
     void register() {
         // given
-        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name","userId","password");
+        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name", "userId", "password");
 
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
@@ -66,13 +59,12 @@ class MemberControllerTest {
                 .extract();
 
         RegisterMemberResponse result = response.as(RegisterMemberResponse.class);
-        String accessToken=result.accessToken();
-        String refreshToken=result.refreshToken();
-        UserRole role=jwtUtil.getRoleFromToken(accessToken);
-        Long memberIdfromAccess=jwtUtil.getMemberIdFromToken(accessToken);
-        MemberEntity memberEntity=memberJpaRepository.findById(1L).orElseThrow();
-        List<MemberEntity> memberEntities=memberJpaRepository.findAll();
-        String expectedRefreshToken=memberEntity.getRefreshToken();
+        String accessToken = result.accessToken();
+        String refreshToken = result.refreshToken();
+        UserRole role = jwtUtil.getRoleFromToken(accessToken);
+        Long memberIdfromAccess = jwtUtil.getMemberIdFromToken(accessToken);
+        MemberEntity memberEntity = memberJpaRepository.findById(1L).orElseThrow();
+        String expectedRefreshToken = memberEntity.getRefreshToken();
 
         // then
         assertAll(
@@ -84,16 +76,16 @@ class MemberControllerTest {
 
     @Test
     @DisplayName("로그인을 시도한다")
-    void login(){
+    void login() {
         //given
-        Member member=Member.builder()
+        Member member = Member.builder()
                 .userId("userId")
                 .password("password")
                 .build();
 
         memberRepository.save(member);
 
-        LoginRequest loginRequest=new LoginRequest("userId", "password");
+        LoginRequest loginRequest = new LoginRequest("userId", "password");
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
@@ -104,13 +96,12 @@ class MemberControllerTest {
                 .extract();
 
         RegisterMemberResponse result = response.as(RegisterMemberResponse.class);
-        String accessToken=result.accessToken();
-        String refreshToken=result.refreshToken();
-        UserRole role=jwtUtil.getRoleFromToken(accessToken);
-        Long memberIdfromAccess=jwtUtil.getMemberIdFromToken(accessToken);
-        MemberEntity memberEntity=memberJpaRepository.findById(1L).orElseThrow();
-        List<MemberEntity> memberEntities=memberJpaRepository.findAll();
-        String expectedRefreshToken=memberEntity.getRefreshToken();
+        String accessToken = result.accessToken();
+        String refreshToken = result.refreshToken();
+        UserRole role = jwtUtil.getRoleFromToken(accessToken);
+        Long memberIdfromAccess = jwtUtil.getMemberIdFromToken(accessToken);
+        MemberEntity memberEntity = memberJpaRepository.findById(1L).orElseThrow();
+        String expectedRefreshToken = memberEntity.getRefreshToken();
 
         //then
         assertAll(
