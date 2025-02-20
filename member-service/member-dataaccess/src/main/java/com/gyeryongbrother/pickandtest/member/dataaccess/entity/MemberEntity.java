@@ -29,7 +29,7 @@ public class MemberEntity {
 
     private String name;
 
-    private String userId;
+    private String username;
 
     private String password;
 

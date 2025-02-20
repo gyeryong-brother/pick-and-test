@@ -10,7 +10,7 @@ public class MemberDataAccessMapper {
     public MemberEntity memberToMemberEntity(Member member) {
         return MemberEntity.builder()
                 .name(member.getName())
-                .userId(member.getUserId())
+                .username(member.getUsername())
                 .password(member.getPassword())
                 .refreshToken(member.getRefreshToken())
                 .userRole(member.getUserRole())
@@ -21,7 +21,7 @@ public class MemberDataAccessMapper {
         return Member.builder()
                 .id(memberEntity.getId())
                 .name(memberEntity.getName())
-                .userId(memberEntity.getUserId())
+                .username(memberEntity.getUsername())
                 .password(memberEntity.getPassword())
                 .refreshToken(memberEntity.getRefreshToken())
                 .build();

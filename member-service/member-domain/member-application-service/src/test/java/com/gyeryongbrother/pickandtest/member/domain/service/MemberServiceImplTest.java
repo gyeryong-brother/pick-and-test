@@ -54,10 +54,10 @@ class MemberServiceImplTest {
                 .willReturn("accessToken");
         given(jwtUtil.generateRefreshToken(any()))
                 .willReturn("refreshToken");
-        given(memberQueryRepository.findByUserId(any()))
+        given(memberQueryRepository.findByUsername(any()))
                 .willThrow(new MemberServiceException(USER_NONEXISTS));
 
-        RegisterMemberCommand registerMemberCommand = new RegisterMemberCommand("name", "userId", "password");
+        RegisterMemberCommand registerMemberCommand = new RegisterMemberCommand("name", "username", "password");
         RegisterMemberResponse expected = new RegisterMemberResponse("accessToken", "refreshToken");
 
         // when
@@ -72,16 +72,16 @@ class MemberServiceImplTest {
     void login() {
         //given
         Member member = Member.builder()
-                .userId("userId")
+                .username("username")
                 .password("password")
                 .build();
-        given(memberQueryRepository.findByUserId(any(String.class)))
+        given(memberQueryRepository.findByUsername(any(String.class)))
                 .willReturn(member);
         given(jwtUtil.generateAccessToken(any(), any()))
                 .willReturn("accessToken");
         given(jwtUtil.generateRefreshToken(any()))
                 .willReturn("refreshToken");
-        LoginCommand loginCommand = new LoginCommand("userId", "password");
+        LoginCommand loginCommand = new LoginCommand("username", "password");
         RegisterMemberResponse expected = new RegisterMemberResponse("accessToken", "refreshToken");
 
         //when

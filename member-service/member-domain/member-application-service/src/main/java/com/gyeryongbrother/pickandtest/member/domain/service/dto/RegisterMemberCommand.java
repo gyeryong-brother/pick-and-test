@@ -5,14 +5,14 @@ import com.gyeryongbrother.pickandtest.member.domain.core.UserRole;
 
 public record RegisterMemberCommand(
         String name,
-        String userId,
+        String username,
         String password
 ) {
 
     public Member toDomain() {
         return Member.builder()
                 .name(name)
-                .userId(userId)
+                .username(username)
                 .password(password)
                 .userRole(UserRole.ROLE_USER)
                 .build();

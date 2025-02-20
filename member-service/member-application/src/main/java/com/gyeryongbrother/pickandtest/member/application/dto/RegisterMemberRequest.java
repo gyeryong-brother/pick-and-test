@@ -4,11 +4,11 @@ import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberC
 
 public record RegisterMemberRequest(
         String name,
-        String userId,
+        String username,
         String password
 ) {
 
     public RegisterMemberCommand toCommand() {
-        return new RegisterMemberCommand(name, userId, password);
+        return new RegisterMemberCommand(name, username, password);
     }
 }

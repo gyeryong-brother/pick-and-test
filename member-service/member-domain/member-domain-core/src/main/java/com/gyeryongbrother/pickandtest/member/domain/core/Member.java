@@ -11,7 +11,7 @@ public class Member {
 
     private final Long id;
     private final String name;
-    private final String userId;
+    private final String username;
     private final String password;
     private final UserRole userRole;
     private final String refreshToken;

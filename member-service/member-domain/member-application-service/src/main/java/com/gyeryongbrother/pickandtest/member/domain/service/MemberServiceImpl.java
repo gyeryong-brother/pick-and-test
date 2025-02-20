@@ -27,7 +27,7 @@ public class MemberServiceImpl implements MemberService {
     public RegisterMemberResponse register(RegisterMemberCommand registerMemberCommand) {
         Member member = registerMemberCommand.toDomain();
         try {
-            memberQueryRepository.findByUserId(member.getUserId());
+            memberQueryRepository.findByUsername(member.getUsername());
         } catch (MemberServiceException memberServiceException) {
             Member registeredMember = memberRepository.save(member);
             String accessToken = jwtUtil.generateAccessToken(registeredMember.getId(), UserRole.ROLE_USER);
@@ -41,7 +41,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public RegisterMemberResponse login(LoginCommand loginCommand) {
-        Member member = memberQueryRepository.findByUserId(loginCommand.userId());
+        Member member = memberQueryRepository.findByUsername(loginCommand.username());
         if (!member.getPassword().equals(loginCommand.password())) {
             throw new MemberServiceException(INCORRECT_PASSWORD);
         }

@@ -48,7 +48,7 @@ class MemberControllerTest {
     @DisplayName("회원가입을 진행한다")
     void register() {
         // given
-        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name", "userId", "password");
+        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name", "username", "password");
 
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
@@ -79,11 +79,11 @@ class MemberControllerTest {
     void registerWithExistedUserId() {
         //given
         Member member = Member.builder()
-                .userId("userId")
+                .username("username")
                 .password("lol")
                 .build();
         memberRepository.save(member);
-        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name", "userId", "password");
+        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name", "username", "password");
         ErrorResponse expected = new ErrorResponse("이미 존재하는 아이디입니다.");
 
         //when
@@ -108,13 +108,13 @@ class MemberControllerTest {
     void login() {
         //given
         Member member = Member.builder()
-                .userId("userId")
+                .username("username")
                 .password("password")
                 .build();
 
         memberRepository.save(member);
 
-        LoginRequest loginRequest = new LoginRequest("userId", "password");
+        LoginRequest loginRequest = new LoginRequest("username", "password");
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
@@ -169,7 +169,7 @@ class MemberControllerTest {
     void loginWithIncrrectPassword() {
         //given
         Member member = Member.builder()
-                .userId("userId1")
+                .username("userId1")
                 .password("password")
                 .build();
 

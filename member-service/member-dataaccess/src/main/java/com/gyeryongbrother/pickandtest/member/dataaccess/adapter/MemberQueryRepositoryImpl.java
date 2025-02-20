@@ -20,8 +20,8 @@ public class MemberQueryRepositoryImpl implements MemberQueryRepository {
     private final MemberDataAccessMapper memberDataAccessMapper;
 
     @Override
-    public Member findByUserId(String userId) {
-        List<MemberEntity> memberEntities = memberJpaRepository.findByUserId(userId);
+    public Member findByUsername(String username) {
+        List<MemberEntity> memberEntities = memberJpaRepository.findByUsername(username);
         if (memberEntities.isEmpty()) {
             throw new MemberServiceException(USER_NONEXISTS);
         }

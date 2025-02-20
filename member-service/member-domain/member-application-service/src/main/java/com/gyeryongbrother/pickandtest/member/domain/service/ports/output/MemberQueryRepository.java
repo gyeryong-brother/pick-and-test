@@ -4,5 +4,5 @@ import com.gyeryongbrother.pickandtest.member.domain.core.Member;
 
 public interface MemberQueryRepository {
 
-    Member findByUserId(String userId);
+    Member findByUsername(String username);
 }
