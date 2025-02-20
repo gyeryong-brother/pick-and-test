@@ -3,9 +3,11 @@ package com.gyeryongbrother.pickandtest.member.acceptance;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 import com.gyeryongbrother.pickandtest.member.application.dto.LoginRequest;
 import com.gyeryongbrother.pickandtest.member.application.dto.RegisterMemberRequest;
+import com.gyeryongbrother.pickandtest.member.application.exception.handler.dto.ErrorResponse;
 import com.gyeryongbrother.pickandtest.member.dataaccess.entity.MemberEntity;
 import com.gyeryongbrother.pickandtest.member.dataaccess.repository.MemberJpaRepository;
 import com.gyeryongbrother.pickandtest.member.domain.core.Member;
@@ -17,8 +19,6 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import jakarta.persistence.EntityManager;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -75,6 +75,35 @@ class MemberControllerTest {
     }
 
     @Test
+    @DisplayName("이미 존재하는 아이디로 회원가입")
+    void registerWithExistedUserId() {
+        //given
+        Member member = Member.builder()
+                .userId("userId")
+                .password("lol")
+                .build();
+        memberRepository.save(member);
+        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name", "userId", "password");
+        ErrorResponse expected = new ErrorResponse("이미 존재하는 아이디입니다.");
+
+        //when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(registerMemberRequest)
+                .when().post("/members/register")
+                .then().log().all()
+                .extract();
+
+        ErrorResponse result = response.as(ErrorResponse.class);
+
+        //then
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(NOT_FOUND.value()),
+                () -> assertThat(result).isEqualTo(expected)
+        );
+    }
+
+    @Test
     @DisplayName("로그인을 시도한다")
     void login() {
         //given
@@ -108,6 +137,61 @@ class MemberControllerTest {
                 () -> assertThat(role).isEqualTo(UserRole.ROLE_USER),
                 () -> assertThat(memberIdfromAccess).isEqualTo(1L),
                 () -> assertThat(refreshToken).isEqualTo(expectedRefreshToken)
+        );
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 아이디로 로그인")
+    void loginWithNonExistedUserId() {
+        //given
+        LoginRequest loginRequest = new LoginRequest("userId0", "password");
+        ErrorResponse expected = new ErrorResponse("존재하지 않는 아이디입니다.");
+
+        //when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(loginRequest)
+                .when().get("/members/login")
+                .then().log().all()
+                .extract();
+
+        ErrorResponse result = response.as(ErrorResponse.class);
+
+        //then
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(NOT_FOUND.value()),
+                () -> assertThat(result).isEqualTo(expected)
+        );
+    }
+
+    @Test
+    @DisplayName("잘못된 비밀번호로 로그인")
+    void loginWithIncrrectPassword() {
+        //given
+        Member member = Member.builder()
+                .userId("userId1")
+                .password("password")
+                .build();
+
+        memberRepository.save(member);
+
+        LoginRequest loginRequest = new LoginRequest("userId1", "password0");
+        ErrorResponse expected = new ErrorResponse("비밀번호가 일치하지 않습니다.");
+
+        //when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(loginRequest)
+                .when().get("/members/login")
+                .then().log().all()
+                .extract();
+
+        ErrorResponse result = response.as(ErrorResponse.class);
+
+        //then
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(NOT_FOUND.value()),
+                () -> assertThat(result).isEqualTo(expected)
         );
     }
 }
