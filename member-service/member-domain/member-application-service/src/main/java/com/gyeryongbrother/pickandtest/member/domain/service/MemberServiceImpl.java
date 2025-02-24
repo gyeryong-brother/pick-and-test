@@ -7,6 +7,7 @@ import com.gyeryongbrother.pickandtest.member.domain.core.Member;
 import com.gyeryongbrother.pickandtest.member.domain.core.UserRole;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberCommand;
+import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceException;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.input.MemberService;
@@ -30,17 +31,14 @@ public class MemberServiceImpl implements MemberService {
             memberQueryRepository.findByUsername(member.getUsername());
         } catch (MemberServiceException memberServiceException) {
             Member registeredMember = memberRepository.save(member);
-            String accessToken = jwtUtil.generateAccessToken(registeredMember.getId(), UserRole.ROLE_USER);
-            String refreshToken = jwtUtil.generateRefreshToken(registeredMember.getId());
-            memberRepository.updateRefreshToken(registeredMember.getId(), refreshToken);
-            RegisterMemberResponse registerMemberResponse = new RegisterMemberResponse(accessToken, refreshToken);
+            RegisterMemberResponse registerMemberResponse= new RegisterMemberResponse(member.getName());
             return registerMemberResponse;
         }
         throw new MemberServiceException(USER_ID_EXISTS);
     }
 
     @Override
-    public RegisterMemberResponse login(LoginCommand loginCommand) {
+    public LoginResponse login(LoginCommand loginCommand) {
         Member member = memberQueryRepository.findByUsername(loginCommand.username());
         if (!member.getPassword().equals(loginCommand.password())) {
             throw new MemberServiceException(INCORRECT_PASSWORD);
@@ -48,7 +46,7 @@ public class MemberServiceImpl implements MemberService {
         String accessToken = jwtUtil.generateAccessToken(member.getId(), UserRole.ROLE_USER);
         String refreshToken = jwtUtil.generateRefreshToken(member.getId());
         memberRepository.updateRefreshToken(member.getId(), refreshToken);
-        RegisterMemberResponse registerMemberResponse = new RegisterMemberResponse(accessToken, refreshToken);
-        return registerMemberResponse;
+        LoginResponse loginResponse = new LoginResponse(accessToken, refreshToken);
+        return loginResponse;
     }
 }

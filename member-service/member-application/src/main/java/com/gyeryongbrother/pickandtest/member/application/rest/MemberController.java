@@ -7,6 +7,7 @@ import com.gyeryongbrother.pickandtest.member.application.dto.LoginRequest;
 import com.gyeryongbrother.pickandtest.member.application.dto.RegisterMemberRequest;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberCommand;
+import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.input.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/register")
+    @PostMapping
     ResponseEntity<RegisterMemberResponse> register(@RequestBody RegisterMemberRequest registerMemberRequest) {
         RegisterMemberCommand registerMemberCommand = registerMemberRequest.toCommand();
         RegisterMemberResponse registerMemberResponse = memberService.register(registerMemberCommand);
@@ -32,12 +33,12 @@ public class MemberController {
                 .body(registerMemberResponse);
     }
 
-    @GetMapping("/login")
-    ResponseEntity<RegisterMemberResponse> login(@RequestBody LoginRequest loginRequest) {
+    @PostMapping("/login")
+    ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         LoginCommand loginCommand = loginRequest.toCommand();
-        RegisterMemberResponse registerMemberResponse = memberService.login(loginCommand);
+        LoginResponse loginResponse = memberService.login(loginCommand);
         return ResponseEntity.status(OK)
-                .body(registerMemberResponse);
+                .body(loginResponse);
     }
 
     @GetMapping

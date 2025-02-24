@@ -1,8 +1,10 @@
 package com.gyeryongbrother.pickandtest.member.acceptance;
 
+import static com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceExceptionType.USER_ID_EXISTS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 import com.gyeryongbrother.pickandtest.member.application.dto.LoginRequest;
@@ -13,6 +15,7 @@ import com.gyeryongbrother.pickandtest.member.dataaccess.repository.MemberJpaRep
 import com.gyeryongbrother.pickandtest.member.domain.core.Member;
 import com.gyeryongbrother.pickandtest.member.domain.core.UserRole;
 import com.gyeryongbrother.pickandtest.member.domain.service.JwtUtil;
+import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberRepository;
 import io.restassured.RestAssured;
@@ -49,29 +52,21 @@ class MemberControllerTest {
     void register() {
         // given
         RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name", "username", "password");
+        RegisterMemberResponse expected=new RegisterMemberResponse("name");
 
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(registerMemberRequest)
-                .when().post("/members/register")
+                .when().post("/members")
                 .then().log().all()
                 .extract();
 
         RegisterMemberResponse result = response.as(RegisterMemberResponse.class);
-        String accessToken = result.accessToken();
-        String refreshToken = result.refreshToken();
-        UserRole role = jwtUtil.getRoleFromToken(accessToken);
-        Long memberIdfromAccess = jwtUtil.getMemberIdFromToken(accessToken);
-        MemberEntity memberEntity = memberJpaRepository.findById(1L).orElseThrow();
-        String expectedRefreshToken = memberEntity.getRefreshToken();
+
 
         // then
-        assertAll(
-                () -> assertThat(role).isEqualTo(UserRole.ROLE_USER),
-                () -> assertThat(memberIdfromAccess).isEqualTo(1L),
-                () -> assertThat(refreshToken).isEqualTo(expectedRefreshToken)
-        );
+        assertThat(result.equals(expected));
     }
 
     @Test
@@ -90,7 +85,7 @@ class MemberControllerTest {
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(registerMemberRequest)
-                .when().post("/members/register")
+                .when().post("/members")
                 .then().log().all()
                 .extract();
 
@@ -98,7 +93,7 @@ class MemberControllerTest {
 
         //then
         assertAll(
-                () -> assertThat(response.statusCode()).isEqualTo(NOT_FOUND.value()),
+                () -> assertThat(response.statusCode()).isEqualTo(BAD_REQUEST.value()),
                 () -> assertThat(result).isEqualTo(expected)
         );
     }
@@ -120,11 +115,11 @@ class MemberControllerTest {
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(loginRequest)
-                .when().get("/members/login")
+                .when().post("/members/login")
                 .then().log().all()
                 .extract();
 
-        RegisterMemberResponse result = response.as(RegisterMemberResponse.class);
+        LoginResponse result = response.as(LoginResponse.class);
         String accessToken = result.accessToken();
         String refreshToken = result.refreshToken();
         UserRole role = jwtUtil.getRoleFromToken(accessToken);
@@ -145,13 +140,13 @@ class MemberControllerTest {
     void loginWithNonExistedUserId() {
         //given
         LoginRequest loginRequest = new LoginRequest("userId0", "password");
-        ErrorResponse expected = new ErrorResponse("존재하지 않는 아이디입니다.");
+        ErrorResponse expected = new ErrorResponse("사용자 정보가 일치하지 않습니다.");
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(loginRequest)
-                .when().get("/members/login")
+                .when().post("/members/login")
                 .then().log().all()
                 .extract();
 
@@ -176,13 +171,13 @@ class MemberControllerTest {
         memberRepository.save(member);
 
         LoginRequest loginRequest = new LoginRequest("userId1", "password0");
-        ErrorResponse expected = new ErrorResponse("비밀번호가 일치하지 않습니다.");
+        ErrorResponse expected = new ErrorResponse("사용자 정보가 일치하지 않습니다.");
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(loginRequest)
-                .when().get("/members/login")
+                .when().post("/members/login")
                 .then().log().all()
                 .extract();
 

@@ -8,6 +8,7 @@ import static org.mockito.BDDMockito.given;
 import com.gyeryongbrother.pickandtest.member.domain.core.Member;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberCommand;
+import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceException;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.input.MemberService;
@@ -50,15 +51,11 @@ class MemberServiceImplTest {
                 .build();
         given(memberRepository.save(any(Member.class)))
                 .willReturn(member);
-        given(jwtUtil.generateAccessToken(any(), any()))
-                .willReturn("accessToken");
-        given(jwtUtil.generateRefreshToken(any()))
-                .willReturn("refreshToken");
         given(memberQueryRepository.findByUsername(any()))
                 .willThrow(new MemberServiceException(USER_NONEXISTS));
 
         RegisterMemberCommand registerMemberCommand = new RegisterMemberCommand("name", "username", "password");
-        RegisterMemberResponse expected = new RegisterMemberResponse("accessToken", "refreshToken");
+        RegisterMemberResponse expected = new RegisterMemberResponse("name");
 
         // when
         RegisterMemberResponse result = memberService.register(registerMemberCommand);
@@ -82,10 +79,10 @@ class MemberServiceImplTest {
         given(jwtUtil.generateRefreshToken(any()))
                 .willReturn("refreshToken");
         LoginCommand loginCommand = new LoginCommand("username", "password");
-        RegisterMemberResponse expected = new RegisterMemberResponse("accessToken", "refreshToken");
+        LoginResponse expected = new LoginResponse("accessToken", "refreshToken");
 
         //when
-        RegisterMemberResponse result = memberService.login(loginCommand);
+        LoginResponse result = memberService.login(loginCommand);
 
         //then
         assertThat(result).isEqualTo(expected);
