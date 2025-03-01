@@ -13,6 +13,7 @@ import com.gyeryongbrother.pickandtest.member.domain.service.ports.input.MemberS
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberQueryRepository;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,12 +27,17 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public RegisterMemberResponse register(RegisterMemberCommand registerMemberCommand) {
         Member member = registerMemberCommand.toDomain();
+        validateUserAlreadyExists(member.getUsername());
+        Member registeredMember = memberRepository.save(member);
+        RegisterMemberResponse registerMemberResponse = new RegisterMemberResponse(member.getName());
+        return registerMemberResponse;
+    }
+
+    private void validateUserAlreadyExists(String username){
         try {
-            memberQueryRepository.findByUsername(member.getUsername());
-        } catch (MemberServiceException memberServiceException) {
-            Member registeredMember = memberRepository.save(member);
-            RegisterMemberResponse registerMemberResponse = new RegisterMemberResponse(member.getName());
-            return registerMemberResponse;
+            memberQueryRepository.findByUsername(username);
+        } catch (MemberServiceException memberServiceException){
+            return;
         }
         throw new MemberServiceException(USER_ID_EXISTS);
     }
