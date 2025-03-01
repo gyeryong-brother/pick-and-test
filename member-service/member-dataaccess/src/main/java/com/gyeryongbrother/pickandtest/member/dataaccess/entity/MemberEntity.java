@@ -4,6 +4,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.gyeryongbrother.pickandtest.member.domain.core.UserRole;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -29,6 +30,7 @@ public class MemberEntity {
 
     private String name;
 
+    @Column(unique = true)
     private String username;
 
     private String password;

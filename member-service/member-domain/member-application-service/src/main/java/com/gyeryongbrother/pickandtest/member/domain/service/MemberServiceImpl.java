@@ -6,8 +6,8 @@ import static com.gyeryongbrother.pickandtest.member.domain.service.exception.Me
 import com.gyeryongbrother.pickandtest.member.domain.core.Member;
 import com.gyeryongbrother.pickandtest.member.domain.core.UserRole;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginCommand;
-import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginResponse;
+import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceException;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.input.MemberService;
@@ -31,7 +31,7 @@ public class MemberServiceImpl implements MemberService {
             memberQueryRepository.findByUsername(member.getUsername());
         } catch (MemberServiceException memberServiceException) {
             Member registeredMember = memberRepository.save(member);
-            RegisterMemberResponse registerMemberResponse= new RegisterMemberResponse(member.getName());
+            RegisterMemberResponse registerMemberResponse = new RegisterMemberResponse(member.getName());
             return registerMemberResponse;
         }
         throw new MemberServiceException(USER_ID_EXISTS);

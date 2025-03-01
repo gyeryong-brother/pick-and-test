@@ -1,6 +1,5 @@
 package com.gyeryongbrother.pickandtest.member.acceptance;
 
-import static com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceExceptionType.USER_ID_EXISTS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
@@ -52,7 +51,7 @@ class MemberControllerTest {
     void register() {
         // given
         RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name", "username", "password");
-        RegisterMemberResponse expected=new RegisterMemberResponse("name");
+        RegisterMemberResponse expected = new RegisterMemberResponse("name");
 
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
@@ -64,7 +63,6 @@ class MemberControllerTest {
 
         RegisterMemberResponse result = response.as(RegisterMemberResponse.class);
 
-
         // then
         assertThat(result.equals(expected));
     }
@@ -74,11 +72,11 @@ class MemberControllerTest {
     void registerWithExistedUserId() {
         //given
         Member member = Member.builder()
-                .username("username")
+                .username("username-1")
                 .password("lol")
                 .build();
         memberRepository.save(member);
-        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name", "username", "password");
+        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name", "username-1", "password");
         ErrorResponse expected = new ErrorResponse("이미 존재하는 아이디입니다.");
 
         //when
@@ -103,13 +101,13 @@ class MemberControllerTest {
     void login() {
         //given
         Member member = Member.builder()
-                .username("username")
+                .username("usernameLogin")
                 .password("password")
                 .build();
 
-        memberRepository.save(member);
+        Member savedMember = memberRepository.save(member);
 
-        LoginRequest loginRequest = new LoginRequest("username", "password");
+        LoginRequest loginRequest = new LoginRequest("usernameLogin", "password");
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
@@ -124,13 +122,13 @@ class MemberControllerTest {
         String refreshToken = result.refreshToken();
         UserRole role = jwtUtil.getRoleFromToken(accessToken);
         Long memberIdfromAccess = jwtUtil.getMemberIdFromToken(accessToken);
-        MemberEntity memberEntity = memberJpaRepository.findById(1L).orElseThrow();
+        MemberEntity memberEntity = memberJpaRepository.findById(savedMember.getId()).orElseThrow();
         String expectedRefreshToken = memberEntity.getRefreshToken();
 
         //then
         assertAll(
                 () -> assertThat(role).isEqualTo(UserRole.ROLE_USER),
-                () -> assertThat(memberIdfromAccess).isEqualTo(1L),
+                () -> assertThat(memberIdfromAccess).isEqualTo(savedMember.getId()),
                 () -> assertThat(refreshToken).isEqualTo(expectedRefreshToken)
         );
     }

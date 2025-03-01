@@ -7,8 +7,8 @@ import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.member.domain.core.Member;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginCommand;
-import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginResponse;
+import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceException;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.input.MemberService;

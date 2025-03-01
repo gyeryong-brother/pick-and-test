@@ -22,6 +22,4 @@ public class PortfolioRepositoryImpl implements PortfolioRepository {
         PortfolioEntity saved = portfolioJpaRepository.save(portfolioEntity);
         return portfolioDataAccessMapper.portfolioEntityToPortfolio(saved);
     }
-
-
 }
