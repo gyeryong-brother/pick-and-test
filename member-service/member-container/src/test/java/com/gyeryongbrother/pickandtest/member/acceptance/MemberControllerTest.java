@@ -1,5 +1,6 @@
 package com.gyeryongbrother.pickandtest.member.acceptance;
 
+import static com.gyeryongbrother.pickandtest.member.domain.core.UserRole.ROLE_USER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
@@ -103,6 +104,7 @@ class MemberControllerTest {
         Member member = Member.builder()
                 .username("usernameLogin")
                 .password("password")
+                .userRole(ROLE_USER)
                 .build();
 
         Member savedMember = memberRepository.save(member);
@@ -127,7 +129,7 @@ class MemberControllerTest {
 
         //then
         assertAll(
-                () -> assertThat(role).isEqualTo(UserRole.ROLE_USER),
+                () -> assertThat(role).isEqualTo(ROLE_USER),
                 () -> assertThat(memberIdfromAccess).isEqualTo(savedMember.getId()),
                 () -> assertThat(refreshToken).isEqualTo(expectedRefreshToken)
         );

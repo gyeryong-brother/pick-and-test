@@ -4,7 +4,6 @@ import static com.gyeryongbrother.pickandtest.member.domain.service.exception.Me
 import static com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceExceptionType.USER_ID_EXISTS;
 
 import com.gyeryongbrother.pickandtest.member.domain.core.Member;
-import com.gyeryongbrother.pickandtest.member.domain.core.UserRole;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberCommand;
@@ -43,7 +42,7 @@ public class MemberServiceImpl implements MemberService {
         if (!member.getPassword().equals(loginCommand.password())) {
             throw new MemberServiceException(INCORRECT_PASSWORD);
         }
-        String accessToken = jwtUtil.generateAccessToken(member.getId(), UserRole.ROLE_USER);
+        String accessToken = jwtUtil.generateAccessToken(member.getId(), member.getUserRole());
         String refreshToken = jwtUtil.generateRefreshToken(member.getId());
         memberRepository.updateRefreshToken(member.getId(), refreshToken);
         LoginResponse loginResponse = new LoginResponse(accessToken, refreshToken);
