@@ -2,6 +2,7 @@ package com.gyeryongbrother.pickandtest.member.acceptance;
 
 import static com.gyeryongbrother.pickandtest.member.domain.core.UserRole.ROLE_USER;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.LIST;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -17,11 +18,14 @@ import com.gyeryongbrother.pickandtest.member.domain.core.UserRole;
 import com.gyeryongbrother.pickandtest.member.domain.service.JwtUtil;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberResponse;
+import com.gyeryongbrother.pickandtest.member.domain.service.ports.input.MemberService;
+import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberQueryRepository;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,12 +39,21 @@ class MemberControllerTest {
 
     @LocalServerPort
     private int port;
+
     @Autowired
     private JwtUtil jwtUtil;
+
     @Autowired
     private MemberJpaRepository memberJpaRepository;
+
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private MemberService memberService;
+
+    @Autowired
+    private MemberQueryRepository memberQueryRepository;
 
     @BeforeEach
     void setUp() {
@@ -101,15 +114,12 @@ class MemberControllerTest {
     @DisplayName("로그인을 시도한다")
     void login() {
         //given
-        Member member = Member.builder()
-                .username("usernameLogin")
-                .password("password")
-                .userRole(ROLE_USER)
-                .build();
-
-        Member savedMember = memberRepository.save(member);
+        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name", "usernameLogin", "password");
+        memberService.register(registerMemberRequest.toCommand());
 
         LoginRequest loginRequest = new LoginRequest("usernameLogin", "password");
+
+        Member member=memberQueryRepository.findByUsername("usernameLogin");
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
@@ -124,13 +134,13 @@ class MemberControllerTest {
         String refreshToken = result.refreshToken();
         UserRole role = jwtUtil.getRoleFromToken(accessToken);
         Long memberIdfromAccess = jwtUtil.getMemberIdFromToken(accessToken);
-        MemberEntity memberEntity = memberJpaRepository.findById(savedMember.getId()).orElseThrow();
+        MemberEntity memberEntity = memberJpaRepository.findById(member.getId()).orElseThrow();
         String expectedRefreshToken = memberEntity.getRefreshToken();
 
         //then
         assertAll(
                 () -> assertThat(role).isEqualTo(ROLE_USER),
-                () -> assertThat(memberIdfromAccess).isEqualTo(savedMember.getId()),
+                () -> assertThat(memberIdfromAccess).isEqualTo(member.getId()),
                 () -> assertThat(refreshToken).isEqualTo(expectedRefreshToken)
         );
     }

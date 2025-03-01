@@ -23,13 +23,20 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final MemberQueryRepository memberQueryRepository;
     private final JwtUtil jwtUtil;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public RegisterMemberResponse register(RegisterMemberCommand registerMemberCommand) {
         Member member = registerMemberCommand.toDomain();
         validateUserAlreadyExists(member.getUsername());
-        Member registeredMember = memberRepository.save(member);
-        RegisterMemberResponse registerMemberResponse = new RegisterMemberResponse(member.getName());
+        Member memberWithEncodedPassword=Member.builder()
+                .name(member.getName())
+                .username(member.getUsername())
+                .password(passwordEncoder.encode(member.getPassword()))
+                .userRole(member.getUserRole())
+                .build();
+        Member registeredMember = memberRepository.save(memberWithEncodedPassword);
+        RegisterMemberResponse registerMemberResponse = new RegisterMemberResponse(memberWithEncodedPassword.getName());
         return registerMemberResponse;
     }
 
@@ -44,13 +51,13 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public LoginResponse login(LoginCommand loginCommand) {
-        Member member = memberQueryRepository.findByUsername(loginCommand.username());
-        if (!member.getPassword().equals(loginCommand.password())) {
+        Member memberWithEncodedPassword = memberQueryRepository.findByUsername(loginCommand.username());
+        if (!passwordEncoder.matches(loginCommand.password(), memberWithEncodedPassword.getPassword())) {
             throw new MemberServiceException(INCORRECT_PASSWORD);
         }
-        String accessToken = jwtUtil.generateAccessToken(member.getId(), member.getUserRole());
-        String refreshToken = jwtUtil.generateRefreshToken(member.getId());
-        memberRepository.updateRefreshToken(member.getId(), refreshToken);
+        String accessToken = jwtUtil.generateAccessToken(memberWithEncodedPassword.getId(), memberWithEncodedPassword.getUserRole());
+        String refreshToken = jwtUtil.generateRefreshToken(memberWithEncodedPassword.getId());
+        memberRepository.updateRefreshToken(memberWithEncodedPassword.getId(), refreshToken);
         LoginResponse loginResponse = new LoginResponse(accessToken, refreshToken);
         return loginResponse;
     }

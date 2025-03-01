@@ -20,6 +20,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("회원 서비스를 구현한다")
@@ -36,9 +38,11 @@ class MemberServiceImplTest {
     @Mock
     private MemberQueryRepository memberQueryRepository;
 
+    private PasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
+
     @BeforeEach
     void setUp() {
-        memberService = new MemberServiceImpl(memberRepository, memberQueryRepository, jwtUtil);
+        memberService = new MemberServiceImpl(memberRepository, memberQueryRepository, jwtUtil, passwordEncoder);
     }
 
     @Test
@@ -70,7 +74,7 @@ class MemberServiceImplTest {
         //given
         Member member = Member.builder()
                 .username("username")
-                .password("password")
+                .password(passwordEncoder.encode("password"))
                 .build();
         given(memberQueryRepository.findByUsername(any(String.class)))
                 .willReturn(member);
