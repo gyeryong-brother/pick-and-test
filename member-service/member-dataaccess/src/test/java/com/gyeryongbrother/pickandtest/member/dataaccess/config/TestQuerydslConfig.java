@@ -52,17 +52,17 @@ public class TestQuerydslConfig {
     }
 
     @Bean
-    public RefreshTokenDataAccessMapper refreshTokenDataAccessMapper(){
+    public RefreshTokenDataAccessMapper refreshTokenDataAccessMapper() {
         return new RefreshTokenDataAccessMapper();
     }
 
     @Bean
-    public RefreshTokenRepository refreshTokenRepository(){
-        return new RefreshTokenRepositoryImpl(refreshTokenJpaRepository,refreshTokenDataAccessMapper());
+    public RefreshTokenRepository refreshTokenRepository() {
+        return new RefreshTokenRepositoryImpl(refreshTokenJpaRepository, refreshTokenDataAccessMapper());
     }
 
     @Bean
-    public RefreshTokenQueryRepository refreshTokenQueryRepository(){
-        return new RefreshTokenQueryRepositoryImpl(refreshTokenJpaRepository,refreshTokenDataAccessMapper());
+    public RefreshTokenQueryRepository refreshTokenQueryRepository() {
+        return new RefreshTokenQueryRepositoryImpl(refreshTokenJpaRepository, refreshTokenDataAccessMapper());
     }
 }

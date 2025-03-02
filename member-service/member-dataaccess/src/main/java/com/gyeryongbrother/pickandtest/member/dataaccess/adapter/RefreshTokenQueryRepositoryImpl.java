@@ -18,7 +18,7 @@ public class RefreshTokenQueryRepositoryImpl implements RefreshTokenQueryReposit
 
     @Override
     public List<RefreshToken> findByUsername(String username) {
-        List<RefreshTokenEntity> refreshTokenEntities=refreshTokenJpaRepository.findByUsername(username);
+        List<RefreshTokenEntity> refreshTokenEntities = refreshTokenJpaRepository.findByUsername(username);
         return refreshTokenEntities.stream()
                 .map(refreshTokenDataAccessMapper::refreshTokenEntityToRefreshToken)
                 .toList();

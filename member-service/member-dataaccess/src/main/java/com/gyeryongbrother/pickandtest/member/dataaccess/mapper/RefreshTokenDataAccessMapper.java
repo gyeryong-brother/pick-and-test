@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RefreshTokenDataAccessMapper {
 
-    public RefreshTokenEntity refreshTokenToRefreshTokenEntity(RefreshToken refreshToken){
+    public RefreshTokenEntity refreshTokenToRefreshTokenEntity(RefreshToken refreshToken) {
         return RefreshTokenEntity.builder()
                 .id(refreshToken.getId())
                 .username(refreshToken.getUsername())
@@ -15,7 +15,7 @@ public class RefreshTokenDataAccessMapper {
                 .build();
     }
 
-    public RefreshToken refreshTokenEntityToRefreshToken(RefreshTokenEntity refreshTokenEntity){
+    public RefreshToken refreshTokenEntityToRefreshToken(RefreshTokenEntity refreshTokenEntity) {
         return RefreshToken.builder()
                 .id(refreshTokenEntity.getId())
                 .username(refreshTokenEntity.getUsername())

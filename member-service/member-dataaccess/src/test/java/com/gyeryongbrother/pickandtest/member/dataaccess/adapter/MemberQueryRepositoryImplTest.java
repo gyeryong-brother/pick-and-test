@@ -26,9 +26,9 @@ public class MemberQueryRepositoryImplTest {
 
     @Test
     @DisplayName("username을 통해 회원을 찾는다")
-    void findByUsername(){
+    void findByUsername() {
         //given
-        Member member=Member.builder()
+        Member member = Member.builder()
                 .username("username")
                 .password("password")
                 .build();
@@ -36,7 +36,7 @@ public class MemberQueryRepositoryImplTest {
         memberRepository.save(member);
 
         //when
-        Member result=memberQueryRepository.findByUsername(member.getUsername());
+        Member result = memberQueryRepository.findByUsername(member.getUsername());
 
         //then
         assertAll(

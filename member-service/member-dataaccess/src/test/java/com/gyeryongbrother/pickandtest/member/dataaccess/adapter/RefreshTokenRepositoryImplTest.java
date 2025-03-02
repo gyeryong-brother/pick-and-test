@@ -22,15 +22,15 @@ public class RefreshTokenRepositoryImplTest {
 
     @Test
     @DisplayName("refreshToken을 저장한다")
-    void save(){
+    void save() {
         //given
-        RefreshToken refreshToken=RefreshToken.builder()
+        RefreshToken refreshToken = RefreshToken.builder()
                 .username("username")
                 .refreshToken("refreshToken")
                 .build();
 
         //when
-        RefreshToken result=refreshTokenRepository.save(refreshToken);
+        RefreshToken result = refreshTokenRepository.save(refreshToken);
 
         //then
         assertAll(

@@ -4,7 +4,7 @@ import com.gyeryongbrother.pickandtest.member.dataaccess.entity.RefreshTokenEnti
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RefreshTokenJpaRepository extends JpaRepository<RefreshTokenEntity,Long> {
+public interface RefreshTokenJpaRepository extends JpaRepository<RefreshTokenEntity, Long> {
 
     List<RefreshTokenEntity> findByUsername(String username);
 }

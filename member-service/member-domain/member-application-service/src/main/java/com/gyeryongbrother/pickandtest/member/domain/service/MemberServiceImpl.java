@@ -13,7 +13,6 @@ import com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberSer
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.input.MemberService;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberQueryRepository;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberRepository;
-import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.RefreshTokenQueryRepository;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,7 +32,7 @@ public class MemberServiceImpl implements MemberService {
     public RegisterMemberResponse register(RegisterMemberCommand registerMemberCommand) {
         Member member = registerMemberCommand.toDomain();
         validateUserAlreadyExists(member.getUsername());
-        Member memberWithEncodedPassword=Member.builder()
+        Member memberWithEncodedPassword = Member.builder()
                 .name(member.getName())
                 .username(member.getUsername())
                 .password(passwordEncoder.encode(member.getPassword()))
@@ -44,10 +43,10 @@ public class MemberServiceImpl implements MemberService {
         return registerMemberResponse;
     }
 
-    private void validateUserAlreadyExists(String username){
+    private void validateUserAlreadyExists(String username) {
         try {
             memberQueryRepository.findByUsername(username);
-        } catch (MemberServiceException memberServiceException){
+        } catch (MemberServiceException memberServiceException) {
             return;
         }
         throw new MemberServiceException(USER_ID_EXISTS);
@@ -59,10 +58,11 @@ public class MemberServiceImpl implements MemberService {
         if (!passwordEncoder.matches(loginCommand.password(), memberWithEncodedPassword.getPassword())) {
             throw new MemberServiceException(INCORRECT_PASSWORD);
         }
-        String accessToken = jwtUtil.generateAccessToken(memberWithEncodedPassword.getId(), memberWithEncodedPassword.getUserRole());
+        String accessToken = jwtUtil.generateAccessToken(memberWithEncodedPassword.getId(),
+                memberWithEncodedPassword.getUserRole());
         String refreshToken = jwtUtil.generateRefreshToken(memberWithEncodedPassword.getId());
-        //memberRepository.updateRefreshToken(memberWithEncodedPassword.getId(), refreshToken);
-        RefreshToken saved=refreshTokenRepository.save(new RefreshToken(null,memberWithEncodedPassword.getUsername(),refreshToken));
+        RefreshToken saved = refreshTokenRepository.save(
+                new RefreshToken(null, memberWithEncodedPassword.getUsername(), refreshToken));
         LoginResponse loginResponse = new LoginResponse(accessToken, saved.getRefreshToken());
         return loginResponse;
     }

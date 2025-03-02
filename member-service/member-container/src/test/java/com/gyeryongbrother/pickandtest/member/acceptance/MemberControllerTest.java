@@ -2,7 +2,6 @@ package com.gyeryongbrother.pickandtest.member.acceptance;
 
 import static com.gyeryongbrother.pickandtest.member.domain.core.UserRole.ROLE_USER;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.InstanceOfAssertFactories.LIST;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -11,7 +10,6 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 import com.gyeryongbrother.pickandtest.member.application.dto.LoginRequest;
 import com.gyeryongbrother.pickandtest.member.application.dto.RegisterMemberRequest;
 import com.gyeryongbrother.pickandtest.member.application.exception.handler.dto.ErrorResponse;
-import com.gyeryongbrother.pickandtest.member.dataaccess.entity.MemberEntity;
 import com.gyeryongbrother.pickandtest.member.dataaccess.repository.MemberJpaRepository;
 import com.gyeryongbrother.pickandtest.member.domain.core.Member;
 import com.gyeryongbrother.pickandtest.member.domain.core.UserRole;
@@ -26,7 +24,6 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,9 +40,6 @@ class MemberControllerTest {
 
     @Autowired
     private JwtUtil jwtUtil;
-
-    @Autowired
-    private MemberJpaRepository memberJpaRepository;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -123,7 +117,7 @@ class MemberControllerTest {
 
         LoginRequest loginRequest = new LoginRequest("usernameLogin", "password");
 
-        Member member=memberQueryRepository.findByUsername("usernameLogin");
+        Member member = memberQueryRepository.findByUsername("usernameLogin");
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
@@ -138,7 +132,8 @@ class MemberControllerTest {
         String refreshToken = result.refreshToken();
         UserRole role = jwtUtil.getRoleFromToken(accessToken);
         Long memberIdfromAccess = jwtUtil.getMemberIdFromToken(accessToken);
-        String expectedRefreshToken = refreshTokenQueryRepository.findByUsername(member.getUsername()).get(0).getRefreshToken();
+        String expectedRefreshToken = refreshTokenQueryRepository.findByUsername(member.getUsername()).get(0)
+                .getRefreshToken();
 
         //then
         assertAll(
