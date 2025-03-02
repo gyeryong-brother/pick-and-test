@@ -21,6 +21,7 @@ import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberR
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.input.MemberService;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberQueryRepository;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberRepository;
+import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.RefreshTokenQueryRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
@@ -54,6 +55,9 @@ class MemberControllerTest {
 
     @Autowired
     private MemberQueryRepository memberQueryRepository;
+
+    @Autowired
+    private RefreshTokenQueryRepository refreshTokenQueryRepository;
 
     @BeforeEach
     void setUp() {
@@ -134,8 +138,7 @@ class MemberControllerTest {
         String refreshToken = result.refreshToken();
         UserRole role = jwtUtil.getRoleFromToken(accessToken);
         Long memberIdfromAccess = jwtUtil.getMemberIdFromToken(accessToken);
-        MemberEntity memberEntity = memberJpaRepository.findById(member.getId()).orElseThrow();
-        String expectedRefreshToken = "refreshToken";
+        String expectedRefreshToken = refreshTokenQueryRepository.findByUsername(member.getUsername()).get(0).getRefreshToken();
 
         //then
         assertAll(

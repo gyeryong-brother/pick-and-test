@@ -4,6 +4,7 @@ import static com.gyeryongbrother.pickandtest.member.domain.service.exception.Me
 import static com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceExceptionType.USER_ID_EXISTS;
 
 import com.gyeryongbrother.pickandtest.member.domain.core.Member;
+import com.gyeryongbrother.pickandtest.member.domain.core.RefreshToken;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberCommand;
@@ -12,6 +13,8 @@ import com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberSer
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.input.MemberService;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberQueryRepository;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberRepository;
+import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.RefreshTokenQueryRepository;
+import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final MemberQueryRepository memberQueryRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
 
@@ -58,7 +62,8 @@ public class MemberServiceImpl implements MemberService {
         String accessToken = jwtUtil.generateAccessToken(memberWithEncodedPassword.getId(), memberWithEncodedPassword.getUserRole());
         String refreshToken = jwtUtil.generateRefreshToken(memberWithEncodedPassword.getId());
         //memberRepository.updateRefreshToken(memberWithEncodedPassword.getId(), refreshToken);
-        LoginResponse loginResponse = new LoginResponse(accessToken, refreshToken);
+        RefreshToken saved=refreshTokenRepository.save(new RefreshToken(null,memberWithEncodedPassword.getUsername(),refreshToken));
+        LoginResponse loginResponse = new LoginResponse(accessToken, saved.getRefreshToken());
         return loginResponse;
     }
 }

@@ -6,6 +6,7 @@ import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.member.domain.core.Member;
+import com.gyeryongbrother.pickandtest.member.domain.core.RefreshToken;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberCommand;
@@ -14,6 +15,8 @@ import com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberSer
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.input.MemberService;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberQueryRepository;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberRepository;
+import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.RefreshTokenQueryRepository;
+import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.RefreshTokenRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,9 +43,13 @@ class MemberServiceImplTest {
 
     private PasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
 
+    @Mock
+    private RefreshTokenRepository refreshTokenRepository;
+
+
     @BeforeEach
     void setUp() {
-        memberService = new MemberServiceImpl(memberRepository, memberQueryRepository, jwtUtil, passwordEncoder);
+        memberService = new MemberServiceImpl(memberRepository, memberQueryRepository, refreshTokenRepository ,jwtUtil, passwordEncoder);
     }
 
     @Test
@@ -82,6 +89,8 @@ class MemberServiceImplTest {
                 .willReturn("accessToken");
         given(jwtUtil.generateRefreshToken(any()))
                 .willReturn("refreshToken");
+        given(refreshTokenRepository.save(any()))
+                .willReturn(new RefreshToken(1L,"username","refreshToken"));
         LoginCommand loginCommand = new LoginCommand("username", "password");
         LoginResponse expected = new LoginResponse("accessToken", "refreshToken");
 
