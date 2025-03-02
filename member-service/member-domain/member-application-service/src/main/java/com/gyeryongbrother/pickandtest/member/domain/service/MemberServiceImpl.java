@@ -36,7 +36,7 @@ public class MemberServiceImpl implements MemberService {
                 .userRole(member.getUserRole())
                 .build();
         Member registeredMember = memberRepository.save(memberWithEncodedPassword);
-        RegisterMemberResponse registerMemberResponse = new RegisterMemberResponse(memberWithEncodedPassword.getName());
+        RegisterMemberResponse registerMemberResponse = new RegisterMemberResponse(registeredMember.getName());
         return registerMemberResponse;
     }
 
