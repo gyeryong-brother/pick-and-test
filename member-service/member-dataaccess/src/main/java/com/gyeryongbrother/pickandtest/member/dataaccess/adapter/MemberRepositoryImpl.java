@@ -25,7 +25,7 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public Member updateRefreshToken(Long memberId, String refreshToken) {
         MemberEntity memberEntity = memberJpaRepository.findById(memberId).orElseThrow();
-        memberEntity.setRefreshToken(refreshToken);
+        //memberEntity.setRefreshToken(refreshToken);
         memberJpaRepository.save(memberEntity);
         Member updated = memberDataAccessMapper.memberEntityToMember(memberEntity);
         return updated;

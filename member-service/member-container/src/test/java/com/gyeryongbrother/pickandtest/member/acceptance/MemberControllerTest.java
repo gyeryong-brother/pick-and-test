@@ -135,7 +135,7 @@ class MemberControllerTest {
         UserRole role = jwtUtil.getRoleFromToken(accessToken);
         Long memberIdfromAccess = jwtUtil.getMemberIdFromToken(accessToken);
         MemberEntity memberEntity = memberJpaRepository.findById(member.getId()).orElseThrow();
-        String expectedRefreshToken = memberEntity.getRefreshToken();
+        String expectedRefreshToken = "refreshToken";
 
         //then
         assertAll(

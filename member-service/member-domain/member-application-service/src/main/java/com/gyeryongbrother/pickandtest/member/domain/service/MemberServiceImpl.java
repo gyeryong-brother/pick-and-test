@@ -57,7 +57,7 @@ public class MemberServiceImpl implements MemberService {
         }
         String accessToken = jwtUtil.generateAccessToken(memberWithEncodedPassword.getId(), memberWithEncodedPassword.getUserRole());
         String refreshToken = jwtUtil.generateRefreshToken(memberWithEncodedPassword.getId());
-        memberRepository.updateRefreshToken(memberWithEncodedPassword.getId(), refreshToken);
+        //memberRepository.updateRefreshToken(memberWithEncodedPassword.getId(), refreshToken);
         LoginResponse loginResponse = new LoginResponse(accessToken, refreshToken);
         return loginResponse;
     }

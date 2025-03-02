@@ -14,7 +14,6 @@ public class MemberDataAccessMapper {
                 .username(member.getUsername())
                 .password(member.getPassword())
                 .userRole(member.getUserRole())
-                .refreshToken(member.getRefreshToken())
                 .build();
     }
 
@@ -25,7 +24,6 @@ public class MemberDataAccessMapper {
                 .username(memberEntity.getUsername())
                 .password(memberEntity.getPassword())
                 .userRole(memberEntity.getUserRole())
-                .refreshToken(memberEntity.getRefreshToken())
                 .build();
     }
 }
