@@ -23,23 +23,24 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MemberQueryRepositoryImpl implements MemberQueryRepository {
 
-    //private final JPAQueryFactory queryFactory;
+    private final JPAQueryFactory queryFactory;
     private final MemberJpaRepository memberJpaRepository;
     private final MemberDataAccessMapper memberDataAccessMapper;
 
     @Override
     public Member findByUsername(String username) {
-        List<MemberEntity> memberEntities = memberJpaRepository.findByUsername(username);
+        /*List<MemberEntity> memberEntities = memberJpaRepository.findByUsername(username);
         if (memberEntities.isEmpty()) {
             throw new MemberServiceException(USER_NONEXISTS);
         }
         MemberEntity memberEntity = memberEntities.get(0);
-        return memberDataAccessMapper.memberEntityToMember(memberEntity);
-        /*MemberEntity memberEntity1 = queryFactory.selectFrom(memberEntity)
+        return memberDataAccessMapper.memberEntityToMember(memberEntity);*/
+
+        MemberEntity memberEntity1 = queryFactory.selectFrom(memberEntity)
                 .where(memberEntity.username.eq(username))
                 .fetchOne();
         return Optional.ofNullable(memberEntity1)
                 .map(memberDataAccessMapper::memberEntityToMember)
-                .orElseThrow(() -> new MemberServiceException(USER_NONEXISTS));*/
+                .orElseThrow(() -> new MemberServiceException(USER_NONEXISTS));
     }
 }
