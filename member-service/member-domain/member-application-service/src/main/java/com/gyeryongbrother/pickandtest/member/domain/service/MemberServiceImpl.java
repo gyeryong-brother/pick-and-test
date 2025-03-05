@@ -54,15 +54,15 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public LoginResponse login(LoginCommand loginCommand) {
-        Member memberWithEncodedPassword = memberQueryRepository.findByUsername(loginCommand.username());
-        if (!passwordEncoder.matches(loginCommand.password(), memberWithEncodedPassword.getPassword())) {
+        Member member = memberQueryRepository.findByUsername(loginCommand.username());
+        if (!passwordEncoder.matches(loginCommand.password(), member.getPassword())) {
             throw new MemberServiceException(INCORRECT_PASSWORD);
         }
-        String accessToken = jwtUtil.generateAccessToken(memberWithEncodedPassword.getId(),
-                memberWithEncodedPassword.getUserRole());
-        String refreshToken = jwtUtil.generateRefreshToken(memberWithEncodedPassword.getId());
+        String accessToken = jwtUtil.generateAccessToken(member.getId(),
+                member.getUserRole());
+        String refreshToken = jwtUtil.generateRefreshToken(member.getId());
         RefreshToken saved = refreshTokenRepository.save(
-                new RefreshToken(null, memberWithEncodedPassword.getUsername(), refreshToken));
+                new RefreshToken(null, member.getUsername(), refreshToken));
         LoginResponse loginResponse = new LoginResponse(accessToken, saved.getRefreshToken());
         return loginResponse;
     }
