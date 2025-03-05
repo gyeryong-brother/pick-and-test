@@ -2,6 +2,7 @@ package com.gyeryongbrother.pickandtest.member.domain.service;
 
 import static com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceExceptionType.INCORRECT_PASSWORD;
 import static com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceExceptionType.USER_ID_EXISTS;
+import static com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceExceptionType.USER_NONEXISTS;
 
 import com.gyeryongbrother.pickandtest.member.domain.core.Member;
 import com.gyeryongbrother.pickandtest.member.domain.core.RefreshToken;
@@ -14,6 +15,7 @@ import com.gyeryongbrother.pickandtest.member.domain.service.ports.input.MemberS
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberQueryRepository;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberRepository;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.RefreshTokenRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -44,17 +46,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     private void validateUserAlreadyExists(String username) {
-        try {
-            memberQueryRepository.findByUsername(username);
-        } catch (MemberServiceException memberServiceException) {
-            return;
-        }
-        throw new MemberServiceException(USER_ID_EXISTS);
+        Optional<Member> optionalMember=memberQueryRepository.findByUsername(username);
+        optionalMember.ifPresent(member -> {throw new MemberServiceException(USER_ID_EXISTS);});
+
     }
 
     @Override
     public LoginResponse login(LoginCommand loginCommand) {
-        Member member = memberQueryRepository.findByUsername(loginCommand.username());
+        Member member = memberQueryRepository.getByUsername(loginCommand.username());
         if (!passwordEncoder.matches(loginCommand.password(), member.getPassword())) {
             throw new MemberServiceException(INCORRECT_PASSWORD);
         }

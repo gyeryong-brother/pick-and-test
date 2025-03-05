@@ -16,6 +16,7 @@ import com.gyeryongbrother.pickandtest.member.domain.service.ports.input.MemberS
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberQueryRepository;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberRepository;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.RefreshTokenRepository;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,10 +61,11 @@ class MemberServiceImplTest {
                 .id(1L)
                 .name("name")
                 .build();
+        Member nullMember=null;
         given(memberRepository.save(any(Member.class)))
                 .willReturn(member);
         given(memberQueryRepository.findByUsername(any()))
-                .willThrow(new MemberServiceException(USER_NONEXISTS));
+                .willReturn(Optional.ofNullable(nullMember));
 
         RegisterMemberCommand registerMemberCommand = new RegisterMemberCommand("name", "username", "password");
         RegisterMemberResponse expected = new RegisterMemberResponse("name");
@@ -83,7 +85,7 @@ class MemberServiceImplTest {
                 .username("username")
                 .password(passwordEncoder.encode("password"))
                 .build();
-        given(memberQueryRepository.findByUsername(any(String.class)))
+        given(memberQueryRepository.getByUsername(any(String.class)))
                 .willReturn(member);
         given(jwtUtil.generateAccessToken(any(), any()))
                 .willReturn("accessToken");

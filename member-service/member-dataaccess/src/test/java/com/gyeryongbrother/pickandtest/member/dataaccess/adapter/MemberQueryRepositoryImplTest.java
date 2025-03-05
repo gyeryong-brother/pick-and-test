@@ -36,7 +36,7 @@ public class MemberQueryRepositoryImplTest {
         memberRepository.save(member);
 
         //when
-        Member result = memberQueryRepository.findByUsername(member.getUsername());
+        Member result = memberQueryRepository.getByUsername(member.getUsername());
 
         //then
         assertAll(

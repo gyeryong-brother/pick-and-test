@@ -10,7 +10,6 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 import com.gyeryongbrother.pickandtest.member.application.dto.LoginRequest;
 import com.gyeryongbrother.pickandtest.member.application.dto.RegisterMemberRequest;
 import com.gyeryongbrother.pickandtest.member.application.exception.handler.dto.ErrorResponse;
-import com.gyeryongbrother.pickandtest.member.dataaccess.repository.MemberJpaRepository;
 import com.gyeryongbrother.pickandtest.member.domain.core.Member;
 import com.gyeryongbrother.pickandtest.member.domain.core.UserRole;
 import com.gyeryongbrother.pickandtest.member.domain.service.JwtUtil;
@@ -117,7 +116,7 @@ class MemberControllerTest {
 
         LoginRequest loginRequest = new LoginRequest("usernameLogin", "password");
 
-        Member member = memberQueryRepository.findByUsername("usernameLogin");
+        Member member = memberQueryRepository.getByUsername("usernameLogin");
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()

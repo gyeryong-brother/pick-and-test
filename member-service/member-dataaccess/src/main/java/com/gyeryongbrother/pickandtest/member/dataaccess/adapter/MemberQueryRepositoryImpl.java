@@ -28,19 +28,22 @@ public class MemberQueryRepositoryImpl implements MemberQueryRepository {
     private final MemberDataAccessMapper memberDataAccessMapper;
 
     @Override
-    public Member findByUsername(String username) {
-        /*List<MemberEntity> memberEntities = memberJpaRepository.findByUsername(username);
-        if (memberEntities.isEmpty()) {
-            throw new MemberServiceException(USER_NONEXISTS);
-        }
-        MemberEntity memberEntity = memberEntities.get(0);
-        return memberDataAccessMapper.memberEntityToMember(memberEntity);*/
-
+    public Member getByUsername(String username) {
         MemberEntity memberEntity1 = queryFactory.selectFrom(memberEntity)
                 .where(memberEntity.username.eq(username))
                 .fetchOne();
         return Optional.ofNullable(memberEntity1)
                 .map(memberDataAccessMapper::memberEntityToMember)
                 .orElseThrow(() -> new MemberServiceException(USER_NONEXISTS));
+    }
+
+    @Override
+    public Optional<Member> findByUsername(String username) {
+        Optional<MemberEntity> memberEntity1 = Optional.ofNullable(
+                queryFactory.selectFrom(memberEntity)
+                .where(memberEntity.username.eq(username))
+                .fetchOne()
+        );
+        return memberEntity1.map(memberDataAccessMapper::memberEntityToMember);
     }
 }
