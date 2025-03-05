@@ -48,7 +48,7 @@ public class TestQuerydslConfig {
 
     @Bean
     public MemberQueryRepository memberQueryRepository() {
-        return new MemberQueryRepositoryImpl(queryFactory(),memberJpaRepository, memberDataAccessMapper());
+        return new MemberQueryRepositoryImpl(queryFactory(), memberJpaRepository, memberDataAccessMapper());
     }
 
     @Bean

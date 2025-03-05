@@ -1,23 +1,18 @@
 package com.gyeryongbrother.pickandtest.member.dataaccess.adapter;
 
-import static com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceExceptionType.USER_NONEXISTS;
 import static com.gyeryongbrother.pickandtest.member.dataaccess.entity.QMemberEntity.memberEntity;
+import static com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceExceptionType.USER_NONEXISTS;
 
 import com.gyeryongbrother.pickandtest.member.dataaccess.entity.MemberEntity;
-import com.gyeryongbrother.pickandtest.member.dataaccess.entity.QMemberEntity;
 import com.gyeryongbrother.pickandtest.member.dataaccess.mapper.MemberDataAccessMapper;
 import com.gyeryongbrother.pickandtest.member.dataaccess.repository.MemberJpaRepository;
 import com.gyeryongbrother.pickandtest.member.domain.core.Member;
 import com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceException;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberQueryRepository;
-import com.querydsl.core.QueryFactory;
-import com.querydsl.core.types.EntityPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @RequiredArgsConstructor
@@ -41,8 +36,8 @@ public class MemberQueryRepositoryImpl implements MemberQueryRepository {
     public Optional<Member> findByUsername(String username) {
         Optional<MemberEntity> memberEntity1 = Optional.ofNullable(
                 queryFactory.selectFrom(memberEntity)
-                .where(memberEntity.username.eq(username))
-                .fetchOne()
+                        .where(memberEntity.username.eq(username))
+                        .fetchOne()
         );
         return memberEntity1.map(memberDataAccessMapper::memberEntityToMember);
     }

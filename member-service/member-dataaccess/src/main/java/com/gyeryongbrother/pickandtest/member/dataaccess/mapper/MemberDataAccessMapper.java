@@ -2,7 +2,6 @@ package com.gyeryongbrother.pickandtest.member.dataaccess.mapper;
 
 import com.gyeryongbrother.pickandtest.member.dataaccess.entity.MemberEntity;
 import com.gyeryongbrother.pickandtest.member.domain.core.Member;
-import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 @Component

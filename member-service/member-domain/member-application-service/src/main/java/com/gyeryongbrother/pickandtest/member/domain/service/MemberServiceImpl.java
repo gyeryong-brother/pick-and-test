@@ -2,7 +2,6 @@ package com.gyeryongbrother.pickandtest.member.domain.service;
 
 import static com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceExceptionType.INCORRECT_PASSWORD;
 import static com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceExceptionType.USER_ID_EXISTS;
-import static com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceExceptionType.USER_NONEXISTS;
 
 import com.gyeryongbrother.pickandtest.member.domain.core.Member;
 import com.gyeryongbrother.pickandtest.member.domain.core.RefreshToken;
@@ -46,9 +45,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     private void validateUserAlreadyExists(String username) {
-        Optional<Member> optionalMember=memberQueryRepository.findByUsername(username);
-        optionalMember.ifPresent(member -> {throw new MemberServiceException(USER_ID_EXISTS);});
-
+        Optional<Member> optionalMember = memberQueryRepository.findByUsername(username);
+        optionalMember.ifPresent(member -> {
+            throw new MemberServiceException(USER_ID_EXISTS);
+        });
     }
 
     @Override

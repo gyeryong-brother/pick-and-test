@@ -1,6 +1,5 @@
 package com.gyeryongbrother.pickandtest.member.domain.service;
 
-import static com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceExceptionType.USER_NONEXISTS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.given;
@@ -11,7 +10,6 @@ import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberResponse;
-import com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceException;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.input.MemberService;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberQueryRepository;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberRepository;
@@ -61,7 +59,7 @@ class MemberServiceImplTest {
                 .id(1L)
                 .name("name")
                 .build();
-        Member nullMember=null;
+        Member nullMember = null;
         given(memberRepository.save(any(Member.class)))
                 .willReturn(member);
         given(memberQueryRepository.findByUsername(any()))
