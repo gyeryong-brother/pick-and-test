@@ -1,8 +1,12 @@
 package com.gyeryongbrother.pickandtest.member.application.rest;
 
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
+import com.gyeryongbrother.pickandtest.member.application.dto.LoginRequest;
 import com.gyeryongbrother.pickandtest.member.application.dto.RegisterMemberRequest;
+import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginCommand;
+import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.input.MemberService;
@@ -27,6 +31,14 @@ public class MemberController {
         RegisterMemberResponse registerMemberResponse = memberService.register(registerMemberCommand);
         return ResponseEntity.status(CREATED)
                 .body(registerMemberResponse);
+    }
+
+    @PostMapping("/login")
+    ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
+        LoginCommand loginCommand = loginRequest.toCommand();
+        LoginResponse loginResponse = memberService.login(loginCommand);
+        return ResponseEntity.status(OK)
+                .body(loginResponse);
     }
 
     @GetMapping
