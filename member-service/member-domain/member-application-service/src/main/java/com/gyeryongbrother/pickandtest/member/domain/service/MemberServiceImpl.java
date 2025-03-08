@@ -11,6 +11,7 @@ import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberC
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceException;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.input.MemberService;
+import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.JwtUtil;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberQueryRepository;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberRepository;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.RefreshTokenRepository;

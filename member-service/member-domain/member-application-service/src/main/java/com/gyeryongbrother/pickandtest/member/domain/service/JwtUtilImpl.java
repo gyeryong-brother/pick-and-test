@@ -2,6 +2,7 @@ package com.gyeryongbrother.pickandtest.member.domain.service;
 
 
 import com.gyeryongbrother.pickandtest.member.domain.core.UserRole;
+import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.JwtUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -12,7 +13,7 @@ import java.util.Date;
 import org.springframework.stereotype.Component;
 
 @Component
-public class JwtUtil {
+public class JwtUtilImpl implements JwtUtil {
     private static final String SECRET_KEY = "my-secret-key-for-the-project-pickandtest";
     private static final long ACCESS_TOKEN_EXPIRATION = 1000 * 60 * 30;
     private static final long REFRESH_TOKEN_EXPIRATION = 1000 * 60 * 60 * 24;
