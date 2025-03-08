@@ -18,6 +18,7 @@
         <module>member-application</module>
         <module>member-dataaccess</module>
         <module>member-container</module>
+        <module>member-infrastructure</module>
     </modules>
 
     <properties>
