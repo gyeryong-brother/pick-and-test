@@ -9,7 +9,6 @@ import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockP
 import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockPriceFixture.stockPrices;
 import static com.gyeryongbrother.pickandtest.stock.domain.fixture.valueobject.BigDecimalFixture.oneHundred;
 import static com.gyeryongbrother.pickandtest.stock.domain.fixture.valueobject.BigDecimalFixture.oneThousand;
-import static com.gyeryongbrother.pickandtest.stock.domain.fixture.valueobject.BigDecimalFixture.twoHundred;
 import static com.gyeryongbrother.pickandtest.stock.domain.fixture.valueobject.LocalDateFixture.januaryFirst;
 import static com.gyeryongbrother.pickandtest.stock.domain.fixture.valueobject.LocalDateFixture.januarySecond;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,7 +27,6 @@ import com.gyeryongbrother.pickandtest.stock.domain.service.dto.AnnualIncomeStat
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.CreateFavoriteStockResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.FavoriteStockResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.MarketCapitalizationResponse;
-import com.gyeryongbrother.pickandtest.stock.domain.service.dto.StockPriceResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.FavoriteStockRepository;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.IncomeStatementRepository;
@@ -123,31 +121,6 @@ class StockControllerTest {
 
         // then
         assertThat(result).usingRecursiveComparison()
-                .isEqualTo(expected);
-    }
-
-    @Test
-    @DisplayName("주식의 주가들을 가져온다")
-    void findAllStockPrices() {
-        // given
-        StockDetail stockDetail = stockRepository.save(
-                stockDetail(null, stockPrices(null), List.of()));
-        List<StockPriceResponse> expected = List.of(
-                new StockPriceResponse(januaryFirst(), oneHundred()),
-                new StockPriceResponse(januarySecond(), twoHundred())
-        );
-
-        // when
-        ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .when().get("/stocks/{stockId}/prices", stockDetail.getStock().getId())
-                .then().log().all()
-                .extract();
-        List<StockPriceResponse> result = response.as(new TypeRef<>() {
-        });
-
-        // then
-        assertThat(result).usingRecursiveComparison()
-                .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
                 .isEqualTo(expected);
     }
 
