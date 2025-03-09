@@ -41,6 +41,12 @@ public class MemberController {
                 .body(loginResponse);
     }
 
+    @PostMapping("/logout")
+    ResponseEntity<LoginResponse> result(){
+        LoginResponse loginResponse=new LoginResponse("a","b");
+        return ResponseEntity.status(OK).body(loginResponse);
+    }
+
     @GetMapping
     ResponseEntity<String> test() {
         return ResponseEntity.ok("test");

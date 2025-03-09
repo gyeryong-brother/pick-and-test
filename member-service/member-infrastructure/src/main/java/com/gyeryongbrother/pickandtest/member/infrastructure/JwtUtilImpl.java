@@ -84,7 +84,7 @@ public class JwtUtilImpl implements JwtUtil {
 
         UserDetails principal=new UserDetailsImpl(member);
 
-        return new UsernamePasswordAuthenticationToken(principal,principal.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(principal,"",principal.getAuthorities());
     }
 
 }
