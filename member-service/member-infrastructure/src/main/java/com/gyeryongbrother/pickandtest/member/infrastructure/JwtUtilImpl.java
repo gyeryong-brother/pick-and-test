@@ -1,6 +1,7 @@
 package com.gyeryongbrother.pickandtest.member.infrastructure;
 
 
+import com.gyeryongbrother.pickandtest.member.domain.core.Member;
 import com.gyeryongbrother.pickandtest.member.domain.core.UserRole;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.JwtUtil;
 import io.jsonwebtoken.Claims;
@@ -10,6 +11,9 @@ import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -66,4 +70,21 @@ public class JwtUtilImpl implements JwtUtil {
         String roleName = extractClaims(token).get("role", String.class);
         return UserRole.fromString(roleName);
     }
+
+    @Override
+    public Authentication getAuthentication(String token) {
+        validateToken(token);
+        UserRole userRole = getRoleFromToken(token);
+        Long memberId=getMemberIdFromToken(token);
+
+        Member member=Member.builder()
+                .id(memberId)
+                .userRole(userRole)
+                .build();
+
+        UserDetails principal=new UserDetailsImpl(member);
+
+        return new UsernamePasswordAuthenticationToken(principal,principal.getAuthorities());
+    }
+
 }
