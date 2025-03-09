@@ -47,14 +47,6 @@ public class StockPriceFixture {
         );
     }
 
-    public static List<StockPrice> januaryStockPrices() {
-        return List.of(
-                stockPrice(LocalDate.of(2024, 1, 1), BigDecimal.valueOf(100)),
-                stockPrice(LocalDate.of(2024, 1, 2), BigDecimal.valueOf(200)),
-                stockPrice(LocalDate.of(2024, 1, 3), BigDecimal.valueOf(300))
-        );
-    }
-
     public static StockPrice stockPrice() {
         return stockPrice(januaryFirst(), oneHundred());
     }
