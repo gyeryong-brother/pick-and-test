@@ -26,11 +26,14 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()
+                        .requestMatchers("/members/logout").authenticated()
+                        .requestMatchers("/members").permitAll()
+                        .requestMatchers("/members/login").permitAll()
                 )
                 .formLogin(login -> login.disable())
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .addFilterBefore(new JwtAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 }

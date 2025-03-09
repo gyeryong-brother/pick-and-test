@@ -196,4 +196,49 @@ class MemberControllerTest {
                 () -> assertThat(result).isEqualTo(expected)
         );
     }
+
+    @Test
+    @DisplayName("로그아웃을 한다")
+    void logout(){
+        //given
+        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name", "usernameLogout", "password");
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(registerMemberRequest)
+                .when().post("/members")
+                .then().log().all()
+                .extract();
+
+        LoginRequest loginRequest = new LoginRequest("usernameLogout", "password");
+
+        ExtractableResponse<Response> response0 = RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(loginRequest)
+                .when().post("/members/login")
+                .then().log().all()
+                .extract();
+
+        LoginResponse result0 = response0.as(LoginResponse.class);
+        String accessToken = result0.accessToken();
+        String refreshToken = result0.refreshToken();
+
+        //when
+        ExtractableResponse<Response> response = RestAssured.given()
+                .log().all()
+                .header("Authorization", "Bearer " + accessToken)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/members/logout")
+                .then()
+                .log().all()
+                .extract();
+
+
+        LoginResponse result=response.as(LoginResponse.class);
+        LoginResponse expected=new LoginResponse("a","b");
+
+        //then
+        assertThat(result.equals(expected));
+    }
 }
