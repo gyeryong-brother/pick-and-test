@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.member.domain.service;
+package com.gyeryongbrother.pickandtest.member.infrastructure;
 
 
 import com.gyeryongbrother.pickandtest.member.domain.core.UserRole;

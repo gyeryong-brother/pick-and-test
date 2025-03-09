@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.member.domain.service;
+package com.gyeryongbrother.pickandtest.member.infrastructure;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
