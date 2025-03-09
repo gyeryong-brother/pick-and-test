@@ -27,6 +27,11 @@
             <artifactId>member-dataaccess</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.gyeryongbrother</groupId>
+            <artifactId>member-infrastructure</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
             <version>5.5.0</version>
