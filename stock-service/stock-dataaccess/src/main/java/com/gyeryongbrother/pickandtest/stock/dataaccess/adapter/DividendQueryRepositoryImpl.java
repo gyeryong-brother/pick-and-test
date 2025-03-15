@@ -23,7 +23,7 @@ public class DividendQueryRepositoryImpl implements DividendQueryRepository {
     @Override
     public List<Dividend> findAllByStockId(Long stockId) {
         List<DividendEntity> dividendEntities = queryFactory.selectFrom(dividendEntity)
-                .where(dividendEntity.stock.id.eq(stockId))
+                .where(dividendEntity.stockId.eq(stockId))
                 .fetch();
         return dividendEntities.stream()
                 .map(dividendDataAccessMapper::dividendEntityToDividend)

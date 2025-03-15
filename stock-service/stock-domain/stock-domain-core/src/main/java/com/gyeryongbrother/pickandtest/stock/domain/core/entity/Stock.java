@@ -1,13 +1,10 @@
 package com.gyeryongbrother.pickandtest.stock.domain.core.entity;
 
-import com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.MarketCapitalization;
 import com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange;
 import java.time.LocalDate;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@Getter
 @Builder
 @RequiredArgsConstructor
 public class Stock {
@@ -18,8 +15,37 @@ public class Stock {
     private final StockExchange stockExchange;
     private final Long outstandingShares;
     private final LocalDate listingDate;
+    private final StockDetail stockDetail;
 
-    public MarketCapitalization calculateMarketCapitalization(StockPrice stockPrice) {
-        return stockPrice.calculateMarketCapitalization(outstandingShares);
+    public Long calculateMarketCapitalization() {
+        return stockDetail.calculateMarketCapitalization(outstandingShares);
+    }
+
+    public Long id() {
+        return id;
+    }
+
+    public String name() {
+        return name;
+    }
+
+    public String symbol() {
+        return symbol;
+    }
+
+    public StockExchange stockExchange() {
+        return stockExchange;
+    }
+
+    public Long outstandingShares() {
+        return outstandingShares;
+    }
+
+    public LocalDate listingDate() {
+        return listingDate;
+    }
+
+    public StockDetail stockInformation() {
+        return stockDetail;
     }
 }

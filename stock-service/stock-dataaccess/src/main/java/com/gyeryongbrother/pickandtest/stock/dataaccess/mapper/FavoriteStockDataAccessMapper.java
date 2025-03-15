@@ -14,8 +14,8 @@ public class FavoriteStockDataAccessMapper {
 
     public FavoriteStockEntity favoriteStockToFavoriteStockEntity(FavoriteStock favoriteStock) {
         return FavoriteStockEntity.builder()
-                .memberId(favoriteStock.getMemberId())
-                .stock(stockDataAccessMapper.stockToStockEntity(favoriteStock.getStockDetail().getStock()))
+                .memberId(favoriteStock.memberId())
+                .stock(stockDataAccessMapper.stockToStockEntity(favoriteStock.stock()))
                 .build();
     }
 
@@ -23,7 +23,7 @@ public class FavoriteStockDataAccessMapper {
         return FavoriteStock.builder()
                 .id(favoriteStockEntity.getId())
                 .memberId(favoriteStockEntity.getMemberId())
-                .stockDetail(stockDataAccessMapper.stockEntityToStockDetail(favoriteStockEntity.getStock()))
+                .stock(stockDataAccessMapper.stockEntityToStock(favoriteStockEntity.getStock()))
                 .build();
     }
 

@@ -1,7 +1,7 @@
 package com.gyeryongbrother.pickandtest.stock.dataaccess.entity;
 
-import static jakarta.persistence.CascadeType.PERSIST;
 import static jakarta.persistence.EnumType.STRING;
+import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -10,11 +10,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,25 +39,6 @@ public class StockEntity {
     private Long outstandingShares;
     private LocalDate listingDate;
 
-    @OneToMany(mappedBy = "stock", cascade = PERSIST)
-    @Builder.Default
-    private List<StockPriceEntity> stockPrices = new ArrayList<>();
-
-    @OneToMany(mappedBy = "stock", cascade = PERSIST)
-    @Builder.Default
-    private List<DividendEntity> dividends = new ArrayList<>();
-
-    @OneToMany(mappedBy = "stock", cascade = PERSIST)
-    @Builder.Default
-    private List<IncomeStatementEntity> incomeStatements = new ArrayList<>();
-
-    public void addStockPrice(StockPriceEntity stockPriceEntity) {
-        stockPrices.add(stockPriceEntity);
-        stockPriceEntity.setStock(this);
-    }
-
-    public void addDividend(DividendEntity dividendEntity) {
-        dividends.add(dividendEntity);
-        dividendEntity.setStock(this);
-    }
+    @OneToOne(fetch = LAZY, mappedBy = "stock")
+    private StockDetailEntity stockDetail;
 }

@@ -1,12 +1,7 @@
 package com.gyeryongbrother.pickandtest.stock.domain.core.entity;
 
-import static com.gyeryongbrother.pickandtest.stock.domain.core.entity.StockFixture.stock;
-import static com.gyeryongbrother.pickandtest.stock.domain.core.entity.StockPriceFixture.stockPrice;
-import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.LocalDateFixture.januaryFirst;
-import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.MarketCapitalizationFixture.marketCapitalization;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.MarketCapitalization;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,15 +13,18 @@ class StockTest {
     @DisplayName("주가를 받아 시가총액을 계산한다")
     void calculateMarketCapitalization() {
         // given
-        Stock stock = stock(1L);
-        StockPrice stockPrice = stockPrice(1L, januaryFirst(), BigDecimal.valueOf(20.5));
-        MarketCapitalization expected = marketCapitalization(20_500L);
+        StockDetail stockDetail = StockDetail.builder()
+                .lastStockPrice(BigDecimal.valueOf(20.5))
+                .build();
+        Stock stock = Stock.builder()
+                .outstandingShares(1000L)
+                .stockDetail(stockDetail)
+                .build();
 
         // when
-        MarketCapitalization result = stock.calculateMarketCapitalization(stockPrice);
+        Long result = stock.calculateMarketCapitalization();
 
         // then
-        assertThat(result).usingRecursiveComparison()
-                .isEqualTo(expected);
+        assertThat(result).isEqualTo(20_500L);
     }
 }
