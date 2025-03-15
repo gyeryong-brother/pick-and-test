@@ -64,7 +64,7 @@ class IncomeStatementQueryRepositoryImplTest {
         incomeStatementJpaRepository.saveAll(nvidiaIncomeStatementEntities);
 
         //when
-        List<IncomeStatement> result = incomeStatementQueryRepository.findAllByStockId(apple.getId());
+        List<IncomeStatement> result = incomeStatementQueryRepository.findAllByStockId(apple.id());
 
         //then
         assertThat(result).usingRecursiveComparison()

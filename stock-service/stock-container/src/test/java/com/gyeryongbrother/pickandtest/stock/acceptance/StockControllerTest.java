@@ -1,35 +1,31 @@
 package com.gyeryongbrother.pickandtest.stock.acceptance;
 
-import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.DividendFixture.dividends;
-import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.DividendFixture.twoDividends;
+import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.DividendFixture.appleDividendsAtVariousYear;
 import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.IncomeStatementFixture.incomeStatements;
-import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockDetailFixture.appleWithDividendsOfVariousYear;
-import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockDetailFixture.stockDetail;
-import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockPriceFixture.stockPrice;
-import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockPriceFixture.stockPrices;
+import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockDetailFixture.firstStockDetail;
+import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockDetailFixture.secondStockDetail;
+import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockFixture.stock;
 import static com.gyeryongbrother.pickandtest.stock.domain.fixture.valueobject.BigDecimalFixture.oneHundred;
 import static com.gyeryongbrother.pickandtest.stock.domain.fixture.valueobject.BigDecimalFixture.oneThousand;
-import static com.gyeryongbrother.pickandtest.stock.domain.fixture.valueobject.LocalDateFixture.januaryFirst;
-import static com.gyeryongbrother.pickandtest.stock.domain.fixture.valueobject.LocalDateFixture.januarySecond;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 import com.gyeryongbrother.pickandtest.stock.application.dto.CreateFavoriteStockRequest;
+import com.gyeryongbrother.pickandtest.stock.domain.core.entity.Dividend;
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.IncomeStatement;
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.Stock;
-import com.gyeryongbrother.pickandtest.stock.domain.core.entity.StockDetail;
 import com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.FavoriteStockFixture;
-import com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockFixture;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.AnnualDividendResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.AnnualIncomeStatementResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.CreateFavoriteStockResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.FavoriteStockResponse;
-import com.gyeryongbrother.pickandtest.stock.domain.service.dto.MarketCapitalizationResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.StockResponse;
+import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.DividendRepository;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.FavoriteStockRepository;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.IncomeStatementRepository;
+import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.StockDetailRepository;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.StockRepository;
 import io.restassured.RestAssured;
 import io.restassured.common.mapper.TypeRef;
@@ -38,6 +34,7 @@ import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -58,6 +55,12 @@ class StockControllerTest {
     private StockRepository stockRepository;
 
     @Autowired
+    private StockDetailRepository stockDetailRepository;
+
+    @Autowired
+    private DividendRepository dividendRepository;
+
+    @Autowired
     private FavoriteStockRepository favoriteStockRepository;
 
     @LocalServerPort
@@ -73,11 +76,11 @@ class StockControllerTest {
     void searchStocks() {
         // given
         List<Stock> stocks = List.of(
-                StockFixture.stock("Advance Auto Parts, Inc.", "AAP"),
-                StockFixture.stock("Microsoft Corporation", "MSFT"),
-                StockFixture.stock("Apple Inc.", "AAPL"),
-                StockFixture.stock("NVIDIA Corporation", "NVDA"),
-                StockFixture.stock("AAP, Inc.", "AAPJ")
+                stock("Advance Auto Parts, Inc.", "AAP"),
+                stock("Microsoft Corporation", "MSFT"),
+                stock("Apple Inc.", "AAPL"),
+                stock("NVIDIA Corporation", "NVDA"),
+                stock("AAP, Inc.", "AAPJ")
         );
         stocks.forEach(stockRepository::save);
         List<StockResponse> expected = List.of(
@@ -102,34 +105,11 @@ class StockControllerTest {
     }
 
     @Test
-    @DisplayName("주식 아이디로 시가총액을 조회한다")
-    void findAllMarketCapitalizations() {
-        // given
-        StockDetail stockDetail = stockRepository.save(stockDetail(null, stockPrices(null), List.of()));
-        List<MarketCapitalizationResponse> expected = List.of(
-                new MarketCapitalizationResponse(januaryFirst(), 100_000L),
-                new MarketCapitalizationResponse(januarySecond(), 200_000L)
-        );
-
-        // when
-        ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .when().get("/stocks/{stockId}/market-capitalizations", stockDetail.getStock().getId())
-                .then().log().all()
-                .extract();
-        List<MarketCapitalizationResponse> result = response.as(new TypeRef<>() {
-        });
-
-        // then
-        assertThat(result).usingRecursiveComparison()
-                .isEqualTo(expected);
-    }
-
-    @Test
     @DisplayName("주식의 연배당기록을 가져온다")
     void findAnnualDividends() {
         // given
-        StockDetail stockDetail = appleWithDividendsOfVariousYear();
-        StockDetail saved = stockRepository.save(stockDetail);
+        List<Dividend> dividends = appleDividendsAtVariousYear(1L);
+        dividends.forEach(dividendRepository::save);
         List<AnnualDividendResponse> expected = List.of(
                 new AnnualDividendResponse(2020, BigDecimal.valueOf(0.45)),
                 new AnnualDividendResponse(2021, BigDecimal.valueOf(0.32))
@@ -137,7 +117,7 @@ class StockControllerTest {
 
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .when().get("/stocks/{stockId}/dividends", saved.getStock().getId())
+                .when().get("/stocks/{stockId}/dividends", 1)
                 .then().log().all()
                 .extract();
         List<AnnualDividendResponse> result = response.as(new TypeRef<>() {
@@ -151,7 +131,7 @@ class StockControllerTest {
     @DisplayName("주식의 1년기준 기업실적을 가져온다")
     void findAnnualIncomeStatements() {
         //given
-        Stock stock = stockRepository.save(StockFixture.stock(null));
+        Stock stock = stockRepository.save(stock(null));
         List<IncomeStatement> incomeStatements = incomeStatements(stock);
         incomeStatements.forEach(incomeStatementRepository::save);
         List<AnnualIncomeStatementResponse> expected = List.of(
@@ -161,7 +141,7 @@ class StockControllerTest {
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .when().get("/stocks/{stockId}/incomeStatements", stock.getId())
+                .when().get("/stocks/{stockId}/incomeStatements", stock.id())
                 .then().log().all()
                 .extract();
         List<AnnualIncomeStatementResponse> result = response.as(new TypeRef<>() {
@@ -175,8 +155,8 @@ class StockControllerTest {
     @DisplayName("관심 주식을 저장한다")
     void createFavoriteStock() {
         // given
-        Long stockId = stockRepository.save(StockFixture.stock(null))
-                .getId();
+        Long stockId = stockRepository.save(stock(null))
+                .id();
         CreateFavoriteStockRequest createFavoriteStockRequest = new CreateFavoriteStockRequest(stockId, 1L);
         CreateFavoriteStockResponse expected = new CreateFavoriteStockResponse(null, 1L, stockId);
 
@@ -202,12 +182,11 @@ class StockControllerTest {
     @DisplayName("관심 주식들을 조회한다")
     void findAllFavoriteStocks() {
         // given
-        List<StockDetail> stockDetails = List.of(
-                stockRepository.save(
-                        stockDetail(null, stockPrices(), dividends())),
-                stockRepository.save(stockDetail(null, List.of(stockPrice()), twoDividends()))
-        );
-        stockDetails.stream()
+        Stock firstStock = stockRepository.save(stock(null));
+        Stock secondStock = stockRepository.save(stock(null));
+        stockDetailRepository.save(firstStockDetail(firstStock.id()));
+        stockDetailRepository.save(secondStockDetail(secondStock.id()));
+        Stream.of(firstStock, secondStock)
                 .map(FavoriteStockFixture::favoriteStock)
                 .forEach(favoriteStockRepository::save);
         List<FavoriteStockResponse> expected = List.of(
