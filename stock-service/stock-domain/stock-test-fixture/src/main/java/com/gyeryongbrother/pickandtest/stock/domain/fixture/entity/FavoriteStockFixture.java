@@ -1,16 +1,12 @@
 package com.gyeryongbrother.pickandtest.stock.domain.fixture.entity;
 
-import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.DividendFixture.dividends;
-import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.DividendFixture.twoDividends;
-import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockDetailFixture.stockDetail;
 import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockFixture.stock;
-import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockPriceFixture.stockPrice;
-import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockPriceFixture.stockPrices;
 import static lombok.AccessLevel.PRIVATE;
 
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.FavoriteStock;
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.Stock;
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.StockDetail;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import lombok.NoArgsConstructor;
@@ -19,44 +15,41 @@ import lombok.NoArgsConstructor;
 public class FavoriteStockFixture {
 
     public static FavoriteStock favoriteStock(Long id) {
-        StockDetail stockDetail = StockDetail.builder()
-                .stock(stock(1L))
-                .build();
         return FavoriteStock.builder()
                 .id(id)
                 .memberId(1L)
-                .stockDetail(stockDetail)
+                .stock(stock(1L))
                 .build();
     }
 
     public static FavoriteStock favoriteStock(Stock stock) {
-        StockDetail stockDetail = StockDetail.builder()
-                .stock(stock)
-                .build();
         return FavoriteStock.builder()
                 .memberId(1L)
-                .stockDetail(stockDetail)
+                .stock(stock)
                 .build();
     }
 
     public static List<FavoriteStock> favoriteStocks(Long... stockIds) {
         return Arrays.stream(stockIds)
-                .map(StockDetailFixture::stockDetail)
+                .map(StockFixture::stock)
                 .map(FavoriteStockFixture::favoriteStock)
                 .toList();
     }
 
-    public static FavoriteStock favoriteStock(StockDetail stockDetail) {
-        return FavoriteStock.builder()
-                .memberId(1L)
-                .stockDetail(stockDetail)
-                .build();
-    }
-
     public static List<FavoriteStock> favoriteStocks() {
+        StockDetail firstStockDetail = StockDetail.builder()
+                .lastStockPrice(BigDecimal.valueOf(1000))
+                .compoundAnnualGrowthRate(BigDecimal.valueOf(58.49))
+                .dividendYield(BigDecimal.valueOf(0.2))
+                .build();
+        StockDetail secondStockDetail = StockDetail.builder()
+                .lastStockPrice(BigDecimal.valueOf(100))
+                .compoundAnnualGrowthRate(BigDecimal.valueOf(0))
+                .dividendYield(BigDecimal.valueOf(0.5))
+                .build();
         return List.of(
-                favoriteStock(stockDetail(null, stockPrices(), dividends())),
-                favoriteStock(stockDetail(null, List.of(stockPrice()), twoDividends()))
+                favoriteStock(stock(null, firstStockDetail)),
+                favoriteStock(stock(null, secondStockDetail))
         );
     }
 }

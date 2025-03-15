@@ -6,7 +6,6 @@ import static lombok.AccessLevel.PROTECTED;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -27,13 +26,7 @@ public class DividendEntity {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private StockEntity stock;
-
+    private Long stockId;
     private LocalDate date;
     private BigDecimal amount;
-
-    void setStock(StockEntity stockEntity) {
-        stock = stockEntity;
-    }
 }

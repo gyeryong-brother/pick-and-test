@@ -2,7 +2,6 @@ package com.gyeryongbrother.pickandtest.stock.application.rest;
 
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.AnnualDividendResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.AnnualIncomeStatementResponse;
-import com.gyeryongbrother.pickandtest.stock.domain.service.dto.MarketCapitalizationResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.StockDetailResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.input.DividendQueryService;
@@ -41,15 +40,6 @@ public class StockController {
     @GetMapping("/{stockId}/dividends")
     ResponseEntity<List<AnnualDividendResponse>> findAnnualDividendsById(@PathVariable Long stockId) {
         return ResponseEntity.ok(dividendQueryService.getAnnualDividendsById(stockId));
-    }
-
-    @GetMapping("/{stockId}/market-capitalizations")
-    ResponseEntity<List<MarketCapitalizationResponse>> findAllMarketCapitalizations(
-            @PathVariable Long stockId
-    ) {
-        List<MarketCapitalizationResponse> marketCapitalizationResponses =
-                stockQueryService.findAllMarketCapitalizationsByStockId(stockId);
-        return ResponseEntity.ok(marketCapitalizationResponses);
     }
 
     @GetMapping("/{stockId}/incomeStatements")

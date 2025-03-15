@@ -6,6 +6,7 @@ import com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.FavoriteStockQue
 import com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.FavoriteStockRepositoryImpl;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.IncomeStatementQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.IncomeStatementRepositoryImpl;
+import com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.StockDetailRepositoryImpl;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.StockQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.StockRepositoryImpl;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.mapper.DividendDataAccessMapper;
@@ -16,6 +17,7 @@ import com.gyeryongbrother.pickandtest.stock.dataaccess.mapper.StockPriceDataAcc
 import com.gyeryongbrother.pickandtest.stock.dataaccess.repository.DividendJpaRepository;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.repository.FavoriteStockJpaRepository;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.repository.IncomeStatementJpaRepository;
+import com.gyeryongbrother.pickandtest.stock.dataaccess.repository.StockDetailJpaRepository;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.stock.domain.service.DividendQueryServiceImpl;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.input.DividendQueryService;
@@ -25,6 +27,7 @@ import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.Favorit
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.FavoriteStockRepository;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.IncomeStatementQueryRepository;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.IncomeStatementRepository;
+import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.StockDetailRepository;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.StockQueryRepository;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.StockRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -42,6 +45,9 @@ public class TestQuerydslConfig {
 
     @Autowired
     private StockJpaRepository stockJpaRepository;
+
+    @Autowired
+    private StockDetailJpaRepository stockDetailJpaRepository;
 
     @Autowired
     private DividendJpaRepository dividendJpaRepository;
@@ -74,7 +80,7 @@ public class TestQuerydslConfig {
 
     @Bean
     public StockDataAccessMapper stockDataAccessMapper() {
-        return new StockDataAccessMapper(stockPriceDataAccessMapper(), dividendDataAccessMapper());
+        return new StockDataAccessMapper();
     }
 
     @Bean
@@ -105,6 +111,11 @@ public class TestQuerydslConfig {
     @Bean
     public StockRepository stockRepository() {
         return new StockRepositoryImpl(stockJpaRepository, stockDataAccessMapper());
+    }
+
+    @Bean
+    public StockDetailRepository stockDetailRepository() {
+        return new StockDetailRepositoryImpl(stockDetailJpaRepository);
     }
 
     @Bean
