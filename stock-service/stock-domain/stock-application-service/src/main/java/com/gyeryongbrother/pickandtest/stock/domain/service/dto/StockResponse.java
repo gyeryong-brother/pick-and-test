@@ -10,9 +10,9 @@ public record StockResponse(
 
     public static StockResponse from(Stock stock) {
         return new StockResponse(
-                stock.getId(),
-                stock.getName(),
-                stock.getSymbol()
+                stock.id(),
+                stock.name(),
+                stock.symbol()
         );
     }
 }

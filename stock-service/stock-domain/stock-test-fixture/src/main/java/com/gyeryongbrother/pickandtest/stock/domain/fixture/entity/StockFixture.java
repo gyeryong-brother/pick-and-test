@@ -5,6 +5,7 @@ import static com.gyeryongbrother.pickandtest.stock.domain.fixture.valueobject.L
 import static lombok.AccessLevel.PRIVATE;
 
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.Stock;
+import com.gyeryongbrother.pickandtest.stock.domain.core.entity.StockDetail;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = PRIVATE)
@@ -38,6 +39,18 @@ public class StockFixture {
                 .stockExchange(NASDAQ)
                 .outstandingShares(1000L)
                 .listingDate(januaryFirst())
+                .build();
+    }
+
+    public static Stock stock(Long id, StockDetail stockDetail) {
+        return Stock.builder()
+                .id(id)
+                .name("Apple Inc.")
+                .symbol("AAPL")
+                .stockExchange(NASDAQ)
+                .outstandingShares(1000L)
+                .listingDate(januaryFirst())
+                .stockDetail(stockDetail)
                 .build();
     }
 }

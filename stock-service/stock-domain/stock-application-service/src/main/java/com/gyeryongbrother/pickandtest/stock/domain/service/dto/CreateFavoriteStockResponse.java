@@ -10,9 +10,9 @@ public record CreateFavoriteStockResponse(
 
     public static CreateFavoriteStockResponse from(FavoriteStock favoriteStock) {
         return new CreateFavoriteStockResponse(
-                favoriteStock.getId(),
-                favoriteStock.getMemberId(),
-                favoriteStock.getStockDetail().getStock().getId()
+                favoriteStock.id(),
+                favoriteStock.memberId(),
+                favoriteStock.stock().id()
         );
     }
 }

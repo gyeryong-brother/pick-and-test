@@ -37,7 +37,7 @@ class DividendRepositoryImplTest {
                 .listingDate(januaryFirst)
                 .build();
         Stock savedstock = stockRepository.save(stock);
-        Long stockId = savedstock.getId();
+        Long stockId = savedstock.id();
         BigDecimal amount = BigDecimal.valueOf(100);
         Dividend dividend = Dividend.builder()
                 .stockId(stockId)

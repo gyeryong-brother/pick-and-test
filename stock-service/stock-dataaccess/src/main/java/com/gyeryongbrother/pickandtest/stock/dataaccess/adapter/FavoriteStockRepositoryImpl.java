@@ -25,6 +25,6 @@ public class FavoriteStockRepositoryImpl implements FavoriteStockRepository {
 
     @Override
     public void delete(FavoriteStock favoriteStock) {
-        favoriteStockJpaRepository.deleteById(favoriteStock.getId());
+        favoriteStockJpaRepository.deleteById(favoriteStock.id());
     }
 }

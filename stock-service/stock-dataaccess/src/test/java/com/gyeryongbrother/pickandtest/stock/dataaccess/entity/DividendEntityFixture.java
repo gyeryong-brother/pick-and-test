@@ -27,7 +27,7 @@ public class DividendEntityFixture {
             BigDecimal amount
     ) {
         return DividendEntity.builder()
-                .stock(stockEntity)
+                .stockId(stockEntity.getId())
                 .date(date)
                 .amount(amount)
                 .build();
