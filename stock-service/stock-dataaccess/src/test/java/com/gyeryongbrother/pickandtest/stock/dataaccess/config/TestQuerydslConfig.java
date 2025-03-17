@@ -13,7 +13,6 @@ import com.gyeryongbrother.pickandtest.stock.dataaccess.mapper.DividendDataAcces
 import com.gyeryongbrother.pickandtest.stock.dataaccess.mapper.FavoriteStockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.mapper.IncomeStatementDataAccessMapper;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.mapper.StockDataAccessMapper;
-import com.gyeryongbrother.pickandtest.stock.dataaccess.mapper.StockPriceDataAccessMapper;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.repository.DividendJpaRepository;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.repository.FavoriteStockJpaRepository;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.repository.IncomeStatementJpaRepository;
@@ -66,11 +65,6 @@ public class TestQuerydslConfig {
     @Bean
     public DividendDataAccessMapper dividendDataAccessMapper() {
         return new DividendDataAccessMapper();
-    }
-
-    @Bean
-    public StockPriceDataAccessMapper stockPriceDataAccessMapper() {
-        return new StockPriceDataAccessMapper();
     }
 
     @Bean

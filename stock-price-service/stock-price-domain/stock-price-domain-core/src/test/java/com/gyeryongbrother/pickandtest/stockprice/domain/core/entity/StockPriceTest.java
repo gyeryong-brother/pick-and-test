@@ -1,16 +1,13 @@
-package com.gyeryongbrother.pickandtest.stock.domain.core.entity;
+package com.gyeryongbrother.pickandtest.stockprice.domain.core.entity;
 
-import static com.gyeryongbrother.pickandtest.stock.domain.core.entity.StockPriceFixture.stockPrice;
-import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.BigDecimalFixture.oneHundred;
-import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.BigDecimalFixture.oneThousand;
-import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.LocalDateFixture.januaryFirst;
-import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.LocalDateFixture.twentyTwenty;
-import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.LocalDateFixture.twentyTwentyFour;
-import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.MarketCapitalizationFixture.marketCapitalization;
+import static com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.StockPriceFixture.stockPrice;
+import static com.gyeryongbrother.pickandtest.stockprice.domain.core.valueobject.BigDecimalFixture.oneHundred;
+import static com.gyeryongbrother.pickandtest.stockprice.domain.core.valueobject.BigDecimalFixture.oneThousand;
+import static com.gyeryongbrother.pickandtest.stockprice.domain.core.valueobject.LocalDateFixture.twentyTwenty;
+import static com.gyeryongbrother.pickandtest.stockprice.domain.core.valueobject.LocalDateFixture.twentyTwentyFour;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 
-import com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.MarketCapitalization;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -78,21 +75,6 @@ class StockPriceTest {
         // then
         assertThat(result).usingRecursiveComparison()
                 .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
-                .isEqualTo(expected);
-    }
-
-    @Test
-    @DisplayName("유통주식수를 받아 시가총액을 계산한다")
-    void calculateMarketCapitalization() {
-        // given
-        StockPrice stockPrice = stockPrice(1L, januaryFirst(), BigDecimal.valueOf(30.2));
-        MarketCapitalization expected = marketCapitalization(60L);
-
-        // when
-        MarketCapitalization result = stockPrice.calculateMarketCapitalization(2L);
-
-        // then
-        assertThat(result).usingRecursiveComparison()
                 .isEqualTo(expected);
     }
 }
