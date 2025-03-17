@@ -1,11 +1,11 @@
-package com.gyeryongbrother.pickandtest.stock.domain.core.entity;
+package com.gyeryongbrother.pickandtest.stockprice.domain.core.entity;
 
-import static com.gyeryongbrother.pickandtest.stock.domain.core.entity.StockPriceFixture.stockPrice;
-import static com.gyeryongbrother.pickandtest.stock.domain.core.entity.StockPriceFixture.stockPrices;
-import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.BigDecimalFixture.oneHundred;
-import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.BigDecimalFixture.oneThousand;
-import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.BigDecimalFixture.threeHundred;
-import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.BigDecimalFixture.twoHundred;
+import static com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.StockPriceFixture.stockPrice;
+import static com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.StockPriceFixture.stockPrices;
+import static com.gyeryongbrother.pickandtest.stockprice.domain.core.valueobject.BigDecimalFixture.oneHundred;
+import static com.gyeryongbrother.pickandtest.stockprice.domain.core.valueobject.BigDecimalFixture.oneThousand;
+import static com.gyeryongbrother.pickandtest.stockprice.domain.core.valueobject.BigDecimalFixture.threeHundred;
+import static com.gyeryongbrother.pickandtest.stockprice.domain.core.valueobject.BigDecimalFixture.twoHundred;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 

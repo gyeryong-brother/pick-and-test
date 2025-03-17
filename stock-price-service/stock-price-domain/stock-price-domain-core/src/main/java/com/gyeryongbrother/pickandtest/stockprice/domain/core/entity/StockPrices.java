@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.stock.domain.core.entity;
+package com.gyeryongbrother.pickandtest.stockprice.domain.core.entity;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -22,7 +22,7 @@ public class StockPrices {
         if (values.isEmpty()) {
             return BigDecimal.ZERO;
         }
-        return getLastValue().getPrice();
+        return getLastValue().price();
     }
 
     public StockPrice getLastValue() {
