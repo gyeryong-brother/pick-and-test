@@ -12,17 +12,28 @@ import lombok.Getter;
 @Getter
 public class StockPriceAssembler {
 
+    private final LocalDate startDate;
+    private final DateProvider dateProvider;
     private final List<StockPriceResponse> stockPriceResponses;
 
-    public StockPriceAssembler() {
+    public StockPriceAssembler(LocalDate startDate, DateProvider dateProvider) {
+        this.startDate = startDate;
+        this.dateProvider = dateProvider;
         stockPriceResponses = new ArrayList<>();
     }
 
     public boolean hasNext() {
+        LocalDate now = dateProvider.now();
+        if (now.isBefore(startDate)) {
+            return false;
+        }
         if (stockPriceResponses.isEmpty()) {
             return true;
         }
         StockPriceResponse lastStockPriceResponse = getLastStockPriceResponse();
+        if (!getLastDate().isAfter(startDate)) {
+            return false;
+        }
         return lastStockPriceResponse.continuityCode().hasNext();
     }
 
@@ -31,13 +42,16 @@ public class StockPriceAssembler {
         return stockPriceResponses.get(lastIndex);
     }
 
+    private LocalDate getLastDate() {
+        String lastDate = getLastStockDetail().date();
+        return DateTimeHandler.toDate(lastDate);
+    }
+
     public LocalDate getNextDate() {
         if (stockPriceResponses.isEmpty()) {
-            return LocalDate.now();
+            return dateProvider.now();
         }
-        String lastDate = getLastStockDetail().date();
-        return DateTimeHandler.toDate(lastDate)
-                .minusDays(1);
+        return getLastDate().minusDays(1);
     }
 
     private StockPriceDetail getLastStockDetail() {
