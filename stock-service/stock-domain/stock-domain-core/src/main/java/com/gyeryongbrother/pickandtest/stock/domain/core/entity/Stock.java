@@ -18,6 +18,9 @@ public class Stock {
     private final StockDetail stockDetail;
 
     public Long calculateMarketCapitalization() {
+        if (stockDetail == null) {
+            return null;
+        }
         return stockDetail.calculateMarketCapitalization(outstandingShares);
     }
 
