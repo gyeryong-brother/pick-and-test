@@ -4,6 +4,12 @@ import java.util.List;
 
 public class StockPriceBodyFixture {
 
+    public static StockPriceBody stockPriceBody(String date) {
+        return stockPriceBody(
+                new StockPriceDetail(date, "230.5400")
+        );
+    }
+
     public static StockPriceBody appleFirstStockPriceBody() {
         return stockPriceBody(
                 new StockPriceDetail("20240712", "230.5400"),
