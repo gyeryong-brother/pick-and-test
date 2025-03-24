@@ -2,28 +2,58 @@ package com.gyeryongbrother.pickandtest.stockprice.infrastructure.adapter;
 
 import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.ContinuityCode.END;
 import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.ContinuityCode.NEXT;
+import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBodyFixture.stockPriceBody;
 import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.appleFirstStockPriceResponse;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 @DisplayName("100개씩 나눠져서 오는 주가 api 응답을 통합한다")
 class StockPriceAssemblerTest {
+
+    @Mock
+    private DateProvider dateProvider;
 
     private StockPriceAssembler stockPriceAssembler;
 
     @BeforeEach
     void setUp() {
-        stockPriceAssembler = new StockPriceAssembler();
+        stockPriceAssembler = new StockPriceAssembler(
+                LocalDate.of(2025, 3, 1),
+                dateProvider
+        );
     }
 
     @Test
-    @DisplayName("초기 상태에서 다음 응답은 존재한다")
-    void hasNextTrueWithEmpty() {
+    @DisplayName("조회 시작일이 3월 1일인데 오늘 날짜가 2월 1일이면 조회가 필요하지 않다")
+    void hasNextWhenDateIsBeforeToday() {
+        // given
+        given(dateProvider.now())
+                .willReturn(LocalDate.of(2025, 2, 1));
+
+        // when
+        boolean result = stockPriceAssembler.hasNext();
+
+        // then
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    @DisplayName("조회 시작일이 3월 1일인데 오늘 날짜가 3월 1일이면 조회가 필요하다")
+    void hasNextWhenDateIsToday() {
+        // given
+        given(dateProvider.now())
+                .willReturn(LocalDate.of(2025, 3, 1));
+
         // when
         boolean result = stockPriceAssembler.hasNext();
 
@@ -32,27 +62,86 @@ class StockPriceAssemblerTest {
     }
 
     @Test
-    @DisplayName("최근 응답의 지속 코드가 NEXT 면 다음 응답은 존재한다")
+    @DisplayName("조회 시작일이 3월 1일인데 오늘 날짜가 4월 1일이면 조회가 필요하다")
+    void hasNextWhenDateIsAfterToday() {
+        // given
+        given(dateProvider.now())
+                .willReturn(LocalDate.of(2025, 4, 1));
+
+        // when
+        boolean result = stockPriceAssembler.hasNext();
+
+        // then
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    @DisplayName("초기 상태에서 오늘 날짜가 조회 시작일보다 과거가 아니라면 조회가 필요하다")
+    void hasNextTrueWithEmpty() {
+        // given
+        given(dateProvider.now())
+                .willReturn(LocalDate.of(2025, 3, 1));
+
+        // when
+        boolean result = stockPriceAssembler.hasNext();
+
+        // then
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    @DisplayName("조회된 날짜 중 가장 과거의 날짜가 조회 시작일과 같을 때 조회가 필요하지 않다")
+    void hasNextWhenLastDateIsDate() {
+        // given
+        given(dateProvider.now())
+                .willReturn(LocalDate.of(2025, 3, 1));
+        stockPriceAssembler.add(new StockPriceResponse(NEXT, stockPriceBody("20250301")));
+
+        // when
+        boolean result = stockPriceAssembler.hasNext();
+
+        // then
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    @DisplayName("조회된 날짜 중 가장 과거의 날짜가 조회 시작일보다 과거이면 조회가 필요하지 않다")
+    void hasNextWhenLastDateIsBeforeDate() {
+        // given
+        given(dateProvider.now())
+                .willReturn(LocalDate.of(2025, 3, 1));
+        stockPriceAssembler.add(new StockPriceResponse(NEXT, stockPriceBody("20250201")));
+
+        // when
+        boolean result = stockPriceAssembler.hasNext();
+
+        // then
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    @DisplayName("조회된 날짜 중 가장 과거의 날짜가 조회 시작일보다 미래이고 다음 응답이 존재하면 조회가 필요하다")
+    void hasNextWhenLastDateIsAfterDateWithNext() {
+        // given
+        given(dateProvider.now())
+                .willReturn(LocalDate.of(2025, 3, 1));
+        stockPriceAssembler.add(new StockPriceResponse(NEXT, stockPriceBody("20250401")));
+
+        // when
+        boolean result = stockPriceAssembler.hasNext();
+
+        // then
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    @DisplayName("조회된 날짜 중 가장 과거의 날짜가 조회 시작일보다 미래이고 다음 응답이 없으면 조회가 필요하지 않다")
     void hasNextTrueWithNext() {
         // given
-        StockPriceResponse stockPriceResponse = new StockPriceResponse(NEXT, null);
+        given(dateProvider.now())
+                .willReturn(LocalDate.of(2025, 4, 1));
+        StockPriceResponse stockPriceResponse = new StockPriceResponse(END, stockPriceBody("20250401"));
         stockPriceAssembler.add(stockPriceResponse);
-
-        // when
-        boolean result = stockPriceAssembler.hasNext();
-
-        // then
-        assertThat(result).isTrue();
-    }
-
-    @Test
-    @DisplayName("최근 응답의 지속 코드가 END 면 다음 응답은 존재하지 않는다")
-    void hasNextFalseWithEnd() {
-        // given
-        StockPriceResponse nextResponse = new StockPriceResponse(NEXT, null);
-        stockPriceAssembler.add(nextResponse);
-        StockPriceResponse endResponse = new StockPriceResponse(END, null);
-        stockPriceAssembler.add(endResponse);
 
         // when
         boolean result = stockPriceAssembler.hasNext();
@@ -65,7 +154,9 @@ class StockPriceAssemblerTest {
     @DisplayName("초기 상태에서 다음 날짜는 오늘이다")
     void getNextDateWithEmpty() {
         // given
-        LocalDate expected = LocalDate.now();
+        LocalDate expected = LocalDate.of(2025, 4, 1);
+        given(dateProvider.now())
+                .willReturn(LocalDate.of(2025, 4, 1));
 
         // when
         LocalDate result = stockPriceAssembler.getNextDate();
