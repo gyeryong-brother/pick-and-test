@@ -8,6 +8,7 @@ import com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainv
 import com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -22,13 +23,15 @@ public class StockPriceClientImpl implements StockPriceClient {
     @Override
     public List<StockPrice> fetchStockPrices(Long stockId, LocalDate date) {
         Stock stock = stockClient.fetchStock(stockId);
-        StockPriceAssembler stockPriceAssembler = new StockPriceAssembler(date, dateProvider);
-        while (stockPriceAssembler.hasNext()) {
-            LocalDate nextDate = stockPriceAssembler.getNextDate();
-            StockPriceResponse stockPriceResponse = koreaInvestmentClient.fetchStockPrice(stock.stockExchange(),
-                    stock.symbol(), nextDate);
-            stockPriceAssembler.add(stockPriceResponse);
-        }
-        return stockPriceAssembler.stockPrices(stockId);
+        StockPriceAssembler stockPriceAssembler = new StockPriceAssembler(date, dateProvider, fetchingFunction(stock));
+        return stockPriceAssembler.assemble(stockId);
+    }
+
+    private Function<LocalDate, StockPriceResponse> fetchingFunction(Stock stock) {
+        return it -> koreaInvestmentClient.fetchStockPrice(
+                stock.stockExchange(),
+                stock.symbol(),
+                it
+        );
     }
 }

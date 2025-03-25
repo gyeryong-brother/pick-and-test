@@ -31,7 +31,8 @@ class StockPriceAssemblerTest {
     void setUp() {
         stockPriceAssembler = new StockPriceAssembler(
                 LocalDate.of(2025, 3, 1),
-                dateProvider
+                dateProvider,
+                it -> null
         );
     }
 
