@@ -5,7 +5,6 @@ import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.StockPrice;
 import com.gyeryongbrother.pickandtest.stockprice.domain.service.ports.output.StockClient;
 import com.gyeryongbrother.pickandtest.stockprice.domain.service.ports.output.StockPriceClient;
 import com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.KoreaInvestmentClient;
-import com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBody;
 import com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
 import java.time.LocalDate;
 import java.util.List;
@@ -30,11 +29,6 @@ public class StockPriceClientImpl implements StockPriceClient {
                     stock.symbol(), nextDate);
             stockPriceAssembler.add(stockPriceResponse);
         }
-        return stockPriceAssembler.getStockPriceResponses().stream()
-                .map(StockPriceResponse::stockPriceBody)
-                .map(StockPriceBody::stockPriceDetails)
-                .flatMap(List::stream)
-                .map(it -> it.toDomain(stockId))
-                .toList();
+        return stockPriceAssembler.stockPrices(stockId);
     }
 }

@@ -3,12 +3,14 @@ package com.gyeryongbrother.pickandtest.stockprice.infrastructure.adapter;
 import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.ContinuityCode.END;
 import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.ContinuityCode.NEXT;
 import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBodyFixture.stockPriceBody;
-import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponseFixture.appleFirstStockPriceResponse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
+import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.StockPrice;
 import com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -169,14 +171,34 @@ class StockPriceAssemblerTest {
     @DisplayName("다음 날짜는 가장 과거 날짜 하루 전이다")
     void getNextDate() {
         // given
-        StockPriceResponse stockPriceResponse = appleFirstStockPriceResponse();
+        StockPriceResponse stockPriceResponse = new StockPriceResponse(END, stockPriceBody("20250401"));
         stockPriceAssembler.add(stockPriceResponse);
-        LocalDate expected = LocalDate.of(2024, 7, 9);
+        LocalDate expected = LocalDate.of(2025, 3, 31);
 
         // when
         LocalDate result = stockPriceAssembler.getNextDate();
 
         // then
         assertThat(result).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("주가를 조회할 때 조회 시작일 과거 주가는 제외한다")
+    void stockPrices() {
+        // given
+        StockPriceResponse stockPriceResponse = new StockPriceResponse(END,
+                stockPriceBody("20250302", "20250301", "20250228", "20250227"));
+        List<StockPrice> expected = List.of(
+                new StockPrice(null, 1L, LocalDate.of(2025, 3, 2), new BigDecimal("230.5400")),
+                new StockPrice(null, 1L, LocalDate.of(2025, 3, 1), new BigDecimal("230.5400"))
+        );
+
+        // when
+        stockPriceAssembler.add(stockPriceResponse);
+        List<StockPrice> result = stockPriceAssembler.stockPrices(1L);
+
+        // then
+        assertThat(result).usingRecursiveComparison()
+                .isEqualTo(expected);
     }
 }
