@@ -1,5 +1,6 @@
 package com.gyeryongbrother.pickandtest.stockprice.infrastructure.adapter;
 
+import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.StockPrice;
 import com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.common.DateTimeHandler;
 import com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBody;
 import com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.dto.StockPriceDetail;
@@ -63,5 +64,15 @@ public class StockPriceAssembler {
 
     public void add(StockPriceResponse stockPriceResponse) {
         stockPriceResponses.add(stockPriceResponse);
+    }
+
+    public List<StockPrice> stockPrices(Long stockId) {
+        return stockPriceResponses.stream()
+                .map(StockPriceResponse::stockPriceBody)
+                .map(StockPriceBody::stockPriceDetails)
+                .flatMap(List::stream)
+                .map(it -> it.toDomain(stockId))
+                .filter(it -> !it.date().isBefore(startDate))
+                .toList();
     }
 }

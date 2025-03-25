@@ -1,5 +1,6 @@
 package com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.dto;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class StockPriceBodyFixture {
@@ -7,6 +8,22 @@ public class StockPriceBodyFixture {
     public static StockPriceBody stockPriceBody(String date) {
         return stockPriceBody(
                 new StockPriceDetail(date, "230.5400")
+        );
+    }
+
+    public static StockPriceBody stockPriceBody(String... dates) {
+        List<StockPriceDetail> stockPriceDetails = Arrays.stream(dates)
+                .map(it -> new StockPriceDetail(it, "230.5400"))
+                .toList();
+        return stockPriceBody(stockPriceDetails);
+    }
+
+    private static StockPriceBody stockPriceBody(List<StockPriceDetail> stockPriceDetails) {
+        return new StockPriceBody(
+                "0",
+                "MCA00000",
+                "정상처리 되었습니다.",
+                stockPriceDetails
         );
     }
 
