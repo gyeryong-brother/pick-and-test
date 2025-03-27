@@ -30,4 +30,20 @@ public class StockPriceEntity {
     public StockPrice toDomain() {
         return new StockPrice(id, stockId, date, price);
     }
+
+    public Long id() {
+        return id;
+    }
+
+    public Long stockId() {
+        return stockId;
+    }
+
+    public LocalDate date() {
+        return date;
+    }
+
+    public BigDecimal price() {
+        return price;
+    }
 }
