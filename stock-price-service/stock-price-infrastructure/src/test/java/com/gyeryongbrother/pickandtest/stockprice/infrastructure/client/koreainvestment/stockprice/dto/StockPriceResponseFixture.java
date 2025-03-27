@@ -1,7 +1,7 @@
 package com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.dto;
 
-import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.ContinuityCode.END;
-import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.ContinuityCode.NEXT;
+import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.koreainvestment.stockprice.ContinuityCode.END;
+import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.koreainvestment.stockprice.ContinuityCode.NEXT;
 import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBodyFixture.appleFirstStockPriceBody;
 import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBodyFixture.appleSecondStockPriceBody;
 import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBodyFixture.appleThirdStockPriceBody;
@@ -11,6 +11,8 @@ import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.k
 import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBodyFixture.nvidiaFirstStockPriceBody;
 import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBodyFixture.nvidiaSecondStockPriceBody;
 import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBodyFixture.nvidiaThirdStockPriceBody;
+
+import com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.koreainvestment.stockprice.dto.StockPriceResponse;
 
 public class StockPriceResponseFixture {
 
