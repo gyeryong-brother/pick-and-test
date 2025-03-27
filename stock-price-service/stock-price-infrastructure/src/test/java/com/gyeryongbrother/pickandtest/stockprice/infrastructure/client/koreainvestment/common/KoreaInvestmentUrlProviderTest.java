@@ -1,9 +1,10 @@
 package com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.common;
 
-import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.common.StockExchangeCode.NASDAQ_CODE;
-import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.Period.DAY;
+import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.koreainvestment.common.StockExchangeCode.NASDAQ_CODE;
+import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.koreainvestment.stockprice.Period.DAY;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.koreainvestment.common.KoreaInvestmentUrlProvider;
 import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

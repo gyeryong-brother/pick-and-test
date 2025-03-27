@@ -7,8 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.stockprice.domain.service.exception.BaseExceptionType;
-import com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.auth.AuthManager;
-import com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.ContinuityCode;
+import com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.koreainvestment.auth.AuthManager;
+import com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.koreainvestment.common.FetchType;
+import com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.koreainvestment.common.HeaderHandler;
+import com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.koreainvestment.stockprice.ContinuityCode;
 import com.gyeryongbrother.pickandtest.stockprice.infrastructure.exception.StockPriceInfrastructureException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
