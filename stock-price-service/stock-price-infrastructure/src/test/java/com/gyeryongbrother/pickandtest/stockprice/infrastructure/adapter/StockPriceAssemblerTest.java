@@ -1,13 +1,15 @@
 package com.gyeryongbrother.pickandtest.stockprice.infrastructure.adapter;
 
-import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.ContinuityCode.END;
-import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.ContinuityCode.NEXT;
+import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.koreainvestment.stockprice.ContinuityCode.END;
+import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.koreainvestment.stockprice.ContinuityCode.NEXT;
 import static com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.dto.StockPriceBodyFixture.stockPriceBody;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.StockPrice;
-import com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.koreainvestment.stockprice.dto.StockPriceResponse;
+import com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.koreainvestment.common.DateProvider;
+import com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.koreainvestment.stockprice.StockPriceAssembler;
+import com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.koreainvestment.stockprice.dto.StockPriceResponse;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
