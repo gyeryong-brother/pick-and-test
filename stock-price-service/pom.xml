@@ -20,6 +20,7 @@
         <module>stock-price-dataaccess</module>
         <module>stock-price-container</module>
         <module>stock-price-infrastructure</module>
+        <module>stock-price-messaging</module>
     </modules>
 
     <dependencies>
