@@ -10,6 +10,7 @@ import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.StockPrice;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = PRIVATE)
@@ -36,5 +37,14 @@ public class StockPriceFixture {
 
     private static StockPrice stockPrice(Long stockId, LocalDate date, BigDecimal price) {
         return new StockPrice(null, stockId, date, price);
+    }
+
+    public static Map<Long, List<StockPrice>> stockPricesByStockId() {
+        return Map.of(
+                1L, List.of(
+                        new StockPrice(null, 1L, januaryFirst(), oneHundred()),
+                        new StockPrice(null, 1L, januarySecond(), twoHundred())
+                )
+        );
     }
 }
