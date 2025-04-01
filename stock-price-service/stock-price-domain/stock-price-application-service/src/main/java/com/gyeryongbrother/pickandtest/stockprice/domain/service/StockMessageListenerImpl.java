@@ -16,7 +16,6 @@ public class StockMessageListenerImpl implements StockMessageListener {
 
     @Override
     public void stockCreated(Stock stock) {
-        log.info(stock.symbol());
-//        stockPriceCollector.collectStockPrices(stock.id());
+        stockPriceCollector.collectStockPrices(stock.id());
     }
 }
