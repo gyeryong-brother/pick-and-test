@@ -29,6 +29,13 @@ public class StockPriceQueryRepositoryImpl implements StockPriceQueryRepository 
     }
 
     @Override
+    public List<Long> findAllStockIds() {
+        return queryFactory.select(stockPriceEntity.stockId)
+                .distinct()
+                .fetch();
+    }
+
+    @Override
     public StockPriceDate findLastDateOfStockPricesByStockId(Long stockId) {
         StockPriceEntity stockPrice = queryFactory.selectFrom(stockPriceEntity)
                 .where(stockPriceEntity.stockId.eq(stockId))
