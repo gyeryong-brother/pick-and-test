@@ -8,4 +8,7 @@ public record LoginResponse(
         String refreshToken
 ) {
 
+    public String getRefreshToken() {
+        return refreshToken;
+    }
 }
