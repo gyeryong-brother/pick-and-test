@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
     private static final String LOCAL_SERVER_URL = "http://localhost:3000";
-    private static final String DEV_SERVER_URL = "http://43.203.243.116";
+    private static final String DEV_SERVER_URL = "http://43.203.243.116:3000";
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
