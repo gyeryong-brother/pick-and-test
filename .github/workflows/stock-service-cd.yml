@@ -31,14 +31,9 @@ jobs:
           mvn jib:build -pl stock-container
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
-      - uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
       - run: |
-          aws eks update-kubeconfig --region ap-northeast-2 --name gb
-      - run: |
-          kubectl rollout restart deployment stock-service-deployment
+          cd /home/ubuntu/pick-and-test-server
+          docker compose pull stock-service
+          docker compose up stock-service -d
