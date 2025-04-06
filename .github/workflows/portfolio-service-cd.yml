@@ -36,5 +36,5 @@ jobs:
     steps:
       - run: |
           cd /home/ubuntu/pick-and-test-server
-          docker compose pull portfolio-service
-          docker compose up portfolio-service -d
+          sudo docker compose pull portfolio-service
+          sudo docker compose up portfolio-service -d

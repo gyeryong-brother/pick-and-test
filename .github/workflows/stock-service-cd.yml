@@ -36,5 +36,5 @@ jobs:
     steps:
       - run: |
           cd /home/ubuntu/pick-and-test-server
-          docker compose pull stock-service
-          docker compose up stock-service -d
+          sudo docker compose pull stock-service
+          sudo docker compose up stock-service -d

@@ -36,5 +36,5 @@ jobs:
     steps:
       - run: |
           cd /home/ubuntu/pick-and-test-server
-          docker compose pull member-service
-          docker compose up member-service -d
+          sudo docker compose pull member-service
+          sudo docker compose up member-service -d
