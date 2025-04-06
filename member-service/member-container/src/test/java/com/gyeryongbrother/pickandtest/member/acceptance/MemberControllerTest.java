@@ -24,7 +24,6 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -53,9 +52,6 @@ class MemberControllerTest {
 
     @Autowired
     private RefreshTokenQueryRepository refreshTokenQueryRepository;
-
-    @Autowired
-    private EntityManager entityManager;
 
     @BeforeEach
     void setUp() {
@@ -204,7 +200,7 @@ class MemberControllerTest {
 
     @Test
     @DisplayName("로그아웃을 한다")
-    void logout(){
+    void logout() {
         //given
         RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name", "usernameLogout", "password");
 
@@ -231,7 +227,7 @@ class MemberControllerTest {
         //when
         ExtractableResponse<Response> response = RestAssured.given()
                 .log().all()
-                .cookie("refreshToken",refreshToken)
+                .cookie("refreshToken", refreshToken)
                 .header("Authorization", "Bearer " + accessToken)
                 .contentType(ContentType.JSON)
                 .when()
@@ -240,8 +236,8 @@ class MemberControllerTest {
                 .log().all()
                 .extract();
 
-        LogoutResponse result=response.as(LogoutResponse.class);
-        LogoutResponse expected=new LogoutResponse(1L);
+        LogoutResponse result = response.as(LogoutResponse.class);
+        LogoutResponse expected = new LogoutResponse(1L);
 
         //then
         assertThat(result).isEqualTo(expected);
