@@ -7,6 +7,7 @@ on:
       - develop
     paths:
       - stock-service/**
+      - .github/**
 
 jobs:
   build:
