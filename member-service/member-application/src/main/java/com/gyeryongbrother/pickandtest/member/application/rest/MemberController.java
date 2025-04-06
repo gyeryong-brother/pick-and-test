@@ -54,9 +54,9 @@ public class MemberController {
     }
 
     @PostMapping("/logout")
-    ResponseEntity<LogoutResponse> logout(@CookieValue(name = "refreshToken", required = false) String refreshToken, HttpServletResponse response){
-        //LoginResponse loginResponse=new LoginResponse("a","b");
-        LogoutResponse logoutResponse=memberService.logout(refreshToken);
+    ResponseEntity<LogoutResponse> logout(@CookieValue(name = "refreshToken", required = false) String refreshToken,
+                                          HttpServletResponse response) {
+        LogoutResponse logoutResponse = memberService.logout(refreshToken);
         Cookie refreshCookie = new Cookie("refreshToken", null);
         refreshCookie.setHttpOnly(true);
         refreshCookie.setSecure(true);

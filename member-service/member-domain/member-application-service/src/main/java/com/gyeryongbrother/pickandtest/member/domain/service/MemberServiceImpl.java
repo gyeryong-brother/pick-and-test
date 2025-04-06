@@ -73,8 +73,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public LogoutResponse logout(String refreshToken) {
-        long deleted=refreshTokenRepository.delete(refreshToken);
-        int a=0;
+        long deleted = refreshTokenRepository.delete(refreshToken);
         return new LogoutResponse(deleted);
     }
 }
