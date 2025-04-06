@@ -5,4 +5,6 @@ import com.gyeryongbrother.pickandtest.member.domain.core.RefreshToken;
 public interface RefreshTokenRepository {
 
     RefreshToken save(RefreshToken refreshToken);
+
+    long delete(String refreshToken);
 }

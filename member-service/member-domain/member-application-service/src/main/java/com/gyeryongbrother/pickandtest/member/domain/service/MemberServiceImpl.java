@@ -7,6 +7,7 @@ import com.gyeryongbrother.pickandtest.member.domain.core.Member;
 import com.gyeryongbrother.pickandtest.member.domain.core.RefreshToken;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginResponse;
+import com.gyeryongbrother.pickandtest.member.domain.service.dto.LogoutResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceException;
@@ -19,9 +20,11 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
@@ -64,7 +67,14 @@ public class MemberServiceImpl implements MemberService {
 
         RefreshToken saved = refreshTokenRepository.save(
                 new RefreshToken(null, member.getUsername(), refreshToken));
-        LoginResponse loginResponse = new LoginResponse(accessToken, saved.getRefreshToken());
+        LoginResponse loginResponse = new LoginResponse(accessToken, saved.getToken());
         return loginResponse;
+    }
+
+    @Override
+    public LogoutResponse logout(String refreshToken) {
+        long deleted=refreshTokenRepository.delete(refreshToken);
+        int a=0;
+        return new LogoutResponse(deleted);
     }
 }

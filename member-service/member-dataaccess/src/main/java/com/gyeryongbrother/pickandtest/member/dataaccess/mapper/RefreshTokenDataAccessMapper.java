@@ -11,7 +11,7 @@ public class RefreshTokenDataAccessMapper {
         return RefreshTokenEntity.builder()
                 .id(refreshToken.getId())
                 .username(refreshToken.getUsername())
-                .refreshToken(refreshToken.getRefreshToken())
+                .token(refreshToken.getToken())
                 .build();
     }
 
@@ -19,7 +19,7 @@ public class RefreshTokenDataAccessMapper {
         return RefreshToken.builder()
                 .id(refreshTokenEntity.getId())
                 .username(refreshTokenEntity.getUsername())
-                .refreshToken(refreshTokenEntity.getRefreshToken())
+                .token(refreshTokenEntity.getToken())
                 .build();
     }
 }

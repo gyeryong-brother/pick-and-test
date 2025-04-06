@@ -7,6 +7,7 @@ import com.gyeryongbrother.pickandtest.member.application.dto.LoginRequest;
 import com.gyeryongbrother.pickandtest.member.application.dto.RegisterMemberRequest;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginResponse;
+import com.gyeryongbrother.pickandtest.member.domain.service.dto.LogoutResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.input.MemberService;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -52,9 +54,16 @@ public class MemberController {
     }
 
     @PostMapping("/logout")
-    ResponseEntity<LoginResponse> result(){
-        LoginResponse loginResponse=new LoginResponse("a","b");
-        return ResponseEntity.status(OK).body(loginResponse);
+    ResponseEntity<LogoutResponse> logout(@CookieValue(name = "refreshToken", required = false) String refreshToken, HttpServletResponse response){
+        //LoginResponse loginResponse=new LoginResponse("a","b");
+        LogoutResponse logoutResponse=memberService.logout(refreshToken);
+        Cookie refreshCookie = new Cookie("refreshToken", null);
+        refreshCookie.setHttpOnly(true);
+        refreshCookie.setSecure(true);
+        refreshCookie.setPath("/");
+        refreshCookie.setMaxAge(0);
+        response.addCookie(refreshCookie);
+        return ResponseEntity.status(OK).body(logoutResponse);
     }
 
     @GetMapping
