@@ -25,5 +25,5 @@ public class RefreshTokenEntity {
 
     private String username;
 
-    private String refreshToken;
+    private String token;
 }

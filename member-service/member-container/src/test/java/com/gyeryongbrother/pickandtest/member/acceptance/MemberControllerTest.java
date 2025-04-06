@@ -13,6 +13,7 @@ import com.gyeryongbrother.pickandtest.member.application.exception.handler.dto.
 import com.gyeryongbrother.pickandtest.member.domain.core.Member;
 import com.gyeryongbrother.pickandtest.member.domain.core.UserRole;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.LoginResponse;
+import com.gyeryongbrother.pickandtest.member.domain.service.dto.LogoutResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.input.MemberService;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.JwtUtil;
@@ -23,6 +24,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -51,6 +53,9 @@ class MemberControllerTest {
 
     @Autowired
     private RefreshTokenQueryRepository refreshTokenQueryRepository;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @BeforeEach
     void setUp() {
@@ -132,7 +137,7 @@ class MemberControllerTest {
         UserRole role = jwtUtil.getRoleFromToken(accessToken);
         Long memberIdfromAccess = jwtUtil.getMemberIdFromToken(accessToken);
         String expectedRefreshToken = refreshTokenQueryRepository.findByUsername(member.getUsername()).get(0)
-                .getRefreshToken();
+                .getToken();
 
         //then
         assertAll(
@@ -226,6 +231,7 @@ class MemberControllerTest {
         //when
         ExtractableResponse<Response> response = RestAssured.given()
                 .log().all()
+                .cookie("refreshToken",refreshToken)
                 .header("Authorization", "Bearer " + accessToken)
                 .contentType(ContentType.JSON)
                 .when()
@@ -234,11 +240,10 @@ class MemberControllerTest {
                 .log().all()
                 .extract();
 
-
-        LoginResponse result=response.as(LoginResponse.class);
-        LoginResponse expected=new LoginResponse("a","b");
+        LogoutResponse result=response.as(LogoutResponse.class);
+        LogoutResponse expected=new LogoutResponse(1L);
 
         //then
-        assertThat(result.equals(expected));
+        assertThat(result).isEqualTo(expected);
     }
 }

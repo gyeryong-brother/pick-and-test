@@ -11,5 +11,5 @@ public class RefreshToken {
 
     private final Long id;
     private final String username;
-    private final String refreshToken;
+    private final String token;
 }

@@ -5,6 +5,7 @@ import com.gyeryongbrother.pickandtest.member.dataaccess.mapper.RefreshTokenData
 import com.gyeryongbrother.pickandtest.member.dataaccess.repository.RefreshTokenJpaRepository;
 import com.gyeryongbrother.pickandtest.member.domain.core.RefreshToken;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.RefreshTokenRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -21,5 +22,11 @@ public class RefreshTokenRepositoryImpl implements RefreshTokenRepository {
                 refreshToken);
         RefreshTokenEntity saved = refreshTokenJpaRepository.save(refreshTokenEntity);
         return refreshTokenDataAccessMapper.refreshTokenEntityToRefreshToken(saved);
+    }
+
+    @Override
+    public long delete(String refreshToken) {
+        List<RefreshTokenEntity> refreshTokenEntities=refreshTokenJpaRepository.findAll();
+        return refreshTokenJpaRepository.deleteByToken(refreshToken);
     }
 }
