@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import com.gyeryongbrother.pickandtest.member.application.dto.LoginRequest;
 import com.gyeryongbrother.pickandtest.member.application.dto.RegisterMemberRequest;
@@ -241,5 +242,32 @@ class MemberControllerTest {
 
         //then
         assertThat(result).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("잘못된 access 토큰으로 로그아웃을 시도한다")
+    void logoutWitInvalidAccessToken(){
+        //given
+        String invalidAccessToken="invalidAccessToken";
+        ErrorResponse expected = new ErrorResponse("Invalid Access Token Error");
+
+        //when
+        ExtractableResponse<Response> response = RestAssured.given()
+                .log().all()
+                .header("Authorization", "Bearer " + invalidAccessToken)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/members/logout")
+                .then()
+                .log().all()
+                .extract();
+
+        ErrorResponse result = response.as(ErrorResponse.class);
+
+        //then
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(UNAUTHORIZED.value()),
+                () -> assertThat(result).isEqualTo(expected)
+        );
     }
 }
