@@ -321,7 +321,7 @@ class MemberControllerTest {
         String refreshToken = result0.refreshToken();
 
         String invalidRefreshToken="invalidRefreshToken";
-        ErrorResponse expected = new ErrorResponse("Invalid Access Token Error");
+        ErrorResponse expected = new ErrorResponse("Invalid Refresh Token Error");
 
         //when
         ExtractableResponse<Response> response = RestAssured.given()
@@ -389,6 +389,54 @@ class MemberControllerTest {
         //then
         assertAll(
                 () -> assertThat(response.statusCode()).isEqualTo(UNAUTHORIZED.value()),
+                () -> assertThat(result).isEqualTo(expected)
+        );
+    }
+
+    @Test
+    @DisplayName("Refresh Token 없이 로그아웃 시도")
+    void logoutWithoutRefreshToken(){
+        //given
+        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name", "usernameLogoutWithoutRefreshToken", "password");
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(registerMemberRequest)
+                .when().post("/members")
+                .then().log().all()
+                .extract();
+
+        LoginRequest loginRequest = new LoginRequest("usernameLogoutWithoutRefreshToken", "password");
+
+        ExtractableResponse<Response> response0 = RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(loginRequest)
+                .when().post("/members/login")
+                .then().log().all()
+                .extract();
+
+        LoginResponse result0 = response0.as(LoginResponse.class);
+        String accessToken = result0.accessToken();
+        String refreshToken = result0.refreshToken();
+
+        ErrorResponse expected = new ErrorResponse("Invalid Refresh Token Error");
+
+        //when
+        ExtractableResponse<Response> response = RestAssured.given()
+                .log().all()
+                .header("Authorization", "Bearer " + accessToken)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/members/logout")
+                .then()
+                .log().all()
+                .extract();
+
+        ErrorResponse result = response.as(ErrorResponse.class);
+
+        //then
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(NOT_FOUND.value()),
                 () -> assertThat(result).isEqualTo(expected)
         );
     }
