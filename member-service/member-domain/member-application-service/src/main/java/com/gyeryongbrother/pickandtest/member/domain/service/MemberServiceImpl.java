@@ -1,6 +1,7 @@
 package com.gyeryongbrother.pickandtest.member.domain.service;
 
 import static com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceExceptionType.INCORRECT_PASSWORD;
+import static com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceExceptionType.INVALID_REFRESH_TOKEN;
 import static com.gyeryongbrother.pickandtest.member.domain.service.exception.MemberServiceExceptionType.USER_ID_EXISTS;
 
 import com.gyeryongbrother.pickandtest.member.domain.core.Member;
@@ -74,6 +75,9 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public LogoutResponse logout(String refreshToken) {
         long deleted = refreshTokenRepository.delete(refreshToken);
+        if(deleted==0){
+            throw new MemberServiceException(INVALID_REFRESH_TOKEN);
+        }
         return new LogoutResponse(deleted);
     }
 }
