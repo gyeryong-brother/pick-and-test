@@ -1,6 +1,8 @@
 package com.gyeryongbrother.pickandtest.member.infrastructure;
 
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.JwtUtil;
+import com.gyeryongbrother.pickandtest.member.infrastructure.exception.MemberInfrastructureException;
+import com.gyeryongbrother.pickandtest.member.infrastructure.exception.MemberInfrastructureExceptionType;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -31,7 +33,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         }
 
         if (token != null && !jwtUtil.validateToken(token)) {
-            throw new RuntimeException("Invalid Access Token Error");
+            throw new MemberInfrastructureException(MemberInfrastructureExceptionType.INVALID_ACCESSTOKEN_ERROR);
         }
 
         chain.doFilter(request, response);
