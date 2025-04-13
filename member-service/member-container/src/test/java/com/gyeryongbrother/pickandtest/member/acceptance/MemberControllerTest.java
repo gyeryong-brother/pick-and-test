@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import com.gyeryongbrother.pickandtest.member.application.dto.LoginRequest;
 import com.gyeryongbrother.pickandtest.member.application.dto.RegisterMemberRequest;
@@ -271,7 +270,7 @@ class MemberControllerTest {
         String refreshToken = result0.refreshToken();
 
         String invalidAccessToken="invalidAccessToken";
-        ErrorResponse expected = new ErrorResponse("Invalid Access Token Error");
+        LogoutResponse expected = new LogoutResponse(1L);
 
         //when
         ExtractableResponse<Response> response = RestAssured.given()
@@ -285,13 +284,10 @@ class MemberControllerTest {
                 .log().all()
                 .extract();
 
-        ErrorResponse result = response.as(ErrorResponse.class);
+        LogoutResponse result = response.as(LogoutResponse.class);
 
         //then
-        assertAll(
-                () -> assertThat(response.statusCode()).isEqualTo(UNAUTHORIZED.value()),
-                () -> assertThat(result).isEqualTo(expected)
-        );
+        assertThat(result).isEqualTo(expected);
     }
 
     @Test
@@ -371,7 +367,7 @@ class MemberControllerTest {
         String accessToken = result0.accessToken();
         String refreshToken = result0.refreshToken();
 
-        ErrorResponse expected = new ErrorResponse("Invalid Access Token Error");
+        LogoutResponse expected = new LogoutResponse(1L);
 
         //when
         ExtractableResponse<Response> response = RestAssured.given()
@@ -384,13 +380,10 @@ class MemberControllerTest {
                 .log().all()
                 .extract();
 
-        ErrorResponse result = response.as(ErrorResponse.class);
+        LogoutResponse result = response.as(LogoutResponse.class);
 
         //then
-        assertAll(
-                () -> assertThat(response.statusCode()).isEqualTo(UNAUTHORIZED.value()),
-                () -> assertThat(result).isEqualTo(expected)
-        );
+        assertThat(result).isEqualTo(expected);
     }
 
     @Test

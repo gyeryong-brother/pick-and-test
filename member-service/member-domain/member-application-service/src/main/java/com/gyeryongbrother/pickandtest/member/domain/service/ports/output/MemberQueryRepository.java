@@ -8,4 +8,6 @@ public interface MemberQueryRepository {
     Member getByUsername(String username);
 
     Optional<Member> findByUsername(String username);
+
+    Member findByMemberId(Long memberId);
 }
