@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtUtilImpl implements JwtUtil {
     private static final String SECRET_KEY = "my-secret-key-for-the-project-pickandtest";
-    private static final long ACCESS_TOKEN_EXPIRATION = 1000 * 60 * 30;
+    private static final long ACCESS_TOKEN_EXPIRATION = 1000 * 1;
     private static final long REFRESH_TOKEN_EXPIRATION = 1000 * 60 * 60 * 24;
 
     private Key getSigningKey() {
@@ -55,6 +55,7 @@ public class JwtUtilImpl implements JwtUtil {
     public boolean validateToken(String token) {
         try {
             extractClaims(token);
+
             return true;
         } catch (Exception e) {
             return false;
