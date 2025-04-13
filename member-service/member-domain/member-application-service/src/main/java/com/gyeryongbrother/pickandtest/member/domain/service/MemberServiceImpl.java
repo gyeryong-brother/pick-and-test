@@ -75,7 +75,9 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public LogoutResponse logout(String refreshToken) {
         long deleted = refreshTokenRepository.delete(refreshToken);
-        if(deleted==0){throw new MemberServiceException(INVALID_REFRESH_TOKEN);}
+        if (deleted == 0) {
+            throw new MemberServiceException(INVALID_REFRESH_TOKEN);
+        }
         return new LogoutResponse(deleted);
     }
 }

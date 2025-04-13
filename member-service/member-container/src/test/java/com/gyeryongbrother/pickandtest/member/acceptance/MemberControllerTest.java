@@ -246,9 +246,10 @@ class MemberControllerTest {
 
     @Test
     @DisplayName("잘못된 access 토큰으로 로그아웃을 시도한다")
-    void logoutWitInvalidAccessToken(){
+    void logoutWitInvalidAccessToken() {
         //given
-        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name", "usernameLogoutWithInvalidAccessToken", "password");
+        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name",
+                "usernameLogoutWithInvalidAccessToken", "password");
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
@@ -270,7 +271,7 @@ class MemberControllerTest {
         String accessToken = result0.accessToken();
         String refreshToken = result0.refreshToken();
 
-        String invalidAccessToken="invalidAccessToken";
+        String invalidAccessToken = "invalidAccessToken";
         LogoutResponse expected = new LogoutResponse(1L);
 
         //when
@@ -293,9 +294,10 @@ class MemberControllerTest {
 
     @Test
     @DisplayName("잘못된 refresh Token으로 로그아웃 시도")
-    void logoutWithInvalidRefreshToken(){
+    void logoutWithInvalidRefreshToken() {
         //given
-        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name", "usernameLogoutWithInvalidRefreshToken", "password");
+        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name",
+                "usernameLogoutWithInvalidRefreshToken", "password");
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
@@ -317,7 +319,7 @@ class MemberControllerTest {
         String accessToken = result0.accessToken();
         String refreshToken = result0.refreshToken();
 
-        String invalidRefreshToken="invalidRefreshToken";
+        String invalidRefreshToken = "invalidRefreshToken";
         ErrorResponse expected = new ErrorResponse("Invalid Refresh Token Error");
 
         //when
@@ -344,9 +346,10 @@ class MemberControllerTest {
 
     @Test
     @DisplayName("Access 토큰 없이 로그아웃 시도")
-    void logoutWithoutAccessToken(){
+    void logoutWithoutAccessToken() {
         //given
-        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name", "usernameLogoutWithoutAccessToken", "password");
+        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name",
+                "usernameLogoutWithoutAccessToken", "password");
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
@@ -389,9 +392,10 @@ class MemberControllerTest {
 
     @Test
     @DisplayName("Refresh Token 없이 로그아웃 시도")
-    void logoutWithoutRefreshToken(){
+    void logoutWithoutRefreshToken() {
         //given
-        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name", "usernameLogoutWithoutRefreshToken", "password");
+        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name",
+                "usernameLogoutWithoutRefreshToken", "password");
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
@@ -437,10 +441,10 @@ class MemberControllerTest {
 
     @Test
     @DisplayName("잘못된 access 토큰과 refresh 토큰으로 로그아웃 시도")
-    void logoutWithInvalidAccessTokenAndRefreshToken(){
+    void logoutWithInvalidAccessTokenAndRefreshToken() {
         //given
-        String invalidAccessToken="invalidAccessToken";
-        String invalidRefreshToken="invalidRefreshToken";
+        String invalidAccessToken = "invalidAccessToken";
+        String invalidRefreshToken = "invalidRefreshToken";
 
         ErrorResponse expected = new ErrorResponse("Invalid Token Error");
 
@@ -467,7 +471,7 @@ class MemberControllerTest {
 
     @Test
     @DisplayName("access 토큰과 refresh 토큰 없이 로그아웃 시도")
-    void logoutWithoutAccessTokenAndRefreshToken(){
+    void logoutWithoutAccessTokenAndRefreshToken() {
         //given
         ErrorResponse expected = new ErrorResponse("Invalid Token Error");
 
@@ -494,7 +498,8 @@ class MemberControllerTest {
     @DisplayName("만료된 accessToken으로 로그아웃 시도")
     void logoutWithExpiredAccessToken() throws InterruptedException {
         //given
-        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name", "usernameLogoutWithExpiredAccessToken", "password");
+        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name",
+                "usernameLogoutWithExpiredAccessToken", "password");
 
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)

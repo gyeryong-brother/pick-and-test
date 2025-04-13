@@ -44,7 +44,7 @@ public class MemberQueryRepositoryImpl implements MemberQueryRepository {
 
     @Override
     public Member findByMemberId(Long memberId) {
-        MemberEntity memberEntity=memberJpaRepository.findById(memberId)
+        MemberEntity memberEntity = memberJpaRepository.findById(memberId)
                 .orElseThrow(() -> new MemberServiceException(USER_NONEXISTS));
         return memberDataAccessMapper.memberEntityToMember(memberEntity);
     }
