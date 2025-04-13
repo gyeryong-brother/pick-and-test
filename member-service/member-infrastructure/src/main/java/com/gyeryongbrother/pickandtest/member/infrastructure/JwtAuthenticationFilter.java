@@ -30,6 +30,11 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             throws IOException, ServletException {
         String token = resolveToken((HttpServletRequest) request);
 
+        if (token != null && jwtUtil.validateToken(token)) {
+            Authentication authentication = jwtUtil.getAuthentication(token);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+
         if ((token == null) | (token != null && !jwtUtil.validateToken(token))) {
             String refreshToken = getRefreshTokenFromCookies((HttpServletRequest) request);
             if (refreshToken != null && jwtUtil.validateToken(refreshToken)) {
@@ -42,11 +47,6 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 
                 ((HttpServletResponse) response).setHeader("Authorization", "Bearer " + newAccessToken);
             }
-        }
-
-        if (token != null && jwtUtil.validateToken(token)) {
-            Authentication authentication = jwtUtil.getAuthentication(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
         chain.doFilter(request, response);
