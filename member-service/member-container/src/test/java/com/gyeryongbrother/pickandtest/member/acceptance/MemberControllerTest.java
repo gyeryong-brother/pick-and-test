@@ -248,12 +248,35 @@ class MemberControllerTest {
     @DisplayName("잘못된 access 토큰으로 로그아웃을 시도한다")
     void logoutWitInvalidAccessToken(){
         //given
+        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name", "usernameLogoutWithInvalidAccessToken", "password");
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(registerMemberRequest)
+                .when().post("/members")
+                .then().log().all()
+                .extract();
+
+        LoginRequest loginRequest = new LoginRequest("usernameLogoutWithInvalidAccessToken", "password");
+
+        ExtractableResponse<Response> response0 = RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(loginRequest)
+                .when().post("/members/login")
+                .then().log().all()
+                .extract();
+
+        LoginResponse result0 = response0.as(LoginResponse.class);
+        String accessToken = result0.accessToken();
+        String refreshToken = result0.refreshToken();
+
         String invalidAccessToken="invalidAccessToken";
         ErrorResponse expected = new ErrorResponse("Invalid Access Token Error");
 
         //when
         ExtractableResponse<Response> response = RestAssured.given()
                 .log().all()
+                .cookie("refreshToken", refreshToken)
                 .header("Authorization", "Bearer " + invalidAccessToken)
                 .contentType(ContentType.JSON)
                 .when()
@@ -269,6 +292,57 @@ class MemberControllerTest {
                 () -> assertThat(response.statusCode()).isEqualTo(UNAUTHORIZED.value()),
                 () -> assertThat(result).isEqualTo(expected)
         );
+    }
+
+    @Test
+    @DisplayName("잘못된 refresh Token으로 로그아웃 시도")
+    void logoutWithInvalidRefreshToken(){
+        //given
+        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name", "usernameLogoutWithInvalidRefreshToken", "password");
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(registerMemberRequest)
+                .when().post("/members")
+                .then().log().all()
+                .extract();
+
+        LoginRequest loginRequest = new LoginRequest("usernameLogoutWithInvalidRefreshToken", "password");
+
+        ExtractableResponse<Response> response0 = RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(loginRequest)
+                .when().post("/members/login")
+                .then().log().all()
+                .extract();
+
+        LoginResponse result0 = response0.as(LoginResponse.class);
+        String accessToken = result0.accessToken();
+        String refreshToken = result0.refreshToken();
+
+        String invalidRefreshToken="invalidRefreshToken";
+        ErrorResponse expected = new ErrorResponse("Invalid Access Token Error");
+
+        //when
+        ExtractableResponse<Response> response = RestAssured.given()
+                .log().all()
+                .cookie("refreshToken", invalidRefreshToken)
+                .header("Authorization", "Bearer " + accessToken)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/members/logout")
+                .then()
+                .log().all()
+                .extract();
+
+        ErrorResponse result = response.as(ErrorResponse.class);
+
+        //then
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(NOT_FOUND.value()),
+                () -> assertThat(result).isEqualTo(expected)
+        );
+
     }
 
     @Test
