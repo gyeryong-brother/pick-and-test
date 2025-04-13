@@ -18,7 +18,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     public void commence(HttpServletRequest request,
                          HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
-        throw new MemberInfrastructureException(MemberInfrastructureExceptionType.INVALID_ACCESSTOKEN_ERROR);
+        throw new MemberInfrastructureException(MemberInfrastructureExceptionType.INVALID_TOKEN_ERROR);
     }
 }
 

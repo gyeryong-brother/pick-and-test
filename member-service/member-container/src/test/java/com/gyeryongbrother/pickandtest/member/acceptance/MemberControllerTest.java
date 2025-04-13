@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import com.gyeryongbrother.pickandtest.member.application.dto.LoginRequest;
 import com.gyeryongbrother.pickandtest.member.application.dto.RegisterMemberRequest;
@@ -432,5 +433,108 @@ class MemberControllerTest {
                 () -> assertThat(response.statusCode()).isEqualTo(NOT_FOUND.value()),
                 () -> assertThat(result).isEqualTo(expected)
         );
+    }
+
+    @Test
+    @DisplayName("잘못된 access 토큰과 refresh 토큰으로 로그아웃 시도")
+    void logoutWithInvalidAccessTokenAndRefreshToken(){
+        //given
+        String invalidAccessToken="invalidAccessToken";
+        String invalidRefreshToken="invalidRefreshToken";
+
+        ErrorResponse expected = new ErrorResponse("Invalid Token Error");
+
+        //when
+        ExtractableResponse<Response> response = RestAssured.given()
+                .log().all()
+                .cookie("refreshToken", invalidRefreshToken)
+                .header("Authorization", "Bearer " + invalidAccessToken)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/members/logout")
+                .then()
+                .log().all()
+                .extract();
+
+        ErrorResponse result = response.as(ErrorResponse.class);
+
+        //then
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(UNAUTHORIZED.value()),
+                () -> assertThat(result).isEqualTo(expected)
+        );
+    }
+
+    @Test
+    @DisplayName("access 토큰과 refresh 토큰 없이 로그아웃 시도")
+    void logoutWithoutAccessTokenAndRefreshToken(){
+        //given
+        ErrorResponse expected = new ErrorResponse("Invalid Token Error");
+
+        //when
+        ExtractableResponse<Response> response = RestAssured.given()
+                .log().all()
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/members/logout")
+                .then()
+                .log().all()
+                .extract();
+
+        ErrorResponse result = response.as(ErrorResponse.class);
+
+        //then
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(UNAUTHORIZED.value()),
+                () -> assertThat(result).isEqualTo(expected)
+        );
+    }
+
+    @Test
+    @DisplayName("만료된 accessToken으로 로그아웃 시도")
+    void logoutWithExpiredAccessToken() throws InterruptedException {
+        //given
+        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name", "usernameLogoutWithExpiredAccessToken", "password");
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(registerMemberRequest)
+                .when().post("/members")
+                .then().log().all()
+                .extract();
+
+        LoginRequest loginRequest = new LoginRequest("usernameLogoutWithExpiredAccessToken", "password");
+
+        ExtractableResponse<Response> response0 = RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(loginRequest)
+                .when().post("/members/login")
+                .then().log().all()
+                .extract();
+
+        LoginResponse result0 = response0.as(LoginResponse.class);
+        String accessToken = result0.accessToken();
+        String refreshToken = result0.refreshToken();
+
+        LogoutResponse expected = new LogoutResponse(1L);
+
+        //when
+        Thread.sleep(2000L);
+
+        ExtractableResponse<Response> response = RestAssured.given()
+                .log().all()
+                .cookie("refreshToken", refreshToken)
+                .header("Authorization", "Bearer " + accessToken)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/members/logout")
+                .then()
+                .log().all()
+                .extract();
+
+        LogoutResponse result = response.as(LogoutResponse.class);
+
+        //then
+        assertThat(result).isEqualTo(expected);
     }
 }
