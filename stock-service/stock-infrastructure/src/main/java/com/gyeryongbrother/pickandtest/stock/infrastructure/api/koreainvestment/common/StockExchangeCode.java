@@ -1,0 +1,37 @@
+package com.gyeryongbrother.pickandtest.stock.infrastructure.api.koreainvestment.common;
+
+import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange.AMEX;
+import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange.NASDAQ;
+import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange.NYSE;
+import static com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureExceptionType.NOT_SUPPORTED_STOCK_EXCHANGE;
+
+import com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange;
+import com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureException;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
+public enum StockExchangeCode {
+
+    NASDAQ_CODE("512", "NAS"),
+    NYSE_CODE("513", "NYS"),
+    AMEX_CODE("529", "AMS"),
+    ;
+
+    private final String productTypeCode;
+    private final String exchangeCode;
+
+    public static StockExchangeCode from(StockExchange stockExchange) {
+        if (stockExchange == NASDAQ) {
+            return NASDAQ_CODE;
+        }
+        if (stockExchange == NYSE) {
+            return NYSE_CODE;
+        }
+        if (stockExchange == AMEX) {
+            return AMEX_CODE;
+        }
+        throw new StockInfrastructureException(NOT_SUPPORTED_STOCK_EXCHANGE);
+    }
+}

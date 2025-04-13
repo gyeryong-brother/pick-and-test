@@ -21,6 +21,11 @@ class AccessTokenManager {
     }
 
     private void fetchAccessToken() {
+        try {
+            Thread.sleep(60000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         TokenResponse tokenResponse = accessTokenFetcher.fetchToken();
         String accessTokenExpired = tokenResponse.accessTokenExpired();
         LocalDateTime expiresAt = DateTimeHandler.toDateTime(accessTokenExpired);

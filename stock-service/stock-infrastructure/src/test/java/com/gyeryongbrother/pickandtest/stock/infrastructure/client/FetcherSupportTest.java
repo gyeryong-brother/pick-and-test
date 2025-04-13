@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.gyeryongbrother.pickandtest.stock.domain.service.exception.BaseExceptionType;
+import com.gyeryongbrother.pickandtest.stock.infrastructure.api.FetcherSupport;
 import com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

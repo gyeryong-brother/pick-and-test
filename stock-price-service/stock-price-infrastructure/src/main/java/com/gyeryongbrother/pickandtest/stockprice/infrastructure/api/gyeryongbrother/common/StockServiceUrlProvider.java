@@ -6,7 +6,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Component
 public class StockServiceUrlProvider {
 
-    private static final String DOMAIN = "http://localhost:8080";
+    private static final String DOMAIN = "http://stock-service:8080";
     private static final String STOCK_ENDPOINT = "/stocks/%s";
 
     public String getStockEndpoint(Long stockId) {

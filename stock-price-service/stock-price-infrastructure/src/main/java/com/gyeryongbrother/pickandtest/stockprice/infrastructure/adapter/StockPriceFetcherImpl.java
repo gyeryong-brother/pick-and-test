@@ -8,10 +8,12 @@ import com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.StockPri
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class StockPriceFetcherImpl implements StockPriceFetcher {
 
     private final StockServiceClient stockServiceClient;
@@ -20,6 +22,7 @@ public class StockPriceFetcherImpl implements StockPriceFetcher {
     @Override
     public List<StockPrice> fetchStockPrices(Long stockId, LocalDate startDate) {
         Stock stock = stockServiceClient.fetchStock(stockId);
+        log.info("stock fetched. symbol: {}", stock.symbol());
         return stockPriceClient.fetchStockPrices(stock, startDate);
     }
 }

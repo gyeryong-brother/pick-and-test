@@ -8,7 +8,9 @@ import com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.koreainvest
 import java.time.LocalDate;
 import java.util.List;
 import java.util.function.Function;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class StockPriceAssembler {
 
     private final LocalDate startDate;
@@ -30,8 +32,14 @@ public class StockPriceAssembler {
     public List<StockPrice> assemble(Long stockId) {
         while (hasNext()) {
             LocalDate nextDate = getNextDate();
+            log.info("stock price response fetch started. date: {}", nextDate);
             StockPriceResponse stockPriceResponse = fetchingFunction.apply(nextDate);
             add(stockPriceResponse);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
         return stockPrices(stockId);
     }
@@ -45,10 +53,10 @@ public class StockPriceAssembler {
             return true;
         }
         StockPriceResponse lastStockPriceResponse = stockPriceResponses.lastStockPrice();
-        if (!getLastDate().isAfter(startDate)) {
+        if (!lastStockPriceResponse.continuityCode().hasNext()) {
             return false;
         }
-        return lastStockPriceResponse.continuityCode().hasNext();
+        return getLastDate().isAfter(startDate);
     }
 
     private LocalDate getLastDate() {

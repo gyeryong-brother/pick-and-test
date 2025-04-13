@@ -1,9 +1,9 @@
 package com.gyeryongbrother.pickandtest.stock.infrastructure.mapper;
 
-import com.gyeryongbrother.pickandtest.stock.infrastructure.client.nasdaq.common.DateHandler;
-import com.gyeryongbrother.pickandtest.stock.infrastructure.client.nasdaq.common.MoneyHandler;
-import com.gyeryongbrother.pickandtest.stock.infrastructure.client.nasdaq.dividend.dto.DividendDetail;
-import com.gyeryongbrother.pickandtest.stock.infrastructure.client.nasdaq.dividend.dto.DividendResponse;
+import com.gyeryongbrother.pickandtest.stock.infrastructure.api.nasdaq.common.DateHandler;
+import com.gyeryongbrother.pickandtest.stock.infrastructure.api.nasdaq.common.MoneyHandler;
+import com.gyeryongbrother.pickandtest.stock.infrastructure.api.nasdaq.dividend.dto.DividendDetail;
+import com.gyeryongbrother.pickandtest.stock.infrastructure.api.nasdaq.dividend.dto.DividendResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.Dividend;
 import java.util.List;
 import org.springframework.stereotype.Component;

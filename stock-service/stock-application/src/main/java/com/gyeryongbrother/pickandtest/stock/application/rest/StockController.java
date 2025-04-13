@@ -6,9 +6,11 @@ import com.gyeryongbrother.pickandtest.stock.domain.service.dto.StockDetailRespo
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.input.DividendQueryService;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.input.IncomeStatementQueryService;
+import com.gyeryongbrother.pickandtest.stock.domain.service.ports.input.StockCollector;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.input.StockQueryService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,11 +21,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/stocks")
+@Slf4j
 public class StockController {
 
     private final StockQueryService stockQueryService;
     private final DividendQueryService dividendQueryService;
     private final IncomeStatementQueryService incomeStatementQueryService;
+    private final StockCollector stockCollector;
+
+    @GetMapping("/collect")
+    ResponseEntity<Void> collectStocks() {
+        log.info("collect stock started!!");
+        stockCollector.collectStocks();
+        return ResponseEntity.ok().build();
+    }
 
     @GetMapping
     ResponseEntity<List<StockResponse>> searchStocks(@RequestParam String keyword) {

@@ -17,6 +17,9 @@ public enum ContinuityCode {
     private final boolean hasNext;
 
     public static ContinuityCode from(String code) {
+        if (code.isBlank()) {
+            return END;
+        }
         if (NEXT.codes.contains(code)) {
             return NEXT;
         }
