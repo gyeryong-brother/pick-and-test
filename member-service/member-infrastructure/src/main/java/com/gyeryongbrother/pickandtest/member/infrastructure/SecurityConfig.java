@@ -1,6 +1,7 @@
 package com.gyeryongbrother.pickandtest.member.infrastructure;
 
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.JwtUtil;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,6 +35,13 @@ public class SecurityConfig {
                 )
                 .formLogin(login -> login.disable())
                 .httpBasic(httpBasic -> httpBasic.disable())
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setContentType("application/json");
+                            response.getWriter().write("{\"errorMessage\": \"Unauthorized\"}");
+                        })
+                )
                 .addFilterBefore(exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

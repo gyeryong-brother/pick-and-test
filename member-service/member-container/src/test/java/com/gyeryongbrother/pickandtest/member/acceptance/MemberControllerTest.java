@@ -270,4 +270,52 @@ class MemberControllerTest {
                 () -> assertThat(result).isEqualTo(expected)
         );
     }
+
+    @Test
+    @DisplayName("Access 토큰 없이 로그아웃 시도")
+    void logoutWithoutAccessToken(){
+        //given
+        RegisterMemberRequest registerMemberRequest = new RegisterMemberRequest("name", "usernameLogoutWithoutAccessToken", "password");
+
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(registerMemberRequest)
+                .when().post("/members")
+                .then().log().all()
+                .extract();
+
+        LoginRequest loginRequest = new LoginRequest("usernameLogoutWithoutAccessToken", "password");
+
+        ExtractableResponse<Response> response0 = RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(loginRequest)
+                .when().post("/members/login")
+                .then().log().all()
+                .extract();
+
+        LoginResponse result0 = response0.as(LoginResponse.class);
+        String accessToken = result0.accessToken();
+        String refreshToken = result0.refreshToken();
+
+        ErrorResponse expected = new ErrorResponse("Unauthorized");
+
+        //when
+        ExtractableResponse<Response> response = RestAssured.given()
+                .log().all()
+                .cookie("refreshToken", refreshToken)
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/members/logout")
+                .then()
+                .log().all()
+                .extract();
+
+        ErrorResponse result = response.as(ErrorResponse.class);
+
+        //then
+        assertAll(
+                () -> assertThat(response.statusCode()).isEqualTo(UNAUTHORIZED.value()),
+                () -> assertThat(result).isEqualTo(expected)
+        );
+    }
 }
