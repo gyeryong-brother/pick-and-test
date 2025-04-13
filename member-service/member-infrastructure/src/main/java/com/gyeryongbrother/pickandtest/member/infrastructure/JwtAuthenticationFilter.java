@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             throws IOException, ServletException {
         String token = resolveToken((HttpServletRequest) request);
 
-        if((token==null) | (token != null && !jwtUtil.validateToken(token))){
+        if ((token == null) | (token != null && !jwtUtil.validateToken(token))) {
             String refreshToken = getRefreshTokenFromCookies((HttpServletRequest) request);
             if (refreshToken != null && jwtUtil.validateToken(refreshToken)) {
                 Long memberId = jwtUtil.getMemberIdFromToken(refreshToken);
@@ -40,7 +40,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 Authentication authentication = jwtUtil.getAuthentication(newAccessToken);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                ((HttpServletResponse)response).setHeader("Authorization", "Bearer " + newAccessToken);
+                ((HttpServletResponse) response).setHeader("Authorization", "Bearer " + newAccessToken);
             }
         }
 
@@ -61,7 +61,9 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
     }
 
     private String getRefreshTokenFromCookies(HttpServletRequest request) {
-        if (request.getCookies() == null) return null;
+        if (request.getCookies() == null) {
+            return null;
+        }
 
         for (Cookie cookie : request.getCookies()) {
             if ("refreshToken".equals(cookie.getName())) {

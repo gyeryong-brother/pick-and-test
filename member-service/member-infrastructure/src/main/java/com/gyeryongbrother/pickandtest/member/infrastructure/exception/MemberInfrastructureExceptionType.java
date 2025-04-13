@@ -6,8 +6,8 @@ import org.springframework.http.HttpStatus;
 
 @RequiredArgsConstructor
 public enum MemberInfrastructureExceptionType implements BaseExceptionType {
-    INVALID_TOKEN_ERROR(HttpStatus.UNAUTHORIZED,"Invalid Token Error")
-    ;
+
+    INVALID_TOKEN_ERROR(HttpStatus.UNAUTHORIZED, "Invalid Token Error");
 
     private final HttpStatus httpStatus;
     private final String errorMessage;
