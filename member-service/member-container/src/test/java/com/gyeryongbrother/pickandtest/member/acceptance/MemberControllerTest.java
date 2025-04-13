@@ -371,7 +371,7 @@ class MemberControllerTest {
         String accessToken = result0.accessToken();
         String refreshToken = result0.refreshToken();
 
-        ErrorResponse expected = new ErrorResponse("Unauthorized");
+        ErrorResponse expected = new ErrorResponse("Invalid Access Token Error");
 
         //when
         ExtractableResponse<Response> response = RestAssured.given()

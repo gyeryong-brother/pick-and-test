@@ -1,6 +1,7 @@
 package com.gyeryongbrother.pickandtest.member.infrastructure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gyeryongbrother.pickandtest.member.domain.service.exception.BaseException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,8 +26,8 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         try {
             filterChain.doFilter(request, response);
-        } catch (RuntimeException e) {
-            handleException(response, e, HttpStatus.UNAUTHORIZED);
+        } catch (BaseException e) {
+            handleException(response, e, e.exceptionType().httpStatus());
         } catch (Exception e) {
             handleException(response, e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -38,6 +39,17 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
 
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("errorMessage", e.getMessage());
+
+        String json = objectMapper.writeValueAsString(errorResponse);
+        response.getWriter().write(json);
+    }
+
+    private void handleException(HttpServletResponse response, BaseException e, HttpStatus status) throws IOException {
+        response.setStatus(status.value());
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+
+        Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("errorMessage", e.exceptionType().errorMessage());
 
         String json = objectMapper.writeValueAsString(errorResponse);
         response.getWriter().write(json);
