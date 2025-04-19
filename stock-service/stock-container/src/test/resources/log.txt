@@ -1,0 +1,159 @@
+2025-04-19T16:10:49.372+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetched symbols size: 10
+2025-04-19T16:10:49.372+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AA
+2025-04-19T16:10:49.805+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 3, symbol: AA
+2025-04-19T16:10:50.033+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AAM-PB
+2025-04-19T16:10:50.314+09:00 ERROR 33927 --- [nio-8080-exec-2] p.s.i.c.RestTemplateResponseErrorHandler : <!doctype html><html lang="en"><head>  <title>Server Error (500)</title></head><body>  <h1>Server Error (500)</h1><p></p></body></html>
+2025-04-19T16:10:50.314+09:00 ERROR 33927 --- [nio-8080-exec-2] c.g.p.s.i.adapter.StockFetcherImpl       : fetch failed. message: null
+2025-04-19T16:10:50.314+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: A
+2025-04-19T16:10:50.752+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 4, symbol: A
+2025-04-19T16:10:50.753+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AAMI
+2025-04-19T16:10:51.238+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 5, symbol: AAMI
+2025-04-19T16:10:51.239+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AAC
+2025-04-19T16:10:51.601+09:00 ERROR 33927 --- [nio-8080-exec-2] p.s.i.c.RestTemplateResponseErrorHandler : <!doctype html><html lang="en"><head>  <title>Server Error (500)</title></head><body>  <h1>Server Error (500)</h1><p></p></body></html>
+2025-04-19T16:10:51.601+09:00 ERROR 33927 --- [nio-8080-exec-2] c.g.p.s.i.adapter.StockFetcherImpl       : fetch failed. message: null
+2025-04-19T16:10:51.601+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AAM-PA
+2025-04-19T16:10:51.897+09:00 ERROR 33927 --- [nio-8080-exec-2] p.s.i.c.RestTemplateResponseErrorHandler : <!doctype html><html lang="en"><head>  <title>Server Error (500)</title></head><body>  <h1>Server Error (500)</h1><p></p></body></html>
+2025-04-19T16:10:51.898+09:00 ERROR 33927 --- [nio-8080-exec-2] c.g.p.s.i.adapter.StockFetcherImpl       : fetch failed. message: null
+2025-04-19T16:10:51.898+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AAIC
+2025-04-19T16:10:52.190+09:00 ERROR 33927 --- [nio-8080-exec-2] p.s.i.c.RestTemplateResponseErrorHandler : <!doctype html><html lang="en"><head>  <title>Server Error (500)</title></head><body>  <h1>Server Error (500)</h1><p></p></body></html>
+2025-04-19T16:10:52.190+09:00 ERROR 33927 --- [nio-8080-exec-2] c.g.p.s.i.adapter.StockFetcherImpl       : fetch failed. message: null
+2025-04-19T16:10:52.190+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AAIC-PC
+2025-04-19T16:10:52.489+09:00 ERROR 33927 --- [nio-8080-exec-2] p.s.i.c.RestTemplateResponseErrorHandler : <!doctype html><html lang="en"><head>  <title>Server Error (500)</title></head><body>  <h1>Server Error (500)</h1><p></p></body></html>
+2025-04-19T16:10:52.489+09:00 ERROR 33927 --- [nio-8080-exec-2] c.g.p.s.i.adapter.StockFetcherImpl       : fetch failed. message: null
+2025-04-19T16:10:52.489+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AAIC-PB
+2025-04-19T16:10:52.779+09:00 ERROR 33927 --- [nio-8080-exec-2] p.s.i.c.RestTemplateResponseErrorHandler : <!doctype html><html lang="en"><head>  <title>Server Error (500)</title></head><body>  <h1>Server Error (500)</h1><p></p></body></html>
+2025-04-19T16:10:52.779+09:00 ERROR 33927 --- [nio-8080-exec-2] c.g.p.s.i.adapter.StockFetcherImpl       : fetch failed. message: null
+2025-04-19T16:10:52.779+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AAIN
+2025-04-19T16:10:55.622+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetched symbols size: 10
+2025-04-19T16:10:55.622+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: ABVC
+2025-04-19T16:10:56.100+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 6, symbol: ABVC
+2025-04-19T16:10:56.100+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: ACACW
+2025-04-19T16:10:56.403+09:00 ERROR 33927 --- [nio-8080-exec-2] p.s.i.c.RestTemplateResponseErrorHandler : <!doctype html><html lang="en"><head>  <title>Server Error (500)</title></head><body>  <h1>Server Error (500)</h1><p></p></body></html>
+2025-04-19T16:10:56.403+09:00 ERROR 33927 --- [nio-8080-exec-2] c.g.p.s.i.adapter.StockFetcherImpl       : fetch failed. message: null
+2025-04-19T16:10:56.403+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: ACACU
+2025-04-19T16:10:56.714+09:00 ERROR 33927 --- [nio-8080-exec-2] p.s.i.c.RestTemplateResponseErrorHandler : <!doctype html><html lang="en"><head>  <title>Server Error (500)</title></head><body>  <h1>Server Error (500)</h1><p></p></body></html>
+2025-04-19T16:10:56.714+09:00 ERROR 33927 --- [nio-8080-exec-2] c.g.p.s.i.adapter.StockFetcherImpl       : fetch failed. message: null
+2025-04-19T16:10:56.714+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: ABEO
+2025-04-19T16:10:57.144+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 7, symbol: ABEO
+2025-04-19T16:10:57.145+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: ABIO
+2025-04-19T16:10:57.611+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: ACAC
+2025-04-19T16:10:57.934+09:00 ERROR 33927 --- [nio-8080-exec-2] p.s.i.c.RestTemplateResponseErrorHandler : <!doctype html><html lang="en"><head>  <title>Server Error (500)</title></head><body>  <h1>Server Error (500)</h1><p></p></body></html>
+2025-04-19T16:10:57.934+09:00 ERROR 33927 --- [nio-8080-exec-2] c.g.p.s.i.adapter.StockFetcherImpl       : fetch failed. message: null
+2025-04-19T16:10:57.934+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AADI
+2025-04-19T16:10:58.220+09:00 ERROR 33927 --- [nio-8080-exec-2] p.s.i.c.RestTemplateResponseErrorHandler : <!doctype html><html lang="en"><head>  <title>Server Error (500)</title></head><body>  <h1>Server Error (500)</h1><p></p></body></html>
+2025-04-19T16:10:58.220+09:00 ERROR 33927 --- [nio-8080-exec-2] c.g.p.s.i.adapter.StockFetcherImpl       : fetch failed. message: null
+2025-04-19T16:10:58.220+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: ABL
+2025-04-19T16:10:58.636+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 8, symbol: ABL
+2025-04-19T16:10:58.637+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: ABGI
+2025-04-19T16:10:58.973+09:00 ERROR 33927 --- [nio-8080-exec-2] p.s.i.c.RestTemplateResponseErrorHandler : <!doctype html><html lang="en"><head>  <title>Server Error (500)</title></head><body>  <h1>Server Error (500)</h1><p></p></body></html>
+2025-04-19T16:10:58.974+09:00 ERROR 33927 --- [nio-8080-exec-2] c.g.p.s.i.adapter.StockFetcherImpl       : fetch failed. message: null
+2025-04-19T16:10:58.974+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: ACAHU
+2025-04-19T16:10:59.258+09:00 ERROR 33927 --- [nio-8080-exec-2] p.s.i.c.RestTemplateResponseErrorHandler : <!doctype html><html lang="en"><head>  <title>Server Error (500)</title></head><body>  <h1>Server Error (500)</h1><p></p></body></html>
+2025-04-19T16:10:59.258+09:00 ERROR 33927 --- [nio-8080-exec-2] c.g.p.s.i.adapter.StockFetcherImpl       : fetch failed. message: null
+2025-04-19T16:11:01.181+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetched symbols size: 10
+2025-04-19T16:11:01.182+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AADR
+2025-04-19T16:11:01.487+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 9, symbol: AADR
+2025-04-19T16:11:01.488+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AACB
+2025-04-19T16:11:01.795+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 10, symbol: AACB
+2025-04-19T16:11:01.795+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AACIW
+2025-04-19T16:11:02.121+09:00 ERROR 33927 --- [nio-8080-exec-2] p.s.i.c.RestTemplateResponseErrorHandler : <!doctype html><html lang="en"><head>  <title>Server Error (500)</title></head><body>  <h1>Server Error (500)</h1><p></p></body></html>
+2025-04-19T16:11:02.121+09:00 ERROR 33927 --- [nio-8080-exec-2] c.g.p.s.i.adapter.StockFetcherImpl       : fetch failed. message: null
+2025-04-19T16:11:02.121+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AACBU
+2025-04-19T16:11:02.542+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 11, symbol: AACBU
+2025-04-19T16:11:02.543+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AAOI
+2025-04-19T16:11:02.976+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 12, symbol: AAOI
+2025-04-19T16:11:02.977+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AAME
+2025-04-19T16:11:03.279+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 13, symbol: AAME
+2025-04-19T16:11:03.280+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AACI
+2025-04-19T16:11:03.580+09:00 ERROR 33927 --- [nio-8080-exec-2] p.s.i.c.RestTemplateResponseErrorHandler : <!doctype html><html lang="en"><head>  <title>Server Error (500)</title></head><body>  <h1>Server Error (500)</h1><p></p></body></html>
+2025-04-19T16:11:03.580+09:00 ERROR 33927 --- [nio-8080-exec-2] c.g.p.s.i.adapter.StockFetcherImpl       : fetch failed. message: null
+2025-04-19T16:11:03.580+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AACG
+2025-04-19T16:11:03.850+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 14, symbol: AACG
+2025-04-19T16:11:03.851+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AAPD
+2025-04-19T16:11:04.334+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 15, symbol: AAPD
+2025-04-19T16:11:04.334+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AACIU
+2025-04-19T16:11:04.639+09:00 ERROR 33927 --- [nio-8080-exec-2] p.s.i.c.RestTemplateResponseErrorHandler : <!doctype html><html lang="en"><head>  <title>Server Error (500)</title></head><body>  <h1>Server Error (500)</h1><p></p></body></html>
+2025-04-19T16:11:04.639+09:00 ERROR 33927 --- [nio-8080-exec-2] c.g.p.s.i.adapter.StockFetcherImpl       : fetch failed. message: null
+2025-04-19T16:11:07.025+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetched symbols size: 10
+2025-04-19T16:11:07.025+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AACBR
+2025-04-19T16:11:07.449+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 16, symbol: AACBR
+2025-04-19T16:11:07.450+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AAON
+2025-04-19T16:11:07.888+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 17, symbol: AAON
+2025-04-19T16:11:07.889+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AAPL
+2025-04-19T16:11:08.323+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 18, symbol: AAPL
+2025-04-19T16:11:08.324+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: ABCL
+2025-04-19T16:11:08.786+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 19, symbol: ABCL
+2025-04-19T16:11:08.786+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AACQU
+2025-04-19T16:11:09.060+09:00 ERROR 33927 --- [nio-8080-exec-2] p.s.i.c.RestTemplateResponseErrorHandler : <!doctype html><html lang="en"><head>  <title>Server Error (500)</title></head><body>  <h1>Server Error (500)</h1><p></p></body></html>
+2025-04-19T16:11:09.060+09:00 ERROR 33927 --- [nio-8080-exec-2] c.g.p.s.i.adapter.StockFetcherImpl       : fetch failed. message: null
+2025-04-19T16:11:09.060+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: ABCM
+2025-04-19T16:11:09.474+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: ABMD
+2025-04-19T16:11:09.807+09:00 ERROR 33927 --- [nio-8080-exec-2] p.s.i.c.RestTemplateResponseErrorHandler : <!doctype html><html lang="en"><head>  <title>Server Error (500)</title></head><body>  <h1>Server Error (500)</h1><p></p></body></html>
+2025-04-19T16:11:09.807+09:00 ERROR 33927 --- [nio-8080-exec-2] c.g.p.s.i.adapter.StockFetcherImpl       : fetch failed. message: null
+2025-04-19T16:11:09.807+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AAL
+2025-04-19T16:11:10.208+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 20, symbol: AAL
+2025-04-19T16:11:10.208+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AAWW
+2025-04-19T16:11:10.640+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: ABDC
+2025-04-19T16:11:13.266+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetched symbols size: 10
+2025-04-19T16:11:13.266+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: ABINX
+2025-04-19T16:11:13.673+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 21, symbol: ABINX
+2025-04-19T16:11:13.674+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: ACEIX
+2025-04-19T16:11:14.105+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 22, symbol: ACEIX
+2025-04-19T16:11:14.106+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: ABHIX
+2025-04-19T16:11:14.569+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 23, symbol: ABHIX
+2025-04-19T16:11:14.569+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: ABHYX
+2025-04-19T16:11:14.996+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 24, symbol: ABHYX
+2025-04-19T16:11:14.998+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: ABCVX
+2025-04-19T16:11:15.454+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 25, symbol: ABCVX
+2025-04-19T16:11:15.454+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AABPX
+2025-04-19T16:11:15.885+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 26, symbol: AABPX
+2025-04-19T16:11:15.885+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: AADBX
+2025-04-19T16:11:16.337+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 27, symbol: AADBX
+2025-04-19T16:11:16.338+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: ACCNX
+2025-04-19T16:11:16.766+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 28, symbol: ACCNX
+2025-04-19T16:11:16.766+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: ABHFX
+2025-04-19T16:11:17.232+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 29, symbol: ABHFX
+2025-04-19T16:11:17.233+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: ACMVX
+2025-04-19T16:11:17.683+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 30, symbol: ACMVX
+2025-04-19T16:11:19.376+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetched symbols size: 10
+2025-04-19T16:11:19.376+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: 000020.KS
+2025-04-19T16:11:19.811+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 31, symbol: 000020.KS
+2025-04-19T16:11:19.811+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: 000140.KS
+2025-04-19T16:11:20.240+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 32, symbol: 000140.KS
+2025-04-19T16:11:20.241+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: 000080.KS
+2025-04-19T16:11:20.740+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 33, symbol: 000080.KS
+2025-04-19T16:11:20.740+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: 000070.KS
+2025-04-19T16:11:21.188+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 34, symbol: 000070.KS
+2025-04-19T16:11:21.188+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: 000105.KS
+2025-04-19T16:11:21.631+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 35, symbol: 000105.KS
+2025-04-19T16:11:21.631+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: 000100.KS
+2025-04-19T16:11:22.041+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 36, symbol: 000100.KS
+2025-04-19T16:11:22.042+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: 000075.KS
+2025-04-19T16:11:22.497+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 37, symbol: 000075.KS
+2025-04-19T16:11:22.497+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: 000050.KS
+2025-04-19T16:11:22.911+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 38, symbol: 000050.KS
+2025-04-19T16:11:22.911+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: 000120.KS
+2025-04-19T16:11:23.333+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 39, symbol: 000120.KS
+2025-04-19T16:11:23.334+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: 000145.KS
+2025-04-19T16:11:23.749+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 40, symbol: 000145.KS
+2025-04-19T16:11:25.032+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetched symbols size: 10
+2025-04-19T16:11:25.032+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: 023160.KQ
+2025-04-19T16:11:25.475+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 41, symbol: 023160.KQ
+2025-04-19T16:11:25.475+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: 023410.KQ
+2025-04-19T16:11:25.955+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 42, symbol: 023410.KQ
+2025-04-19T16:11:25.956+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: 027360.KQ
+2025-04-19T16:11:26.462+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 43, symbol: 027360.KQ
+2025-04-19T16:11:26.463+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: 003380.KQ
+2025-04-19T16:11:26.921+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 44, symbol: 003380.KQ
+2025-04-19T16:11:26.922+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: 015750.KQ
+2025-04-19T16:11:27.342+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 45, symbol: 015750.KQ
+2025-04-19T16:11:27.343+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: 003100.KQ
+2025-04-19T16:11:27.754+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 46, symbol: 003100.KQ
+2025-04-19T16:11:27.755+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: 013120.KQ
+2025-04-19T16:11:28.170+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 47, symbol: 013120.KQ
+2025-04-19T16:11:28.171+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: 019210.KQ
+2025-04-19T16:11:28.635+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 48, symbol: 019210.KQ
+2025-04-19T16:11:28.635+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: 006730.KQ
+2025-04-19T16:11:29.075+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 49, symbol: 006730.KQ
+2025-04-19T16:11:29.076+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.d.service.StockCollectorImpl     : fetch stock started. symbol: 029960.KQ
+2025-04-19T16:11:29.530+09:00  INFO 33927 --- [nio-8080-exec-2] c.g.p.s.m.p.kafka.StockKafkaProducer     : sending stock-created-event. id: 50, symbol: 029960.KQ

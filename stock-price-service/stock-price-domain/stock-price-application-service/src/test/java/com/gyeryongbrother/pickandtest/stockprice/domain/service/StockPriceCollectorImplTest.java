@@ -9,7 +9,6 @@ import static org.mockito.BDDMockito.times;
 import static org.mockito.BDDMockito.verify;
 
 import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.StockPrice;
-import com.gyeryongbrother.pickandtest.stockprice.domain.core.valueobject.StockPriceDate;
 import com.gyeryongbrother.pickandtest.stockprice.domain.service.ports.input.StockPriceCollector;
 import com.gyeryongbrother.pickandtest.stockprice.domain.service.ports.output.MockStockPriceFetcher;
 import com.gyeryongbrother.pickandtest.stockprice.domain.service.ports.output.StockPriceQueryRepository;
@@ -53,7 +52,7 @@ class StockPriceCollectorImplTest {
         // given
         List<StockPrice> stockPrices = stockPricesByStockId.get(1L);
         given(stockPriceQueryRepository.findLastDateOfStockPricesByStockId(anyLong()))
-                .willReturn(StockPriceDate.EMPTY);
+                .willReturn(null);
 
         // when
         stockPriceCollector.collectStockPrices(1L);
@@ -70,7 +69,7 @@ class StockPriceCollectorImplTest {
         // given
         List<StockPrice> stockPrices = stockPricesByStockId.get(1L);
         given(stockPriceQueryRepository.findLastDateOfStockPricesByStockId(anyLong()))
-                .willReturn(new StockPriceDate(januaryFirst()));
+                .willReturn(januaryFirst());
 
         // when
         stockPriceCollector.collectStockPrices(1L);

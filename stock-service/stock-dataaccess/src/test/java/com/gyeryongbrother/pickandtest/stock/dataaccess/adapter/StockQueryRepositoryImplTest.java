@@ -1,6 +1,7 @@
 package com.gyeryongbrother.pickandtest.stock.dataaccess.adapter;
 
 import static com.gyeryongbrother.pickandtest.stock.dataaccess.entity.StockEntityFixture.stockEntity;
+import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange.NYQ;
 import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockFixture.stock;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
@@ -9,7 +10,6 @@ import com.gyeryongbrother.pickandtest.stock.dataaccess.config.TestQuerydslConfi
 import com.gyeryongbrother.pickandtest.stock.dataaccess.entity.StockEntity;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.Stock;
-import com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.StockQueryRepository;
 import java.math.BigDecimal;
 import java.util.List;
@@ -79,7 +79,7 @@ class StockQueryRepositoryImplTest {
     @DisplayName("거래소로 심볼들을 조회한다")
     void findAllSymbolsByStockExchange() {
         // when
-        List<String> result = stockQueryRepository.findAllSymbolsByStockExchange(StockExchange.NYSE);
+        List<String> result = stockQueryRepository.findAllSymbolsByStockExchange(NYQ);
 
         // then
         assertThat(result).isEmpty();

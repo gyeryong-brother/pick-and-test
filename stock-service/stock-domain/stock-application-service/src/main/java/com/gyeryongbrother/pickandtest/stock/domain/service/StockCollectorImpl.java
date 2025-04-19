@@ -9,6 +9,7 @@ import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.StockQu
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.StockRepository;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.SymbolFetcher;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.message.publisher.StockMessagePublisher;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -28,31 +29,27 @@ public class StockCollectorImpl implements StockCollector {
 
     @Override
     public void collectStocks() {
-        collectStocks(StockExchange.NASDAQ);
-        collectStocks(StockExchange.NYSE);
+        Arrays.stream(StockExchange.values())
+                .forEach(this::collectStocks);
     }
 
     private void collectStocks(StockExchange stockExchange) {
         List<String> existSymbols = stockQueryRepository.findAllSymbolsByStockExchange(stockExchange);
-        List<String> fetchedSymbols = symbolFetcher.fetchSymbol(stockExchange);
+        List<String> fetchedSymbols = symbolFetcher.fetchSymbols(stockExchange);
         log.info("fetched symbols size: {}", fetchedSymbols.size());
-        Symbols symbols = new Symbols(fetchedSymbols);
+        Symbols symbols = Symbols.from(fetchedSymbols);
         symbols.removeAll(existSymbols);
-        symbols.values().forEach(it -> collectStock(stockExchange, it));
+        symbols.values().forEach(this::collectStock);
     }
 
-    private void collectStock(StockExchange stockExchange, String symbol) {
-        log.info("fetch stock started. stockExchange: {}, symbol: {}", stockExchange, symbol);
-        Optional<Stock> stock = stockFetcher.fetchStock(stockExchange, symbol);
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        if (stock.isEmpty()) {
-            return;
-        }
-        Stock savedStock = stockRepository.save(stock.get());
+    private void collectStock(String symbol) {
+        log.info("fetch stock started. symbol: {}", symbol);
+        Optional<Stock> stock = stockFetcher.fetchStock(symbol);
+        stock.ifPresent(this::saveStock);
+    }
+
+    private void saveStock(Stock stock) {
+        Stock savedStock = stockRepository.save(stock);
         stockMessagePublisher.publishStockCreatedEvent(savedStock);
     }
 }

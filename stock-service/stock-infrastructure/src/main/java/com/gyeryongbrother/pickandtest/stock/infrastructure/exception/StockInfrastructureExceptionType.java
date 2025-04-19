@@ -12,6 +12,7 @@ public enum StockInfrastructureExceptionType implements BaseExceptionType {
     API_FETCH_CLIENT_ERROR(INTERNAL_SERVER_ERROR, "외부 API 호출에 실패했습니다"),
     API_FETCH_SERVER_ERROR(INTERNAL_SERVER_ERROR, "외부 API 호출에 실패했습니다"),
     API_FETCH_FAILED(INTERNAL_SERVER_ERROR, "외부 API 호출에 실패했습니다"),
+    BODY_READ_FAILED(INTERNAL_SERVER_ERROR, "body 를 읽는데 실패했습니다"),
     NOT_SUPPORTED_STOCK_EXCHANGE(INTERNAL_SERVER_ERROR, "지원되지 않는 거래소입니다"),
     ;
 

@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface SymbolFetcher {
 
-    List<String> fetchSymbol(StockExchange stockExchange);
+    List<String> fetchSymbols(StockExchange stockExchange);
 }

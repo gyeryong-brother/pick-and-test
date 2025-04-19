@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.stock.infrastructure.config;
+package com.gyeryongbrother.pickandtest.stockprice.infrastructure.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

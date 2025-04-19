@@ -3,6 +3,7 @@ package com.gyeryongbrother.pickandtest.stock.infrastructure.config;
 import static com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureExceptionType.API_FETCH_CLIENT_ERROR;
 import static com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureExceptionType.API_FETCH_FAILED;
 import static com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureExceptionType.API_FETCH_SERVER_ERROR;
+import static com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureExceptionType.BODY_READ_FAILED;
 
 import com.gyeryongbrother.pickandtest.stock.infrastructure.exception.StockInfrastructureException;
 import java.io.BufferedReader;
@@ -56,7 +57,7 @@ public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
             }
             return body.toString();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new StockInfrastructureException(BODY_READ_FAILED);
         }
     }
 }

@@ -1,8 +1,9 @@
 package com.gyeryongbrother.pickandtest.stock.dataaccess.data;
 
+import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange.NGM;
+
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.Dividend;
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.Stock;
-import com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.DividendRepository;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.StockRepository;
 import java.math.BigDecimal;
@@ -32,7 +33,7 @@ public class StockDataGenerator implements ApplicationRunner {
         return Stock.builder()
                 .name("Apple")
                 .symbol("AAPL")
-                .stockExchange(StockExchange.NASDAQ)
+                .stockExchange(NGM)
                 .outstandingShares(10000L)
                 .listingDate(LocalDate.of(2025, 1, 14))
                 .build();
@@ -42,7 +43,7 @@ public class StockDataGenerator implements ApplicationRunner {
         return Stock.builder()
                 .name("Tesla")
                 .symbol("TSLA")
-                .stockExchange(StockExchange.NASDAQ)
+                .stockExchange(NGM)
                 .outstandingShares(5000L)
                 .listingDate(LocalDate.of(2025, 1, 15))
                 .build();

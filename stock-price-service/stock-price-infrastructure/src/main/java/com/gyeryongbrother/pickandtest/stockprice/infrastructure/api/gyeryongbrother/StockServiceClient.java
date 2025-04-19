@@ -2,9 +2,8 @@ package com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.gyeryongbr
 
 import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.Stock;
 import com.gyeryongbrother.pickandtest.stockprice.domain.core.valueobject.StockExchange;
-import com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.gyeryongbrother.stock.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.common.FetcherSupport;
-import com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.gyeryongbrother.common.StockServiceUrlProvider;
+import com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.gyeryongbrother.dto.StockResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
