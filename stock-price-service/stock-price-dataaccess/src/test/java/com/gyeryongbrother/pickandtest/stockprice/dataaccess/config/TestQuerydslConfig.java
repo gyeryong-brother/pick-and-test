@@ -12,6 +12,7 @@ import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 @TestConfiguration
 public class TestQuerydslConfig {
@@ -21,6 +22,9 @@ public class TestQuerydslConfig {
 
     @Autowired
     private StockPriceJpaRepository stockPriceJpaRepository;
+
+    @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Bean
     public JPAQueryFactory queryFactory() {
@@ -34,7 +38,7 @@ public class TestQuerydslConfig {
 
     @Bean
     public StockPriceRepository stockPriceRepository() {
-        return new StockPriceRepositoryImpl(stockPriceJpaRepository, stockPriceDataAccessMapper());
+        return new StockPriceRepositoryImpl(stockPriceJpaRepository, stockPriceDataAccessMapper(), namedParameterJdbcTemplate);
     }
 
     @Bean
