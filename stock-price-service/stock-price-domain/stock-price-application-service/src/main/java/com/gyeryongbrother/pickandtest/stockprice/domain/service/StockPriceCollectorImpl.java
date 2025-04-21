@@ -8,8 +8,10 @@ import com.gyeryongbrother.pickandtest.stockprice.domain.service.ports.output.St
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class StockPriceCollectorImpl implements StockPriceCollector {
@@ -22,6 +24,7 @@ public class StockPriceCollectorImpl implements StockPriceCollector {
     public void collectStockPrices(Long stockId) {
         LocalDate lastDate = stockPriceQueryRepository.findLastDateOfStockPricesByStockId(stockId);
         List<StockPrice> stockPrices = fetchStockPrices(stockId, lastDate);
+        log.info("save stock prices. size: {}", stockPrices.size());
         stockPrices.forEach(stockPriceRepository::save);
     }
 

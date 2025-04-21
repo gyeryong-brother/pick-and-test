@@ -33,6 +33,7 @@ public class KafkaConfig {
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "stock-price-listener");
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 10);
         JsonDeserializer<StockCreatedEvent> deserializer = new JsonDeserializer<>(StockCreatedEvent.class, false);
         return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), deserializer);
     }

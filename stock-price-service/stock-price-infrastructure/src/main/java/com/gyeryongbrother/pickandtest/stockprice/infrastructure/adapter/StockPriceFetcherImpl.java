@@ -32,6 +32,7 @@ public class StockPriceFetcherImpl implements StockPriceFetcher {
     }
 
     private List<StockPrice> fetchStockPricesById(Long stockId, LocalDate startDate) {
+        log.info("fetch stock. stock id: {}", stockId);
         Stock stock = stockServiceClient.fetchStock(stockId);
         log.info("stock fetched. symbol: {}", stock.symbol());
         StockPricesResponse stockPricesResponse = dataServiceClient.fetchStockPrices(stock.symbol(), startDate);
