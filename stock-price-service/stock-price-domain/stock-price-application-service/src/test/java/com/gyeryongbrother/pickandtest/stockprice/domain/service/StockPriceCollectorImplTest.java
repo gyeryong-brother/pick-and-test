@@ -58,16 +58,14 @@ class StockPriceCollectorImplTest {
         stockPriceCollector.collectStockPrices(1L);
 
         // then
-        verify(stockPriceRepository, times(2)).save(any());
-        verify(stockPriceRepository).save(stockPrices.get(0));
-        verify(stockPriceRepository).save(stockPrices.get(1));
+        verify(stockPriceRepository, times(1)).saveAll(any());
+        verify(stockPriceRepository).saveAll(stockPrices);
     }
 
     @Test
     @DisplayName("주가 정보가 있으면 이후 모든 주가를 가져와 저장한다")
     void collectStockPrices() {
         // given
-        List<StockPrice> stockPrices = stockPricesByStockId.get(1L);
         given(stockPriceQueryRepository.findLastDateOfStockPricesByStockId(anyLong()))
                 .willReturn(januaryFirst());
 
@@ -75,7 +73,6 @@ class StockPriceCollectorImplTest {
         stockPriceCollector.collectStockPrices(1L);
 
         // then
-        verify(stockPriceRepository, times(1)).save(any());
-        verify(stockPriceRepository).save(stockPrices.get(1));
+        verify(stockPriceRepository, times(1)).saveAll(any());
     }
 }

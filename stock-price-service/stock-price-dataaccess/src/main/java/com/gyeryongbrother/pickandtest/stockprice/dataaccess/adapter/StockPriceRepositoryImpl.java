@@ -28,11 +28,15 @@ public class StockPriceRepositoryImpl implements StockPriceRepository {
 
     @Override
     public void saveAll(final List<StockPrice> stockPrices) {
-        final String sql = """
+        String sql = """
                     INSERT INTO stock_price (stock_id, date, price)
                     VALUES (:stockId, :date, :price)
                 """;
-        namedParameterJdbcTemplate.batchUpdate(sql, toSqlParameterSources(stockPrices));
+        int batchSize = 100;
+        for (int i = 0; i < stockPrices.size(); i += batchSize) {
+            List<StockPrice> batchStockPrices = stockPrices.subList(i, Math.min(i + batchSize, stockPrices.size()));
+            namedParameterJdbcTemplate.batchUpdate(sql, toSqlParameterSources(batchStockPrices));
+        }
     }
 
     private MapSqlParameterSource[] toSqlParameterSources(final List<StockPrice> stockPrices) {

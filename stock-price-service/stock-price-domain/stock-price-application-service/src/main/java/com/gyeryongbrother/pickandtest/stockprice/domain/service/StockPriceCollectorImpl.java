@@ -25,7 +25,7 @@ public class StockPriceCollectorImpl implements StockPriceCollector {
         LocalDate lastDate = stockPriceQueryRepository.findLastDateOfStockPricesByStockId(stockId);
         List<StockPrice> stockPrices = fetchStockPrices(stockId, lastDate);
         log.info("save stock prices. size: {}", stockPrices.size());
-        stockPrices.forEach(stockPriceRepository::save);
+        stockPriceRepository.saveAll(stockPrices);
     }
 
     private List<StockPrice> fetchStockPrices(Long stockId, LocalDate lastDate) {
