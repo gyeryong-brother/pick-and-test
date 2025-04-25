@@ -38,6 +38,12 @@
             <version>5.5.0</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.gyeryongbrother</groupId>
+            <artifactId>dividend-test-fixture</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
         <resources>
@@ -45,7 +51,7 @@
                 <directory>src/main/resources</directory>
             </resource>
             <resource>
-                <directory>../../pick-and-test-submodule/stock-price-service/resources</directory>
+                <directory>../../pick-and-test-submodule/dividend-service/resources</directory>
             </resource>
         </resources>
         <plugins>

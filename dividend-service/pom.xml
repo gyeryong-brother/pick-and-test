@@ -21,6 +21,7 @@
         <module>dividend-domain</module>
         <module>dividend-infrastructure</module>
         <module>dividend-messaging</module>
+        <module>dividend-domain/dividend-test-fixture</module>
     </modules>
 
     <dependencies>

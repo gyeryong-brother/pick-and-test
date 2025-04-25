@@ -1,10 +1,8 @@
 package com.gyeryongbrother.pickandtest.stock.application.rest;
 
-import com.gyeryongbrother.pickandtest.stock.domain.service.dto.AnnualDividendResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.AnnualIncomeStatementResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.StockDetailResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.StockResponse;
-import com.gyeryongbrother.pickandtest.stock.domain.service.ports.input.DividendQueryService;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.input.IncomeStatementQueryService;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.input.StockCollector;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.input.StockQueryService;
@@ -25,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class StockController {
 
     private final StockQueryService stockQueryService;
-    private final DividendQueryService dividendQueryService;
     private final IncomeStatementQueryService incomeStatementQueryService;
     private final StockCollector stockCollector;
 
@@ -46,11 +43,6 @@ public class StockController {
     ResponseEntity<StockDetailResponse> findStockById(@PathVariable Long stockId) {
         StockDetailResponse response = stockQueryService.findStockById(stockId);
         return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/{stockId}/dividends")
-    ResponseEntity<List<AnnualDividendResponse>> findAnnualDividendsById(@PathVariable Long stockId) {
-        return ResponseEntity.ok(dividendQueryService.getAnnualDividendsById(stockId));
     }
 
     @GetMapping("/{stockId}/incomeStatements")
