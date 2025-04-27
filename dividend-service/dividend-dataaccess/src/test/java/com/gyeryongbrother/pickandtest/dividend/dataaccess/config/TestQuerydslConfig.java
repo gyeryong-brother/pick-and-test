@@ -9,6 +9,7 @@ import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 @TestConfiguration
 public class TestQuerydslConfig {
@@ -19,6 +20,9 @@ public class TestQuerydslConfig {
     @Autowired
     private DividendJpaRepository dividendJpaRepository;
 
+    @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
     @Bean
     public DividendDataAccessMapper dividendDataAccessMapper() {
         return new DividendDataAccessMapper();
@@ -26,6 +30,10 @@ public class TestQuerydslConfig {
 
     @Bean
     public DividendRepository dividendRepository() {
-        return new DividendRepositoryImpl(dividendJpaRepository, dividendDataAccessMapper());
+        return new DividendRepositoryImpl(
+                dividendJpaRepository,
+                dividendDataAccessMapper(),
+                namedParameterJdbcTemplate
+        );
     }
 }

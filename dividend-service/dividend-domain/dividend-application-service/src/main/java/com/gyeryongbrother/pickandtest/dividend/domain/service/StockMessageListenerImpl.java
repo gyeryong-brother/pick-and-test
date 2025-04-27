@@ -16,6 +16,6 @@ public class StockMessageListenerImpl implements StockMessageListener {
 
     @Override
     public void stockCreated(Stock stock) {
-        dividendCollector.collectDividends(stock.id());
+        dividendCollector.collectDividends(stock);
     }
 }

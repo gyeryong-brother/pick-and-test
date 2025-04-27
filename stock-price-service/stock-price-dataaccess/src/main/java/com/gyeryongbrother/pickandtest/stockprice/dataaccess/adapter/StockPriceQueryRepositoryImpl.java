@@ -31,6 +31,7 @@ public class StockPriceQueryRepositoryImpl implements StockPriceQueryRepository 
     @Override
     public List<Long> findAllStockIds() {
         return queryFactory.select(stockPriceEntity.stockId)
+                .from(stockPriceEntity)
                 .distinct()
                 .fetch();
     }

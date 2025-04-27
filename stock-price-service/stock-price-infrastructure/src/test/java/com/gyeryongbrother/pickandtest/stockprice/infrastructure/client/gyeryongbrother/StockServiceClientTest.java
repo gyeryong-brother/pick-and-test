@@ -7,7 +7,6 @@ import static org.mockito.BDDMockito.anyString;
 import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.Stock;
-import com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.common.FetcherSupport;
 import com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.gyeryongbrother.StockServiceClient;
 import com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.gyeryongbrother.StockServiceUrlProvider;
 import com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.gyeryongbrother.dto.StockResponse;
@@ -17,26 +16,27 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.client.RestTemplate;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("주식을 가져온다")
 class StockServiceClientTest {
 
     @Mock
-    private FetcherSupport fetcherSupport;
+    private RestTemplate restTemplate;
 
     private StockServiceClient stockServiceClient;
 
     @BeforeEach
     void setUp() {
-        stockServiceClient = new StockServiceClient(new StockServiceUrlProvider("http://domain"), fetcherSupport);
+        stockServiceClient = new StockServiceClient(new StockServiceUrlProvider("http://domain"), restTemplate);
     }
 
     @Test
     @DisplayName("주식을 가져온다")
     void fetchStock() {
         // given
-        given(fetcherSupport.get(anyString(), any()))
+        given(restTemplate.getForObject(anyString(), any()))
                 .willReturn(new StockResponse(1L, "AAPL", "NGM"));
         Stock expected = new Stock(1L, "AAPL", NGM);
 
