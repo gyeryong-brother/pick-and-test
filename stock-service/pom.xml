@@ -19,6 +19,7 @@
         <module>stock-dataaccess</module>
         <module>stock-domain</module>
         <module>stock-infrastructure</module>
+        <module>stock-messaging</module>
     </modules>
 
     <dependencyManagement>

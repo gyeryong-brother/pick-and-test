@@ -1,11 +1,11 @@
 package com.gyeryongbrother.pickandtest.stockprice.dataaccess.entity;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.StockPrice;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class StockPriceEntity {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long stockId;

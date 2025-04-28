@@ -8,6 +8,7 @@ import com.gyeryongbrother.pickandtest.stock.dataaccess.entity.StockEntity;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.exception.StockDataException;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.mapper.StockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.Stock;
+import com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.StockQueryRepository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -54,5 +55,13 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
         BooleanExpression nameCondition = stockEntity.name.startsWithIgnoreCase(keyword);
         BooleanExpression symbolCondition = stockEntity.symbol.startsWithIgnoreCase(keyword);
         return nameCondition.or(symbolCondition);
+    }
+
+    @Override
+    public List<String> findAllSymbolsByStockExchange(StockExchange stockExchange) {
+        return queryFactory.select(stockEntity.symbol)
+                .from(stockEntity)
+                .where(stockEntity.stockExchange.eq(stockExchange))
+                .fetch();
     }
 }

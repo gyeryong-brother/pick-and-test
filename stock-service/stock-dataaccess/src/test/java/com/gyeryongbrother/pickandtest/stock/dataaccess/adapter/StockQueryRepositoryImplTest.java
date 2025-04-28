@@ -1,6 +1,7 @@
 package com.gyeryongbrother.pickandtest.stock.dataaccess.adapter;
 
 import static com.gyeryongbrother.pickandtest.stock.dataaccess.entity.StockEntityFixture.stockEntity;
+import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange.NYQ;
 import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockFixture.stock;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
@@ -72,5 +73,15 @@ class StockQueryRepositoryImplTest {
         assertThat(result).usingRecursiveComparison()
                 .ignoringExpectedNullFields()
                 .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("거래소로 심볼들을 조회한다")
+    void findAllSymbolsByStockExchange() {
+        // when
+        List<String> result = stockQueryRepository.findAllSymbolsByStockExchange(NYQ);
+
+        // then
+        assertThat(result).isEmpty();
     }
 }
