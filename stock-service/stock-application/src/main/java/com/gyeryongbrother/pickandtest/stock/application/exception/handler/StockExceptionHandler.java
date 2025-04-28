@@ -9,10 +9,12 @@ import com.gyeryongbrother.pickandtest.stock.domain.service.exception.BaseExcept
 import com.gyeryongbrother.pickandtest.stock.domain.service.exception.BaseExceptionType;
 import com.gyeryongbrother.pickandtest.stock.domain.service.exception.CoreExceptionMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class StockExceptionHandler {
@@ -37,6 +39,7 @@ public class StockExceptionHandler {
 
     @ExceptionHandler
     ResponseEntity<ErrorResponse> handleException(Exception exception) {
+        log.error(exception.getMessage());
         return ResponseEntity.internalServerError()
                 .body(INTERNAL_SERVER_ERROR_RESPONSE);
     }

@@ -1,6 +1,5 @@
 package com.gyeryongbrother.pickandtest.stock.acceptance;
 
-import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.DividendFixture.appleDividendsAtVariousYear;
 import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.IncomeStatementFixture.incomeStatements;
 import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockDetailFixture.firstStockDetail;
 import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockDetailFixture.secondStockDetail;
@@ -13,16 +12,13 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 import com.gyeryongbrother.pickandtest.stock.application.dto.CreateFavoriteStockRequest;
-import com.gyeryongbrother.pickandtest.stock.domain.core.entity.Dividend;
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.IncomeStatement;
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.Stock;
 import com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.FavoriteStockFixture;
-import com.gyeryongbrother.pickandtest.stock.domain.service.dto.AnnualDividendResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.AnnualIncomeStatementResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.CreateFavoriteStockResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.FavoriteStockResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.dto.StockResponse;
-import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.DividendRepository;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.FavoriteStockRepository;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.IncomeStatementRepository;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.StockDetailRepository;
@@ -58,9 +54,6 @@ class StockControllerTest {
     private StockDetailRepository stockDetailRepository;
 
     @Autowired
-    private DividendRepository dividendRepository;
-
-    @Autowired
     private FavoriteStockRepository favoriteStockRepository;
 
     @LocalServerPort
@@ -92,7 +85,7 @@ class StockControllerTest {
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .queryParam("keyword", "AAP")
-                .when().get("/stocks")
+                .when().get("/stock-service/stocks")
                 .then().log().all()
                 .extract();
         List<StockResponse> result = response.as(new TypeRef<>() {
@@ -102,29 +95,6 @@ class StockControllerTest {
         assertThat(result).usingRecursiveComparison()
                 .ignoringExpectedNullFields()
                 .isEqualTo(expected);
-    }
-
-    @Test
-    @DisplayName("주식의 연배당기록을 가져온다")
-    void findAnnualDividends() {
-        // given
-        List<Dividend> dividends = appleDividendsAtVariousYear(1L);
-        dividends.forEach(dividendRepository::save);
-        List<AnnualDividendResponse> expected = List.of(
-                new AnnualDividendResponse(2020, BigDecimal.valueOf(0.45)),
-                new AnnualDividendResponse(2021, BigDecimal.valueOf(0.32))
-        );
-
-        // when
-        ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .when().get("/stocks/{stockId}/dividends", 1)
-                .then().log().all()
-                .extract();
-        List<AnnualDividendResponse> result = response.as(new TypeRef<>() {
-        });
-
-        // then
-        assertThat(result).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
@@ -141,7 +111,7 @@ class StockControllerTest {
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .when().get("/stocks/{stockId}/incomeStatements", stock.id())
+                .when().get("/stock-service/stocks/{stockId}/incomeStatements", stock.id())
                 .then().log().all()
                 .extract();
         List<AnnualIncomeStatementResponse> result = response.as(new TypeRef<>() {
@@ -164,7 +134,7 @@ class StockControllerTest {
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(createFavoriteStockRequest)
-                .when().post("/favorite-stocks")
+                .when().post("/stock-service/favorite-stocks")
                 .then().log().all()
                 .extract();
         CreateFavoriteStockResponse result = response.as(CreateFavoriteStockResponse.class);
@@ -197,7 +167,7 @@ class StockControllerTest {
 
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .when().get("/favorite-stocks")
+                .when().get("/stock-service/favorite-stocks")
                 .then().log().all()
                 .extract();
         List<FavoriteStockResponse> result = response.as(new TypeRef<>() {

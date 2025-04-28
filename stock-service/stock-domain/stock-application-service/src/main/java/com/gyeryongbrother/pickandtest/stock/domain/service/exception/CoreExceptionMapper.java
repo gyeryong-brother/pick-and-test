@@ -1,9 +1,12 @@
 package com.gyeryongbrother.pickandtest.stock.domain.service.exception;
 
 import static com.gyeryongbrother.pickandtest.stock.domain.core.exception.StockCoreExceptionType.INVALID_YEAR;
+import static com.gyeryongbrother.pickandtest.stock.domain.core.exception.StockCoreExceptionType.NO_EXIST_STOCK_EXCHANGE;
+import static com.gyeryongbrother.pickandtest.stock.domain.core.exception.StockCoreExceptionType.values;
 import static com.gyeryongbrother.pickandtest.stock.domain.service.exception.StockServiceExceptionType.CAN_NOT_CALCULATE_COMPOUND_ANNUAL_GROWTH_RATE;
 import static com.gyeryongbrother.pickandtest.stock.domain.service.exception.StockServiceExceptionType.CORE_EXCEPTION_NOT_REGISTERED;
 import static com.gyeryongbrother.pickandtest.stock.domain.service.exception.StockServiceExceptionType.CORE_EXCEPTION_SHOULD_BE_REGISTERED;
+import static com.gyeryongbrother.pickandtest.stock.domain.service.exception.StockServiceExceptionType.NO_EXIST_STOCK_EXCHANGE_SERVICE;
 
 import com.gyeryongbrother.pickandtest.stock.domain.core.exception.CoreExceptionType;
 import com.gyeryongbrother.pickandtest.stock.domain.core.exception.StockCoreExceptionType;
@@ -15,7 +18,8 @@ import org.springframework.stereotype.Component;
 public class CoreExceptionMapper {
 
     private final Map<CoreExceptionType, BaseExceptionType> values = Map.of(
-            INVALID_YEAR, CAN_NOT_CALCULATE_COMPOUND_ANNUAL_GROWTH_RATE
+            INVALID_YEAR, CAN_NOT_CALCULATE_COMPOUND_ANNUAL_GROWTH_RATE,
+            NO_EXIST_STOCK_EXCHANGE, NO_EXIST_STOCK_EXCHANGE_SERVICE
     );
 
     public CoreExceptionMapper() {
@@ -23,7 +27,7 @@ public class CoreExceptionMapper {
     }
 
     private void validate() {
-        Arrays.stream(StockCoreExceptionType.values())
+        Arrays.stream(values())
                 .forEach(this::validate);
     }
 

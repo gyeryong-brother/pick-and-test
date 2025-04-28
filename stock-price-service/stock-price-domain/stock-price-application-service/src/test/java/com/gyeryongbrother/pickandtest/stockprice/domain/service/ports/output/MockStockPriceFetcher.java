@@ -20,6 +20,9 @@ public class MockStockPriceFetcher implements StockPriceFetcher {
     }
 
     private List<StockPrice> filter(Long stockId, LocalDate startDate) {
+        if (startDate == null) {
+            return stockPricesByStockId.get(stockId);
+        }
         return stockPricesByStockId.get(stockId).stream()
                 .filter(it -> !it.date().isBefore(startDate))
                 .toList();

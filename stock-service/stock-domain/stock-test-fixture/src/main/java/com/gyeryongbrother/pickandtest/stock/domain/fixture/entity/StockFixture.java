@@ -1,6 +1,6 @@
 package com.gyeryongbrother.pickandtest.stock.domain.fixture.entity;
 
-import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange.NASDAQ;
+import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange.NGM;
 import static com.gyeryongbrother.pickandtest.stock.domain.fixture.valueobject.LocalDateFixture.januaryFirst;
 import static lombok.AccessLevel.PRIVATE;
 
@@ -15,7 +15,7 @@ public class StockFixture {
         return Stock.builder()
                 .name("APPLE INC")
                 .symbol("AAPL")
-                .stockExchange(NASDAQ)
+                .stockExchange(NGM)
                 .outstandingShares(15334100000L)
                 .listingDate(null)
                 .build();
@@ -26,7 +26,7 @@ public class StockFixture {
                 .id(id)
                 .name("Apple Inc.")
                 .symbol("AAPL")
-                .stockExchange(NASDAQ)
+                .stockExchange(NGM)
                 .outstandingShares(1000L)
                 .listingDate(januaryFirst())
                 .build();
@@ -36,7 +36,7 @@ public class StockFixture {
         return Stock.builder()
                 .name(name)
                 .symbol(symbol)
-                .stockExchange(NASDAQ)
+                .stockExchange(NGM)
                 .outstandingShares(1000L)
                 .listingDate(januaryFirst())
                 .build();
@@ -47,7 +47,7 @@ public class StockFixture {
                 .id(id)
                 .name("Apple Inc.")
                 .symbol("AAPL")
-                .stockExchange(NASDAQ)
+                .stockExchange(NGM)
                 .outstandingShares(1000L)
                 .listingDate(januaryFirst())
                 .stockDetail(stockDetail)
