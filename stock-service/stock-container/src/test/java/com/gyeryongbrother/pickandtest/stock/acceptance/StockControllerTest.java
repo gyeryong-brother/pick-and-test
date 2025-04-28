@@ -85,7 +85,7 @@ class StockControllerTest {
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .queryParam("keyword", "AAP")
-                .when().get("/stocks")
+                .when().get("/stock-service/stocks")
                 .then().log().all()
                 .extract();
         List<StockResponse> result = response.as(new TypeRef<>() {
@@ -111,7 +111,7 @@ class StockControllerTest {
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .when().get("/stocks/{stockId}/incomeStatements", stock.id())
+                .when().get("/stock-service/stocks/{stockId}/incomeStatements", stock.id())
                 .then().log().all()
                 .extract();
         List<AnnualIncomeStatementResponse> result = response.as(new TypeRef<>() {
@@ -134,7 +134,7 @@ class StockControllerTest {
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(createFavoriteStockRequest)
-                .when().post("/favorite-stocks")
+                .when().post("/stock-service/favorite-stocks")
                 .then().log().all()
                 .extract();
         CreateFavoriteStockResponse result = response.as(CreateFavoriteStockResponse.class);
@@ -167,7 +167,7 @@ class StockControllerTest {
 
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .when().get("/favorite-stocks")
+                .when().get("/stock-service/favorite-stocks")
                 .then().log().all()
                 .extract();
         List<FavoriteStockResponse> result = response.as(new TypeRef<>() {

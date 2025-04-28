@@ -50,7 +50,7 @@ public class DividendControllerTest {
 
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .when().get("/dividends?stockId={stockId}", 1)
+                .when().get("/dividend-service/dividends?stockId={stockId}", 1)
                 .then().log().all()
                 .extract();
         List<AnnualDividendResponse> result = response.as(new TypeRef<>() {

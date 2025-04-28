@@ -68,7 +68,7 @@ class MemberControllerTest {
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(registerMemberRequest)
-                .when().post("/members")
+                .when().post("/member-service/members")
                 .then().log().all()
                 .extract();
 
@@ -94,7 +94,7 @@ class MemberControllerTest {
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(registerMemberRequest)
-                .when().post("/members")
+                .when().post("/member-service/members")
                 .then().log().all()
                 .extract();
 
@@ -122,7 +122,7 @@ class MemberControllerTest {
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(loginRequest)
-                .when().post("/members/login")
+                .when().post("/member-service/members/login")
                 .then().log().all()
                 .extract();
 
@@ -153,7 +153,7 @@ class MemberControllerTest {
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(loginRequest)
-                .when().post("/members/login")
+                .when().post("/member-service/members/login")
                 .then().log().all()
                 .extract();
 
@@ -184,7 +184,7 @@ class MemberControllerTest {
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(loginRequest)
-                .when().post("/members/login")
+                .when().post("/member-service/members/login")
                 .then().log().all()
                 .extract();
 

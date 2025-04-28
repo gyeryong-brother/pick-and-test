@@ -7,7 +7,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Component
 public class StockServiceUrlProvider {
 
-    private static final String STOCK_ENDPOINT = "/stocks/%s";
+    private static final String STOCK_ENDPOINT = "/stock-service/stocks/%s";
 
     private final String domain;
 

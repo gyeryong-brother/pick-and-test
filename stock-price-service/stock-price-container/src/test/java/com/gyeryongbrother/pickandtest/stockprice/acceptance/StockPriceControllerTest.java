@@ -53,7 +53,7 @@ class StockPriceControllerTest {
 
         // when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .when().get("/stock-prices?stockId={stockId}", 1)
+                .when().get("/stock-price-service/stock-prices?stockId={stockId}", 1)
                 .then().log().all()
                 .extract();
         List<StockPriceResponse> result = response.as(new TypeRef<>() {

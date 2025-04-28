@@ -21,7 +21,7 @@ class StockServiceUrlProviderTest {
     @DisplayName("주식 api endpoint 를 가져온다")
     void getStockEndpoint() {
         // given
-        String expected = "http://stock-service:8080/stocks/1";
+        String expected = "http://stock-service:8080/stock-service/stocks/1";
 
         // when
         String result = stockServiceUrlProvider.getStockEndpoint(1L);
