@@ -1,6 +1,6 @@
 package com.gyeryongbrother.pickandtest.stock.domain.service;
 
-import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange.NASDAQ;
+import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange.NGM;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.anyString;
 import static org.mockito.BDDMockito.given;
@@ -62,7 +62,7 @@ class StockQueryServiceImplTest {
                 .id(id)
                 .name(name)
                 .symbol(symbol)
-                .stockExchange(NASDAQ)
+                .stockExchange(NGM)
                 .listingDate(LocalDate.of(2024, 1, 1))
                 .build();
     }

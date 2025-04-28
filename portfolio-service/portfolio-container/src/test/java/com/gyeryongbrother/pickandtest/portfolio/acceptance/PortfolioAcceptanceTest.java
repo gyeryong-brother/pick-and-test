@@ -72,7 +72,7 @@ class PortfolioAcceptanceTest {
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .when().get("/portfolios/{portfolioId}", savedPortfolio.getId())
+                .when().get("/portfolio-service/portfolios/{portfolioId}", savedPortfolio.getId())
                 .then().log().all()
                 .extract();
         List<PortfolioStockResponse> result = response.as(new TypeRef<>() {
@@ -108,7 +108,7 @@ class PortfolioAcceptanceTest {
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
-                .when().get("/portfolios")
+                .when().get("/portfolio-service/portfolios")
                 .then().log().all()
                 .extract();
         List<PortfolioResponse> result = response.as(new TypeRef<>() {
@@ -148,7 +148,7 @@ class PortfolioAcceptanceTest {
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(updatePortfolioRequest)
-                .when().put("/portfolios/{portfolioId}", savedPortfolio.getId())
+                .when().put("/portfolio-service/portfolios/{portfolioId}", savedPortfolio.getId())
                 .then().log().all()
                 .extract();
 
@@ -171,7 +171,7 @@ class PortfolioAcceptanceTest {
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(updatePortfolioRequest)
-                .when().put("/portfolios/{portfolioId}", -1)
+                .when().put("/portfolio-service/portfolios/{portfolioId}", -1)
                 .then().log().all()
                 .extract();
 

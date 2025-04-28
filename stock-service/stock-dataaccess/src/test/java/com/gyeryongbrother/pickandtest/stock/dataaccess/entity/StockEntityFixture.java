@@ -1,6 +1,6 @@
 package com.gyeryongbrother.pickandtest.stock.dataaccess.entity;
 
-import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange.NASDAQ;
+import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange.NGM;
 import static com.gyeryongbrother.pickandtest.stock.domain.fixture.valueobject.LocalDateFixture.januaryFirst;
 
 public class StockEntityFixture {
@@ -9,7 +9,7 @@ public class StockEntityFixture {
         return StockEntity.builder()
                 .name("Apple Inc.")
                 .symbol("AAPL")
-                .stockExchange(NASDAQ)
+                .stockExchange(NGM)
                 .outstandingShares(1000L)
                 .listingDate(januaryFirst())
                 .build();
@@ -24,7 +24,7 @@ public class StockEntityFixture {
         return StockEntity.builder()
                 .name(name)
                 .symbol(symbol)
-                .stockExchange(NASDAQ)
+                .stockExchange(NGM)
                 .outstandingShares(1000L)
                 .listingDate(januaryFirst())
                 .build();

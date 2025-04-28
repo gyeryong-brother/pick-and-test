@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 public enum StockCoreExceptionType implements CoreExceptionType {
 
     INVALID_YEAR("invalid year"),
+    NO_EXIST_STOCK_EXCHANGE("no exist stock exchange"),
     ;
 
     private final String errorMessage;

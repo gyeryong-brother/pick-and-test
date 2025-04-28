@@ -9,9 +9,9 @@ import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 import com.gyeryongbrother.pickandtest.stockprice.dataaccess.config.TestQuerydslConfig;
 import com.gyeryongbrother.pickandtest.stockprice.dataaccess.repository.StockPriceJpaRepository;
 import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.StockPrice;
-import com.gyeryongbrother.pickandtest.stockprice.domain.core.valueobject.StockPriceDate;
 import com.gyeryongbrother.pickandtest.stockprice.domain.service.ports.output.StockPriceQueryRepository;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,26 +52,22 @@ class StockPriceQueryRepositoryImplTest {
     void findLastDateOfStockPricesByStockId() {
         // given
         stockPriceJpaRepository.saveAll(stockPriceEntities(1L));
-        StockPriceDate expected = new StockPriceDate(januarySecond());
+        LocalDate expected = januarySecond();
 
         // when
-        StockPriceDate result = stockPriceQueryRepository.findLastDateOfStockPricesByStockId(1L);
+        LocalDate result = stockPriceQueryRepository.findLastDateOfStockPricesByStockId(1L);
 
         // then
-        assertThat(result).usingRecursiveComparison()
-                .isEqualTo(expected);
+        assertThat(result).isEqualTo(expected);
     }
 
     @Test
     @DisplayName("주식 아이디로 가장 최근 주가의 날짜를 가져올 때 주가가 하나도 없다면 null 을 반환한다")
     void findLastDateOfStockPricesByStockIdWhenStockPriceNotExists() {
-        // given
-        StockPriceDate expected = StockPriceDate.EMPTY;
-
         // when
-        StockPriceDate result = stockPriceQueryRepository.findLastDateOfStockPricesByStockId(1L);
+        LocalDate result = stockPriceQueryRepository.findLastDateOfStockPricesByStockId(1L);
 
         // then
-        assertThat(result).isEqualTo(expected);
+        assertThat(result).isNull();
     }
 }

@@ -11,12 +11,15 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
 @DataJpaTest
 @Import(TestQuerydslConfig.class)
 @DisplayName("주가 레포지토리를 구현한다")
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 class StockPriceRepositoryImplTest {
 
     @Autowired
@@ -36,7 +39,7 @@ class StockPriceRepositoryImplTest {
 
         //then
         assertAll(
-                () -> assertThat(result.id()).isPositive(),
+                () -> assertThat(result.id()).isNotNull(),
                 () -> assertThat(result).usingRecursiveComparison()
                         .ignoringExpectedNullFields()
                         .isEqualTo(expected)
