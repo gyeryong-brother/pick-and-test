@@ -4,10 +4,12 @@ import static org.springframework.http.HttpStatus.OK;
 
 import com.gyeryongbrother.pickandtest.authentication.application.dto.LoginRequest;
 import com.gyeryongbrother.pickandtest.authentication.application.dto.OauthLoginRequest;
+import com.gyeryongbrother.pickandtest.authentication.application.dto.RegisterRequest;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.AuthenticationMethod;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginCommand;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginPageResponse;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginResponse;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.OauthLoginCommand;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.input.AuthenticationQueryService;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.input.AuthenticationService;
 import jakarta.servlet.http.Cookie;
@@ -32,6 +34,11 @@ public class AuthenticationController {
     private final AuthenticationQueryService authenticationQueryService;
     private final CookieManager cookieManager;
 
+    @PostMapping("/register")
+    ResponseEntity<LoginResponse> register(@RequestBody RegisterRequest request, HttpServletResponse response) {
+        return null;
+    }
+
     @PostMapping("/login")
     ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
         LoginCommand loginCommand = loginRequest.toCommand();
@@ -42,20 +49,24 @@ public class AuthenticationController {
     }
 
     @SneakyThrows
-    @GetMapping("/{authType}")
+    @GetMapping("/{authenticationMethod}")
     ResponseEntity<Void> oauthLoginPage(
-            @PathVariable String authType,
+            @PathVariable AuthenticationMethod authenticationMethod,
             HttpServletResponse response
     ) {
-        LoginPageResponse loginPage = authenticationQueryService.getLoginPage(AuthenticationMethod.from(authType));
+        LoginPageResponse loginPage = authenticationQueryService.getLoginPage(authenticationMethod);
         response.sendRedirect(loginPage.url());
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/login/{oauthType}")
-    ResponseEntity<LoginResponse> login(@PathVariable String oauthType, @RequestBody OauthLoginRequest request) {
-
-        return ResponseEntity.ok().build();
+    @PostMapping("/login/{authenticationMethod}")
+    ResponseEntity<LoginResponse> login(
+            @PathVariable AuthenticationMethod authenticationMethod,
+            @RequestBody OauthLoginRequest request
+    ) {
+        OauthLoginCommand command = request.toCommand(authenticationMethod);
+        LoginResponse response = authenticationService.oauthLogin(command);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/logout")
