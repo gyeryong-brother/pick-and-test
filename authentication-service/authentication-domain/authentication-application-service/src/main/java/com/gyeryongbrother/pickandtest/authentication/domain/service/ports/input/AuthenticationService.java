@@ -2,10 +2,13 @@ package com.gyeryongbrother.pickandtest.authentication.domain.service.ports.inpu
 
 import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginCommand;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginResponse;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.OauthLoginCommand;
 
 public interface AuthenticationService {
 
     LoginResponse login(LoginCommand loginCommand);
+
+    LoginResponse oauthLogin(OauthLoginCommand command);
 
     void logout(String refreshToken);
 }

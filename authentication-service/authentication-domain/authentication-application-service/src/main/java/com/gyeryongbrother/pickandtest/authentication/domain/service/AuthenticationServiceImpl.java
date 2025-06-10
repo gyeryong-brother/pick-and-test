@@ -4,11 +4,13 @@ import static com.gyeryongbrother.pickandtest.authentication.domain.service.exce
 import static com.gyeryongbrother.pickandtest.authentication.domain.service.exception.AuthenticationServiceExceptionType.USER_NONEXISTS;
 
 import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.RefreshToken;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.model.AuthenticationAttempt;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.model.RegisteredCredential;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.AuthenticationContext;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.Tokens;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginCommand;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginResponse;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.OauthLoginCommand;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.exception.AuthenticationServiceException;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.input.AuthenticationService;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.Authenticator;
@@ -39,6 +41,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         RefreshToken refreshToken = new RefreshToken(credential.principal(), tokens.refreshToken());
         RefreshToken savedRefreshToken = refreshTokenRepository.save(refreshToken);
         return new LoginResponse(tokens.accessToken(), savedRefreshToken.token());
+    }
+
+    @Override
+    public LoginResponse oauthLogin(OauthLoginCommand command) {
+//        new AuthenticationContext()
+//        authenticator.authenticate()
+        return null;
     }
 
     @Override
