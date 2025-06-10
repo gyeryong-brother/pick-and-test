@@ -100,7 +100,7 @@ public class AuthenticationControllerTest {
         return RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(loginRequest)
-                .when().post("/auth/login")
+                .when().post("/authentication-service/auth/login")
                 .then().log().all()
                 .extract();
     }
@@ -167,7 +167,7 @@ public class AuthenticationControllerTest {
                 .header("Authorization", "Bearer " + accessToken)
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/auth/logout")
+                .post("/authentication-service/auth/logout")
                 .then()
                 .log().all()
                 .extract();
@@ -238,7 +238,7 @@ public class AuthenticationControllerTest {
                 .cookie("refreshToken", refreshToken)
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/auth/logout")
+                .post("/authentication-service/auth/logout")
                 .then()
                 .log().all()
                 .extract();
@@ -261,7 +261,7 @@ public class AuthenticationControllerTest {
                 .header("Authorization", "Bearer " + accessToken)
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/auth/logout")
+                .post("/authentication-service/auth/logout")
                 .then()
                 .log().all()
                 .extract();
@@ -304,7 +304,7 @@ public class AuthenticationControllerTest {
                 .log().all()
                 .contentType(ContentType.JSON)
                 .when()
-                .post("/auth/logout")
+                .post("/authentication-service/auth/logout")
                 .then()
                 .log().all()
                 .extract();

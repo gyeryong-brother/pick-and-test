@@ -31,7 +31,7 @@ class KakaoOauthConfigTest {
         String result = kakaoOauthConfig.redirectUri();
 
         // then
-        assertThat(result).isEqualTo("http://localhost:3000/oauth/redirected/kakao");
+        assertThat(result).isEqualTo("http://localhost:3000/oauth/kakao");
     }
 
     @Test
