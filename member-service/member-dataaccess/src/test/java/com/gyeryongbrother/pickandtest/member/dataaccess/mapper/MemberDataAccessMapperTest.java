@@ -22,36 +22,13 @@ class MemberDataAccessMapperTest {
     @DisplayName("회원을 회원 엔티티로 변환한다")
     void memberToMemberEntity() {
         // given
-        Member member = Member.builder()
-                .name("name")
-                .build();
+        Member member = new Member(null, null, "nickname", null);
         MemberEntity expected = MemberEntity.builder()
-                .name("name")
+                .nickname("nickname")
                 .build();
 
         // when
         MemberEntity result = memberDataAccessMapper.memberToMemberEntity(member);
-
-        // then
-        assertThat(result).usingRecursiveComparison()
-                .isEqualTo(expected);
-    }
-
-    @Test
-    @DisplayName("회원 엔티티를 회원으로 변환한다")
-    void memberEntityToMember() {
-        // given
-        MemberEntity memberEntity = MemberEntity.builder()
-                .id(1L)
-                .name("name")
-                .build();
-        Member expected = Member.builder()
-                .id(1L)
-                .name("name")
-                .build();
-
-        // when
-        Member result = memberDataAccessMapper.memberEntityToMember(memberEntity);
 
         // then
         assertThat(result).usingRecursiveComparison()

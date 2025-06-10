@@ -3,8 +3,8 @@ package com.gyeryongbrother.pickandtest.member.dataaccess.entity;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
-import com.gyeryongbrother.pickandtest.member.domain.core.UserRole;
-import jakarta.persistence.Column;
+import com.gyeryongbrother.pickandtest.member.domain.core.Member;
+import com.gyeryongbrother.pickandtest.member.domain.core.MemberRole;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -28,12 +28,11 @@ public class MemberEntity {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    private String name;
+    private MemberRole memberRole;
+    private String nickname;
+    private String profileImageUrl;
 
-    @Column(unique = true)
-    private String username;
-
-    private String password;
-
-    private UserRole userRole;
+    public Member toDomain() {
+        return new Member(id, memberRole, nickname, profileImageUrl);
+    }
 }
