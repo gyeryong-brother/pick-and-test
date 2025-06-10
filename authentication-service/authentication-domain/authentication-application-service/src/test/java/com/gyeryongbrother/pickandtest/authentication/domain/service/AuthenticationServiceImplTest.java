@@ -11,9 +11,11 @@ import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginCo
 import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginResponse;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.input.AuthenticationService;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.Authenticator;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.MemberClient;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.RefreshTokenQueryRepository;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.RefreshTokenRepository;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.UsernamePasswordCredentialQueryRepository;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.UsernamePasswordCredentialRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -30,6 +32,9 @@ class AuthenticationServiceImplTest {
     private UsernamePasswordCredentialQueryRepository usernamePasswordCredentialQueryRepository;
 
     @Mock
+    private UsernamePasswordCredentialRepository usernamePasswordCredentialRepository;
+
+    @Mock
     private RefreshTokenQueryRepository refreshTokenQueryRepository;
 
     @Mock
@@ -38,15 +43,20 @@ class AuthenticationServiceImplTest {
     @Mock
     private Authenticator authenticator;
 
+    @Mock
+    private MemberClient memberClient;
+
     private AuthenticationService authenticationService;
 
     @BeforeEach
     void setUp() {
         authenticationService = new AuthenticationServiceImpl(
                 usernamePasswordCredentialQueryRepository,
+                usernamePasswordCredentialRepository,
                 refreshTokenQueryRepository,
                 refreshTokenRepository,
-                authenticator
+                authenticator,
+                memberClient
         );
     }
 

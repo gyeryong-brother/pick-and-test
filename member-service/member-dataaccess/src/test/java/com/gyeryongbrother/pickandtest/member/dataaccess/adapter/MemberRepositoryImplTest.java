@@ -24,16 +24,14 @@ class MemberRepositoryImplTest {
     @DisplayName("회원을 저장한다")
     void save() {
         // given
-        Member member = Member.builder()
-                .name("name")
-                .build();
+        Member member = new Member("nickname", null);
 
         // when
         Member result = memberRepository.save(member);
 
         // then
         assertAll(
-                () -> assertThat(result.getId()).isPositive(),
+                () -> assertThat(result.id()).isPositive(),
                 () -> assertThat(result).usingRecursiveComparison()
                         .ignoringExpectedNullFields()
                         .isEqualTo(member)

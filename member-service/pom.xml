@@ -19,6 +19,7 @@
         <module>member-dataaccess</module>
         <module>member-container</module>
         <module>member-infrastructure</module>
+        <module>member-domain/member-test-fixture</module>
     </modules>
 
     <properties>
