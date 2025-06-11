@@ -4,3 +4,6 @@ oauth:
     redirect_uri: http://localhost:3000/oauth/kakao
     client_secret: client_secret
     scope: profile_nickname, profile_image
+
+member-service:
+  url: http://127.0.0.1:8082
