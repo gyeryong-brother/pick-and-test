@@ -1,6 +1,7 @@
 package com.gyeryongbrother.pickandtest.authentication.domain.service.exception;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ public enum AuthenticationServiceExceptionType implements BaseExceptionType {
     CORE_EXCEPTION_NOT_REGISTERED(NOT_FOUND, "코어 예외가 존재하지 않습니다."),
     USERROLE_NONEXISTS(NOT_FOUND, "존재하지 않는 사용자 역할입니다."),
     SERVICE_EXCEPTION_AUTHENTICATION_METHOD_NOT_MATCHED(BAD_REQUEST, "authentication method not matched"),
+    AUTHENTICATION_METHOD_DUPLICATED(INTERNAL_SERVER_ERROR, "인증 방법이 중복되었습니다."),
     INVALID_REFRESH_TOKEN(NOT_FOUND, "Invalid Refresh Token Error"),
     ;
 
