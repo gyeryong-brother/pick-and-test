@@ -1,5 +1,6 @@
 package com.gyeryongbrother.pickandtest.authentication.infrastructure.adapter;
 
+import com.gyeryongbrother.pickandtest.authentication.domain.core.model.AuthenticationAttempt;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.AuthenticationContext;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.AuthenticationMethod;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.Tokens;
@@ -19,9 +20,9 @@ public class AuthenticatorImpl implements Authenticator {
     private final AuthCodeRequestUrlProviderComposite authCodeRequestUrlProviderComposite;
 
     @Override
-    public Tokens authenticate(AuthenticationContext authenticationContext) {
-        AuthenticationStrategy authenticationStrategy = authenticationStrategyFactory.resolve(authenticationContext);
-        return authenticationStrategy.authenticate(authenticationContext);
+    public Tokens authenticate(AuthenticationAttempt authenticationAttempt) {
+        AuthenticationStrategy authenticationStrategy = authenticationStrategyFactory.resolve(authenticationAttempt);
+        return authenticationStrategy.authenticate(authenticationAttempt);
     }
 
     @Override

@@ -8,5 +8,5 @@ public interface AuthenticationAttempt {
 
     String principal();
 
-    String secret();
+    String credentials();
 }
