@@ -1,15 +1,18 @@
 package com.gyeryongbrother.pickandtest.authentication.infrastructure.strategy;
 
+import static com.gyeryongbrother.pickandtest.authentication.domain.service.exception.AuthenticationServiceExceptionType.USER_NONEXISTS;
 import static com.gyeryongbrother.pickandtest.authentication.infrastructure.exception.AuthenticationInfrastructureExceptionType.USERNAME_PASSWORD_NOT_MATCH;
 
+import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.UsernamePasswordCredential;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.model.AuthenticationAttempt;
-import com.gyeryongbrother.pickandtest.authentication.domain.core.model.RegisteredCredential;
-import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.AuthenticationContext;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.AuthenticationMethod;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.MemberRole;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.Tokens;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.exception.AuthenticationServiceException;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.UsernamePasswordCredentialQueryRepository;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.exception.AuthenticationInfrastructureException;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.jwt.JwtProvider;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -18,20 +21,23 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class UsernamePasswordAuthenticationStrategy implements AuthenticationStrategy {
 
+    private final UsernamePasswordCredentialQueryRepository usernamePasswordCredentialQueryRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
     @Override
-    public AuthenticationMethod method() {
-        return AuthenticationMethod.GYERYONG_BROTHER;
+    public Set<AuthenticationMethod> supports() {
+        return Set.of(AuthenticationMethod.GYERYONG_BROTHER);
     }
 
     @Override
-    public Tokens authenticate(AuthenticationContext authenticationContext) {
-        AuthenticationAttempt attempt = authenticationContext.authenticationAttempt();
-        RegisteredCredential credential = authenticationContext.registeredCredential();
-        if (credential.matches(it -> passwordEncoder.matches(attempt.secret(), it))) {
-            return tokens(credential.principal(), MemberRole.USER);
+    public Tokens authenticate(AuthenticationAttempt authenticationAttempt) {
+        String username = authenticationAttempt.principal();
+        UsernamePasswordCredential usernamePasswordCredential = usernamePasswordCredentialQueryRepository.findByUsername(
+                        username)
+                .orElseThrow(() -> new AuthenticationServiceException(USER_NONEXISTS));
+        if (passwordEncoder.matches(authenticationAttempt.credentials(), usernamePasswordCredential.password())) {
+            return tokens(usernamePasswordCredential.memberId(), MemberRole.USER);
         }
         throw new AuthenticationInfrastructureException(USERNAME_PASSWORD_NOT_MATCH);
     }

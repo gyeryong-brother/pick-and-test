@@ -20,7 +20,7 @@ public class UsernamePasswordAttempt implements AuthenticationAttempt {
     }
 
     @Override
-    public String secret() {
+    public String credentials() {
         return password;
     }
 }

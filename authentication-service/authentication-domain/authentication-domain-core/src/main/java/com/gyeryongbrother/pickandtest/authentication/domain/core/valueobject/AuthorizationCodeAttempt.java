@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthorizationCodeAttempt implements AuthenticationAttempt {
 
-    private final String code;
     private final AuthenticationMethod authenticationMethod;
+    private final String code;
 
     @Override
     public AuthenticationMethod method() {
@@ -20,7 +20,7 @@ public class AuthorizationCodeAttempt implements AuthenticationAttempt {
     }
 
     @Override
-    public String secret() {
+    public String credentials() {
         return code;
     }
 }
