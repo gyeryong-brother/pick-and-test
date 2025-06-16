@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class UsernamePasswordAuthenticationStrategy implements AuthenticationStrategy {
 
-    private final UsernamePasswordCredentialQueryRepository usernamePasswordCredentialQueryRepository;
+//    private final UsernamePasswordCredentialQueryRepository usernamePasswordCredentialQueryRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
@@ -33,12 +33,12 @@ public class UsernamePasswordAuthenticationStrategy implements AuthenticationStr
     @Override
     public Tokens authenticate(AuthenticationAttempt authenticationAttempt) {
         String username = authenticationAttempt.principal();
-        UsernamePasswordCredential usernamePasswordCredential = usernamePasswordCredentialQueryRepository.findByUsername(
-                        username)
-                .orElseThrow(() -> new AuthenticationServiceException(USER_NONEXISTS));
-        if (passwordEncoder.matches(authenticationAttempt.credentials(), usernamePasswordCredential.password())) {
-            return tokens(usernamePasswordCredential.memberId(), MemberRole.USER);
-        }
+//        UsernamePasswordCredential usernamePasswordCredential = usernamePasswordCredentialQueryRepository.findByUsername(
+//                        username)
+//                .orElseThrow(() -> new AuthenticationServiceException(USER_NONEXISTS));
+//        if (passwordEncoder.matches(authenticationAttempt.credentials(), usernamePasswordCredential.password())) {
+//            return tokens(usernamePasswordCredential.memberId(), MemberRole.USER);
+//        }
         throw new AuthenticationInfrastructureException(USERNAME_PASSWORD_NOT_MATCH);
     }
 
