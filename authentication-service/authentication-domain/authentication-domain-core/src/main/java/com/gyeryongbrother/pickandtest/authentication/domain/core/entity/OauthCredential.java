@@ -27,4 +27,20 @@ public class OauthCredential implements RegisteredCredential {
     public boolean matches(Matcher matcher) {
         return matcher.matches(oauthId);
     }
+
+    public Long id() {
+        return id;
+    }
+
+    public Long memberId() {
+        return memberId;
+    }
+
+    public String oauthId() {
+        return oauthId;
+    }
+
+    public AuthenticationMethod authenticationMethod() {
+        return authenticationMethod;
+    }
 }

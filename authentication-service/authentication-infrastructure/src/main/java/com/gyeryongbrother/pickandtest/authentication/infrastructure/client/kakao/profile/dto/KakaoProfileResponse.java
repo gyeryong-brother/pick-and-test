@@ -2,6 +2,7 @@ package com.gyeryongbrother.pickandtest.authentication.infrastructure.client.kak
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies.SnakeCaseStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.AuthenticationMethod;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.oauth.OauthId;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.oauth.OauthMember;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.oauth.OauthServerType;
@@ -14,7 +15,7 @@ public record KakaoProfileResponse(
 
     public OauthMember toDomain() {
         return new OauthMember(
-                new OauthId(String.valueOf(id), OauthServerType.KAKAO),
+                new OauthId(String.valueOf(id), AuthenticationMethod.KAKAO),
                 kakaoAccount.profile().nickname(),
                 kakaoAccount.profile().profileImageUrl()
         );

@@ -9,8 +9,9 @@ import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.To
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.MemberClient;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.OauthCredentialQueryRepository;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.OauthCredentialRepository;
-import com.gyeryongbrother.pickandtest.authentication.infrastructure.client.kakao.KakaoClient;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.jwt.JwtProvider;
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.oauth.OauthClient;
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.oauth.OauthClientComposite;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.oauth.OauthId;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.oauth.OauthMember;
 import java.util.Set;
@@ -21,11 +22,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class OauthAuthenticationStrategy implements AuthenticationStrategy {
 
-    private final KakaoClient kakaoClient;
+    private final OauthClientComposite oauthClientComposite;
     private final MemberClient memberClient;
     private final JwtProvider jwtProvider;
-    private final OauthCredentialQueryRepository oauthCredentialQueryRepository;
-    private final OauthCredentialRepository oauthCredentialRepository;
+//    private final OauthCredentialQueryRepository oauthCredentialQueryRepository;
+//    private final OauthCredentialRepository oauthCredentialRepository;
 
     @Override
     public Set<AuthenticationMethod> supports() {
@@ -35,10 +36,12 @@ public class OauthAuthenticationStrategy implements AuthenticationStrategy {
     @Override
     public Tokens authenticate(AuthenticationAttempt authenticationAttempt) {
         String authorizationCode = authenticationAttempt.credentials();
-        OauthMember oauthMember = kakaoClient.fetchMember(authorizationCode);
-        OauthCredential oauthCredential = oauthCredentialQueryRepository.findByOauthId(oauthMember.oauthId().toString())
-                .orElseGet(() -> registerMember(oauthMember));
-        return createToken(oauthCredential);
+        OauthClient oauthClient = oauthClientComposite.oauthClient(authenticationAttempt.method());
+        OauthMember oauthMember = oauthClient.fetchMember(authorizationCode);
+//        OauthCredential oauthCredential = oauthCredentialQueryRepository.findByOauthId(oauthMember.oauthId().toString())
+//                .orElseGet(() -> registerMember(oauthMember));
+//        return createToken(oauthCredential);
+        return null;
     }
 
     private OauthCredential registerMember(OauthMember oauthMember) {
@@ -46,7 +49,8 @@ public class OauthAuthenticationStrategy implements AuthenticationStrategy {
         OauthId oauthId = oauthMember.oauthId();
         OauthCredential oauthCredential = new OauthCredential(null, member.id(), oauthId.toString(),
                 oauthId.authenticationMethod());
-        return oauthCredentialRepository.save(oauthCredential);
+//        return oauthCredentialRepository.save(oauthCredential);
+        return null;
     }
 
     private Tokens createToken(OauthCredential oauthCredential) {
