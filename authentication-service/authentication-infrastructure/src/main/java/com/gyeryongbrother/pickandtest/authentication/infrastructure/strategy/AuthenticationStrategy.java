@@ -3,11 +3,9 @@ package com.gyeryongbrother.pickandtest.authentication.infrastructure.strategy;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.model.AuthenticationAttempt;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.AuthenticationMethod;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.Tokens;
-import java.util.Set;
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.common.MultiSupportable;
 
-public interface AuthenticationStrategy {
+public interface AuthenticationStrategy extends MultiSupportable<AuthenticationMethod> {
 
-    Set<AuthenticationMethod> supports();
-
-    Tokens authenticate(AuthenticationAttempt authenticationAttempt);
+    Tokens authenticate(AuthenticationAttempt attempt);
 }

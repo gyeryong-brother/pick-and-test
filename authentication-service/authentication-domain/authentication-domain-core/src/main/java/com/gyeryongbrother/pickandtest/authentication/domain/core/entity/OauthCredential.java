@@ -1,31 +1,24 @@
 package com.gyeryongbrother.pickandtest.authentication.domain.core.entity;
 
-import com.gyeryongbrother.pickandtest.authentication.domain.core.model.Matcher;
-import com.gyeryongbrother.pickandtest.authentication.domain.core.model.RegisteredCredential;
-import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.AuthenticationMethod;
-import lombok.RequiredArgsConstructor;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.MemberRole;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OauthId;
 
-@RequiredArgsConstructor
-public class OauthCredential implements RegisteredCredential {
+public class OauthCredential {
 
     private final Long id;
     private final Long memberId;
-    private final String oauthId;
-    private final AuthenticationMethod authenticationMethod;
+    private final MemberRole memberRole;
+    private final OauthId oauthId;
 
-    @Override
-    public AuthenticationMethod method() {
-        return authenticationMethod;
+    public OauthCredential(Long id, Long memberId, MemberRole memberRole, OauthId oauthId) {
+        this.id = id;
+        this.memberId = memberId;
+        this.memberRole = memberRole;
+        this.oauthId = oauthId;
     }
 
-    @Override
-    public Long principal() {
-        return memberId;
-    }
-
-    @Override
-    public boolean matches(Matcher matcher) {
-        return matcher.matches(oauthId);
+    public OauthCredential(Long memberId, MemberRole memberRole, OauthId oauthId) {
+        this(null, memberId, memberRole, oauthId);
     }
 
     public Long id() {
@@ -36,11 +29,11 @@ public class OauthCredential implements RegisteredCredential {
         return memberId;
     }
 
-    public String oauthId() {
-        return oauthId;
+    public MemberRole memberRole() {
+        return memberRole;
     }
 
-    public AuthenticationMethod authenticationMethod() {
-        return authenticationMethod;
+    public OauthId oauthId() {
+        return oauthId;
     }
 }

@@ -27,7 +27,7 @@ public class AuthenticationStrategyFactoryImpl implements AuthenticationStrategy
     private Stream<Entry<AuthenticationMethod, AuthenticationStrategy>> methodStrategyEntries(
             AuthenticationStrategy strategy
     ) {
-        return strategy.supports().stream()
+        return strategy.support().stream()
                 .map(method -> Map.entry(method, strategy));
     }
 

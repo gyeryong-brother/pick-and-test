@@ -2,19 +2,15 @@ package com.gyeryongbrother.pickandtest.authentication.domain.service;
 
 import static com.gyeryongbrother.pickandtest.authentication.domain.service.exception.AuthenticationServiceExceptionType.INVALID_REFRESH_TOKEN;
 import static com.gyeryongbrother.pickandtest.authentication.domain.service.exception.AuthenticationServiceExceptionType.USERNAME_ALREADY_EXISTS;
-import static com.gyeryongbrother.pickandtest.authentication.domain.service.exception.AuthenticationServiceExceptionType.USER_NONEXISTS;
 
 import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.RefreshToken;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.UsernamePasswordCredential;
-import com.gyeryongbrother.pickandtest.authentication.domain.core.model.RegisteredCredential;
-import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.AuthorizationCodeAttempt;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.Member;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.Tokens;
-import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.UsernamePasswordAttempt;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginCommand;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginResponse;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.OauthLoginCommand;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.RegisterCommand;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.RegisterResponse;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.exception.AuthenticationServiceException;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.input.AuthenticationService;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.Authenticator;
@@ -41,15 +37,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final MemberClient memberClient;
 
     @Override
-    public LoginResponse register(RegisterCommand command) {
+    public RegisterResponse register(RegisterCommand command) {
         validateAlreadyExists(command.username());
         Member member = memberClient.registerMember(command.toDomain());
         UsernamePasswordCredential credential = command.toCredential(member.id());
-        usernamePasswordCredentialRepository.save(credential);
-        Tokens tokens = authenticator.authenticate(new UsernamePasswordAttempt(command.username(), command.password()));
-        RefreshToken refreshToken = new RefreshToken(credential.principal(), tokens.refreshToken());
-        RefreshToken savedRefreshToken = refreshTokenRepository.save(refreshToken);
-        return new LoginResponse(tokens.accessToken(), savedRefreshToken.token());
+        UsernamePasswordCredential savedCredential = usernamePasswordCredentialRepository.save(credential);
+        return new RegisterResponse(savedCredential.memberId(), savedCredential.username());
     }
 
     private void validateAlreadyExists(String username) {
@@ -61,21 +54,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public LoginResponse login(LoginCommand loginCommand) {
-        String username = loginCommand.username();
-        RegisteredCredential credential = usernamePasswordCredentialQueryRepository.findByUsername(username)
-                .orElseThrow(() -> new AuthenticationServiceException(USER_NONEXISTS));
-        Tokens tokens = authenticator.authenticate(loginCommand.toDomain());
-        RefreshToken refreshToken = new RefreshToken(credential.principal(), tokens.refreshToken());
-        RefreshToken savedRefreshToken = refreshTokenRepository.save(refreshToken);
-        return new LoginResponse(tokens.accessToken(), savedRefreshToken.token());
-    }
-
-    @Override
-    public LoginResponse oauthLogin(OauthLoginCommand command) {
-        Tokens tokens = authenticator.authenticate(
-                new AuthorizationCodeAttempt(command.authenticationMethod(), command.code()));
-        RefreshToken refreshToken = new RefreshToken(null, tokens.refreshToken());
+    public LoginResponse login(LoginCommand command) {
+        Tokens tokens = authenticator.authenticate(command.toAuthenticationAttempt());
+        RefreshToken refreshToken = new RefreshToken(tokens.memberId(), tokens.refreshToken());
         RefreshToken savedRefreshToken = refreshTokenRepository.save(refreshToken);
         return new LoginResponse(tokens.accessToken(), savedRefreshToken.token());
     }

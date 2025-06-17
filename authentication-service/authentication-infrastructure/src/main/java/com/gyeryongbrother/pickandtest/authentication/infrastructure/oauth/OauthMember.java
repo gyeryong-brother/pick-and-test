@@ -1,6 +1,7 @@
 package com.gyeryongbrother.pickandtest.authentication.infrastructure.oauth;
 
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.Member;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OauthId;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

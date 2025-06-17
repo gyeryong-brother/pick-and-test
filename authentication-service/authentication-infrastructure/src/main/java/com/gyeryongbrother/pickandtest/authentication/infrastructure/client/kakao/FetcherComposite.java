@@ -7,17 +7,15 @@ import com.gyeryongbrother.pickandtest.authentication.infrastructure.client.comm
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.client.common.Request;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.client.common.RequestContext;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.client.common.RequestProvider;
-import com.gyeryongbrother.pickandtest.authentication.infrastructure.client.common.Supportable;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.client.common.Url;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.client.common.UrlProvider;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.client.kakao.common.RequestType;
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.common.Supportable;
 import java.util.Map;
 import java.util.Set;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class FetcherComposite {
 
     private final Map<RequestType, UrlProvider> urlProvidersByType;
