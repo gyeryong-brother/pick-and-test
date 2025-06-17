@@ -1,0 +1,18 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: authentication-service
+          uri: http://localhost:8085
+          predicates:
+            - Path=/authentication-service/**
+
+        - id: member-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/member-service/**
+  main:
+    web-application-type: reactive
