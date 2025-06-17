@@ -4,6 +4,7 @@ import static com.gyeryongbrother.pickandtest.authentication.infrastructure.exce
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
 
+import com.gyeryongbrother.pickandtest.authentication.domain.core.model.AuthenticationAttempt;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.AuthenticationMethod;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.exception.AuthenticationInfrastructureException;
 import java.util.Map;
@@ -21,8 +22,9 @@ public class OauthClientComposite {
                 .collect(toMap(OauthClient::support, identity()));
     }
 
-    public OauthClient oauthClient(AuthenticationMethod authenticationMethod) {
-        return Optional.ofNullable(oauthClientsByMethod.get(authenticationMethod))
-                .orElseThrow(() -> new AuthenticationInfrastructureException(OAUTH_SERVER_NOT_SUPPORTED));
+    public OauthMember fetchMember(AuthenticationAttempt attempt) {
+        return Optional.ofNullable(oauthClientsByMethod.get(attempt.method()))
+                .orElseThrow(() -> new AuthenticationInfrastructureException(OAUTH_SERVER_NOT_SUPPORTED))
+                .fetchMember(attempt.credentials());
     }
 }

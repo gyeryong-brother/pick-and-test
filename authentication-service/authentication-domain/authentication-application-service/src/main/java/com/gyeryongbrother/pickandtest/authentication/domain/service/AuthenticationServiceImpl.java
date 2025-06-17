@@ -7,10 +7,10 @@ import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.Refresh
 import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.UsernamePasswordCredential;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.Member;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.Tokens;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginCommand;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginResponse;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.RegisterCommand;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.RegisterResponse;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.login.LoginCommand;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.login.LoginResponse;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.register.RegisterCommand;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.register.RegisterResponse;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.exception.AuthenticationServiceException;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.input.AuthenticationService;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.Authenticator;

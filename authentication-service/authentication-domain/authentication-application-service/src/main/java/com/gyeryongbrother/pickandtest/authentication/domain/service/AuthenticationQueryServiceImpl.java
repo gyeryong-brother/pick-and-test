@@ -1,9 +1,8 @@
 package com.gyeryongbrother.pickandtest.authentication.domain.service;
 
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.AuthenticationMethod;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginPageResponse;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.input.AuthenticationQueryService;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.Authenticator;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.LoginPageProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +10,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationQueryServiceImpl implements AuthenticationQueryService {
 
-    private final Authenticator authenticator;
+    private final LoginPageProvider loginPageProvider;
 
     @Override
-    public LoginPageResponse getLoginPage(AuthenticationMethod authenticationMethod) {
-        String url = authenticator.getLoginPage(authenticationMethod);
-        return new LoginPageResponse(url);
+    public String getLoginPageUrl(AuthenticationMethod authenticationMethod) {
+        return loginPageProvider.getLoginPageUrl(authenticationMethod);
     }
 }

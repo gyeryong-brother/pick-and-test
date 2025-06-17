@@ -1,6 +1,6 @@
 package com.gyeryongbrother.pickandtest.authentication.application.dto;
 
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.RegisterCommand;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.register.RegisterCommand;
 
 public record RegisterRequest(
         String username,
