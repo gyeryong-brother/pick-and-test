@@ -10,11 +10,13 @@ import com.gyeryongbrother.pickandtest.authentication.domain.service.exception.B
 import com.gyeryongbrother.pickandtest.authentication.domain.service.exception.BaseExceptionType;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.exception.CoreExceptionMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingRequestCookieException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class AuthenticationExceptionHandler {
@@ -47,6 +49,7 @@ public class AuthenticationExceptionHandler {
 
     @ExceptionHandler
     ResponseEntity<ErrorResponse> handleException(Exception exception) {
+        log.error(exception.getMessage());
         return ResponseEntity.internalServerError()
                 .body(INTERNAL_SERVER_ERROR_RESPONSE);
     }

@@ -6,8 +6,9 @@ import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.RefreshToken;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.UsernamePasswordCredential;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.MemberRole;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.Tokens;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginCommand;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.UsernamePasswordLoginCommand;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginResponse;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.input.AuthenticationService;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.Authenticator;
@@ -65,16 +66,16 @@ class AuthenticationServiceImplTest {
     void login() {
         //given
         given(usernamePasswordCredentialQueryRepository.findByUsername(any()))
-                .willReturn(Optional.of(new UsernamePasswordCredential(1L, 1L, "username", "password")));
+                .willReturn(Optional.of(new UsernamePasswordCredential(1L, 1L, MemberRole.USER, "username", "password")));
         given(authenticator.authenticate(any()))
-                .willReturn(new Tokens("accessToken", "refreshToken"));
+                .willReturn(new Tokens(1L, "accessToken", "refreshToken"));
         given(refreshTokenRepository.save(any()))
                 .willReturn(new RefreshToken(1L, 1L, "refreshToken"));
-        LoginCommand loginCommand = new LoginCommand("username", "password");
+        UsernamePasswordLoginCommand usernamePasswordLoginCommand = new UsernamePasswordLoginCommand("username", "password");
         LoginResponse expected = new LoginResponse("accessToken", "refreshToken");
 
         //when
-        LoginResponse result = authenticationService.login(loginCommand);
+        LoginResponse result = authenticationService.login(usernamePasswordLoginCommand);
 
         //then
         assertThat(result).isEqualTo(expected);

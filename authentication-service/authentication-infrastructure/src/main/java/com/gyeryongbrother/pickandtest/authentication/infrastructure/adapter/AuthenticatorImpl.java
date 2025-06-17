@@ -1,7 +1,6 @@
 package com.gyeryongbrother.pickandtest.authentication.infrastructure.adapter;
 
 import com.gyeryongbrother.pickandtest.authentication.domain.core.model.AuthenticationAttempt;
-import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.AuthenticationContext;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.AuthenticationMethod;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.Tokens;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.Authenticator;

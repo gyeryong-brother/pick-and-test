@@ -1,7 +1,10 @@
 package com.gyeryongbrother.pickandtest.authentication.dataaccess.entity;
 
 import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.UsernamePasswordCredential;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.MemberRole;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,10 +24,14 @@ public class UsernamePasswordCredentialEntity {
     private Long id;
 
     private Long memberId;
+
+    @Enumerated(EnumType.STRING)
+    private MemberRole memberRole;
+
     private String username;
     private String password;
 
     public UsernamePasswordCredential toDomain() {
-        return new UsernamePasswordCredential(id, memberId, username, password);
+        return new UsernamePasswordCredential(id, memberId, memberRole, username, password);
     }
 }
