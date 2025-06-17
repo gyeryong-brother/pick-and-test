@@ -1,6 +1,7 @@
 package com.gyeryongbrother.pickandtest.authentication.infrastructure.client.kakao;
 
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.oauth.OauthMember;
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.oauth.kakao.KakaoClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

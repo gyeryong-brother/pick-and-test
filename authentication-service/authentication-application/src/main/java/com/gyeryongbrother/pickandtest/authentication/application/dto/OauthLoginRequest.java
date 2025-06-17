@@ -1,7 +1,7 @@
 package com.gyeryongbrother.pickandtest.authentication.application.dto;
 
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.AuthenticationMethod;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.OauthLoginCommand;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.login.OauthLoginCommand;
 
 public record OauthLoginRequest(
         String code

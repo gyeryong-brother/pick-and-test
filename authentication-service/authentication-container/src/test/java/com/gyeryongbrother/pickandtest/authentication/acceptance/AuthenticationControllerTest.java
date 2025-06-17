@@ -12,8 +12,8 @@ import com.gyeryongbrother.pickandtest.authentication.application.exception.hand
 import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.RefreshToken;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.UsernamePasswordCredential;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.MemberRole;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginResponse;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LogoutResponse;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.login.LoginResponse;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.logout.LogoutResponse;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.RefreshTokenQueryRepository;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.UsernamePasswordCredentialRepository;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.jwt.JwtProvider;

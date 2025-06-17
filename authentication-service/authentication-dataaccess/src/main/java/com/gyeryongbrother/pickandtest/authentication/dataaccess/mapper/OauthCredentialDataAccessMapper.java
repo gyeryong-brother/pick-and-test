@@ -11,6 +11,7 @@ public class OauthCredentialDataAccessMapper {
         return OauthCredentialEntity.builder()
                 .id(oauthCredential.id())
                 .memberId(oauthCredential.memberId())
+                .memberRole(oauthCredential.memberRole())
                 .authenticationMethod(oauthCredential.oauthId().authenticationMethod())
                 .oauthServerId(oauthCredential.oauthId().oauthServerId())
                 .build();

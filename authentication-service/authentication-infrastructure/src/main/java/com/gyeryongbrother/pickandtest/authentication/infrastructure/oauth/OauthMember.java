@@ -12,7 +12,7 @@ public class OauthMember {
     private final String profileImageUrl;
 
     public Member toDomain() {
-        return new Member(null, nickname, profileImageUrl);
+        return new Member(nickname, profileImageUrl);
     }
 
     public OauthId oauthId() {
