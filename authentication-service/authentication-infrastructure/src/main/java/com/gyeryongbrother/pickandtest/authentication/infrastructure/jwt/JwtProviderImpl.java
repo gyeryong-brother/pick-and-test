@@ -1,6 +1,7 @@
 package com.gyeryongbrother.pickandtest.authentication.infrastructure.jwt;
 
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.MemberRole;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.Tokens;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -22,6 +23,13 @@ public class JwtProviderImpl implements JwtProvider {
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+    }
+
+    @Override
+    public Tokens createTokens(Long memberId, MemberRole memberRole) {
+        String accessToken = generateAccessToken(memberId, memberRole);
+        String refreshToken = generateRefreshToken(memberId, memberRole);
+        return new Tokens(memberId, accessToken, refreshToken);
     }
 
     public String generateAccessToken(Long memberId, MemberRole role) {

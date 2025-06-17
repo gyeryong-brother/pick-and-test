@@ -1,41 +1,27 @@
 package com.gyeryongbrother.pickandtest.authentication.domain.core.entity;
 
-import com.gyeryongbrother.pickandtest.authentication.domain.core.model.Matcher;
-import com.gyeryongbrother.pickandtest.authentication.domain.core.model.RegisteredCredential;
-import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.AuthenticationMethod;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.MemberRole;
 
-public class UsernamePasswordCredential implements RegisteredCredential {
+public class UsernamePasswordCredential {
 
     private final Long id;
     private final Long memberId;
+    private final MemberRole memberRole;
     private final String username;
     private final String password;
 
     public UsernamePasswordCredential(
             Long id,
             Long memberId,
+            MemberRole memberRole,
             String username,
             String password
     ) {
         this.id = id;
         this.memberId = memberId;
+        this.memberRole = memberRole;
         this.username = username;
         this.password = password;
-    }
-
-    @Override
-    public AuthenticationMethod method() {
-        return AuthenticationMethod.GYERYONG_BROTHER;
-    }
-
-    @Override
-    public Long principal() {
-        return memberId;
-    }
-
-    @Override
-    public boolean matches(Matcher matcher) {
-        return matcher.matches(password);
     }
 
     public Long id() {
@@ -44,6 +30,10 @@ public class UsernamePasswordCredential implements RegisteredCredential {
 
     public Long memberId() {
         return memberId;
+    }
+
+    public MemberRole memberRole() {
+        return memberRole;
     }
 
     public String username() {

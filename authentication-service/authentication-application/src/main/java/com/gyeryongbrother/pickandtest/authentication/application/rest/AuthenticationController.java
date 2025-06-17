@@ -1,18 +1,16 @@
 package com.gyeryongbrother.pickandtest.authentication.application.rest;
 
-import static org.springframework.http.HttpStatus.OK;
-
 import com.gyeryongbrother.pickandtest.authentication.application.dto.LoginRequest;
 import com.gyeryongbrother.pickandtest.authentication.application.dto.OauthLoginRequest;
 import com.gyeryongbrother.pickandtest.authentication.application.dto.RegisterRequest;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.AuthenticationMethod;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginCommand;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginPageResponse;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginResponse;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.OauthLoginCommand;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.RegisterResponse;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.UsernamePasswordLoginCommand;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.input.AuthenticationQueryService;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.input.AuthenticationService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -35,17 +33,17 @@ public class AuthenticationController {
     private final CookieManager cookieManager;
 
     @PostMapping("/register")
-    ResponseEntity<LoginResponse> register(@RequestBody RegisterRequest request, HttpServletResponse response) {
-        return null;
+    ResponseEntity<RegisterResponse> register(@RequestBody RegisterRequest request) {
+        RegisterResponse response = authenticationService.register(request.toCommand());
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
     ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
-        LoginCommand loginCommand = loginRequest.toCommand();
-        LoginResponse loginResponse = authenticationService.login(loginCommand);
+        UsernamePasswordLoginCommand command = loginRequest.toCommand();
+        LoginResponse loginResponse = authenticationService.login(command);
         cookieManager.setCookie(response, loginResponse.refreshToken());
-        return ResponseEntity.status(OK)
-                .body(loginResponse);
+        return ResponseEntity.ok(loginResponse);
     }
 
     @SneakyThrows
@@ -62,25 +60,22 @@ public class AuthenticationController {
     @PostMapping("/login/{authenticationMethod}")
     ResponseEntity<LoginResponse> login(
             @PathVariable AuthenticationMethod authenticationMethod,
-            @RequestBody OauthLoginRequest request
+            @RequestBody OauthLoginRequest request,
+            HttpServletResponse response
     ) {
         OauthLoginCommand command = request.toCommand(authenticationMethod);
-        LoginResponse response = authenticationService.oauthLogin(command);
-        return ResponseEntity.ok(response);
+        LoginResponse loginResponse = authenticationService.login(command);
+        cookieManager.setCookie(response, loginResponse.refreshToken());
+        return ResponseEntity.ok(loginResponse);
     }
 
     @PostMapping("/logout")
     ResponseEntity<Void> logout(
-            @CookieValue(name = "refreshToken") String refreshToken,
+            @CookieValue(name = "refresh-token") String refreshToken,
             HttpServletResponse response
     ) {
         authenticationService.logout(refreshToken);
-        Cookie refreshCookie = new Cookie("refreshToken", null);
-        refreshCookie.setHttpOnly(true);
-        refreshCookie.setSecure(true);
-        refreshCookie.setPath("/");
-        refreshCookie.setMaxAge(0);
-        response.addCookie(refreshCookie);
+        cookieManager.deleteCookie(response);
         return ResponseEntity.ok().build();
     }
 }
