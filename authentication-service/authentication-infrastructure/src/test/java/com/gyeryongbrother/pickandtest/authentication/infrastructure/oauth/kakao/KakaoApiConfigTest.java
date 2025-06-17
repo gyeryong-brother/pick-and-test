@@ -3,16 +3,23 @@ package com.gyeryongbrother.pickandtest.authentication.infrastructure.oauth.kaka
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
 class KakaoApiConfigTest {
 
-    @Autowired
     private KakaoApiConfig kakaoApiConfig;
+
+    @BeforeEach
+    void setUp() {
+        kakaoApiConfig = new KakaoApiConfig(
+                "client_id",
+                "http://localhost:3000/oauth/kakao",
+                "client_secret",
+                List.of("profile_nickname", "profile_image")
+        );
+    }
 
     @Test
     @DisplayName("카카오 OAuth 클라이언트 아이디를 불러온다")
