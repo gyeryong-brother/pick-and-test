@@ -11,6 +11,7 @@ public class UsernamePasswordCredentialDataAccessMapper {
         return UsernamePasswordCredentialEntity.builder()
                 .id(usernamePasswordCredential.id())
                 .memberId(usernamePasswordCredential.memberId())
+                .memberRole(usernamePasswordCredential.memberRole())
                 .username(usernamePasswordCredential.username())
                 .password(usernamePasswordCredential.password())
                 .build();
