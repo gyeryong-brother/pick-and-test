@@ -86,6 +86,7 @@ public class AuthenticationControllerTest {
         UsernamePasswordCredential usernamePasswordCredential = new UsernamePasswordCredential(
                 null,
                 1L,
+                MemberRole.USER,
                 username,
                 passwordEncoder.encode("password")
         );
@@ -163,7 +164,7 @@ public class AuthenticationControllerTest {
     private ExtractableResponse<Response> logout(String accessToken, String refreshToken) {
         return RestAssured.given()
                 .log().all()
-                .cookie("refreshToken", refreshToken)
+                .cookie("refresh-token", refreshToken)
                 .header("Authorization", "Bearer " + accessToken)
                 .contentType(ContentType.JSON)
                 .when()
@@ -235,7 +236,7 @@ public class AuthenticationControllerTest {
     private ExtractableResponse<Response> logout(String refreshToken) {
         return RestAssured.given()
                 .log().all()
-                .cookie("refreshToken", refreshToken)
+                .cookie("refresh-token", refreshToken)
                 .contentType(ContentType.JSON)
                 .when()
                 .post("/authentication-service/auth/logout")

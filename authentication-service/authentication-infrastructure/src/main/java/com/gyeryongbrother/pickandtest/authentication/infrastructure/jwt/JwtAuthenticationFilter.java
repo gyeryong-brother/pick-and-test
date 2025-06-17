@@ -66,7 +66,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         }
 
         for (Cookie cookie : request.getCookies()) {
-            if ("refreshToken".equals(cookie.getName())) {
+            if ("refresh-token".equals(cookie.getName())) {
                 return cookie.getValue();
             }
         }
