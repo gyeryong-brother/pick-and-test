@@ -1,9 +1,9 @@
 package com.gyeryongbrother.pickandtest.authentication.domain.service.ports.input;
 
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginCommand;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginResponse;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.RegisterCommand;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.RegisterResponse;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.login.LoginCommand;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.login.LoginResponse;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.register.RegisterCommand;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.register.RegisterResponse;
 
 public interface AuthenticationService {
 

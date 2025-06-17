@@ -8,8 +8,8 @@ import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.Refresh
 import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.UsernamePasswordCredential;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.MemberRole;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.Tokens;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.UsernamePasswordLoginCommand;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginResponse;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.login.UsernamePasswordLoginCommand;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.login.LoginResponse;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.input.AuthenticationService;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.Authenticator;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.MemberClient;

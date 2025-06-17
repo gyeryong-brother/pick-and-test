@@ -1,6 +1,6 @@
 package com.gyeryongbrother.pickandtest.authentication.application.dto;
 
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.UsernamePasswordLoginCommand;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.login.UsernamePasswordLoginCommand;
 
 public record LoginRequest(
         String username,

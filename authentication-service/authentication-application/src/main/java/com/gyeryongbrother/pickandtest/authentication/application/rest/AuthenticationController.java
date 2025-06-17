@@ -4,11 +4,10 @@ import com.gyeryongbrother.pickandtest.authentication.application.dto.LoginReque
 import com.gyeryongbrother.pickandtest.authentication.application.dto.OauthLoginRequest;
 import com.gyeryongbrother.pickandtest.authentication.application.dto.RegisterRequest;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.AuthenticationMethod;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginPageResponse;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.LoginResponse;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.OauthLoginCommand;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.RegisterResponse;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.UsernamePasswordLoginCommand;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.login.LoginResponse;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.login.OauthLoginCommand;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.login.UsernamePasswordLoginCommand;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.register.RegisterResponse;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.input.AuthenticationQueryService;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.input.AuthenticationService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -52,8 +51,8 @@ public class AuthenticationController {
             @PathVariable AuthenticationMethod authenticationMethod,
             HttpServletResponse response
     ) {
-        LoginPageResponse loginPage = authenticationQueryService.getLoginPage(authenticationMethod);
-        response.sendRedirect(loginPage.url());
+        String url = authenticationQueryService.getLoginPageUrl(authenticationMethod);
+        response.sendRedirect(url);
         return ResponseEntity.ok().build();
     }
 
