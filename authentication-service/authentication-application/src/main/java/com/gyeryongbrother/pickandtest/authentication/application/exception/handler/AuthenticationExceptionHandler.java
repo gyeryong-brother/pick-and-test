@@ -49,7 +49,7 @@ public class AuthenticationExceptionHandler {
 
     @ExceptionHandler
     ResponseEntity<ErrorResponse> handleException(Exception exception) {
-        log.error(exception.getMessage());
+        log.error("ERROR MESSAGE: {}", exception.getMessage());
         return ResponseEntity.internalServerError()
                 .body(INTERNAL_SERVER_ERROR_RESPONSE);
     }

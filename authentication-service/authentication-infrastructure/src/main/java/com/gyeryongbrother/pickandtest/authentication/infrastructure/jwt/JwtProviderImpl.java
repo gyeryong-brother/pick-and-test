@@ -78,13 +78,4 @@ public class JwtProviderImpl implements JwtProvider {
         String roleName = extractClaims(token).get("role", String.class);
         return MemberRole.valueOf(roleName);
     }
-
-    @Override
-    public Authentication getAuthentication(String token) {
-        validateToken(token);
-        MemberRole memberRole = getRoleFromToken(token);
-        Long memberId = getMemberIdFromToken(token);
-        UserDetails principal = new UserDetailsImpl(memberId, memberRole);
-        return new UsernamePasswordAuthenticationToken(principal, "", principal.getAuthorities());
-    }
 }
