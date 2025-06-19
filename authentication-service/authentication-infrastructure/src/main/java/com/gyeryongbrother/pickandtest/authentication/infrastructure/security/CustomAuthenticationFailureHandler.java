@@ -1,10 +1,12 @@
-package com.gyeryongbrother.pickandtest.authentication.infrastructure.jwt;
+package com.gyeryongbrother.pickandtest.authentication.infrastructure.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
     @Override

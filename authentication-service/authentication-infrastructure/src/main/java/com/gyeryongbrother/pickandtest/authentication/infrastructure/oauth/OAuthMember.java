@@ -1,13 +1,13 @@
 package com.gyeryongbrother.pickandtest.authentication.infrastructure.oauth;
 
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.Member;
-import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OauthId;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OAuthId;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class OauthMember {
+public class OAuthMember {
 
-    private final OauthId oauthId;
+    private final OAuthId oauthId;
     private final String nickname;
     private final String profileImageUrl;
 
@@ -15,7 +15,7 @@ public class OauthMember {
         return new Member(nickname, profileImageUrl);
     }
 
-    public OauthId oauthId() {
+    public OAuthId oauthId() {
         return oauthId;
     }
 }

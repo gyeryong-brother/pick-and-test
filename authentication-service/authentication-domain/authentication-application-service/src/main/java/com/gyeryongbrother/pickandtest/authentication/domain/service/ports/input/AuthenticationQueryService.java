@@ -1,8 +1,0 @@
-package com.gyeryongbrother.pickandtest.authentication.domain.service.ports.input;
-
-import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.AuthenticationMethod;
-
-public interface AuthenticationQueryService {
-
-    String getLoginPageUrl(AuthenticationMethod authenticationMethod);
-}

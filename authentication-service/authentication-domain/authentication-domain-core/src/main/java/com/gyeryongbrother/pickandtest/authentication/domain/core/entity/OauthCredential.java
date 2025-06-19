@@ -1,23 +1,23 @@
 package com.gyeryongbrother.pickandtest.authentication.domain.core.entity;
 
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.MemberRole;
-import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OauthId;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OAuthId;
 
 public class OauthCredential {
 
     private final Long id;
     private final Long memberId;
     private final MemberRole memberRole;
-    private final OauthId oauthId;
+    private final OAuthId oauthId;
 
-    public OauthCredential(Long id, Long memberId, MemberRole memberRole, OauthId oauthId) {
+    public OauthCredential(Long id, Long memberId, MemberRole memberRole, OAuthId oauthId) {
         this.id = id;
         this.memberId = memberId;
         this.memberRole = memberRole;
         this.oauthId = oauthId;
     }
 
-    public OauthCredential(Long memberId, MemberRole memberRole, OauthId oauthId) {
+    public OauthCredential(Long memberId, MemberRole memberRole, OAuthId oauthId) {
         this(null, memberId, memberRole, oauthId);
     }
 
@@ -33,7 +33,7 @@ public class OauthCredential {
         return memberRole;
     }
 
-    public OauthId oauthId() {
+    public OAuthId oauthId() {
         return oauthId;
     }
 }
