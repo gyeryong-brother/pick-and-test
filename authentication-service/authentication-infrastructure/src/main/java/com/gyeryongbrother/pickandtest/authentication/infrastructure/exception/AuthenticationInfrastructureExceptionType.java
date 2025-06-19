@@ -15,10 +15,9 @@ public enum AuthenticationInfrastructureExceptionType implements BaseExceptionTy
     API_FETCH_SERVER_ERROR(INTERNAL_SERVER_ERROR, "외부 API 호출에 실패했습니다"),
     API_FETCH_FAILED(INTERNAL_SERVER_ERROR, "외부 API 호출에 실패했습니다"),
     USERNAME_PASSWORD_NOT_MATCH(BAD_REQUEST, "사용자 정보가 일치하지 않습니다."),
-    INVALID_TOKEN_ERROR(UNAUTHORIZED, "Invalid Token Error"),
     OAUTH_SERVER_NOT_SUPPORTED(BAD_REQUEST, "지원하지 않는 서버 타입입니다."),
-    REQUEST_CONTEXT_ERROR(INTERNAL_SERVER_ERROR, "등록되지 않은 키입니다."),
-    REQUEST_TYPE_ERROR(INTERNAL_SERVER_ERROR, "지원하지 않는 타입입니다."),
+    CREATE_BODY_FAILED(INTERNAL_SERVER_ERROR, "응답을 만드는데 실패했습니다."),
+    READ_BODY_FAILED(INTERNAL_SERVER_ERROR, "본문을 읽는데 실패했습니다."),
     ;
 
     private final HttpStatus httpStatus;
