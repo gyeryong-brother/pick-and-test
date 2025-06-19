@@ -5,11 +5,9 @@ import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.given;
 
 import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.RefreshToken;
-import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.Tokens;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.login.LoginResponse;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.login.UsernamePasswordLoginCommand;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.input.AuthenticationService;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.Authenticator;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.MemberClient;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.RefreshTokenQueryRepository;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.RefreshTokenRepository;
@@ -39,9 +37,6 @@ class AuthenticationServiceImplTest {
     private RefreshTokenRepository refreshTokenRepository;
 
     @Mock
-    private Authenticator authenticator;
-
-    @Mock
     private MemberClient memberClient;
 
     private AuthenticationService authenticationService;
@@ -53,7 +48,6 @@ class AuthenticationServiceImplTest {
                 usernamePasswordCredentialRepository,
                 refreshTokenQueryRepository,
                 refreshTokenRepository,
-                authenticator,
                 memberClient
         );
     }
@@ -62,8 +56,6 @@ class AuthenticationServiceImplTest {
     @DisplayName("로그인을 한다")
     void login() {
         //given
-        given(authenticator.authenticate(any()))
-                .willReturn(new Tokens(1L, "accessToken", "refreshToken"));
         given(refreshTokenRepository.save(any()))
                 .willReturn(new RefreshToken(1L, 1L, "refreshToken"));
         UsernamePasswordLoginCommand usernamePasswordLoginCommand = new UsernamePasswordLoginCommand("username",

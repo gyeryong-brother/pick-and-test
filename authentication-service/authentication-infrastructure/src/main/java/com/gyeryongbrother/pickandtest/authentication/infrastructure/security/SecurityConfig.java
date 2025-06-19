@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.authentication.infrastructure.jwt;
+package com.gyeryongbrother.pickandtest.authentication.infrastructure.security;
 
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.oauth.CustomOAuthUserService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +17,7 @@ public class SecurityConfig {
 
     private final CustomOAuthUserService customOAuthUserService;
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -28,6 +29,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .oauth2Login(config -> config
                         .successHandler(customAuthenticationSuccessHandler)
+                        .failureHandler(customAuthenticationFailureHandler)
                         .userInfoEndpoint(endpointConfig -> endpointConfig.userService(customOAuthUserService)));
         return http.build();
     }

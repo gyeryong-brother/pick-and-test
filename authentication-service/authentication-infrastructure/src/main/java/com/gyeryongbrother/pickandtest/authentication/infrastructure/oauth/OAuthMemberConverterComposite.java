@@ -4,27 +4,27 @@ import static com.gyeryongbrother.pickandtest.authentication.infrastructure.exce
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
 
-import com.gyeryongbrother.pickandtest.authentication.domain.core.model.AuthenticationAttempt;
-import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.AuthenticationMethod;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OAuthType;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.exception.AuthenticationInfrastructureException;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OauthClientComposite {
+public class OAuthMemberConverterComposite {
 
-    private final Map<AuthenticationMethod, OauthClient> oauthClientsByMethod;
+    private final Map<OAuthType, OAuthMemberConverter> convertersByType;
 
-    public OauthClientComposite(Set<OauthClient> oauthClients) {
-        oauthClientsByMethod = oauthClients.stream()
-                .collect(toMap(OauthClient::support, identity()));
+    public OAuthMemberConverterComposite(Set<OAuthMemberConverter> converters) {
+        convertersByType = converters.stream()
+                .collect(toMap(OAuthMemberConverter::support, identity()));
     }
 
-    public OauthMember fetchMember(AuthenticationAttempt attempt) {
-        return Optional.ofNullable(oauthClientsByMethod.get(attempt.method()))
+    public OAuthMember convert(OAuthType oAuthType, OAuth2User oAuth2User) {
+        return Optional.ofNullable(convertersByType.get(oAuthType))
                 .orElseThrow(() -> new AuthenticationInfrastructureException(OAUTH_SERVER_NOT_SUPPORTED))
-                .fetchMember(attempt.credentials());
+                .convert(oAuth2User);
     }
 }

@@ -1,6 +1,13 @@
 package com.gyeryongbrother.pickandtest.authentication.infrastructure.oauth;
 
-import java.util.Map;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.OauthCredential;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.Member;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.MemberRole;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OAuthType;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.MemberClient;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.OauthCredentialQueryRepository;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.OauthCredentialRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -10,17 +17,31 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class CustomOAuthUserService extends DefaultOAuth2UserService {
+
+    private final OAuthMemberConverterComposite converter;
+    private final MemberClient memberClient;
+    private final OauthCredentialRepository oauthCredentialRepository;
+    private final OauthCredentialQueryRepository oauthCredentialQueryRepository;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        log.info("oAuth2User: {}", oAuth2User);
-        Map<String, Object> attributes = oAuth2User.getAttributes();
-        String oauthId = String.valueOf(attributes.get("id"));
-        String oauthType = userRequest.getClientRegistration().getRegistrationId();
-        log.info("oAuthId: {}", oauthId);
-        log.info("oAuthType: {}", oauthType);
-        return oAuth2User;
+        OAuthMember oAuthMember = converter.convert(oAuthType(userRequest), oAuth2User);
+        OauthCredential oauthCredential = oauthCredentialQueryRepository.findByOauthId(oAuthMember.oauthId())
+                .orElseGet(() -> registerMember(oAuthMember));
+        return new CustomOAuth2User(oauthCredential, oAuth2User);
+    }
+
+    private OAuthType oAuthType(OAuth2UserRequest userRequest) {
+        String oAuthType = userRequest.getClientRegistration().getRegistrationId();
+        return OAuthType.from(oAuthType);
+    }
+
+    private OauthCredential registerMember(OAuthMember oAuthMember) {
+        Member member = memberClient.registerMember(oAuthMember.toDomain());
+        OauthCredential oauthCredential = new OauthCredential(member.id(), MemberRole.USER, oAuthMember.oauthId());
+        return oauthCredentialRepository.save(oauthCredential);
     }
 }

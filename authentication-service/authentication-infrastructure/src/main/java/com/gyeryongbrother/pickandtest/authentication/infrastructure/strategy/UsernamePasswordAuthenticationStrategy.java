@@ -4,35 +4,24 @@ import static com.gyeryongbrother.pickandtest.authentication.domain.service.exce
 import static com.gyeryongbrother.pickandtest.authentication.infrastructure.exception.AuthenticationInfrastructureExceptionType.USERNAME_PASSWORD_NOT_MATCH;
 
 import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.UsernamePasswordCredential;
-import com.gyeryongbrother.pickandtest.authentication.domain.core.model.AuthenticationAttempt;
-import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.AuthenticationMethod;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.Tokens;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.exception.AuthenticationServiceException;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.UsernamePasswordCredentialQueryRepository;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.exception.AuthenticationInfrastructureException;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.jwt.JwtProvider;
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class UsernamePasswordAuthenticationStrategy implements AuthenticationStrategy {
+public class UsernamePasswordAuthenticationStrategy {
 
     private final UsernamePasswordCredentialQueryRepository usernamePasswordCredentialQueryRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
-    @Override
-    public Set<AuthenticationMethod> support() {
-        return Set.of(AuthenticationMethod.GYERYONG_BROTHER);
-    }
-
-    @Override
-    public Tokens authenticate(AuthenticationAttempt attempt) {
-        String username = attempt.principal();
-        String password = attempt.credentials();
+    public Tokens authenticate(String username, String password) {
         UsernamePasswordCredential credential = usernamePasswordCredentialQueryRepository.findByUsername(username)
                 .orElseThrow(() -> new AuthenticationServiceException(USER_NONEXISTS));
         if (passwordEncoder.matches(password, credential.password())) {

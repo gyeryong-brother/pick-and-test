@@ -4,8 +4,8 @@ import static com.gyeryongbrother.pickandtest.authentication.dataaccess.entity.Q
 
 import com.gyeryongbrother.pickandtest.authentication.dataaccess.entity.OauthCredentialEntity;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.OauthCredential;
-import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.AuthenticationMethod;
-import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OauthId;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OAuthId;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OAuthType;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.OauthCredentialQueryRepository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -20,7 +20,7 @@ public class OauthCredentialQueryRepositoryImpl implements OauthCredentialQueryR
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Optional<OauthCredential> findByOauthId(OauthId oauthId) {
+    public Optional<OauthCredential> findByOauthId(OAuthId oauthId) {
         OauthCredentialEntity entity = queryFactory.selectFrom(oauthCredentialEntity)
                 .where(oauthIdEq(oauthId))
                 .fetchOne();
@@ -28,18 +28,17 @@ public class OauthCredentialQueryRepositoryImpl implements OauthCredentialQueryR
                 .map(OauthCredentialEntity::toDomain);
     }
 
-    private BooleanExpression oauthIdEq(OauthId oauthId) {
-        String oauthServerId = oauthId.oauthServerId();
-        AuthenticationMethod authenticationMethod = oauthId.authenticationMethod();
-        return oauthServerIdEq(oauthServerId)
-                .and(authenticationMethodEq(authenticationMethod));
+    private BooleanExpression oauthIdEq(OAuthId oAuthId) {
+        OAuthType oAuthType = oAuthId.oAuthType();
+        return oauthServerIdEq(oAuthId.value())
+                .and(authenticationMethodEq(oAuthType));
     }
 
-    private BooleanExpression oauthServerIdEq(String oauthServerId) {
-        return oauthCredentialEntity.oauthServerId.eq(oauthServerId);
+    private BooleanExpression oauthServerIdEq(String oAuthId) {
+        return oauthCredentialEntity.oAuthId.eq(oAuthId);
     }
 
-    private BooleanExpression authenticationMethodEq(AuthenticationMethod authenticationMethod) {
-        return oauthCredentialEntity.authenticationMethod.eq(authenticationMethod);
+    private BooleanExpression authenticationMethodEq(OAuthType oAuthType) {
+        return oauthCredentialEntity.oAuthType.eq(oAuthType);
     }
 }
