@@ -1,9 +1,9 @@
 package com.gyeryongbrother.pickandtest.authentication.dataaccess.entity;
 
 import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.OauthCredential;
-import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.AuthenticationMethod;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.MemberRole;
-import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OauthId;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OAuthId;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OAuthType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -31,16 +31,16 @@ public class OauthCredentialEntity {
     private MemberRole memberRole;
 
     @Enumerated(EnumType.STRING)
-    private AuthenticationMethod authenticationMethod;
+    private OAuthType oAuthType;
 
-    private String oauthServerId;
+    private String oAuthId;
 
     public OauthCredential toDomain() {
         return new OauthCredential(
                 id,
                 memberId,
                 memberRole,
-                new OauthId(authenticationMethod, oauthServerId)
+                new OAuthId(oAuthType, oAuthId)
         );
     }
 }
