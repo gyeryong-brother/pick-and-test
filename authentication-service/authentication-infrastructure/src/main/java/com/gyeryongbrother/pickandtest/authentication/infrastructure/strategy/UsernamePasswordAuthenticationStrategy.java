@@ -25,7 +25,8 @@ public class UsernamePasswordAuthenticationStrategy {
         UsernamePasswordCredential credential = usernamePasswordCredentialQueryRepository.findByUsername(username)
                 .orElseThrow(() -> new AuthenticationServiceException(USER_NONEXISTS));
         if (passwordEncoder.matches(password, credential.password())) {
-            return jwtProvider.createTokens(credential.memberId(), credential.memberRole());
+//            return jwtProvider.createTokens(credential.memberId(), credential.memberRole());
+            return new Tokens(1L, "a", "b");
         }
         throw new AuthenticationInfrastructureException(USERNAME_PASSWORD_NOT_MATCH);
     }

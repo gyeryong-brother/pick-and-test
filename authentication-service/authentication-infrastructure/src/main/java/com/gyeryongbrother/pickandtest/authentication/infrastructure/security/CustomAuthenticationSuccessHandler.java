@@ -1,12 +1,16 @@
 package com.gyeryongbrother.pickandtest.authentication.infrastructure.security;
 
+import static com.gyeryongbrother.pickandtest.authentication.infrastructure.exception.AuthenticationInfrastructureExceptionType.CREATE_BODY_FAILED;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.exception.AuthenticationInfrastructureException;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.jwt.JwtProvider;
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.security.dto.LoginResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -16,6 +20,7 @@ import org.springframework.stereotype.Component;
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     private final JwtProvider jwtProvider;
+    private final ObjectMapper objectMapper;
 
     @Override
     public void onAuthenticationSuccess(
@@ -24,27 +29,18 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             Authentication authentication
     ) {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-
+        HttpServletResponseFacade responseFacade = new HttpServletResponseFacade(response);
+        responseFacade.addAccessTokenBody(createAccessTokenBody(oAuth2User));
+        String refreshToken = jwtProvider.generateRefreshToken(oAuth2User);
+        responseFacade.addRefreshTokenCookie(refreshToken);
     }
 
-    private void setResponse(HttpServletResponse response, OAuth2User oAuth2User) {
-        String name = oAuth2User.getName();
-        List<String> authorities = authorities(oAuth2User);
-        String accessToken = jwtProvider.generateAccessToken(name, authorities);
-        setAccessTokenBody();
-        String refreshToken = jwtProvider.generateRefreshToken(name, authorities);
-        setRefreshTokenCookie();
-    }
-
-    private List<String> authorities(OAuth2User oAuth2User) {
-        return oAuth2User.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .toList();
-    }
-
-    private void setAccessTokenBody() {
-    }
-
-    private void setRefreshTokenCookie() {
+    private String createAccessTokenBody(OAuth2User oAuth2User) {
+        String accessToken = jwtProvider.generateAccessToken(oAuth2User);
+        try {
+            return objectMapper.writeValueAsString(new LoginResponse(accessToken));
+        } catch (JsonProcessingException e) {
+            throw new AuthenticationInfrastructureException(CREATE_BODY_FAILED);
+        }
     }
 }
