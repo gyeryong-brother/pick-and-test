@@ -6,12 +6,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.exception.AuthenticationInfrastructureException;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.jwt.JwtProvider;
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.jwt.Tokenizable;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.security.dto.LoginResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -28,15 +28,15 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             HttpServletResponse response,
             Authentication authentication
     ) {
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        Tokenizable tokenizable = (Tokenizable) authentication.getPrincipal();
         HttpServletResponseFacade responseFacade = new HttpServletResponseFacade(response);
-        responseFacade.addAccessTokenBody(createAccessTokenBody(oAuth2User));
-        String refreshToken = jwtProvider.generateRefreshToken(oAuth2User);
+        responseFacade.addBody(createAccessTokenBody(tokenizable));
+        String refreshToken = jwtProvider.generateRefreshToken(tokenizable);
         responseFacade.addRefreshTokenCookie(refreshToken);
     }
 
-    private String createAccessTokenBody(OAuth2User oAuth2User) {
-        String accessToken = jwtProvider.generateAccessToken(oAuth2User);
+    private String createAccessTokenBody(Tokenizable tokenizable) {
+        String accessToken = jwtProvider.generateAccessToken(tokenizable);
         try {
             return objectMapper.writeValueAsString(new LoginResponse(accessToken));
         } catch (JsonProcessingException e) {

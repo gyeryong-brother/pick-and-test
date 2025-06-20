@@ -1,9 +1,6 @@
 package com.gyeryongbrother.pickandtest.authentication.application.rest;
 
-import com.gyeryongbrother.pickandtest.authentication.application.dto.LoginRequest;
 import com.gyeryongbrother.pickandtest.authentication.application.dto.RegisterRequest;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.login.LoginResponse;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.login.UsernamePasswordLoginCommand;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.register.RegisterResponse;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.input.AuthenticationService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,14 +24,6 @@ public class AuthenticationController {
     ResponseEntity<RegisterResponse> register(@RequestBody RegisterRequest request) {
         RegisterResponse response = authenticationService.register(request.toCommand());
         return ResponseEntity.ok(response);
-    }
-
-    @PostMapping("/login")
-    ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
-        UsernamePasswordLoginCommand command = loginRequest.toCommand();
-        LoginResponse loginResponse = authenticationService.login(command);
-        cookieManager.setCookie(response, loginResponse.refreshToken());
-        return ResponseEntity.ok(loginResponse);
     }
 
     @PostMapping("/logout")

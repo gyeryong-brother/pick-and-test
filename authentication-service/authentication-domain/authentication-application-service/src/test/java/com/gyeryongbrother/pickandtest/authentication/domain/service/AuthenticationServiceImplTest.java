@@ -1,21 +1,14 @@
 package com.gyeryongbrother.pickandtest.authentication.domain.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.any;
-import static org.mockito.BDDMockito.given;
-
-import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.RefreshToken;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.login.LoginResponse;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.login.UsernamePasswordLoginCommand;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.input.AuthenticationService;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.MemberClient;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.PasswordEncryptor;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.RefreshTokenQueryRepository;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.RefreshTokenRepository;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.UsernamePasswordCredentialQueryRepository;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.UsernamePasswordCredentialRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -39,6 +32,9 @@ class AuthenticationServiceImplTest {
     @Mock
     private MemberClient memberClient;
 
+    @Mock
+    private PasswordEncryptor passwordEncryptor;
+
     private AuthenticationService authenticationService;
 
     @BeforeEach
@@ -48,24 +44,8 @@ class AuthenticationServiceImplTest {
                 usernamePasswordCredentialRepository,
                 refreshTokenQueryRepository,
                 refreshTokenRepository,
-                memberClient
+                memberClient,
+                passwordEncryptor
         );
-    }
-
-    @Test
-    @DisplayName("로그인을 한다")
-    void login() {
-        //given
-        given(refreshTokenRepository.save(any()))
-                .willReturn(new RefreshToken(1L, 1L, "refreshToken"));
-        UsernamePasswordLoginCommand usernamePasswordLoginCommand = new UsernamePasswordLoginCommand("username",
-                "password");
-        LoginResponse expected = new LoginResponse("accessToken", "refreshToken");
-
-        //when
-        LoginResponse result = authenticationService.login(usernamePasswordLoginCommand);
-
-        //then
-        assertThat(result).isEqualTo(expected);
     }
 }

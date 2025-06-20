@@ -11,8 +11,8 @@ public record RegisterCommand(
         String profileImageUrl
 ) {
 
-    public UsernamePasswordCredential toCredential(Long memberId) {
-        return new UsernamePasswordCredential(null, memberId, MemberRole.USER, username, password);
+    public UsernamePasswordCredential toCredential(Long memberId, String encryptedPassword) {
+        return new UsernamePasswordCredential(null, memberId, MemberRole.USER, username, encryptedPassword);
     }
 
     public Member toDomain() {
