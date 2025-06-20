@@ -12,6 +12,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
@@ -19,15 +21,18 @@ import org.springframework.stereotype.Component;
 public class CustomUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final ObjectMapper objectMapper;
-    private final AuthenticationManager authenticationManager;
 
     public CustomUsernamePasswordAuthenticationFilter(
             ObjectMapper objectMapper,
-            AuthenticationManager authenticationManager
+            AuthenticationManager authenticationManager,
+            AuthenticationSuccessHandler authenticationSuccessHandler,
+            AuthenticationFailureHandler authenticationFailureHandler
     ) {
-        setFilterProcessesUrl("/auth/login");
         this.objectMapper = objectMapper;
-        this.authenticationManager = authenticationManager;
+        setFilterProcessesUrl("/login");
+        setAuthenticationManager(authenticationManager);
+        setAuthenticationSuccessHandler(authenticationSuccessHandler);
+        setAuthenticationFailureHandler(authenticationFailureHandler);
     }
 
     @Override
@@ -41,7 +46,7 @@ public class CustomUsernamePasswordAuthenticationFilter extends UsernamePassword
                     loginRequest.username(),
                     loginRequest.password()
             );
-            return authenticationManager.authenticate(authentication);
+            return getAuthenticationManager().authenticate(authentication);
         } catch (IOException e) {
             throw new AuthenticationInfrastructureException(READ_BODY_FAILED);
         }

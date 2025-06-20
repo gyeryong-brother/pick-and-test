@@ -23,9 +23,9 @@ public class HttpServletResponseFacade {
         this.response = response;
     }
 
-    public void addAccessTokenBody(String accessTokenBody) {
+    public void addBody(String body) {
         try {
-            response.getWriter().write(accessTokenBody);
+            response.getWriter().write(body);
         } catch (IOException e) {
             throw new AuthenticationInfrastructureException(CREATE_BODY_FAILED);
         }

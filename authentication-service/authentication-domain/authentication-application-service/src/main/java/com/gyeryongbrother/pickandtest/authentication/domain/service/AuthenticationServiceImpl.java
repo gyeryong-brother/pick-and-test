@@ -1,19 +1,16 @@
 package com.gyeryongbrother.pickandtest.authentication.domain.service;
 
-import static com.gyeryongbrother.pickandtest.authentication.domain.service.exception.AuthenticationServiceExceptionType.INVALID_REFRESH_TOKEN;
+import static com.gyeryongbrother.pickandtest.authentication.domain.service.exception.AuthenticationServiceExceptionType.REFRESH_TOKEN_NOT_REGISTERED;
 import static com.gyeryongbrother.pickandtest.authentication.domain.service.exception.AuthenticationServiceExceptionType.USERNAME_ALREADY_EXISTS;
 
-import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.RefreshToken;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.UsernamePasswordCredential;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.Member;
-import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.Tokens;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.login.LoginResponse;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.login.UsernamePasswordLoginCommand;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.register.RegisterCommand;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.register.RegisterResponse;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.exception.AuthenticationServiceException;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.input.AuthenticationService;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.MemberClient;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.PasswordEncryptor;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.RefreshTokenQueryRepository;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.RefreshTokenRepository;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.UsernamePasswordCredentialQueryRepository;
@@ -33,12 +30,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final RefreshTokenQueryRepository refreshTokenQueryRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     private final MemberClient memberClient;
+    private final PasswordEncryptor passwordEncryptor;
 
     @Override
     public RegisterResponse register(RegisterCommand command) {
         validateAlreadyExists(command.username());
         Member member = memberClient.registerMember(command.toDomain());
-        UsernamePasswordCredential credential = command.toCredential(member.id());
+        String encryptedPassword = passwordEncryptor.encrypt(command.password());
+        UsernamePasswordCredential credential = command.toCredential(member.id(), encryptedPassword);
         UsernamePasswordCredential savedCredential = usernamePasswordCredentialRepository.save(credential);
         return new RegisterResponse(savedCredential.memberId(), savedCredential.username());
     }
@@ -52,18 +51,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public LoginResponse login(UsernamePasswordLoginCommand command) {
-//        Tokens tokens = authenticator.authenticate(command.toAuthenticationAttempt());
-        Tokens tokens = new Tokens(1L, "asdf", "asdf");
-        RefreshToken refreshToken = new RefreshToken(tokens.memberId(), tokens.refreshToken());
-        RefreshToken savedRefreshToken = refreshTokenRepository.save(refreshToken);
-        return new LoginResponse(tokens.accessToken(), savedRefreshToken.token());
-    }
-
-    @Override
     public void logout(String refreshToken) {
         refreshTokenQueryRepository.findByToken(refreshToken)
-                .orElseThrow(() -> new AuthenticationServiceException(INVALID_REFRESH_TOKEN));
+                .orElseThrow(() -> new AuthenticationServiceException(REFRESH_TOKEN_NOT_REGISTERED));
         refreshTokenRepository.deleteByToken(refreshToken);
     }
 }
