@@ -10,7 +10,7 @@
         <relativePath/>
     </parent>
     <groupId>com.gyeryongbrother</groupId>
-    <artifactId>api-gateway</artifactId>
+    <artifactId>api-gateway-service</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -38,6 +38,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
     </dependencies>
 
