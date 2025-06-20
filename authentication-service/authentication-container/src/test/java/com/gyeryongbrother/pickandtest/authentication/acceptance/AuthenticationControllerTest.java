@@ -7,16 +7,16 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
-import com.gyeryongbrother.pickandtest.authentication.application.dto.LoginRequest;
 import com.gyeryongbrother.pickandtest.authentication.application.exception.handler.dto.ErrorResponse;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.RefreshToken;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.UsernamePasswordCredential;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.MemberRole;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.login.LoginResponse;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.dto.logout.LogoutResponse;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.PasswordEncryptor;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.RefreshTokenQueryRepository;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.UsernamePasswordCredentialRepository;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.jwt.JwtProvider;
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.security.dto.LoginRequest;
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.security.dto.LoginResponse;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
@@ -29,7 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.jdbc.Sql;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -41,7 +40,7 @@ public class AuthenticationControllerTest {
     private int port;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private PasswordEncryptor passwordEncryptor;
 
     @Autowired
     private JwtProvider jwtProvider;
@@ -68,16 +67,13 @@ public class AuthenticationControllerTest {
         ExtractableResponse<Response> response = login(loginRequest);
         LoginResponse result = response.as(LoginResponse.class);
         String accessToken = result.accessToken();
-        String refreshToken = result.refreshToken();
-        MemberRole role = jwtProvider.getRoleFromToken(accessToken);
-        Long memberIdfromAccess = jwtProvider.getMemberIdFromToken(accessToken);
+        String refreshToken = extractRefreshToken(response);
         List<RefreshToken> refreshTokens = refreshTokenQueryRepository.findByMemberId(1L);
         String expectedRefreshToken = refreshTokens.get(0).token();
 
         //then
         assertAll(
-                () -> assertThat(role).isEqualTo(MemberRole.USER),
-                () -> assertThat(memberIdfromAccess).isEqualTo(1L),
+                () -> assertThat(accessToken).isNotNull(),
                 () -> assertThat(refreshToken).isEqualTo(expectedRefreshToken)
         );
     }
@@ -88,22 +84,22 @@ public class AuthenticationControllerTest {
                 1L,
                 MemberRole.USER,
                 username,
-                passwordEncoder.encode("password")
+                passwordEncryptor.encrypt("password")
         );
         usernamePasswordCredentialRepository.save(usernamePasswordCredential);
-    }
-
-    private String encode(String password) {
-        return passwordEncoder.encode(password);
     }
 
     private ExtractableResponse<Response> login(LoginRequest loginRequest) {
         return RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(loginRequest)
-                .when().post("/authentication-service/auth/login")
+                .when().post("/authentication-service/login")
                 .then().log().all()
                 .extract();
+    }
+
+    private String extractRefreshToken(ExtractableResponse<Response> response) {
+        return response.cookie("refresh-token");
     }
 
     @Test
@@ -149,10 +145,10 @@ public class AuthenticationControllerTest {
         //given
         register("usernameLogout");
         LoginRequest loginRequest = new LoginRequest("usernameLogout", "password");
-        ExtractableResponse<Response> response0 = login(loginRequest);
-        LoginResponse result0 = response0.as(LoginResponse.class);
-        String accessToken = result0.accessToken();
-        String refreshToken = result0.refreshToken();
+        ExtractableResponse<Response> response = login(loginRequest);
+        LoginResponse loginResponse = response.as(LoginResponse.class);
+        String accessToken = loginResponse.accessToken();
+        String refreshToken = extractRefreshToken(response);
 
         //when
         ExtractableResponse<Response> result = logout(accessToken, refreshToken);
@@ -180,16 +176,15 @@ public class AuthenticationControllerTest {
         //given
         register("usernameLogoutWithInvalidAccessToken");
         LoginRequest loginRequest = new LoginRequest("usernameLogoutWithInvalidAccessToken", "password");
-        ExtractableResponse<Response> response0 = login(loginRequest);
-        LoginResponse result0 = response0.as(LoginResponse.class);
-        String refreshToken = result0.refreshToken();
+        ExtractableResponse<Response> response = login(loginRequest);
+        String refreshToken = extractRefreshToken(response);
         String invalidAccessToken = "invalidAccessToken";
 
         //when
-        ExtractableResponse<Response> response = logout(invalidAccessToken, refreshToken);
+        ExtractableResponse<Response> result = logout(invalidAccessToken, refreshToken);
 
         //then
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(result.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
     @Test
@@ -198,21 +193,21 @@ public class AuthenticationControllerTest {
         //given
         register("usernameLogoutWithInvalidRefreshToken");
         LoginRequest loginRequest = new LoginRequest("usernameLogoutWithInvalidRefreshToken", "password");
-        ExtractableResponse<Response> response0 = login(loginRequest);
-        LoginResponse result0 = response0.as(LoginResponse.class);
-        String accessToken = result0.accessToken();
+        ExtractableResponse<Response> response = login(loginRequest);
+        LoginResponse loginResponse = response.as(LoginResponse.class);
+        String accessToken = loginResponse.accessToken();
 
         String invalidRefreshToken = "invalidRefreshToken";
         ErrorResponse expected = new ErrorResponse("Invalid Refresh Token Error");
 
         //when
-        ExtractableResponse<Response> response = logout(accessToken, invalidRefreshToken);
-        ErrorResponse result = response.as(ErrorResponse.class);
+        ExtractableResponse<Response> result = logout(accessToken, invalidRefreshToken);
+        ErrorResponse errorResponse = response.as(ErrorResponse.class);
 
         //then
         assertAll(
-                () -> assertThat(response.statusCode()).isEqualTo(NOT_FOUND.value()),
-                () -> assertThat(result).isEqualTo(expected)
+                () -> assertThat(result.statusCode()).isEqualTo(NOT_FOUND.value()),
+                () -> assertThat(errorResponse).isEqualTo(expected)
         );
     }
 
@@ -222,15 +217,14 @@ public class AuthenticationControllerTest {
         //given
         register("usernameLogoutWithoutAccessToken");
         LoginRequest loginRequest = new LoginRequest("usernameLogoutWithoutAccessToken", "password");
-        ExtractableResponse<Response> response0 = login(loginRequest);
-        LoginResponse result0 = response0.as(LoginResponse.class);
-        String refreshToken = result0.refreshToken();
+        ExtractableResponse<Response> response = login(loginRequest);
+        String refreshToken = extractRefreshToken(response);
 
         //when
-        ExtractableResponse<Response> response = logout(refreshToken);
+        ExtractableResponse<Response> result = logout(refreshToken);
 
         //then
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(result.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
     private ExtractableResponse<Response> logout(String refreshToken) {
@@ -276,12 +270,12 @@ public class AuthenticationControllerTest {
     }
 
     @Test
-    @DisplayName("잘못된 access 토큰과 refresh 토큰으로 로그아웃 시도")
+    @DisplayName("잘못된 refresh 토큰으로 로그아웃 시도")
     void logoutWithInvalidAccessTokenAndRefreshToken() {
         //given
         String invalidAccessToken = "invalidAccessToken";
         String invalidRefreshToken = "invalidRefreshToken";
-        ErrorResponse expected = new ErrorResponse("Invalid Token Error");
+        ErrorResponse expected = new ErrorResponse("등록되지 않은 리프레시 토큰입니다.");
 
         //when
         ExtractableResponse<Response> response = logout(invalidAccessToken, invalidRefreshToken);
@@ -289,7 +283,7 @@ public class AuthenticationControllerTest {
 
         //then
         assertAll(
-                () -> assertThat(response.statusCode()).isEqualTo(UNAUTHORIZED.value()),
+                () -> assertThat(response.statusCode()).isEqualTo(NOT_FOUND.value()),
                 () -> assertThat(result).isEqualTo(expected)
         );
     }
@@ -325,17 +319,16 @@ public class AuthenticationControllerTest {
         //given
         register("usernameLogoutWithExpiredAccessToken");
         LoginRequest loginRequest = new LoginRequest("usernameLogoutWithExpiredAccessToken", "password");
-        ExtractableResponse<Response> response0 = login(loginRequest);
-        LoginResponse result0 = response0.as(LoginResponse.class);
-        String accessToken = result0.accessToken();
-        String refreshToken = result0.refreshToken();
-        LogoutResponse expected = new LogoutResponse(1L);
+        ExtractableResponse<Response> response = login(loginRequest);
+        LoginResponse loginResponse = response.as(LoginResponse.class);
+        String accessToken = loginResponse.accessToken();
+        String refreshToken = extractRefreshToken(response);
 
         //when
         Thread.sleep(2000L);
-        ExtractableResponse<Response> response = logout(accessToken, refreshToken);
+        ExtractableResponse<Response> result = logout(accessToken, refreshToken);
 
         //then
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(result.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 }

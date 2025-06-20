@@ -4,11 +4,8 @@ import static com.gyeryongbrother.pickandtest.authentication.application.excepti
 import static com.gyeryongbrother.pickandtest.authentication.application.exception.handler.dto.ErrorResponse.MISSING_COOKIE_ERROR_RESPONSE;
 
 import com.gyeryongbrother.pickandtest.authentication.application.exception.handler.dto.ErrorResponse;
-import com.gyeryongbrother.pickandtest.authentication.domain.core.exception.CoreException;
-import com.gyeryongbrother.pickandtest.authentication.domain.core.exception.CoreExceptionType;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.exception.BaseException;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.exception.BaseExceptionType;
-import com.gyeryongbrother.pickandtest.authentication.domain.service.exception.CoreExceptionMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,19 +17,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class AuthenticationExceptionHandler {
-
-    private final CoreExceptionMapper coreExceptionMapper;
-
-    @ExceptionHandler
-    ResponseEntity<ErrorResponse> handleException(CoreException exception) {
-        CoreExceptionType exceptionType = exception.exceptionType();
-        return getResponse(coreExceptionMapper.map(exceptionType));
-    }
-
-    private ResponseEntity<ErrorResponse> getResponse(BaseExceptionType exceptionType) {
-        return ResponseEntity.status(exceptionType.httpStatus())
-                .body(new ErrorResponse(exceptionType.errorMessage()));
-    }
 
     @ExceptionHandler
     ResponseEntity<ErrorResponse> handleException(BaseException exception) {

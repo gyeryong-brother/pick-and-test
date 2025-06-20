@@ -7,10 +7,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.security.Key;
 import java.util.Date;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -27,33 +24,24 @@ public class JwtProvider {
         key = hmacShaKeyFor(secretKey.getBytes(UTF_8));
     }
 
-    public String generateAccessToken(OAuth2User oAuth2User) {
-        return generateToken(oAuth2User, ONE_DAY);
-    }
-
-    private String generateToken(OAuth2User oAuth2User, long expiration) {
-        String subject = oAuth2User.getName();
-        List<String> authorities = oAuth2User.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .toList();
-        return generateToken(subject, authorities, expiration);
+    public String generateAccessToken(Tokenizable tokenizable) {
+        return generateToken(tokenizable, ONE_DAY);
     }
 
     private String generateToken(
-            String subject,
-            List<String> authorities,
+            Tokenizable tokenizable,
             long expiration
     ) {
         return Jwts.builder()
-                .setSubject(subject)
-                .claim("authorities", authorities)
+                .setSubject(tokenizable.subject())
+                .claim("authorities", tokenizable.authorities())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public String generateRefreshToken(OAuth2User oAuth2User) {
-        return generateToken(oAuth2User, ONE_WEEK);
+    public String generateRefreshToken(Tokenizable tokenizable) {
+        return generateToken(tokenizable, ONE_WEEK);
     }
 }
