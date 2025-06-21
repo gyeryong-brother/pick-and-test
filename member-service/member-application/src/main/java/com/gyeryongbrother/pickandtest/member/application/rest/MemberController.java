@@ -7,13 +7,16 @@ import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberC
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberResponse;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.input.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/members")
@@ -30,7 +33,12 @@ public class MemberController {
     }
 
     @GetMapping
-    ResponseEntity<String> test() {
+    ResponseEntity<String> test(
+            @RequestHeader("X-Member-Id") String memberId,
+            @RequestHeader("X-Member-Roles") String memberRoles
+    ) {
+        log.info("X-Member-Id: {}", memberId);
+        log.info("X-Member-Roles: {}", memberRoles);
         return ResponseEntity.ok("test!");
     }
 }
