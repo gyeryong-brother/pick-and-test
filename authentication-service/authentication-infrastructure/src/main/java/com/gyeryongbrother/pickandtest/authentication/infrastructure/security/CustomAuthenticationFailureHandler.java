@@ -26,7 +26,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
             HttpServletResponse response,
             AuthenticationException exception
     ) {
-        HttpServletResponseFacade responseFacade = new HttpServletResponseFacade(response);
+        HttpServletResponseFacade responseFacade = new HttpServletResponseFacade(response, "application/json");
         responseFacade.addBody(createErrorMessageBody(errorMessage(exception)));
     }
 
