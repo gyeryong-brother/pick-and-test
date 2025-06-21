@@ -7,16 +7,10 @@ import org.springframework.security.config.web.server.ServerHttpSecurity.OAuth2R
 
 public class ApiAuthorization {
 
-    private static final String LOGOUT_API = "/authentication-service/auth/logout";
-    private static final String AUTH_API = "/authentication-service/auth/**";
-    private static final String LOGIN_API = "/authentication-service/login";
-    private static final String MEMBER_API = "/member-service/members";
+    private static final String AUTH_API = "/authentication-service/**";
 
     public static void rule(AuthorizeExchangeSpec exchange) {
-        exchange.pathMatchers(LOGOUT_API).authenticated()
-                .pathMatchers(LOGIN_API).permitAll()
-                .pathMatchers(MEMBER_API).permitAll()
-                .pathMatchers(AUTH_API).permitAll()
+        exchange.pathMatchers(AUTH_API).permitAll()
                 .anyExchange().authenticated();
     }
 

@@ -16,9 +16,10 @@ public class HttpServletResponseFacade {
     private final HttpServletResponse response;
 
     public HttpServletResponseFacade(
-            HttpServletResponse response
+            HttpServletResponse response,
+            String contentType
     ) {
-        response.setContentType("application/json");
+        response.setContentType(contentType);
         response.setCharacterEncoding("UTF-8");
         this.response = response;
     }
