@@ -16,7 +16,7 @@ public class MemberServiceApiUrlProvider {
     }
 
     public String getRegisterMemberUrl() {
-        return UriComponentsBuilder.fromHttpUrl(url)
+        return UriComponentsBuilder.fromUriString(url)
                 .path("/member-service/members")
                 .toUriString();
     }
