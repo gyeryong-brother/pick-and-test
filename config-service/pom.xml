@@ -10,7 +10,7 @@
         <relativePath/>
     </parent>
     <groupId>com.gyeryongbrother</groupId>
-    <artifactId>eureka-service</artifactId>
+    <artifactId>config-service</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -33,11 +33,8 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-config</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+            <artifactId>spring-cloud-config-server</artifactId>
         </dependency>
     </dependencies>
+
 </project>
