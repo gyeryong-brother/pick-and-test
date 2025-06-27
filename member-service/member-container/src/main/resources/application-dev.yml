@@ -1,0 +1,5 @@
+spring:
+  profiles:
+    active: dev
+  config:
+    import: configserver:http://privateip:8888
