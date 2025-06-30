@@ -2,8 +2,8 @@ package com.gyeryongbrother.pickandtest.member.application.rest;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
-import com.gyeryongbrother.pickandtest.common.authorizationresolver.Guest;
-import com.gyeryongbrother.pickandtest.common.authorizationresolver.MemberAuthority;
+import com.gyeryongbrother.pickandtest.common.authorization.annotation.Guest;
+import com.gyeryongbrother.pickandtest.common.authorization.domain.MemberAuthority;
 import com.gyeryongbrother.pickandtest.member.application.dto.RegisterMemberRequest;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberResponse;

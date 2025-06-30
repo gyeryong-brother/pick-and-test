@@ -1,5 +1,8 @@
-package com.gyeryongbrother.pickandtest.common.authorizationresolver;
+package com.gyeryongbrother.pickandtest.common.authorization.validator;
 
+import com.gyeryongbrother.pickandtest.common.authorization.domain.MemberAuthority;
+import com.gyeryongbrother.pickandtest.common.authorization.domain.MemberRole;
+import com.gyeryongbrother.pickandtest.common.authorization.annotation.User;
 import java.util.List;
 import org.springframework.core.MethodParameter;
 
