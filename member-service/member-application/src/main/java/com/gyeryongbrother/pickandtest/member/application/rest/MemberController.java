@@ -2,6 +2,8 @@ package com.gyeryongbrother.pickandtest.member.application.rest;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
+import com.gyeryongbrother.pickandtest.common.authorizationresolver.Guest;
+import com.gyeryongbrother.pickandtest.common.authorizationresolver.MemberAuthority;
 import com.gyeryongbrother.pickandtest.member.application.dto.RegisterMemberRequest;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberCommand;
 import com.gyeryongbrother.pickandtest.member.domain.service.dto.RegisterMemberResponse;
@@ -12,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,11 +35,10 @@ public class MemberController {
 
     @GetMapping
     ResponseEntity<String> test(
-            @RequestHeader("X-Member-Id") String memberId,
-            @RequestHeader("X-Member-Roles") String memberRoles
+            @Guest MemberAuthority memberAuthority
     ) {
-        log.info("X-Member-Id: {}", memberId);
-        log.info("X-Member-Roles: {}", memberRoles);
+        log.info("X-Member-Id: {}", memberAuthority.memberId());
+        log.info("X-Member-Roles: {}", memberAuthority.memberRoles());
         return ResponseEntity.ok("test!");
     }
 }
