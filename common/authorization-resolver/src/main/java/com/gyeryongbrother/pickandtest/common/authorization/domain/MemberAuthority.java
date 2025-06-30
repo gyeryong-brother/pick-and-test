@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.common.authorizationresolver;
+package com.gyeryongbrother.pickandtest.common.authorization.domain;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.common.authorizationresolver;
+package com.gyeryongbrother.pickandtest.common.authorization.annotation;
 
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -8,5 +8,5 @@ import java.lang.annotation.Target;
 
 @Target(PARAMETER)
 @Retention(RUNTIME)
-public @interface Guest {
+public @interface Admin {
 }
