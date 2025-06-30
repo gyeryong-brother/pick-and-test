@@ -1,5 +1,8 @@
-package com.gyeryongbrother.pickandtest.common.authorizationresolver;
+package com.gyeryongbrother.pickandtest.common.authorization.resolver;
 
+import com.gyeryongbrother.pickandtest.common.authorization.validator.AccessValidatorComposite;
+import com.gyeryongbrother.pickandtest.common.authorization.domain.MemberAuthority;
+import com.gyeryongbrother.pickandtest.common.authorization.domain.MemberRole;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.List;

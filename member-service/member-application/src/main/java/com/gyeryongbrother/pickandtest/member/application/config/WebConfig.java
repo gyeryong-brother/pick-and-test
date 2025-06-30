@@ -1,6 +1,6 @@
 package com.gyeryongbrother.pickandtest.member.application.config;
 
-import com.gyeryongbrother.pickandtest.common.authorizationresolver.MemberAuthorityArgumentResolver;
+import com.gyeryongbrother.pickandtest.common.authorization.resolver.MemberAuthorityArgumentResolver;
 import java.util.List;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
