@@ -37,4 +37,38 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.4.3</version>
+                <configuration>
+                    <container>
+                        <mainClass>com.gyeryongbrother.pickandtest.config.ConfigServiceApplication</mainClass>
+                    </container>
+                    <from>
+                        <image>amazoncorretto@sha256:74c38e524208f928d00195618c8820fe49535c9692316d6f02880e2f81285bad
+                        </image>
+                    </from>
+                    <to>
+                        <image>gyeryongbrother/pick-and-test-config</image>
+                    </to>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
