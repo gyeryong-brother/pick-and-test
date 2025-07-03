@@ -1,3 +1,0 @@
-spring:
-  config:
-    import: configserver:http://privateip:8888
