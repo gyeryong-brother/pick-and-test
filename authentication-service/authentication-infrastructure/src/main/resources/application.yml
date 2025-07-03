@@ -1,12 +1,8 @@
-oauth:
-  kakao:
-    client_id: client_id
-    redirect_uri: http://localhost:3000/oauth/kakao
-    client_secret: client_secret
-    scope: profile_nickname, profile_image
-
 member-service:
   url: http://127.0.0.1:8082
+
+jwt:
+  secret-key: 2ee17b50c408d0c4888e10c514d8cee5b710f1f92e397452777b12fb01fd89e3
 
 spring:
   security:
