@@ -11,7 +11,7 @@ class JwtProviderTest {
     @Test
     @DisplayName("AccessToken을 생성한다")
     void generateAccessToken() {
-        JwtProvider jwtProvider = new JwtProvider("abc");
+        JwtProvider jwtProvider = new JwtProvider("2ee17b50c408d0c4888e10c514d8cee5b710f1f92e397452777b12fb01fd89e3");
         String accessToken = jwtProvider.generateAccessToken(tokenizable());
         assertThat(accessToken).isNotNull();
     }
@@ -33,7 +33,7 @@ class JwtProviderTest {
     @Test
     @DisplayName("refreshToken을 생성한다")
     void generateRefreshToken() {
-        JwtProvider jwtProvider = new JwtProvider("abc");
+        JwtProvider jwtProvider = new JwtProvider("2ee17b50c408d0c4888e10c514d8cee5b710f1f92e397452777b12fb01fd89e3");
         String refreshToken = jwtProvider.generateRefreshToken(tokenizable());
         assertThat(refreshToken).isNotNull();
     }
