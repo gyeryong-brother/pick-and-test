@@ -15,6 +15,11 @@ public class CustomUserDetails implements UserDetails, Tokenizable {
     private final UsernamePasswordCredential usernamePasswordCredential;
 
     @Override
+    public LoginType type() {
+        return LoginType.USERNAME_PASSWORD;
+    }
+
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(
                 new SimpleGrantedAuthority(usernamePasswordCredential.memberRole().name())

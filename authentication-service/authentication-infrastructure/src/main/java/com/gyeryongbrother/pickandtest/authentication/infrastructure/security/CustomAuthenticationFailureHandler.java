@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.exception.BaseException;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.exception.AuthenticationInfrastructureException;
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.response.HttpServletResponseFacade;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.security.dto.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,7 +27,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
             HttpServletResponse response,
             AuthenticationException exception
     ) {
-        HttpServletResponseFacade responseFacade = new HttpServletResponseFacade(response, "application/json");
+        HttpServletResponseFacade responseFacade = new HttpServletResponseFacade(response);
         responseFacade.addBody(createErrorMessageBody(errorMessage(exception)));
     }
 

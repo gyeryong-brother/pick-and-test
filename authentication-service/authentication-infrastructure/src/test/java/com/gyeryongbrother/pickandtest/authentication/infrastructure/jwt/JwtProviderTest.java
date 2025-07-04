@@ -2,6 +2,7 @@ package com.gyeryongbrother.pickandtest.authentication.infrastructure.jwt;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.security.LoginType;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,11 @@ class JwtProviderTest {
 
     private Tokenizable tokenizable() {
         return new Tokenizable() {
+            @Override
+            public LoginType type() {
+                return null;
+            }
+
             @Override
             public String subject() {
                 return "1";
