@@ -18,6 +18,7 @@ public enum AuthenticationInfrastructureExceptionType implements BaseExceptionTy
     OAUTH_SERVER_NOT_SUPPORTED(BAD_REQUEST, "지원하지 않는 서버 타입입니다."),
     CREATE_BODY_FAILED(INTERNAL_SERVER_ERROR, "응답을 만드는데 실패했습니다."),
     READ_BODY_FAILED(INTERNAL_SERVER_ERROR, "본문을 읽는데 실패했습니다."),
+    REDIRECT_FAILED(INTERNAL_SERVER_ERROR, "리다이렉트 하는데 실패했습니다."),
     ;
 
     private final HttpStatus httpStatus;

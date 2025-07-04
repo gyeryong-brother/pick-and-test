@@ -2,6 +2,7 @@ package com.gyeryongbrother.pickandtest.authentication.infrastructure.oauth;
 
 import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.OauthCredential;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.jwt.Tokenizable;
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.security.LoginType;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,11 @@ public class CustomOAuth2User implements OAuth2User, Tokenizable {
 
     private final OauthCredential oauthCredential;
     private final OAuth2User oAuth2User;
+
+    @Override
+    public LoginType type() {
+        return LoginType.OAUTH;
+    }
 
     @Override
     public Map<String, Object> getAttributes() {
