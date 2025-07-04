@@ -2,7 +2,9 @@ package com.gyeryongbrother.pickandtest.authentication.infrastructure.jwt;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.gyeryongbrother.pickandtest.authentication.infrastructure.security.LoginType;
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.LoginType;
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.jwt.JwtProvider;
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.jwt.Tokenizable;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
