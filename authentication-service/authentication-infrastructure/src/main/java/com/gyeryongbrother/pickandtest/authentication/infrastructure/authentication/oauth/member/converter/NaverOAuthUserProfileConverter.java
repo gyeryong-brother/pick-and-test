@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-class NaverOAuthMemberConverter implements OAuthMemberConverter {
+class NaverOAuthUserProfileConverter implements OAuthUserProfileConverter {
 
     private static final String MEMBER_INFO_KEY = "response";
     private static final String NICKNAME_KEY = "name";
@@ -21,7 +21,7 @@ class NaverOAuthMemberConverter implements OAuthMemberConverter {
     private final ObjectMapper objectMapper;
 
     @Override
-    public OAuthType support() {
+    public OAuthType getSupportedOAuthType() {
         return OAuthType.NAVER;
     }
 

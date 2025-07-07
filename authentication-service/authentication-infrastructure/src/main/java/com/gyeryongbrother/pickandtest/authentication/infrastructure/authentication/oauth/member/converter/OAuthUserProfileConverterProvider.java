@@ -5,27 +5,24 @@ import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
 
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OAuthType;
-import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.oauth.member.OAuthMember;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.exception.AuthenticationInfrastructureException;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OAuthMemberConverterComposite {
+public class OAuthUserProfileConverterProvider {
 
-    private final Map<OAuthType, OAuthMemberConverter> convertersByType;
+    private final Map<OAuthType, OAuthUserProfileConverter> convertersByType;
 
-    public OAuthMemberConverterComposite(Set<OAuthMemberConverter> converters) {
+    public OAuthUserProfileConverterProvider(Set<OAuthUserProfileConverter> converters) {
         convertersByType = converters.stream()
-                .collect(toMap(OAuthMemberConverter::support, identity()));
+                .collect(toMap(OAuthUserProfileConverter::getSupportedOAuthType, identity()));
     }
 
-    public OAuthMember convert(OAuthType oAuthType, OAuth2User oAuth2User) {
+    public OAuthUserProfileConverter getConverterByType(OAuthType oAuthType) {
         return Optional.ofNullable(convertersByType.get(oAuthType))
-                .orElseThrow(() -> new AuthenticationInfrastructureException(OAUTH_SERVER_NOT_SUPPORTED))
-                .convert(oAuth2User);
+                .orElseThrow(() -> new AuthenticationInfrastructureException(OAUTH_SERVER_NOT_SUPPORTED));
     }
 }

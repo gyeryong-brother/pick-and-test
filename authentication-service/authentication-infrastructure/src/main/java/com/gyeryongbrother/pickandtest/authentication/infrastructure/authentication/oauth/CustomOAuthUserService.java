@@ -8,7 +8,8 @@ import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.outpu
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.OauthCredentialQueryRepository;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.OauthCredentialRepository;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.oauth.member.OAuthMember;
-import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.oauth.member.converter.OAuthMemberConverterComposite;
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.oauth.member.converter.OAuthUserProfileConverter;
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.oauth.member.converter.OAuthUserProfileConverterProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CustomOAuthUserService extends DefaultOAuth2UserService {
 
-    private final OAuthMemberConverterComposite converter;
+    private final OAuthUserProfileConverterProvider provider;
     private final MemberClient memberClient;
     private final OauthCredentialRepository oauthCredentialRepository;
     private final OauthCredentialQueryRepository oauthCredentialQueryRepository;
@@ -30,7 +31,8 @@ public class CustomOAuthUserService extends DefaultOAuth2UserService {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        OAuthMember oAuthMember = converter.convert(oAuthType(userRequest), oAuth2User);
+        OAuthUserProfileConverter converter = provider.getConverterByType(oAuthType(userRequest));
+        OAuthMember oAuthMember = converter.convert(oAuth2User);
         OauthCredential oauthCredential = oauthCredentialQueryRepository.findByOauthId(oAuthMember.oauthId())
                 .orElseGet(() -> registerMember(oAuthMember));
         return new CustomOAuth2User(oauthCredential, oAuth2User);
