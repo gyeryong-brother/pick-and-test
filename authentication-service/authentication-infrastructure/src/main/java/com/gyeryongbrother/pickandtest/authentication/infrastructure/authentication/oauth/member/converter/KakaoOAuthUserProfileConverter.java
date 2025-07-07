@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-class KakaoOAuthMemberConverter implements OAuthMemberConverter {
+class KakaoOAuthUserProfileConverter implements OAuthUserProfileConverter {
 
     private static final String MEMBER_INFO_KEY = "properties";
     private static final String NICKNAME_KEY = "nickname";
@@ -23,7 +23,7 @@ class KakaoOAuthMemberConverter implements OAuthMemberConverter {
     private final ObjectMapper objectMapper;
 
     @Override
-    public OAuthType support() {
+    public OAuthType getSupportedOAuthType() {
         return KAKAO;
     }
 
