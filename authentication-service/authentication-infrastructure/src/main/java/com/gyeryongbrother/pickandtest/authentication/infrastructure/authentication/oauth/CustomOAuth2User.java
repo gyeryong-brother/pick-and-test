@@ -1,8 +1,8 @@
 package com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.oauth;
 
-import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.OauthCredential;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.OAuthCredential;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.LoginType;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.jwt.Tokenizable;
-import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.LoginType;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 @RequiredArgsConstructor
 public class CustomOAuth2User implements OAuth2User, Tokenizable {
 
-    private final OauthCredential oauthCredential;
+    private final OAuthCredential oauthCredential;
     private final OAuth2User oAuth2User;
 
     @Override

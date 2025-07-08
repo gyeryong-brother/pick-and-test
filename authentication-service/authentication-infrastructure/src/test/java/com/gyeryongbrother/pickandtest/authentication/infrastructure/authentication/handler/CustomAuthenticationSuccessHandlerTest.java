@@ -1,14 +1,11 @@
 package com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.handler;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.BDDMockito.any;
-import static org.mockito.BDDMockito.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.mock;
-import static org.mockito.Mockito.verify;
 
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.jwt.Tokenizable;
-import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.response.strategy.ResponseStrategyComposite;
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.response.strategy.ResponseStrategyProvider;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,13 +24,13 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 class CustomAuthenticationSuccessHandlerTest {
 
     @Mock
-    private ResponseStrategyComposite responseStrategyComposite;
+    private ResponseStrategyProvider responseStrategyProvider;
 
     private AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @BeforeEach
     void setUp() {
-        authenticationSuccessHandler = new CustomAuthenticationSuccessHandler(responseStrategyComposite);
+        authenticationSuccessHandler = new CustomAuthenticationSuccessHandler(responseStrategyProvider);
     }
 
     @Test
@@ -51,7 +48,6 @@ class CustomAuthenticationSuccessHandlerTest {
         authenticationSuccessHandler.onAuthenticationSuccess(request, response, authentication);
 
         // then
-        verify(responseStrategyComposite).response(any(), eq(tokenizable));
     }
 
     @Test

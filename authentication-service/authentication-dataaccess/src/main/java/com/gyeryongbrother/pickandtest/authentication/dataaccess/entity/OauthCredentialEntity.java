@@ -1,6 +1,6 @@
 package com.gyeryongbrother.pickandtest.authentication.dataaccess.entity;
 
-import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.OauthCredential;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.OAuthCredential;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.MemberRole;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OAuthId;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OAuthType;
@@ -37,8 +37,8 @@ public class OauthCredentialEntity {
 
     private String oAuthId;
 
-    public OauthCredential toDomain() {
-        return new OauthCredential(
+    public OAuthCredential toDomain() {
+        return new OAuthCredential(
                 id,
                 memberId,
                 memberRole,

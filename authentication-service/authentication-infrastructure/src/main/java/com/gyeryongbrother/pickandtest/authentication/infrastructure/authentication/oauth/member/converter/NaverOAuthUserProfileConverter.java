@@ -3,8 +3,8 @@ package com.gyeryongbrother.pickandtest.authentication.infrastructure.authentica
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OAuthId;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OAuthMember;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OAuthType;
-import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.oauth.member.OAuthMember;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.core.user.OAuth2User;

@@ -1,7 +1,7 @@
 package com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.usernamepassword;
 
 import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.UsernamePasswordCredential;
-import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.LoginType;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.LoginType;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.jwt.Tokenizable;
 import java.util.Collection;
 import java.util.List;

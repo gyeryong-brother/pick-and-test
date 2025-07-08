@@ -4,12 +4,12 @@ import static com.gyeryongbrother.pickandtest.authentication.infrastructure.exce
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.LoginType;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.RefreshTokenRepository;
-import com.gyeryongbrother.pickandtest.authentication.infrastructure.exception.AuthenticationInfrastructureException;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.jwt.JwtProvider;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.response.HttpServletResponseFacade;
-import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.LoginType;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.response.strategy.dto.LoginResponse;
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.exception.AuthenticationInfrastructureException;
 import org.springframework.stereotype.Component;
 
 @Component
