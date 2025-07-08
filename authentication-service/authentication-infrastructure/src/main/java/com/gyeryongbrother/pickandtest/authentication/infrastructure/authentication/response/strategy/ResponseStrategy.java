@@ -1,17 +1,17 @@
 package com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.response.strategy;
 
 import com.gyeryongbrother.pickandtest.authentication.domain.core.entity.RefreshToken;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.LoginType;
 import com.gyeryongbrother.pickandtest.authentication.domain.service.ports.output.RefreshTokenRepository;
-import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.response.HttpServletResponseFacade;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.jwt.JwtProvider;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.jwt.Tokenizable;
-import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.LoginType;
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.response.HttpServletResponseFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-abstract class ResponseStrategy {
+public abstract class ResponseStrategy {
 
     private final JwtProvider jwtProvider;
     private final RefreshTokenRepository refreshTokenRepository;

@@ -1,41 +1,51 @@
 package com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.oauth.member.converter;
 
+import static com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OAuthType.TEST_SUPPORTED;
+import static com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OAuthType.TEST_UNSUPPORTED;
+import static com.gyeryongbrother.pickandtest.authentication.infrastructure.exception.AuthenticationInfrastructureExceptionType.OAUTH_SERVER_NOT_SUPPORTED;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.mock;
 
-import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OAuthType;
+import com.gyeryongbrother.pickandtest.authentication.domain.service.exception.BaseExceptionType;
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.exception.AuthenticationInfrastructureException;
 import java.util.Set;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)
+@DisplayName("OAuthUserProfileConverterProvider 는 OAuthType 별로 OAuthUserProfileConverter 를 매핑해 관리하고 OAuthType 에 맞는 Converter 를 반환한다")
 class OAuthUserProfileConverterProviderTest {
 
-    private OAuthUserProfileConverterProvider provider;
+    private OAuthUserProfileConverter oAuthUserProfileConverter;
+    private OAuthUserProfileConverterProvider profileConverterProvider;
+
+    @BeforeEach
+    void setUp() {
+        oAuthUserProfileConverter = new TestOAuthUserProfileConverter();
+        profileConverterProvider = new OAuthUserProfileConverterProvider(Set.of(
+                oAuthUserProfileConverter
+        ));
+    }
 
     @Test
-    @DisplayName("OAuth 타입으로 변환기를 가져온다")
-    void convert() {
-        // given
-        OAuthUserProfileConverter converter1 = mock(OAuthUserProfileConverter.class);
-        OAuthUserProfileConverter converter2 = mock(OAuthUserProfileConverter.class);
-        provider = new OAuthUserProfileConverterProvider(Set.of(
-                converter1, converter2
-        ));
-        OAuthType oAuthType1 = mock(OAuthType.class);
-        OAuthType oAuthType2 = mock(OAuthType.class);
-        given(converter1.getSupportedOAuthType())
-                .willReturn(oAuthType1);
-        given(converter2.getSupportedOAuthType())
-                .willReturn(oAuthType2);
-
+    @DisplayName("OAuthType 으로 Converter 를 가져온다")
+    void getConverterByType() {
         // when
-        OAuthUserProfileConverter result = provider.getConverterByType(oAuthType1);
+        OAuthUserProfileConverter result = profileConverterProvider.getConverterByType(TEST_SUPPORTED);
 
         // then
-        assertThat(result).isEqualTo(converter1);
+        assertThat(result).isEqualTo(oAuthUserProfileConverter);
+    }
+
+    @Test
+    @DisplayName("지원하지 않는 OAuthType 으로 Converter 를 가져오려하면 예외가 발생한다")
+    void getConverterByUnsupportedType() {
+        // when
+        BaseExceptionType result = Assertions.assertThrows(AuthenticationInfrastructureException.class, () ->
+                profileConverterProvider.getConverterByType(TEST_UNSUPPORTED)
+        ).exceptionType();
+
+        // then
+        assertThat(result).isEqualTo(OAUTH_SERVER_NOT_SUPPORTED);
     }
 }

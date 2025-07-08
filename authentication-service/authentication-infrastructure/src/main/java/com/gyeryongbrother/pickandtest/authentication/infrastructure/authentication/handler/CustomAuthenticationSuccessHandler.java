@@ -2,7 +2,8 @@ package com.gyeryongbrother.pickandtest.authentication.infrastructure.authentica
 
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.jwt.Tokenizable;
 import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.response.HttpServletResponseFacade;
-import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.response.strategy.ResponseStrategyComposite;
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.response.strategy.ResponseStrategy;
+import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.response.strategy.ResponseStrategyProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private final ResponseStrategyComposite responseStrategyComposite;
+    private final ResponseStrategyProvider responseStrategyProvider;
 
     @Override
     public void onAuthenticationSuccess(
@@ -24,6 +25,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     ) {
         Tokenizable tokenizable = (Tokenizable) authentication.getPrincipal();
         HttpServletResponseFacade responseFacade = new HttpServletResponseFacade(response);
-        responseStrategyComposite.response(responseFacade, tokenizable);
+        ResponseStrategy strategy = responseStrategyProvider.getStrategyByType(tokenizable.type());
+        strategy.response(responseFacade, tokenizable);
     }
 }

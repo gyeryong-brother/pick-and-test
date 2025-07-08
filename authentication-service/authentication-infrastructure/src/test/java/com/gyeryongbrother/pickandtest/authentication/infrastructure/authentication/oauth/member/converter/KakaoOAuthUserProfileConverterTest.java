@@ -5,8 +5,8 @@ import static org.mockito.BDDMockito.given;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OAuthId;
+import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OAuthMember;
 import com.gyeryongbrother.pickandtest.authentication.domain.core.valueobject.OAuthType;
-import com.gyeryongbrother.pickandtest.authentication.infrastructure.authentication.oauth.member.OAuthMember;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
