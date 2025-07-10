@@ -25,8 +25,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - run: |
-          cd api-gateway-service
+      - working-directory: ${{ github.workspace }}/api-gateway-service
+        run: |
           mvn install
           mvn jib:build
   deploy:

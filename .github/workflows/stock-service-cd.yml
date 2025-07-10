@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - develop
+      - feature/#109
     paths:
       - stock-service/**
       - .github/**
@@ -15,7 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          submodules: true
           token: ${{ secrets.ACTION_TOKEN }}
       - uses: actions/setup-java@v4
         with:
@@ -26,15 +26,20 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - run: |
-          cd stock-service
+      - working-directory: ${{ github.workspace }}/common
+        run: |
+          mvn install
+      - working-directory: ${{ github.workspace }}/stock-service
+        run: |
           mvn install
           mvn jib:build -pl stock-container
   deploy:
     needs: build
-    runs-on: self-hosted
+    runs-on: [self-hosted, backend-1]
     steps:
       - run: |
           cd /home/ubuntu/pick-and-test-server
-          sudo docker compose -f backend-compose.yml pull stock-service
+          sudo docker compose -f backend-compose.yml down stock-service
+          sudo docker pull gyeryongbrother/pick-and-test-stock
+          sudo docker image prune -f
           sudo docker compose -f backend-compose.yml up stock-service -d
