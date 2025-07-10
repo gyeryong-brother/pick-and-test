@@ -18,6 +18,6 @@ jobs:
           java-version: "17"
           distribution: "corretto"
           cache: maven
-      - run: |
-          cd api-gateway-service
+      - working-directory: ${{ github.workspace }}/api-gateway-service
+        run: |
           mvn package
