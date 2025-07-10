@@ -8,7 +8,6 @@ on:
       - feature/#109
     paths:
       - api-gateway-service/**
-      - .github/**
 
 jobs:
   build:
