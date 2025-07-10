@@ -1,4 +1,4 @@
-name: stock-price-service CD
+name: dividend-service CD
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
       - develop
       - feature/#109
     paths:
-      - stock-price-service/**
+      - dividend-service/**
 
 jobs:
   build:
@@ -28,17 +28,17 @@ jobs:
       - working-directory: ${{ github.workspace }}/common
         run: |
           mvn install
-      - working-directory: ${{ github.workspace }}/stock-price-service
+      - working-directory: ${{ github.workspace }}/dividend-service
         run: |
           mvn install
-          mvn jib:build -pl stock-price-container
+          mvn jib:build -pl dividend-container
   deploy:
     needs: build
-    runs-on: [self-hosted, backend-2]
+    runs-on: [self-hosted, backend-1]
     steps:
       - run: |
           cd /home/ubuntu/pick-and-test-server
-          sudo docker compose -f backend-compose.yml down stock-price-service
-          sudo docker pull gyeryongbrother/pick-and-test-stock-price
+          sudo docker compose -f backend-compose.yml down dividend-service
+          sudo docker pull gyeryongbrother/pick-and-test-dividend
           sudo docker image prune -f
-          sudo docker compose -f backend-compose.yml up stock-price-service -d
+          sudo docker compose -f backend-compose.yml up dividend-service -d

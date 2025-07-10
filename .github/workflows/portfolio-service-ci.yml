@@ -18,6 +18,6 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
           cache: maven
-      - run: |
-          cd portfolio-service
+      - working-directory: ${{ github.workspace }}/portfolio-service
+        run: |
           mvn package

@@ -18,6 +18,6 @@ jobs:
           java-version: "17"
           distribution: "corretto"
           cache: maven
-      - run: |
-          cd dividend-service
+      - working-directory: ${{ github.workspace }}/dividend-service
+        run: |
           mvn package
