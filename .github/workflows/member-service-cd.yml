@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - develop
+      - feature/#109
     paths:
       - member-service/**
       - .github/**
@@ -31,9 +32,11 @@ jobs:
           mvn jib:build -pl member-container
   deploy:
     needs: build
-    runs-on: self-hosted
+    runs-on: [self-hosted, backend-1]
     steps:
       - run: |
           cd /home/ubuntu/pick-and-test-server
-          sudo docker compose -f backend-compose.yml pull member-service
+          sudo docker compose -f backend-compose.yml down member-service
+          sudo docker pull gyeryongbrother/pick-and-test-member
+          sudo docker image prune -f
           sudo docker compose -f backend-compose.yml up member-service -d
