@@ -1,12 +1,13 @@
-name: member-service CD
+name: api-gateway-service CD
 
 on:
   push:
     branches:
       - main
       - develop
+      - feature/#109
     paths:
-      - member-service/**
+      - api-gateway-service/**
       - .github/**
 
 jobs:
@@ -26,14 +27,16 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - run: |
-          cd member-service
+          cd api-gateway-service
           mvn install
-          mvn jib:build -pl member-container
+          mvn jib:build
   deploy:
     needs: build
-    runs-on: self-hosted
+    runs-on: [self-hosted, api-gateway-service]
     steps:
       - run: |
           cd /home/ubuntu/pick-and-test-server
-          sudo docker compose -f backend-compose.yml pull member-service
-          sudo docker compose -f backend-compose.yml up member-service -d
+          sudo docker compose -f backend-compose.yml down api-gateway-service
+          sudo docker pull gyeryongbrother/pick-and-test-api-gateway
+          sudo docker image prune -f
+          sudo docker compose -f backend-compose.yml up api-gateway-service -d
