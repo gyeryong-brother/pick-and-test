@@ -1,12 +1,14 @@
-name: member-service CD
+name: api-gateway-service CD
 
 on:
   push:
     branches:
       - main
       - develop
+      - feature/#109
     paths:
-      - member-service/**
+      - api-gateway-service/**
+      - .github/**
 
 jobs:
   build:
@@ -25,19 +27,16 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - run: |
-          cd member-service
+          cd api-gateway-service
           mvn install
-          mvn jib:build -pl member-container
+          mvn jib:build
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, api-gateway-service]
     steps:
-      - uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
       - run: |
-          aws eks update-kubeconfig --region ap-northeast-2 --name gb
-      - run: |
-          kubectl rollout restart deployment member-service-deployment
+          cd /home/ubuntu/pick-and-test-server
+          sudo docker compose -f backend-compose.yml down api-gateway-service
+          sudo docker pull gyeryongbrother/pick-and-test-api-gateway
+          sudo docker image prune -f
+          sudo docker compose -f backend-compose.yml up api-gateway-service -d
