@@ -26,8 +26,11 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - run: |
-          cd member-service
+      - working-directory: ${{ github.workspace }}/common
+        run: |
+          mvn install
+      - working-directory: ${{ github.workspace }}/member-service
+        run: |
           mvn install
           mvn jib:build -pl member-container
   deploy:
