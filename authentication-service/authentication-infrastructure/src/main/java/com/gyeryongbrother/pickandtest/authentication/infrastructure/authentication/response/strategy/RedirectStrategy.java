@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 class RedirectStrategy extends ResponseStrategy {
 
-    private static final String REDIRECT_URL = "http://localhost:3000/login/callback?token=";
+    private static final String REDIRECT_URL = "http://pickandtest.com:3000/login/callback?token=";
 
     public RedirectStrategy(JwtProvider jwtProvider, RefreshTokenRepository refreshTokenRepository) {
         super(jwtProvider, refreshTokenRepository);
