@@ -8,6 +8,7 @@ on:
       - feature/#109
     paths:
       - stock-price-service/**
+      - .github/**
 
 jobs:
   build:
@@ -34,7 +35,7 @@ jobs:
           mvn jib:build -pl stock-price-container
   deploy:
     needs: build
-    runs-on: [self-hosted, backend-2]
+    runs-on: [self-hosted, backend-3]
     steps:
       - run: |
           cd /home/ubuntu/pick-and-test-server

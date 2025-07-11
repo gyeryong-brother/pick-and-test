@@ -8,6 +8,7 @@ on:
       - feature/#109
     paths:
       - member-service/**
+      - .github/**
 
 jobs:
   build:
