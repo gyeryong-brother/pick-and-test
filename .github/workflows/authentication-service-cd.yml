@@ -8,6 +8,7 @@ on:
       - feature/#109
     paths:
       - authentication-service/**
+      - .github/**
 
 jobs:
   build:

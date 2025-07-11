@@ -35,7 +35,7 @@ jobs:
           mvn jib:build -pl portfolio-container
   deploy:
     needs: build
-    runs-on: [self-hosted, backend-1]
+    runs-on: [self-hosted, backend-2]
     steps:
       - run: |
           cd /home/ubuntu/pick-and-test-server

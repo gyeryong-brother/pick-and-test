@@ -8,6 +8,7 @@ on:
       - feature/#109
     paths:
       - dividend-service/**
+      - .github/**
 
 jobs:
   build:
@@ -34,7 +35,7 @@ jobs:
           mvn jib:build -pl dividend-container
   deploy:
     needs: build
-    runs-on: [self-hosted, backend-1]
+    runs-on: [self-hosted, backend-2]
     steps:
       - run: |
           cd /home/ubuntu/pick-and-test-server
