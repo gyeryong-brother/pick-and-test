@@ -1,6 +1,6 @@
 server:
   servlet:
-    context-path: /stock-service
+    context-path: /dividend-service
 
 spring:
   config:
