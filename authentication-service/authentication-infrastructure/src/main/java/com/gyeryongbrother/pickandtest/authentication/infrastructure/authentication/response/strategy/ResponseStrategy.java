@@ -18,10 +18,10 @@ public abstract class ResponseStrategy {
 
     public void response(HttpServletResponseFacade responseFacade, Tokenizable tokenizable) {
         String accessToken = jwtProvider.generateAccessToken(tokenizable);
-        responseAccessToken(responseFacade, accessToken);
         String refreshToken = jwtProvider.generateRefreshToken(tokenizable);
         refreshTokenRepository.save(new RefreshToken(Long.parseLong(tokenizable.subject()), refreshToken));
         responseFacade.addRefreshTokenCookie(refreshToken);
+        responseAccessToken(responseFacade, accessToken);
     }
 
     public abstract LoginType support();
