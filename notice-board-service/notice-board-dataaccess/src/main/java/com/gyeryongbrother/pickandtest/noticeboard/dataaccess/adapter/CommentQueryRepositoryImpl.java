@@ -10,6 +10,7 @@ import com.gyeryongbrother.pickandtest.noticeboard.domain.core.entity.Comment;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports.output.CommentQueryRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.provider.QueryComment;
 import org.springframework.stereotype.Repository;
@@ -32,5 +33,13 @@ public class CommentQueryRepositoryImpl implements CommentQueryRepository {
         return commentEntities.stream()
                 .map(commentDataAccessMapper::commentEntityToComment)
                 .toList();
+    }
+
+    @Override
+    public Comment findById(Long id) {
+        Optional<CommentEntity> commentEntity1=commentJpaRepository.findById(id);
+        return commentDataAccessMapper.commentEntityToComment(
+                commentEntity1.orElseThrow(() -> new RuntimeException("댓글을 찾을 수 없습니다."))
+        );
     }
 }

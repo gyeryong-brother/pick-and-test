@@ -5,4 +5,6 @@ import java.util.List;
 
 public interface CommentQueryRepository {
     List<Comment> findAllByPostId(Long postId);
+
+    Comment findById(Long id);
 }
