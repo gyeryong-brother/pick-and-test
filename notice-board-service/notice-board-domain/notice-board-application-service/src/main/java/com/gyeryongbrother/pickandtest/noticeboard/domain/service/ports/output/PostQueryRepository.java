@@ -5,4 +5,6 @@ import java.util.List;
 
 public interface PostQueryRepository {
     List<Post> findAll();
+
+    Post findById(Long id);
 }

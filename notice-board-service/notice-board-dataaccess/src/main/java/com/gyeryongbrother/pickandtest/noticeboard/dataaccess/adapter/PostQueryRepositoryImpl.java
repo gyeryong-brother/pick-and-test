@@ -7,6 +7,7 @@ import com.gyeryongbrother.pickandtest.noticeboard.domain.core.entity.Post;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports.output.PostQueryRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,5 +27,13 @@ public class PostQueryRepositoryImpl implements PostQueryRepository {
         return postEntities.stream()
                 .map(postDataAccessMapper::postEntityToPost)
                 .toList();
+    }
+
+    @Override
+    public Post findById(Long id) {
+        Optional<PostEntity> postEntity=postJpaRepository.findById(id);
+        return postDataAccessMapper.postEntityToPost(
+                postEntity.orElseThrow(() -> new RuntimeException("게시물을 찾을 수 없습니다."))
+        );
     }
 }
