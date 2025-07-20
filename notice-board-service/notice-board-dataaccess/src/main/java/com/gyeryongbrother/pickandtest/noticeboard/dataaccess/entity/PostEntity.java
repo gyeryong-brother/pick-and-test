@@ -25,7 +25,7 @@ public class PostEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "postEntity", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "postEntity", cascade = CascadeType.REMOVE)
     private List<CommentEntity> comments;
 
     private Long memberId;

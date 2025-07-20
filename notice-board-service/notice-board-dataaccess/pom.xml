@@ -44,12 +44,7 @@
             <artifactId>notice-board-application-service</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.gyeryongbrother</groupId>
-            <artifactId>notice-board-container</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>test</scope>
-        </dependency>
+
     </dependencies>
 
 </project>

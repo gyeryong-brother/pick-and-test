@@ -14,7 +14,6 @@ public record WriteCommentCommand(
                 .memberId(memberId)
                 .postId(postId)
                 .content(content)
-                .time(LocalDateTime.now())
                 .build();
     }
 }

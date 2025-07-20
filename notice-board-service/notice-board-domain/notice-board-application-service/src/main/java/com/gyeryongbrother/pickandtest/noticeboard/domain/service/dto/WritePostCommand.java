@@ -16,7 +16,6 @@ public record WritePostCommand(
                 .title(title)
                 .content(content)
                 .comments(List.of())
-                .time(LocalDateTime.now())
                 .build();
     }
 }

@@ -6,6 +6,8 @@ import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.CommentRes
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.DeleteCommentCommand;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.DeletePostCommand;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.PostResponse;
+import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.PostsResponse;
+import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.SimplePostResponse;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.WriteCommentCommand;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.WritePostCommand;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports.input.NoticeboardService;
@@ -13,6 +15,7 @@ import com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports.output.C
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports.output.CommentRepository;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports.output.PostQueryRepository;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports.output.PostRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -41,18 +44,23 @@ public class NoticeboardServiceImpl implements NoticeboardService {
     }
 
     @Override
-    public void deletePost(DeletePostCommand deletePostCommand) {
+    public PostsResponse deletePost(DeletePostCommand deletePostCommand) {
         Long postId= deletePostCommand.postId();
+        //commentRepository.deleteAllByPostId(postId);
         postRepository.deleteById(postId);
-        commentRepository.deleteAllByPostId(postId);
+        List<Post> remainPosts=postQueryRepository.findAll();
+        List<SimplePostResponse> remainSimplePosts=remainPosts.stream()
+                .map(SimplePostResponse::from)
+                .toList();
+        return new PostsResponse(remainSimplePosts);
     }
 
     @Override
     public PostResponse deleteComment(DeleteCommentCommand deleteCommentCommand) {
         Long commentId= deleteCommentCommand.id();
         Comment comment=commentQueryRepository.findById(commentId);
-        Post post=postQueryRepository.findById(comment.getPostId());
         commentRepository.deleteById(commentId);
+        Post post=postQueryRepository.findById(deleteCommentCommand.postId());
         return PostResponse.from(post);
     }
 }

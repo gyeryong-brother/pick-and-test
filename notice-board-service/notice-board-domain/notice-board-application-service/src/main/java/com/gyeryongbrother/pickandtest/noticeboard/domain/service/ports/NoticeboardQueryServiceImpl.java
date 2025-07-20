@@ -2,6 +2,8 @@ package com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports;
 
 import com.gyeryongbrother.pickandtest.noticeboard.domain.core.entity.Post;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.PostResponse;
+import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.PostsResponse;
+import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.SimplePostResponse;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports.input.NoticeboardQueryService;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports.output.CommentQueryRepository;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports.output.PostQueryRepository;
@@ -20,10 +22,17 @@ public class NoticeboardQueryServiceImpl implements NoticeboardQueryService {
     private final CommentQueryRepository commentQueryRepository;
 
     @Override
-    public List<PostResponse> findAllPosts() {
+    public PostsResponse findAllPosts() {
         List<Post> posts= postQueryRepository.findAll();
-        return posts.stream()
-                .map(PostResponse::from)
+        List<SimplePostResponse> simplePosts=posts.stream()
+                .map(SimplePostResponse::from)
                 .toList();
+        return new PostsResponse(simplePosts);
+    }
+
+    @Override
+    public PostResponse findPostById(Long postId) {
+        Post post=postQueryRepository.findById(postId);
+        return PostResponse.from(post);
     }
 }

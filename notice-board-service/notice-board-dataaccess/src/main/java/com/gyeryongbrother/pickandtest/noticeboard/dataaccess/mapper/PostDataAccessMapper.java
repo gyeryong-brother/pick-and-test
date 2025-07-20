@@ -4,6 +4,8 @@ import com.gyeryongbrother.pickandtest.noticeboard.dataaccess.entity.CommentEnti
 import com.gyeryongbrother.pickandtest.noticeboard.dataaccess.entity.PostEntity;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.core.entity.Comment;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.core.entity.Post;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -24,7 +26,7 @@ public class PostDataAccessMapper {
                 .title(post.getTitle())
                 .content(post.getContent())
                 .memberId(post.getMemberId())
-                .time(post.getTime())
+                .time(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS))
                 .build();
     }
 

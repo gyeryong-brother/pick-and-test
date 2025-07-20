@@ -20,6 +20,7 @@
         <module>notice-board-domain</module>
         <module>notice-board-domain/notice-board-domain-core</module>
         <module>notice-board-container</module>
+        <module>notice-board-application</module>
     </modules>
 
     <properties>
