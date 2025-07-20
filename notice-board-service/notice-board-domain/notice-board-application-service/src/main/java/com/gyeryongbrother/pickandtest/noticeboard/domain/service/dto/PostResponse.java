@@ -13,8 +13,8 @@ public record PostResponse(
         LocalDateTime time
 ) {
 
-    public static PostResponse from(Post post){
-        List<CommentResponse> commentResponses1=post.getComments().stream()
+    public static PostResponse from(Post post) {
+        List<CommentResponse> commentResponses1 = post.getComments().stream()
                 .map(CommentResponse::from)
                 .toList();
         return new PostResponse(post.getId(),

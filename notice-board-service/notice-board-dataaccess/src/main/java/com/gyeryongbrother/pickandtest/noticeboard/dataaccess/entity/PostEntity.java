@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="post")
+@Table(name = "post")
 public class PostEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +32,4 @@ public class PostEntity {
     private String title;
     private String content;
     private LocalDateTime time;
-
-
 }

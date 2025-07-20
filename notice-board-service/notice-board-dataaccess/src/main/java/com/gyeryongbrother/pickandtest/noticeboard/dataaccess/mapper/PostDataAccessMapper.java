@@ -16,8 +16,8 @@ public class PostDataAccessMapper {
 
     private final CommentDataAccessMapper commentDataAccessMapper;
 
-    public PostEntity postToPostEntity(Post post){
-        List<CommentEntity> commentEntities=post.getComments().stream()
+    public PostEntity postToPostEntity(Post post) {
+        List<CommentEntity> commentEntities = post.getComments().stream()
                 .map(commentDataAccessMapper::commentToCommentEntity)
                 .toList();
         return PostEntity.builder()
@@ -30,8 +30,8 @@ public class PostDataAccessMapper {
                 .build();
     }
 
-    public Post postEntityToPost(PostEntity postEntity){
-        List<Comment> comments=postEntity.getComments().stream()
+    public Post postEntityToPost(PostEntity postEntity) {
+        List<Comment> comments = postEntity.getComments().stream()
                 .map(commentDataAccessMapper::commentEntityToComment)
                 .toList();
         return Post.builder()

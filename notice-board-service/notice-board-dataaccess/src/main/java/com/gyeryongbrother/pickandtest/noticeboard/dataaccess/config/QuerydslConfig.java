@@ -12,5 +12,7 @@ public class QuerydslConfig {
     private EntityManager entityManager;
 
     @Bean
-    public JPAQueryFactory queryFactory(){return new JPAQueryFactory(entityManager);}
+    public JPAQueryFactory queryFactory() {
+        return new JPAQueryFactory(entityManager);
+    }
 }

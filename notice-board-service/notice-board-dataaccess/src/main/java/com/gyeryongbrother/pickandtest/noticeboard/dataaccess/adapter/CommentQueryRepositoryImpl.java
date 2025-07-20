@@ -3,7 +3,6 @@ package com.gyeryongbrother.pickandtest.noticeboard.dataaccess.adapter;
 import static com.gyeryongbrother.pickandtest.noticeboard.dataaccess.entity.QCommentEntity.commentEntity;
 
 import com.gyeryongbrother.pickandtest.noticeboard.dataaccess.entity.CommentEntity;
-import com.gyeryongbrother.pickandtest.noticeboard.dataaccess.entity.QCommentEntity;
 import com.gyeryongbrother.pickandtest.noticeboard.dataaccess.exception.NoticeboardDataException;
 import com.gyeryongbrother.pickandtest.noticeboard.dataaccess.exception.NoticeboardDataExceptionType;
 import com.gyeryongbrother.pickandtest.noticeboard.dataaccess.mapper.CommentDataAccessMapper;
@@ -14,7 +13,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.provider.QueryComment;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +27,7 @@ public class CommentQueryRepositoryImpl implements CommentQueryRepository {
 
     @Override
     public List<Comment> findAllByPostId(Long postId) {
-        List<CommentEntity> commentEntities=queryFactory.selectFrom(commentEntity)
+        List<CommentEntity> commentEntities = queryFactory.selectFrom(commentEntity)
                 .where(commentEntity.postEntity.id.eq(postId))
                 .fetch();
         return commentEntities.stream()
@@ -39,9 +37,10 @@ public class CommentQueryRepositoryImpl implements CommentQueryRepository {
 
     @Override
     public Comment findById(Long id) {
-        Optional<CommentEntity> commentEntity1=commentJpaRepository.findById(id);
+        Optional<CommentEntity> commentEntity1 = commentJpaRepository.findById(id);
         return commentDataAccessMapper.commentEntityToComment(
-                commentEntity1.orElseThrow(() -> new NoticeboardDataException(NoticeboardDataExceptionType.COMMENT_NOT_FOUND))
+                commentEntity1.orElseThrow(
+                        () -> new NoticeboardDataException(NoticeboardDataExceptionType.COMMENT_NOT_FOUND))
         );
     }
 }

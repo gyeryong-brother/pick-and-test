@@ -3,7 +3,7 @@ package com.gyeryongbrother.pickandtest.noticeboard.domain.service.exception;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class NoticeboardServiceException extends BaseException{
+public class NoticeboardServiceException extends BaseException {
 
     private final NoticeboardServiceExceptionType exceptionType;
 

@@ -5,9 +5,7 @@ import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.PostRespon
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.PostsResponse;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.SimplePostResponse;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports.input.NoticeboardQueryService;
-import com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports.output.CommentQueryRepository;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports.output.PostQueryRepository;
-import com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports.output.PostRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,12 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class NoticeboardQueryServiceImpl implements NoticeboardQueryService {
 
     private final PostQueryRepository postQueryRepository;
-    private final CommentQueryRepository commentQueryRepository;
 
     @Override
     public PostsResponse findAllPosts() {
-        List<Post> posts= postQueryRepository.findAll();
-        List<SimplePostResponse> simplePosts=posts.stream()
+        List<Post> posts = postQueryRepository.findAll();
+        List<SimplePostResponse> simplePosts = posts.stream()
                 .map(SimplePostResponse::from)
                 .toList();
         return new PostsResponse(simplePosts);
@@ -32,7 +29,7 @@ public class NoticeboardQueryServiceImpl implements NoticeboardQueryService {
 
     @Override
     public PostResponse findPostById(Long postId) {
-        Post post=postQueryRepository.findById(postId);
+        Post post = postQueryRepository.findById(postId);
         return PostResponse.from(post);
     }
 }

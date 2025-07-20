@@ -2,7 +2,6 @@ package com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports;
 
 import com.gyeryongbrother.pickandtest.noticeboard.domain.core.entity.Comment;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.core.entity.Post;
-import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.CommentResponse;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.DeleteCommentCommand;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.DeletePostCommand;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.PostResponse;
@@ -32,29 +31,29 @@ public class NoticeboardServiceImpl implements NoticeboardService {
 
     @Override
     public PostResponse writePost(WritePostCommand writePostCommand) {
-        Post post=writePostCommand.toDomain();
-        Post saved=postRepository.save(post);
+        Post post = writePostCommand.toDomain();
+        Post saved = postRepository.save(post);
         return PostResponse.from(saved);
     }
 
     @Override
     public PostResponse writeComment(WriteCommentCommand writeCommentCommand) {
-        Comment comment=writeCommentCommand.toDomain();
-        Comment saved=commentRepository.save(comment);
-        Post post=postQueryRepository.findById(saved.getPostId());
+        Comment comment = writeCommentCommand.toDomain();
+        Comment saved = commentRepository.save(comment);
+        Post post = postQueryRepository.findById(saved.getPostId());
         return PostResponse.from(post);
     }
 
     @Override
     public PostsResponse deletePost(DeletePostCommand deletePostCommand) {
-        Long postId= deletePostCommand.postId();
-        Post post=postQueryRepository.findById(postId);
-        if(post.getMemberId()!=deletePostCommand.memberId()){
+        Long postId = deletePostCommand.postId();
+        Post post = postQueryRepository.findById(postId);
+        if (post.getMemberId() != deletePostCommand.memberId()) {
             throw new NoticeboardServiceException(NoticeboardServiceExceptionType.CAN_NOT_DELETE_POST);
         }
         postRepository.deleteById(postId);
-        List<Post> remainPosts=postQueryRepository.findAll();
-        List<SimplePostResponse> remainSimplePosts=remainPosts.stream()
+        List<Post> remainPosts = postQueryRepository.findAll();
+        List<SimplePostResponse> remainSimplePosts = remainPosts.stream()
                 .map(SimplePostResponse::from)
                 .toList();
         return new PostsResponse(remainSimplePosts);
@@ -62,13 +61,13 @@ public class NoticeboardServiceImpl implements NoticeboardService {
 
     @Override
     public PostResponse deleteComment(DeleteCommentCommand deleteCommentCommand) {
-        Long commentId= deleteCommentCommand.id();
-        Comment comment=commentQueryRepository.findById(commentId);
-        if(comment.getMemberId()!=deleteCommentCommand.memberId()){
+        Long commentId = deleteCommentCommand.id();
+        Comment comment = commentQueryRepository.findById(commentId);
+        if (comment.getMemberId() != deleteCommentCommand.memberId()) {
             throw new NoticeboardServiceException(NoticeboardServiceExceptionType.CAN_NOT_DELETE_COMMENT);
         }
         commentRepository.deleteById(commentId);
-        Post post=postQueryRepository.findById(deleteCommentCommand.postId());
+        Post post = postQueryRepository.findById(deleteCommentCommand.postId());
         return PostResponse.from(post);
     }
 }
