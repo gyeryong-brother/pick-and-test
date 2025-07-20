@@ -17,8 +17,8 @@ public class PostRepositoryImpl implements PostRepository {
 
     @Override
     public Post save(Post post) {
-        PostEntity postEntity=postDataAccessMapper.postToPostEntity(post);
-        PostEntity saved=postJpaRepository.save(postEntity);
+        PostEntity postEntity = postDataAccessMapper.postToPostEntity(post);
+        PostEntity saved = postJpaRepository.save(postEntity);
         return postDataAccessMapper.postEntityToPost(saved);
     }
 

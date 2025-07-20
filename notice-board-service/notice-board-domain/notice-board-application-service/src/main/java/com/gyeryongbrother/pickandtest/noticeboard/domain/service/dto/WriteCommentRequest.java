@@ -4,7 +4,7 @@ public record WriteCommentRequest(
         String content
 ) {
 
-    public WriteCommentCommand toCommand(Long memberId, Long postId){
-        return new WriteCommentCommand(memberId,postId,content);
+    public WriteCommentCommand toCommand(Long memberId, Long postId) {
+        return new WriteCommentCommand(memberId, postId, content);
     }
 }

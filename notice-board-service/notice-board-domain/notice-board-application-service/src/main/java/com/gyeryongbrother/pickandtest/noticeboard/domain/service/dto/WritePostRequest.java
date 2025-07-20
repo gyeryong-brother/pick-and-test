@@ -5,7 +5,7 @@ public record WritePostRequest(
         String content
 ) {
 
-    public WritePostCommand toCommand(Long memberId){
-        return new WritePostCommand(memberId,title,content);
+    public WritePostCommand toCommand(Long memberId) {
+        return new WritePostCommand(memberId, title, content);
     }
 }

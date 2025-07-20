@@ -32,16 +32,22 @@ public class TestQuerydslConfig {
     private PostJpaRepository postJpaRepository;
 
     @Bean
-    public JPAQueryFactory queryFactory(){return new JPAQueryFactory(entityManager);}
+    public JPAQueryFactory queryFactory() {
+        return new JPAQueryFactory(entityManager);
+    }
 
     @Bean
-    public CommentDataAccessMapper commentDataAccessMapper(){return new CommentDataAccessMapper();}
+    public CommentDataAccessMapper commentDataAccessMapper() {
+        return new CommentDataAccessMapper();
+    }
 
     @Bean
-    public PostDataAccessMapper postDataAccessMapper(){return new PostDataAccessMapper(commentDataAccessMapper());}
+    public PostDataAccessMapper postDataAccessMapper() {
+        return new PostDataAccessMapper(commentDataAccessMapper());
+    }
 
     @Bean
-    public CommentQueryRepository commentQueryRepository(){
+    public CommentQueryRepository commentQueryRepository() {
         return new CommentQueryRepositoryImpl(
                 queryFactory(),
                 commentDataAccessMapper(),
@@ -50,26 +56,24 @@ public class TestQuerydslConfig {
     }
 
     @Bean
-    public CommentRepository commentRepository(){
+    public CommentRepository commentRepository() {
         return new CommentRepositoryImpl(
                 commentJpaRepository,
                 commentDataAccessMapper(),
-                queryFactory(),
-                postJpaRepository
-        );
-    }
-
-    @Bean
-    public PostQueryRepository postQueryRepository(){
-        return new PostQueryRepositoryImpl(
-                postJpaRepository,
-                postDataAccessMapper(),
                 queryFactory()
         );
     }
 
     @Bean
-    public PostRepository postRepository(){
+    public PostQueryRepository postQueryRepository() {
+        return new PostQueryRepositoryImpl(
+                postJpaRepository,
+                postDataAccessMapper()
+        );
+    }
+
+    @Bean
+    public PostRepository postRepository() {
         return new PostRepositoryImpl(
                 postJpaRepository,
                 postDataAccessMapper()

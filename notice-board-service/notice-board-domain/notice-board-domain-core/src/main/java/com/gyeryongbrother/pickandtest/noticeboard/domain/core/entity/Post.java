@@ -18,8 +18,8 @@ public class Post {
     private final LocalDateTime time;
     private final List<Comment> comments;
 
-    public List<Comment> getComments(){
-        if(comments==null){
+    public List<Comment> getComments() {
+        if (comments == null) {
             return List.of();
         }
         return comments;

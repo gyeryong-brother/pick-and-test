@@ -12,7 +12,7 @@ public record CommentResponse(
         LocalDateTime time
 ) {
 
-    public static CommentResponse from(Comment comment){
+    public static CommentResponse from(Comment comment) {
         return new CommentResponse(
                 comment.getId(),
                 comment.getMemberId(),

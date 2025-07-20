@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RequiredArgsConstructor
 public class NoticeboardExceptionHandler {
 
-
-    private ResponseEntity<ErrorResponse> getResponse(BaseExceptionType exceptionTypen){
+    private ResponseEntity<ErrorResponse> getResponse(BaseExceptionType exceptionTypen) {
         return ResponseEntity.status(exceptionTypen.httpStatus())
                 .body(new ErrorResponse(exceptionTypen.errorMessage()));
     }

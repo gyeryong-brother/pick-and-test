@@ -8,7 +8,6 @@ import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.WriteComme
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.WritePostRequest;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports.input.NoticeboardQueryService;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports.input.NoticeboardService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,20 +28,21 @@ public class NoticeboardController {
     private final NoticeboardQueryService noticeboardQueryService;
 
     @GetMapping
-    ResponseEntity<PostsResponse> findAllPosts(){
-        PostsResponse postResponses=noticeboardQueryService.findAllPosts();
+    ResponseEntity<PostsResponse> findAllPosts() {
+        PostsResponse postResponses = noticeboardQueryService.findAllPosts();
         return ResponseEntity.ok(postResponses);
     }
 
     @GetMapping("/{postId}")
-    ResponseEntity<PostResponse> findPostById(@PathVariable Long postId){
-        PostResponse postResponse=noticeboardQueryService.findPostById(postId);
+    ResponseEntity<PostResponse> findPostById(@PathVariable Long postId) {
+        PostResponse postResponse = noticeboardQueryService.findPostById(postId);
         return ResponseEntity.ok(postResponse);
     }
 
     @PostMapping
-    ResponseEntity<PostResponse> writePost(@RequestHeader Long memberId,@RequestBody WritePostRequest writePostRequest){
-        PostResponse postResponse=noticeboardService.writePost(writePostRequest.toCommand(memberId));
+    ResponseEntity<PostResponse> writePost(@RequestHeader Long memberId,
+                                           @RequestBody WritePostRequest writePostRequest) {
+        PostResponse postResponse = noticeboardService.writePost(writePostRequest.toCommand(memberId));
         return ResponseEntity.ok(postResponse);
     }
 
@@ -51,14 +51,14 @@ public class NoticeboardController {
             @PathVariable Long postId,
             @RequestHeader Long memberId,
             @RequestBody WriteCommentRequest writeCommentRequest
-    ){
-      PostResponse postResponse=noticeboardService.writeComment(writeCommentRequest.toCommand(memberId,postId));
-      return ResponseEntity.ok(postResponse);
+    ) {
+        PostResponse postResponse = noticeboardService.writeComment(writeCommentRequest.toCommand(memberId, postId));
+        return ResponseEntity.ok(postResponse);
     }
 
     @DeleteMapping("/{postId}")
-    ResponseEntity<PostsResponse> deletePost(@RequestHeader Long memberId, @PathVariable Long postId){
-        PostsResponse postsResponse=noticeboardService.deletePost(new DeletePostCommand(memberId,postId));
+    ResponseEntity<PostsResponse> deletePost(@RequestHeader Long memberId, @PathVariable Long postId) {
+        PostsResponse postsResponse = noticeboardService.deletePost(new DeletePostCommand(memberId, postId));
         return ResponseEntity.ok(postsResponse);
     }
 
@@ -67,9 +67,9 @@ public class NoticeboardController {
             @RequestHeader Long memberId,
             @PathVariable Long postId,
             @PathVariable Long commentId
-    ){
-        DeleteCommentCommand deleteCommentCommand=new DeleteCommentCommand(commentId,postId,memberId);
-        PostResponse postResponse=noticeboardService
+    ) {
+        DeleteCommentCommand deleteCommentCommand = new DeleteCommentCommand(commentId, postId, memberId);
+        PostResponse postResponse = noticeboardService
                 .deleteComment(deleteCommentCommand);
         return ResponseEntity.ok(postResponse);
     }

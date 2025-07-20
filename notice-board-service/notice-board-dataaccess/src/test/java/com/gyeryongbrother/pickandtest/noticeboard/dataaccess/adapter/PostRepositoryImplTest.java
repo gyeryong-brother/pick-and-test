@@ -5,8 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.gyeryongbrother.pickandtest.noticeboard.dataaccess.config.TestQuerydslConfig;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.core.entity.Post;
-import com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports.output.CommentQueryRepository;
-import com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports.output.CommentRepository;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports.output.PostQueryRepository;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports.output.PostRepository;
 import java.time.LocalDateTime;
@@ -23,12 +21,6 @@ import org.springframework.context.annotation.Import;
 public class PostRepositoryImplTest {
 
     @Autowired
-    private CommentQueryRepository commentQueryRepository;
-
-    @Autowired
-    private CommentRepository commentRepository;
-
-    @Autowired
     private PostRepository postRepository;
 
     @Autowired
@@ -36,9 +28,9 @@ public class PostRepositoryImplTest {
 
     @Test
     @DisplayName("게시글 id로 게시글 삭제")
-    void deleteById(){
+    void deleteById() {
         //given
-        Post post1=Post.builder()
+        Post post1 = Post.builder()
                 .memberId(1L)
                 .title("findAllByPostId")
                 .content("게시글id로 댓글 조회")
@@ -46,9 +38,9 @@ public class PostRepositoryImplTest {
                 .time(LocalDateTime.now())
                 .build();
 
-        Post savedPost1=postRepository.save(post1);
+        Post savedPost1 = postRepository.save(post1);
 
-        Post post2=Post.builder()
+        Post post2 = Post.builder()
                 .memberId(1L)
                 .title("findAllByPostId")
                 .content("게시글id로 댓글 조회")
@@ -56,9 +48,9 @@ public class PostRepositoryImplTest {
                 .time(LocalDateTime.now())
                 .build();
 
-        Post savedPost2=postRepository.save(post1);
+        Post savedPost2 = postRepository.save(post2);
 
-        Post post3=Post.builder()
+        Post post3 = Post.builder()
                 .memberId(1L)
                 .title("findAllByPostId")
                 .content("게시글id로 댓글 조회")
@@ -66,12 +58,12 @@ public class PostRepositoryImplTest {
                 .time(LocalDateTime.now())
                 .build();
 
-        Post savedPost3=postRepository.save(post3);
+        Post savedPost3 = postRepository.save(post3);
 
         //when
         postRepository.deleteById(savedPost2.getId());
-        List<Post> result=postQueryRepository.findAll();
-        List<Post> expected=List.of(savedPost1,savedPost3);
+        List<Post> result = postQueryRepository.findAll();
+        List<Post> expected = List.of(savedPost1, savedPost3);
 
         //then
         assertThat(result).usingRecursiveComparison()

@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class CommentDataAccessMapper {
 
-    public CommentEntity commentToCommentEntity(Comment comment){
-        PostEntity postEntity=PostEntity.builder()
+    public CommentEntity commentToCommentEntity(Comment comment) {
+        PostEntity postEntity = PostEntity.builder()
                 .id(comment.getPostId())
                 .build();
 
@@ -24,7 +24,7 @@ public class CommentDataAccessMapper {
                 .build();
     }
 
-    public Comment commentEntityToComment(CommentEntity commentEntity){
+    public Comment commentEntityToComment(CommentEntity commentEntity) {
         return Comment.builder()
                 .id(commentEntity.getId())
                 .postId(commentEntity.getPostEntity().getId())

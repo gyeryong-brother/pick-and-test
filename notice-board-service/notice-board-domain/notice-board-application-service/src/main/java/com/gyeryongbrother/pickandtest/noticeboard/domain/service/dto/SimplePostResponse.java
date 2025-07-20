@@ -10,7 +10,7 @@ public record SimplePostResponse(
         LocalDateTime time
 ) {
 
-    public static SimplePostResponse from(Post post){
-        return new SimplePostResponse(post.getId(),post.getMemberId(),post.getTitle(),post.getTime());
+    public static SimplePostResponse from(Post post) {
+        return new SimplePostResponse(post.getId(), post.getMemberId(), post.getTitle(), post.getTime());
     }
 }

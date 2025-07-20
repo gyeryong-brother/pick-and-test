@@ -1,7 +1,6 @@
 package com.gyeryongbrother.pickandtest.noticeboard.domain.core.entity;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
