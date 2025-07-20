@@ -1,12 +1,11 @@
 package com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto;
 
 public record WritePostRequest(
-        Long memberId,
         String title,
         String content
 ) {
 
-    public WritePostCommand toCommand(){
+    public WritePostCommand toCommand(Long memberId){
         return new WritePostCommand(memberId,title,content);
     }
 }

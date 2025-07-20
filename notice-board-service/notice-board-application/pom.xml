@@ -9,7 +9,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>notice-board-container</artifactId>
+    <artifactId>notice-board-application</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -19,22 +19,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.gyeryongbrother</groupId>
             <artifactId>notice-board-application-service</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.gyeryongbrother</groupId>
-            <artifactId>notice-board-application</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.gyeryongbrother</groupId>
-            <artifactId>notice-board-dataaccess</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
