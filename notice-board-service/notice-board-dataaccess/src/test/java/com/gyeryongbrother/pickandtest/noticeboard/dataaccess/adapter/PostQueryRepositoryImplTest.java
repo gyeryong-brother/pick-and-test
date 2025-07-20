@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Import;
 
 @DataJpaTest
 @Import(TestQuerydslConfig.class)
-@DisplayName("댓글 리퍼지터리 구현")
+@DisplayName("게시글 조회 리퍼지터리 구현")
 public class PostQueryRepositoryImplTest {
 
     @Autowired
