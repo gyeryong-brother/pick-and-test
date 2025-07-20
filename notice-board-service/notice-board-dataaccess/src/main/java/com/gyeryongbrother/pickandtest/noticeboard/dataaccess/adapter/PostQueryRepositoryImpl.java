@@ -1,6 +1,8 @@
 package com.gyeryongbrother.pickandtest.noticeboard.dataaccess.adapter;
 
 import com.gyeryongbrother.pickandtest.noticeboard.dataaccess.entity.PostEntity;
+import com.gyeryongbrother.pickandtest.noticeboard.dataaccess.exception.NoticeboardDataException;
+import com.gyeryongbrother.pickandtest.noticeboard.dataaccess.exception.NoticeboardDataExceptionType;
 import com.gyeryongbrother.pickandtest.noticeboard.dataaccess.mapper.PostDataAccessMapper;
 import com.gyeryongbrother.pickandtest.noticeboard.dataaccess.repository.PostJpaRepository;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.core.entity.Post;
@@ -33,7 +35,7 @@ public class PostQueryRepositoryImpl implements PostQueryRepository {
     public Post findById(Long id) {
         Optional<PostEntity> postEntity=postJpaRepository.findById(id);
         return postDataAccessMapper.postEntityToPost(
-                postEntity.orElseThrow(() -> new RuntimeException("게시물을 찾을 수 없습니다."))
+                postEntity.orElseThrow(() -> new NoticeboardDataException(NoticeboardDataExceptionType.POST_NOT_FOUND))
         );
     }
 }
