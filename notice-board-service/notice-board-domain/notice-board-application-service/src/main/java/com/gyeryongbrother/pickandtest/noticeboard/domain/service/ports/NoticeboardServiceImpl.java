@@ -10,6 +10,8 @@ import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.PostsRespo
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.SimplePostResponse;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.WriteCommentCommand;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.dto.WritePostCommand;
+import com.gyeryongbrother.pickandtest.noticeboard.domain.service.exception.NoticeboardServiceException;
+import com.gyeryongbrother.pickandtest.noticeboard.domain.service.exception.NoticeboardServiceExceptionType;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports.input.NoticeboardService;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports.output.CommentQueryRepository;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.service.ports.output.CommentRepository;
@@ -46,7 +48,10 @@ public class NoticeboardServiceImpl implements NoticeboardService {
     @Override
     public PostsResponse deletePost(DeletePostCommand deletePostCommand) {
         Long postId= deletePostCommand.postId();
-        //commentRepository.deleteAllByPostId(postId);
+        Post post=postQueryRepository.findById(postId);
+        if(post.getMemberId()!=deletePostCommand.memberId()){
+            throw new NoticeboardServiceException(NoticeboardServiceExceptionType.CAN_NOT_DELETE_POST);
+        }
         postRepository.deleteById(postId);
         List<Post> remainPosts=postQueryRepository.findAll();
         List<SimplePostResponse> remainSimplePosts=remainPosts.stream()
@@ -59,6 +64,9 @@ public class NoticeboardServiceImpl implements NoticeboardService {
     public PostResponse deleteComment(DeleteCommentCommand deleteCommentCommand) {
         Long commentId= deleteCommentCommand.id();
         Comment comment=commentQueryRepository.findById(commentId);
+        if(comment.getMemberId()!=deleteCommentCommand.memberId()){
+            throw new NoticeboardServiceException(NoticeboardServiceExceptionType.CAN_NOT_DELETE_COMMENT);
+        }
         commentRepository.deleteById(commentId);
         Post post=postQueryRepository.findById(deleteCommentCommand.postId());
         return PostResponse.from(post);

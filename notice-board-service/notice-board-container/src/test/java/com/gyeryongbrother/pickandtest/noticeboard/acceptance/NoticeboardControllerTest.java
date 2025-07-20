@@ -2,6 +2,7 @@ package com.gyeryongbrother.pickandtest.noticeboard.acceptance;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.gyeryongbrother.pickandtest.noticeboard.application.exception.handler.dto.ErrorResponse;
 import com.gyeryongbrother.pickandtest.noticeboard.dataaccess.entity.CommentEntity;
 import com.gyeryongbrother.pickandtest.noticeboard.dataaccess.repository.CommentJpaRepository;
 import com.gyeryongbrother.pickandtest.noticeboard.domain.core.entity.Comment;
@@ -26,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.jdbc.Sql;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -451,6 +453,99 @@ public class NoticeboardControllerTest {
                 .isEqualTo(expected);
     }
 
+    @Test
+    @DisplayName("다른 사람의 댓글 삭제")
+    void deleteCommentWithInvalidMemberId() {
+        //given
+        WritePostRequest writePostRequest1 = new WritePostRequest("findPostById", "1번 게시글");
+
+        WriteCommentRequest writeCommentRequest1=new WriteCommentRequest("댓글1입니다");
+
+        ExtractableResponse<Response> postResponse1 = RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .header("memberId", 1L)
+                .body(writePostRequest1)
+                .when().post("noticeboard")
+                .then().log().all()
+                .extract();
+        PostResponse postResult1 = postResponse1.as(new TypeRef<>() {});
+
+        ExtractableResponse<Response> commentResponse1 = RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .header("memberId", 1L)
+                .body(writeCommentRequest1)
+                .when().post("noticeboard/1/comment")
+                .then().log().all()
+                .extract();
+        PostResponse commentResult1 =commentResponse1.as(new TypeRef<>() {});
+
+        //when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .header("memberId", 2L)
+                .when().delete("noticeboard/1/1")
+                .then().log().all()
+                .extract();
+        ErrorResponse result = response.as(new TypeRef<>() {});
+
+        //then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.FORBIDDEN.value());
+        assertThat(result.errorMessage()).isEqualTo("댓글을 삭제할 권한이 없습니다");
+    }
+
+    @Test
+    @DisplayName("다른 사람의 게시글 삭제")
+    void deletePostWithInvalidMemberId() {
+        //given
+        WritePostRequest writePostRequest1 = new WritePostRequest("findPostById", "1번 게시글");
+
+        ExtractableResponse<Response> postResponse1 = RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .header("memberId", 1L)
+                .body(writePostRequest1)
+                .when().post("noticeboard")
+                .then().log().all()
+                .extract();
+        PostResponse postResult1 = postResponse1.as(new TypeRef<>() {});
+
+        //when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .header("memberId", 2L)
+                .when().delete("noticeboard/1")
+                .then().log().all()
+                .extract();
+        ErrorResponse result = response.as(new TypeRef<>() {});
+
+        //then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.FORBIDDEN.value());
+        assertThat(result.errorMessage()).isEqualTo("게시글을 삭제할 권한이 없습니다");
+    }
+
+    @Test
+    @DisplayName("없는 게시글 조회")
+    void findNonExistPost() {
+        //given
+        WritePostRequest writePostRequest1 = new WritePostRequest("findPostById", "1번 게시글");
+
+        ExtractableResponse<Response> postResponse1 = RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .header("memberId", 1L)
+                .body(writePostRequest1)
+                .when().post("noticeboard")
+                .then().log().all()
+                .extract();
+        PostResponse postResult1 = postResponse1.as(new TypeRef<>() {});
+
+        //when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .when().get("noticeboard/2")
+                .then().log().all()
+                .extract();
+        ErrorResponse result = response.as(new TypeRef<>() {});
+
+        //then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NOT_FOUND.value());
+        assertThat(result.errorMessage()).isEqualTo("존재하지 않는 게시글입니다");
+    }
 }
 
 
