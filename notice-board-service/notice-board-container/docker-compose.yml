@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: local_mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydb
+    volumes:
+      - ./data/mysql:/var/lib/mysql # 로컬 PC에 데이터 저장
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "13306:3306" # 로컬에서 MySQL 워크벤치 등으로 접근 시 필요
+    restart: always
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-prootpassword" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+
+  app:
+    build: . # 현재 디렉토리의 Dockerfile을 사용하여 이미지 빌드
+    container_name: local_java_web_app
+    ports:
+      - "8080:8080" # 로컬 호스트의 8080 포트를 컨테이너의 8080 포트에 매핑
+    depends_on:
+      db:
+        condition: service_healthy # db 서비스가 건강해질 때까지 기다림
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/mydb?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: rootpassword
+    restart: always
