@@ -9,5 +9,6 @@ public enum StockExchange {
     NAS,
     KSC,
     KOE,
+    PCX,
     ;
 }
