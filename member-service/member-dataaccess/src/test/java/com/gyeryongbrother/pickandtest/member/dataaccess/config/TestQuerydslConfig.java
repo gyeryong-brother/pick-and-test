@@ -2,16 +2,10 @@ package com.gyeryongbrother.pickandtest.member.dataaccess.config;
 
 import com.gyeryongbrother.pickandtest.member.dataaccess.adapter.MemberQueryRepositoryImpl;
 import com.gyeryongbrother.pickandtest.member.dataaccess.adapter.MemberRepositoryImpl;
-import com.gyeryongbrother.pickandtest.member.dataaccess.adapter.RefreshTokenQueryRepositoryImpl;
-import com.gyeryongbrother.pickandtest.member.dataaccess.adapter.RefreshTokenRepositoryImpl;
 import com.gyeryongbrother.pickandtest.member.dataaccess.mapper.MemberDataAccessMapper;
-import com.gyeryongbrother.pickandtest.member.dataaccess.mapper.RefreshTokenDataAccessMapper;
 import com.gyeryongbrother.pickandtest.member.dataaccess.repository.MemberJpaRepository;
-import com.gyeryongbrother.pickandtest.member.dataaccess.repository.RefreshTokenJpaRepository;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberQueryRepository;
 import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.MemberRepository;
-import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.RefreshTokenQueryRepository;
-import com.gyeryongbrother.pickandtest.member.domain.service.ports.output.RefreshTokenRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -27,9 +21,6 @@ public class TestQuerydslConfig {
 
     @Autowired
     private MemberJpaRepository memberJpaRepository;
-
-    @Autowired
-    private RefreshTokenJpaRepository refreshTokenJpaRepository;
 
     @Bean
     public JPAQueryFactory queryFactory() {
@@ -48,21 +39,6 @@ public class TestQuerydslConfig {
 
     @Bean
     public MemberQueryRepository memberQueryRepository() {
-        return new MemberQueryRepositoryImpl(queryFactory(), memberJpaRepository, memberDataAccessMapper());
-    }
-
-    @Bean
-    public RefreshTokenDataAccessMapper refreshTokenDataAccessMapper() {
-        return new RefreshTokenDataAccessMapper();
-    }
-
-    @Bean
-    public RefreshTokenRepository refreshTokenRepository() {
-        return new RefreshTokenRepositoryImpl(refreshTokenJpaRepository, refreshTokenDataAccessMapper());
-    }
-
-    @Bean
-    public RefreshTokenQueryRepository refreshTokenQueryRepository() {
-        return new RefreshTokenQueryRepositoryImpl(refreshTokenJpaRepository, refreshTokenDataAccessMapper());
+        return new MemberQueryRepositoryImpl(queryFactory());
     }
 }

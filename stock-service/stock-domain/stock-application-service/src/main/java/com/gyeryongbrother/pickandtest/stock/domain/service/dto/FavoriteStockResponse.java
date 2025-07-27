@@ -16,16 +16,16 @@ public record FavoriteStockResponse(
 ) {
 
     public static FavoriteStockResponse from(FavoriteStock favoriteStock) {
-        StockDetail stockDetail = favoriteStock.getStockDetail();
-        Stock stock = stockDetail.getStock();
+        Stock stock = favoriteStock.stock();
+        StockDetail stockDetail = stock.stockInformation();
         return new FavoriteStockResponse(
-                favoriteStock.getId(),
-                stock.getId(),
-                stock.getName(),
-                stock.getSymbol(),
-                stockDetail.getLastStockPrice(),
-                stockDetail.calculateCompoundAnnualGrowthRate(),
-                stockDetail.calculateDividendYield()
+                favoriteStock.id(),
+                stock.id(),
+                stock.name(),
+                stock.symbol(),
+                stockDetail.lastStockPrice(),
+                stockDetail.compoundAnnualGrowthRate(),
+                stockDetail.dividendYield()
         );
     }
 }

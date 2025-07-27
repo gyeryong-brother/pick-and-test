@@ -1,0 +1,73 @@
+package com.gyeryongbrother.pickandtest.stockprice.dataaccess.adapter;
+
+import static com.gyeryongbrother.pickandtest.stockprice.dataaccess.entity.StockPriceEntityFixture.stockPriceEntities;
+import static com.gyeryongbrother.pickandtest.stockprice.domain.fixture.entity.StockPriceFixture.stockPrices;
+import static com.gyeryongbrother.pickandtest.stockprice.domain.fixture.valueobject.LocalDateFixture.januarySecond;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
+
+import com.gyeryongbrother.pickandtest.stockprice.dataaccess.config.TestQuerydslConfig;
+import com.gyeryongbrother.pickandtest.stockprice.dataaccess.repository.StockPriceJpaRepository;
+import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.StockPrice;
+import com.gyeryongbrother.pickandtest.stockprice.domain.service.ports.output.StockPriceQueryRepository;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
+
+@DataJpaTest
+@Import(TestQuerydslConfig.class)
+@DisplayName("주가 조회 레포지토리를 구현한다")
+class StockPriceQueryRepositoryImplTest {
+
+    @Autowired
+    private StockPriceJpaRepository stockPriceJpaRepository;
+
+    @Autowired
+    private StockPriceQueryRepository stockPriceQueryRepository;
+
+    @Test
+    @DisplayName("주식 아이디로 주가들을 날짜순으로 조회한다")
+    void findAllByStockId() {
+        // given
+        stockPriceJpaRepository.saveAll(stockPriceEntities(1L));
+        List<StockPrice> expected = stockPrices(1L);
+
+        // when
+        List<StockPrice> result = stockPriceQueryRepository.findAllByStockId(1L);
+
+        // then
+        assertThat(result).usingRecursiveComparison()
+                .ignoringExpectedNullFields()
+                .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
+                .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("주식 아이디로 가장 최근 주가의 날짜를 가져온다")
+    void findLastDateOfStockPricesByStockId() {
+        // given
+        stockPriceJpaRepository.saveAll(stockPriceEntities(1L));
+        LocalDate expected = januarySecond();
+
+        // when
+        LocalDate result = stockPriceQueryRepository.findLastDateOfStockPricesByStockId(1L);
+
+        // then
+        assertThat(result).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("주식 아이디로 가장 최근 주가의 날짜를 가져올 때 주가가 하나도 없다면 null 을 반환한다")
+    void findLastDateOfStockPricesByStockIdWhenStockPriceNotExists() {
+        // when
+        LocalDate result = stockPriceQueryRepository.findLastDateOfStockPricesByStockId(1L);
+
+        // then
+        assertThat(result).isNull();
+    }
+}

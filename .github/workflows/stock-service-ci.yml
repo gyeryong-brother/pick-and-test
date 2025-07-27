@@ -18,6 +18,6 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
           cache: maven
-      - run: |
-          cd stock-service
+      - working-directory: ${{ github.workspace }}/stock-service
+        run: |
           mvn package

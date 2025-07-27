@@ -2,27 +2,39 @@ package com.gyeryongbrother.pickandtest.stock.domain.core.entity;
 
 import java.math.BigDecimal;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@Getter
 @Builder
 @RequiredArgsConstructor
 public class StockDetail {
 
-    private final Stock stock;
-    private final StockPrices stockPrices;
-    private final Dividends dividends;
+    private final Long id;
+    private final Long stockId;
+    private final BigDecimal lastStockPrice;
+    private final BigDecimal compoundAnnualGrowthRate;
+    private final BigDecimal dividendYield;
 
-    public BigDecimal getLastStockPrice() {
-        return stockPrices.getLastStockPrice();
+    public Long calculateMarketCapitalization(Long outstandingShares) {
+        return lastStockPrice.multiply(BigDecimal.valueOf(outstandingShares)).longValue();
     }
 
-    public BigDecimal calculateCompoundAnnualGrowthRate() {
-        return stockPrices.calculateCompoundAnnualGrowthRate();
+    public Long id() {
+        return id;
     }
 
-    public BigDecimal calculateDividendYield() {
-        return dividends.calculateDividendYield(getLastStockPrice());
+    public Long stockId() {
+        return stockId;
+    }
+
+    public BigDecimal lastStockPrice() {
+        return lastStockPrice;
+    }
+
+    public BigDecimal compoundAnnualGrowthRate() {
+        return compoundAnnualGrowthRate;
+    }
+
+    public BigDecimal dividendYield() {
+        return dividendYield;
     }
 }

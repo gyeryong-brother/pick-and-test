@@ -1,5 +1,6 @@
 package com.gyeryongbrother.pickandtest.stock.infrastructure.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -7,13 +8,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    private static final String LOCAL_SERVER_URL = "http://localhost:3000";
-    private static final String DEV_SERVER_URL = "http://43.201.149.207:3000";
+    private final String frontendServiceUrl;
+
+    public WebConfig(
+            @Value("${frontend-service.url}") String frontendServiceUrl
+    ) {
+        this.frontendServiceUrl = frontendServiceUrl;
+    }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins(LOCAL_SERVER_URL, DEV_SERVER_URL)
+                .allowedOrigins(frontendServiceUrl, "http://localhost:3000")
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE")
                 .allowedHeaders("*")
                 .allowCredentials(true);

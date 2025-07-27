@@ -39,8 +39,8 @@ class FavoriteStockRepositoryImplTest {
 
         // then
         assertAll(
-                () -> assertThat(result.getId()).isPositive(),
-                () -> assertThat(result.getStockDetail().getStock().getId()).isPositive(),
+                () -> assertThat(result.id()).isPositive(),
+                () -> assertThat(result.stock().id()).isPositive(),
                 () -> assertThat(result).usingRecursiveComparison()
                         .ignoringExpectedNullFields()
                         .isEqualTo(favoriteStock)

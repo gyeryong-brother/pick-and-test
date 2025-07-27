@@ -9,21 +9,10 @@ public class MemberDataAccessMapper {
 
     public MemberEntity memberToMemberEntity(Member member) {
         return MemberEntity.builder()
-                .id(member.getId())
-                .name(member.getName())
-                .username(member.getUsername())
-                .password(member.getPassword())
-                .userRole(member.getUserRole())
-                .build();
-    }
-
-    public Member memberEntityToMember(MemberEntity memberEntity) {
-        return Member.builder()
-                .id(memberEntity.getId())
-                .name(memberEntity.getName())
-                .username(memberEntity.getUsername())
-                .password(memberEntity.getPassword())
-                .userRole(memberEntity.getUserRole())
+                .id(member.id())
+                .memberRole(member.memberRole())
+                .nickname(member.nickname())
+                .profileImageUrl(member.profileImageUrl())
                 .build();
     }
 }

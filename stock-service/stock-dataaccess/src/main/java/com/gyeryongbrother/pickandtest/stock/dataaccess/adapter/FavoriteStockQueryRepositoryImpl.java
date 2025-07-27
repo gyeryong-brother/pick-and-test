@@ -1,8 +1,8 @@
 package com.gyeryongbrother.pickandtest.stock.dataaccess.adapter;
 
 import static com.gyeryongbrother.pickandtest.stock.dataaccess.entity.QFavoriteStockEntity.favoriteStockEntity;
+import static com.gyeryongbrother.pickandtest.stock.dataaccess.entity.QStockDetailEntity.stockDetailEntity;
 import static com.gyeryongbrother.pickandtest.stock.dataaccess.entity.QStockEntity.stockEntity;
-import static com.gyeryongbrother.pickandtest.stock.dataaccess.entity.QStockPriceEntity.stockPriceEntity;
 import static com.gyeryongbrother.pickandtest.stock.dataaccess.exception.StockDataExceptionType.FAVORITE_STOCK_NOT_FOUND;
 
 import com.gyeryongbrother.pickandtest.stock.dataaccess.entity.FavoriteStockEntity;
@@ -30,7 +30,7 @@ public class FavoriteStockQueryRepositoryImpl implements FavoriteStockQueryRepos
         List<FavoriteStockEntity> favoriteStockEntities = queryFactory.selectFrom(favoriteStockEntity)
                 .join(favoriteStockEntity.stock, stockEntity)
                 .fetchJoin()
-                .leftJoin(stockEntity.stockPrices, stockPriceEntity)
+                .leftJoin(stockEntity.stockDetail, stockDetailEntity)
                 .fetchJoin()
                 .where(favoriteStockEntity.memberId.eq(memberId))
                 .fetch();

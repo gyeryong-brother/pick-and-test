@@ -1,13 +1,8 @@
 package com.gyeryongbrother.pickandtest.stock.dataaccess.adapter;
 
-import static com.gyeryongbrother.pickandtest.stock.dataaccess.entity.DividendEntityFixture.dividendEntities;
 import static com.gyeryongbrother.pickandtest.stock.dataaccess.entity.StockEntityFixture.stockEntity;
-import static com.gyeryongbrother.pickandtest.stock.dataaccess.entity.StockPriceEntityFixture.stockPriceEntities;
-import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.DividendFixture.dividends;
-import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockDetailFixture.stockDetail;
+import static com.gyeryongbrother.pickandtest.stock.domain.core.valueobject.StockExchange.NYQ;
 import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockFixture.stock;
-import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockPriceFixture.stockPrices;
-import static com.gyeryongbrother.pickandtest.stock.domain.fixture.entity.StockWithPricesFixture.stockWithPrices;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 
@@ -15,8 +10,6 @@ import com.gyeryongbrother.pickandtest.stock.dataaccess.config.TestQuerydslConfi
 import com.gyeryongbrother.pickandtest.stock.dataaccess.entity.StockEntity;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.repository.StockJpaRepository;
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.Stock;
-import com.gyeryongbrother.pickandtest.stock.domain.core.entity.StockDetail;
-import com.gyeryongbrother.pickandtest.stock.domain.core.entity.StockWithPrices;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.StockQueryRepository;
 import java.math.BigDecimal;
 import java.util.List;
@@ -38,110 +31,16 @@ class StockQueryRepositoryImplTest {
     private StockQueryRepository stockQueryRepository;
 
     @Test
-    @DisplayName("주가가 없을 때 아이디로 주식과 주가를 조회한다")
-    void findStockWithPricesByIdWithNoPrices() {
-        // given
-        StockEntity stockEntity = stockJpaRepository.save(stockEntity());
-        Long stockId = stockEntity.getId();
-        StockWithPrices expected = stockWithPrices(stockId, List.of());
-
-        // when
-        StockWithPrices result = stockQueryRepository.findStockWithPricesById(stockId);
-
-        // then
-        assertThat(result).usingRecursiveComparison()
-                .isEqualTo(expected);
-    }
-
-    @Test
-    @DisplayName("아이디로 주식과 주가를 조회한다")
-    void findStockWithPricesById() {
-        // given
-        StockEntity stockEntity = stockEntity();
-        stockPriceEntities(null).forEach(stockEntity::addStockPrice);
-        stockJpaRepository.save(stockEntity);
-        Long stockId = stockEntity.getId();
-        StockWithPrices expected = stockWithPrices(stockId, stockPrices(stockId));
-
-        // when
-        StockWithPrices result = stockQueryRepository.findStockWithPricesById(stockId);
-
-        // then
-        assertThat(result).usingRecursiveComparison()
-                .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
-                .ignoringExpectedNullFields()
-                .isEqualTo(expected);
-    }
-
-    @Test
-    @DisplayName("주가와 배당이 없을 때 아이디로 주식을 조회한다")
-    void findByIdWithNoPricesAndNoDividends() {
-        // given
-        StockEntity stockEntity = stockJpaRepository.save(stockEntity());
-        Long stockId = stockEntity.getId();
-        StockDetail expected = stockDetail(stockId, List.of(), List.of());
-
-        // when
-        StockDetail result = stockQueryRepository.getById(stockId);
-
-        // then
-        assertThat(result).usingRecursiveComparison()
-                .isEqualTo(expected);
-    }
-
-    @Test
-    @DisplayName("주가가 없을 때 아이디로 주식을 조회한다")
-    void findByIdWithNoPrices() {
-        // given
-        StockEntity stockEntity = stockEntity();
-        dividendEntities(null).forEach(stockEntity::addDividend);
-        stockJpaRepository.save(stockEntity);
-        Long stockId = stockEntity.getId();
-        StockDetail expected = stockDetail(stockId, List.of(), dividends(stockId));
-
-        // when
-        StockDetail result = stockQueryRepository.getById(stockId);
-
-        // then
-        assertThat(result).usingRecursiveComparison()
-                .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
-                .ignoringExpectedNullFields()
-                .isEqualTo(expected);
-    }
-
-    @Test
-    @DisplayName("배당이 없을 때 아이디로 주식을 조회한다")
-    void findByIdWithNoDividends() {
-        // given
-        StockEntity stockEntity = stockEntity();
-        stockPriceEntities(null).forEach(stockEntity::addStockPrice);
-        stockJpaRepository.save(stockEntity);
-        Long stockId = stockEntity.getId();
-        StockDetail expected = stockDetail(stockId, stockPrices(stockId), List.of());
-
-        // when
-        StockDetail result = stockQueryRepository.getById(stockId);
-
-        // then
-        assertThat(result).usingRecursiveComparison()
-                .withComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
-                .ignoringExpectedNullFields()
-                .isEqualTo(expected);
-    }
-
-    @Test
     @DisplayName("아이디로 주식을 조회한다")
-    void findById() {
+    void getById() {
         // given
         StockEntity stockEntity = stockEntity();
-        stockPriceEntities(null).forEach(stockEntity::addStockPrice);
-        dividendEntities(null).forEach(stockEntity::addDividend);
         stockJpaRepository.save(stockEntity);
         Long stockId = stockEntity.getId();
-        StockDetail expected = stockDetail(stockId, stockPrices(stockId), dividends(stockId));
+        Stock expected = stock(stockId);
 
         // when
-        StockDetail result = stockQueryRepository.getById(stockId);
+        Stock result = stockQueryRepository.getById(stockId);
 
         // then
         assertThat(result).usingRecursiveComparison()
@@ -174,5 +73,15 @@ class StockQueryRepositoryImplTest {
         assertThat(result).usingRecursiveComparison()
                 .ignoringExpectedNullFields()
                 .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("거래소로 심볼들을 조회한다")
+    void findAllSymbolsByStockExchange() {
+        // when
+        List<String> result = stockQueryRepository.findAllSymbolsByStockExchange(NYQ);
+
+        // then
+        assertThat(result).isEmpty();
     }
 }

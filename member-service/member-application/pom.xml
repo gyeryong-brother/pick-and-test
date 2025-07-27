@@ -22,6 +22,11 @@
             <groupId>com.gyeryongbrother</groupId>
             <artifactId>member-application-service</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.gyeryongbrother</groupId>
+            <artifactId>authorization-resolver</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

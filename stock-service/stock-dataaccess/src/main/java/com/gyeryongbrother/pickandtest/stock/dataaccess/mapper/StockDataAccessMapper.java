@@ -1,14 +1,9 @@
 package com.gyeryongbrother.pickandtest.stock.dataaccess.mapper;
 
+import com.gyeryongbrother.pickandtest.stock.dataaccess.entity.StockDetailEntity;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.entity.StockEntity;
-import com.gyeryongbrother.pickandtest.stock.domain.core.entity.Dividend;
-import com.gyeryongbrother.pickandtest.stock.domain.core.entity.Dividends;
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.Stock;
 import com.gyeryongbrother.pickandtest.stock.domain.core.entity.StockDetail;
-import com.gyeryongbrother.pickandtest.stock.domain.core.entity.StockPrice;
-import com.gyeryongbrother.pickandtest.stock.domain.core.entity.StockPrices;
-import com.gyeryongbrother.pickandtest.stock.domain.core.entity.StockWithPrices;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,17 +11,14 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class StockDataAccessMapper {
 
-    private final StockPriceDataAccessMapper stockPriceDataAccessMapper;
-    private final DividendDataAccessMapper dividendDataAccessMapper;
-
     public StockEntity stockToStockEntity(Stock stock) {
         return StockEntity.builder()
-                .id(stock.getId())
-                .name(stock.getName())
-                .symbol(stock.getSymbol())
-                .stockExchange(stock.getStockExchange())
-                .outstandingShares(stock.getOutstandingShares())
-                .listingDate(stock.getListingDate())
+                .id(stock.id())
+                .name(stock.name())
+                .symbol(stock.symbol())
+                .stockExchange(stock.stockExchange())
+                .outstandingShares(stock.outstandingShares())
+                .listingDate(stock.listingDate())
                 .build();
     }
 
@@ -38,35 +30,15 @@ public class StockDataAccessMapper {
                 .stockExchange(stockEntity.getStockExchange())
                 .outstandingShares(stockEntity.getOutstandingShares())
                 .listingDate(stockEntity.getListingDate())
+                .stockDetail(getStockInformation(stockEntity))
                 .build();
     }
 
-    public StockWithPrices stockEntityToStockWithPrices(StockEntity stockEntity) {
-        return StockWithPrices.builder()
-                .stock(stockEntityToStock(stockEntity))
-                .stockPrices(stockPriceDataAccessMapper.stockPriceEntitiesToStockPrices(stockEntity.getStockPrices()))
-                .build();
-    }
-
-    public StockEntity stockDetailToStockEntity(StockDetail stockDetail) {
-        StockEntity stockEntity = stockToStockEntity(stockDetail.getStock());
-        stockDetail.getStockPrices().getValues().stream()
-                .map(stockPriceDataAccessMapper::stockPriceToStockPriceEntity)
-                .forEach(stockEntity::addStockPrice);
-        stockDetail.getDividends().getValues().stream()
-                .map(dividendDataAccessMapper::dividendToDividendEntity)
-                .forEach(stockEntity::addDividend);
-        return stockEntity;
-    }
-
-    public StockDetail stockEntityToStockDetail(StockEntity stockEntity) {
-        List<Dividend> dividends = dividendDataAccessMapper.dividendEntitiesToDividends(stockEntity.getDividends());
-        List<StockPrice> stockPrices =
-                stockPriceDataAccessMapper.stockPriceEntitiesToStockPrices(stockEntity.getStockPrices());
-        return StockDetail.builder()
-                .stock(stockEntityToStock(stockEntity))
-                .stockPrices(StockPrices.from(stockPrices))
-                .dividends(Dividends.from(dividends))
-                .build();
+    private StockDetail getStockInformation(StockEntity stockEntity) {
+        StockDetailEntity stockInformation = stockEntity.getStockDetail();
+        if (stockInformation == null) {
+            return null;
+        }
+        return stockInformation.toDomain();
     }
 }

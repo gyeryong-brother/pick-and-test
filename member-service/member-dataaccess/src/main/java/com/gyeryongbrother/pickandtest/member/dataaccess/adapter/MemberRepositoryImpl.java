@@ -19,6 +19,6 @@ public class MemberRepositoryImpl implements MemberRepository {
     public Member save(Member member) {
         MemberEntity memberEntity = memberDataAccessMapper.memberToMemberEntity(member);
         MemberEntity savedMemberEntity = memberJpaRepository.save(memberEntity);
-        return memberDataAccessMapper.memberEntityToMember(savedMemberEntity);
+        return savedMemberEntity.toDomain();
     }
 }

@@ -1,0 +1,12 @@
+server:
+  port: 8888
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/gyeryong-brother/pick-and-test-config
+          default-label: main
+          username: gyeryong-brother
+          password: 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
