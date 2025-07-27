@@ -26,7 +26,7 @@ public class RefreshTokenRepositoryImplTest {
         //given
         RefreshToken refreshToken = RefreshToken.builder()
                 .username("username")
-                .refreshToken("refreshToken")
+                .token("refreshToken")
                 .build();
 
         //when
@@ -39,5 +39,23 @@ public class RefreshTokenRepositoryImplTest {
                         .ignoringExpectedNullFields()
                         .isEqualTo(refreshToken)
         );
+    }
+
+    @Test
+    @DisplayName("refreshToken을 삭제한다")
+    void delete() {
+        //given
+        RefreshToken refreshToken = RefreshToken.builder()
+                .username("username")
+                .token("refreshToken")
+                .build();
+        RefreshToken saved = refreshTokenRepository.save(refreshToken);
+
+        //when
+        long result = refreshTokenRepository.delete("refreshToken");
+        long expected = 1L;
+
+        //then
+        assertThat(result).isEqualTo(expected);
     }
 }

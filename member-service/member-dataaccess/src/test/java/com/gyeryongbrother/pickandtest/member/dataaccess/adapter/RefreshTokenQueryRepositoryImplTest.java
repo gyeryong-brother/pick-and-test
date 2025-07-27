@@ -31,7 +31,7 @@ public class RefreshTokenQueryRepositoryImplTest {
         //given
         RefreshToken refreshToken = RefreshToken.builder()
                 .username("username")
-                .refreshToken("refreshToken")
+                .token("refreshToken")
                 .build();
 
         RefreshToken saved = refreshTokenRepository.save(refreshToken);

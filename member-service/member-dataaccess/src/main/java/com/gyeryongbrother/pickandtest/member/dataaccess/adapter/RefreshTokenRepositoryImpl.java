@@ -22,4 +22,9 @@ public class RefreshTokenRepositoryImpl implements RefreshTokenRepository {
         RefreshTokenEntity saved = refreshTokenJpaRepository.save(refreshTokenEntity);
         return refreshTokenDataAccessMapper.refreshTokenEntityToRefreshToken(saved);
     }
+
+    @Override
+    public long delete(String refreshToken) {
+        return refreshTokenJpaRepository.deleteByToken(refreshToken);
+    }
 }

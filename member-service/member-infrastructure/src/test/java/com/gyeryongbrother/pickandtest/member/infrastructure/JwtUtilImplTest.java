@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.member.domain.service;
+package com.gyeryongbrother.pickandtest.member.infrastructure;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -9,9 +9,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("JwtUtil 기능을 실행한다")
-public class JwtUtilTest {
+public class JwtUtilImplTest {
 
-    private JwtUtil jwtUtil = new JwtUtil();
+    private JwtUtilImpl jwtUtil = new JwtUtilImpl();
 
     @Test
     @DisplayName("AccessToken을 생성한다")

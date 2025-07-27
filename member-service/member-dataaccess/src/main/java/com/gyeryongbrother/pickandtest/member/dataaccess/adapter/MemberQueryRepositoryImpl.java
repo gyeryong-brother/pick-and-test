@@ -41,4 +41,11 @@ public class MemberQueryRepositoryImpl implements MemberQueryRepository {
         );
         return memberEntity1.map(memberDataAccessMapper::memberEntityToMember);
     }
+
+    @Override
+    public Member findByMemberId(Long memberId) {
+        MemberEntity memberEntity = memberJpaRepository.findById(memberId)
+                .orElseThrow(() -> new MemberServiceException(USER_NONEXISTS));
+        return memberDataAccessMapper.memberEntityToMember(memberEntity);
+    }
 }
