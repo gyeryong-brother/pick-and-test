@@ -8,6 +8,7 @@ import java.util.Arrays;
 public enum StockExchange {
 
     NYQ,
+    PCX,
     NCM,
     NGM,
     NMS,
