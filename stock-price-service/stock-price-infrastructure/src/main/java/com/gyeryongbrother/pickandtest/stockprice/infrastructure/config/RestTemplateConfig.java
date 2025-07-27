@@ -16,8 +16,15 @@ public class RestTemplateConfig {
     private final ResponseErrorHandler responseErrorHandler;
 
     @Bean
-    @LoadBalanced
     public RestTemplate restTemplate() {
+        return restTemplateBuilder
+                .errorHandler(responseErrorHandler)
+                .build();
+    }
+
+    @Bean
+    @LoadBalanced
+    public RestTemplate loadBalancedRestTemplate() {
         return restTemplateBuilder
                 .errorHandler(responseErrorHandler)
                 .build();

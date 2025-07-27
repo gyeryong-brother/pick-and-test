@@ -12,11 +12,11 @@ import org.springframework.web.client.RestTemplate;
 public class StockServiceClient {
 
     private final StockServiceUrlProvider stockServiceUrlProvider;
-    private final RestTemplate restTemplate;
+    private final RestTemplate loadBalancedRestTemplate;
 
     public Stock fetchStock(Long stockId) {
         String url = stockServiceUrlProvider.getStockEndpoint(stockId);
-        StockResponse stock = restTemplate.getForObject(url, StockResponse.class);
+        StockResponse stock = loadBalancedRestTemplate.getForObject(url, StockResponse.class);
         return new Stock(
                 stockId,
                 stock.symbol(),
