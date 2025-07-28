@@ -6,17 +6,17 @@ public record PortfolioRequest(
         List<UpdatePortfolioStockRequest> updatePortfolioStockRequests
 ) {
 
-    public UpdatePortfolioCommand UpdatePortfoliotoCommand(Long memberId,Long portfolioId) {
+    public UpdatePortfolioCommand UpdatePortfoliotoCommand(Long memberId, Long portfolioId) {
         List<UpdatePortfolioStockCommand> updatePortfolioStockCommands = updatePortfolioStockRequests.stream()
                 .map(UpdatePortfolioStockRequest::toCommand)
                 .toList();
-        return new UpdatePortfolioCommand(memberId,updatePortfolioStockCommands,portfolioId);
+        return new UpdatePortfolioCommand(memberId, updatePortfolioStockCommands, portfolioId);
     }
 
     public SavePortfolioCommand SavePortfoliotoCommand(Long memberId) {
         List<UpdatePortfolioStockCommand> updatePortfolioStockCommands = updatePortfolioStockRequests.stream()
                 .map(UpdatePortfolioStockRequest::toCommand)
                 .toList();
-        return new SavePortfolioCommand(memberId,updatePortfolioStockCommands);
+        return new SavePortfolioCommand(memberId, updatePortfolioStockCommands);
     }
 }

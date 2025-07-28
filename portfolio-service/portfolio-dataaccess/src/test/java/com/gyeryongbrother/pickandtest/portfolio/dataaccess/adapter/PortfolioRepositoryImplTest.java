@@ -3,14 +3,11 @@ package com.gyeryongbrother.pickandtest.portfolio.dataaccess.adapter;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.config.TestQuerydslConfig;
-import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioStockEntity;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.mapper.PortfolioDataAccessMapper;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioJpaRepository;
-import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioStockJpaRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStock;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioRepository;
-import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockRepository;
 import java.math.BigDecimal;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -25,13 +22,9 @@ import org.springframework.context.annotation.Import;
 class PortfolioRepositoryImplTest {
 
     @Autowired
-    private PortfolioStockRepository portfolioStockRepository;
-    @Autowired
     private PortfolioRepository portfolioRepository;
     @Autowired
     private PortfolioJpaRepository portfolioJpaRepository;
-    @Autowired
-    private PortfolioStockJpaRepository portfolioStockJpaRepository;
     @Autowired
     private PortfolioDataAccessMapper portfolioDataAccessMapper;
 
@@ -70,26 +63,24 @@ class PortfolioRepositoryImplTest {
                 .portfolioStocks(portfolioStocks)
                 .build();
 
-        Portfolio portfolio2=Portfolio.builder()
+        Portfolio portfolio2 = Portfolio.builder()
                 .memberId(1L)
                 .portfolioStocks(portfolioStocks)
                 .build();
 
-        Portfolio savedPortfolio1=portfolioRepository.save(portfolio1);
-        Portfolio savedPortfolio2=portfolioRepository.save(portfolio2);
+        Portfolio savedPortfolio1 = portfolioRepository.save(portfolio1);
+        Portfolio savedPortfolio2 = portfolioRepository.save(portfolio2);
 
         //when
         portfolioRepository.delete(savedPortfolio1.getId());
-        List<Portfolio> result=portfolioJpaRepository.findAll().stream()
+        List<Portfolio> result = portfolioJpaRepository.findAll().stream()
                 .map(portfolioDataAccessMapper::portfolioEntityToPortfolio)
                 .toList();
-        List<Portfolio> expected=List.of(savedPortfolio2);
+        List<Portfolio> expected = List.of(savedPortfolio2);
 
         //then
         assertThat(result).usingRecursiveComparison()
                 .ignoringExpectedNullFields()
                 .isEqualTo(expected);
     }
-
-
 }

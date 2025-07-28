@@ -10,15 +10,13 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 import com.gyeryongbrother.pickandtest.portfolio.application.exception.handler.dto.ErrorResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStock;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioRequest;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioStockResponse;
-import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioRequest;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfoliosResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfolioResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfolioStockRequest;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfolioStockResponse;
-import com.gyeryongbrother.pickandtest.portfolio.domain.service.exception.PortfolioServiceException;
-import com.gyeryongbrother.pickandtest.portfolio.domain.service.exception.PortfolioServiceExceptionType;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockRepository;
 import io.restassured.RestAssured;
@@ -114,7 +112,8 @@ class PortfolioAcceptanceTest {
                 .when().get("/portfolio-service/portfolios/{portfolioId}", savedPortfolio.getId())
                 .then().log().all()
                 .extract();
-        ErrorResponse result = response.as(new TypeRef<>() {});
+        ErrorResponse result = response.as(new TypeRef<>() {
+        });
 
         //then
         assertAll(
@@ -218,7 +217,7 @@ class PortfolioAcceptanceTest {
         PortfolioRequest portfolioRequest = new PortfolioRequest(
                 List.of(updatePortfolioStockRequest1, updatePortfolioStockRequest2));
 
-        String expected="잘못된 사용자입니다.";
+        String expected = "잘못된 사용자입니다.";
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
@@ -329,10 +328,8 @@ class PortfolioAcceptanceTest {
                 .then().log().all()
                 .extract();
 
-        List<PortfolioResponse> portfolioResponses=List.of(new PortfolioResponse(2L));
-        PortfoliosResponse expected=new PortfoliosResponse(portfolioResponses);
-
-
+        List<PortfolioResponse> portfolioResponses = List.of(new PortfolioResponse(2L));
+        PortfoliosResponse expected = new PortfoliosResponse(portfolioResponses);
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
@@ -379,8 +376,8 @@ class PortfolioAcceptanceTest {
                 .then().log().all()
                 .extract();
 
-        List<PortfolioResponse> portfolioResponses=List.of(new PortfolioResponse(2L));
-        String expected="잘못된 사용자입니다.";
+        List<PortfolioResponse> portfolioResponses = List.of(new PortfolioResponse(2L));
+        String expected = "잘못된 사용자입니다.";
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()

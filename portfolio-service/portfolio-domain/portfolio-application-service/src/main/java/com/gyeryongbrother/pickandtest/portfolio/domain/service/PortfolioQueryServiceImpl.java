@@ -24,10 +24,12 @@ public class PortfolioQueryServiceImpl implements PortfolioQueryService {
 
     @Override
     public List<PortfolioStockResponse> findAllByPortfolioId(FindPortfolioStocksRequest findPortfolioStocksRequest) {
-        Long memberId= findPortfolioStocksRequest.memberId();
-        Long portfolioId= findPortfolioStocksRequest.portfolioId();
-        Portfolio portfolio=portfolioQueryRepository.findById(portfolioId);
-        if (portfolio.getMemberId() != memberId) {throw new PortfolioServiceException(PortfolioServiceExceptionType.INVALID_USER);}
+        Long memberId = findPortfolioStocksRequest.memberId();
+        Long portfolioId = findPortfolioStocksRequest.portfolioId();
+        Portfolio portfolio = portfolioQueryRepository.findById(portfolioId);
+        if (portfolio.getMemberId() != memberId) {
+            throw new PortfolioServiceException(PortfolioServiceExceptionType.INVALID_USER);
+        }
         List<PortfolioStock> portfolioStocks = portfolioStockQueryRepository.findAllByPortfolioId(portfolioId);
         return portfolioStocks.stream()
                 .map(PortfolioStockResponse::from)

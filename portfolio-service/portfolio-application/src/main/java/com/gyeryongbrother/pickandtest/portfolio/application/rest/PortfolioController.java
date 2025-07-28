@@ -2,12 +2,12 @@ package com.gyeryongbrother.pickandtest.portfolio.application.rest;
 
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.DeletePortfolioCommand;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.FindPortfolioStocksRequest;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioRequest;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioStockResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfoliosResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.SavePortfolioCommand;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfolioCommand;
-import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioRequest;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfolioResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.input.PortfolioQueryService;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.input.PortfolioService;
@@ -37,7 +37,7 @@ public class PortfolioController {
             @PathVariable Long portfolioId,
             @RequestHeader Long memberId
     ) {
-        FindPortfolioStocksRequest findPortfolioStocksRequest=new FindPortfolioStocksRequest(memberId,portfolioId);
+        FindPortfolioStocksRequest findPortfolioStocksRequest = new FindPortfolioStocksRequest(memberId, portfolioId);
         List<PortfolioStockResponse> portfolioStockResponses =
                 portfolioQueryService.findAllByPortfolioId(findPortfolioStocksRequest);
         return ResponseEntity.ok(portfolioStockResponses);
@@ -57,7 +57,8 @@ public class PortfolioController {
             @RequestBody PortfolioRequest portfolioRequest,
             @RequestHeader Long memberId
     ) {
-        UpdatePortfolioCommand updatePortfolioCommand = portfolioRequest.UpdatePortfoliotoCommand(memberId,portfolioId);
+        UpdatePortfolioCommand updatePortfolioCommand = portfolioRequest.UpdatePortfoliotoCommand(memberId,
+                portfolioId);
         UpdatePortfolioResponse updatePortfolioResponse = portfolioService.updatePortfolio(updatePortfolioCommand);
         return ResponseEntity.ok(updatePortfolioResponse);
     }
@@ -76,9 +77,9 @@ public class PortfolioController {
     ResponseEntity<PortfoliosResponse> deletePortfolio(
             @PathVariable Long portfolioId,
             @RequestHeader Long memberId
-    ){
-        DeletePortfolioCommand deletePortfolioCommand=new DeletePortfolioCommand(memberId,portfolioId);
-        PortfoliosResponse portfoliosResponse=portfolioService.deletePortfolio(deletePortfolioCommand);
+    ) {
+        DeletePortfolioCommand deletePortfolioCommand = new DeletePortfolioCommand(memberId, portfolioId);
+        PortfoliosResponse portfoliosResponse = portfolioService.deletePortfolio(deletePortfolioCommand);
         return ResponseEntity.ok(portfoliosResponse);
     }
 

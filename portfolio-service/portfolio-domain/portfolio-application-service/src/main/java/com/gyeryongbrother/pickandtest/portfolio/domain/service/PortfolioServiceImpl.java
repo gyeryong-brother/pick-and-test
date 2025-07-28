@@ -32,27 +32,31 @@ public class PortfolioServiceImpl implements PortfolioService {
 
     @Override
     public UpdatePortfolioResponse updatePortfolio(UpdatePortfolioCommand updatePortfolioCommand) {
-        Long portfolioId= updatePortfolioCommand.portfolioId();
-        Long memberId= updatePortfolioCommand.memberId();
-        Portfolio portfolio=portfolioQueryRepository.findById(portfolioId);
-        if (portfolio.getMemberId() != memberId) {throw new PortfolioServiceException(PortfolioServiceExceptionType.INVALID_USER);}
+        Long portfolioId = updatePortfolioCommand.portfolioId();
+        Long memberId = updatePortfolioCommand.memberId();
+        Portfolio portfolio = portfolioQueryRepository.findById(portfolioId);
+        if (portfolio.getMemberId() != memberId) {
+            throw new PortfolioServiceException(PortfolioServiceExceptionType.INVALID_USER);
+        }
         portfolioStockRepository.deleteAllByPortfolioId(portfolioId);
         Portfolio newPortfolio = updatePortfolioCommand.toDomain(portfolioId);
         portfolioStockRepository.saveAll(newPortfolio.getPortfolioStocks());
-        List<PortfolioStock> portfolioStocks=portfolioStockQueryRepository.findAllByPortfolioId(portfolioId);
-        Portfolio updated = new Portfolio(portfolioId,memberId,portfolioStocks);
+        List<PortfolioStock> portfolioStocks = portfolioStockQueryRepository.findAllByPortfolioId(portfolioId);
+        Portfolio updated = new Portfolio(portfolioId, memberId, portfolioStocks);
         return UpdatePortfolioResponse.from(updated);
     }
 
     @Override
     public PortfoliosResponse deletePortfolio(DeletePortfolioCommand deletePortfolioCommand) {
-        Long memberId= deletePortfolioCommand.memberId();
-        Long portfolioId =deletePortfolioCommand.portfolioId();
-        Portfolio portfolio=portfolioQueryRepository.findById(portfolioId);
-        if (portfolio.getMemberId() != memberId) {throw new PortfolioServiceException(PortfolioServiceExceptionType.INVALID_USER);}
+        Long memberId = deletePortfolioCommand.memberId();
+        Long portfolioId = deletePortfolioCommand.portfolioId();
+        Portfolio portfolio = portfolioQueryRepository.findById(portfolioId);
+        if (portfolio.getMemberId() != memberId) {
+            throw new PortfolioServiceException(PortfolioServiceExceptionType.INVALID_USER);
+        }
         portfolioRepository.delete(portfolioId);
-        List<Portfolio> remained=portfolioQueryRepository.findAllByMemberId(memberId);
-        List<PortfolioResponse> portfolioResponses=remained.stream()
+        List<Portfolio> remained = portfolioQueryRepository.findAllByMemberId(memberId);
+        List<PortfolioResponse> portfolioResponses = remained.stream()
                 .map(PortfolioResponse::from)
                 .toList();
         return new PortfoliosResponse(portfolioResponses);
@@ -60,8 +64,8 @@ public class PortfolioServiceImpl implements PortfolioService {
 
     @Override
     public UpdatePortfolioResponse savePortfolio(SavePortfolioCommand savePortfolioCommand) {
-        Portfolio portfolio=savePortfolioCommand.toDomain();
-        Portfolio saved=portfolioRepository.save(portfolio);
+        Portfolio portfolio = savePortfolioCommand.toDomain();
+        Portfolio saved = portfolioRepository.save(portfolio);
         return UpdatePortfolioResponse.from(saved);
     }
 }
