@@ -11,7 +11,8 @@ import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStock;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioStockResponse;
-import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfolioRequest;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioRequest;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfoliosResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfolioResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfolioStockRequest;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfolioStockResponse;
@@ -72,6 +73,7 @@ class PortfolioAcceptanceTest {
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .header("memberId", 1L)
                 .when().get("/portfolio-service/portfolios/{portfolioId}", savedPortfolio.getId())
                 .then().log().all()
                 .extract();
@@ -108,6 +110,7 @@ class PortfolioAcceptanceTest {
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .header("memberId", 1L)
                 .when().get("/portfolio-service/portfolios")
                 .then().log().all()
                 .extract();
@@ -132,7 +135,7 @@ class PortfolioAcceptanceTest {
                 BigDecimal.valueOf(0.5));
         UpdatePortfolioStockRequest updatePortfolioStockRequest2 = new UpdatePortfolioStockRequest(4L,
                 BigDecimal.valueOf(0.5));
-        UpdatePortfolioRequest updatePortfolioRequest = new UpdatePortfolioRequest(
+        PortfolioRequest portfolioRequest = new PortfolioRequest(
                 List.of(updatePortfolioStockRequest1, updatePortfolioStockRequest2));
 
         UpdatePortfolioStockResponse updatePortfolioStockResponse1 = new UpdatePortfolioStockResponse(3L,
@@ -147,7 +150,8 @@ class PortfolioAcceptanceTest {
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
-                .body(updatePortfolioRequest)
+                .header("memberId", 1L)
+                .body(portfolioRequest)
                 .when().put("/portfolio-service/portfolios/{portfolioId}", savedPortfolio.getId())
                 .then().log().all()
                 .extract();
@@ -161,16 +165,17 @@ class PortfolioAcceptanceTest {
     }
 
     @Test
-    @DisplayName("포트폴리오를 업데이트 한다")
+    @DisplayName("존재하지 않는 포트폴리오를 업데이트 한다")
     void updatePortfolioByNonExistId() {
         //given
-        UpdatePortfolioRequest updatePortfolioRequest = new UpdatePortfolioRequest(List.of());
+        PortfolioRequest portfolioRequest = new PortfolioRequest(List.of());
         ErrorResponse expected = new ErrorResponse("포트폴리오가 존재하지 않습니다");
 
         //when
         ExtractableResponse<Response> response = RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
-                .body(updatePortfolioRequest)
+                .header("memberId", 1L)
+                .body(portfolioRequest)
                 .when().put("/portfolio-service/portfolios/{portfolioId}", -1)
                 .then().log().all()
                 .extract();
@@ -182,5 +187,93 @@ class PortfolioAcceptanceTest {
                 () -> assertThat(response.statusCode()).isEqualTo(NOT_FOUND.value()),
                 () -> assertThat(result).isEqualTo(expected)
         );
+    }
+
+    @Test
+    @DisplayName("포트폴리오를 저장한다")
+    void savePortfolio() {
+        //given
+        UpdatePortfolioStockRequest updatePortfolioStockRequest1 = new UpdatePortfolioStockRequest(3L,
+                BigDecimal.valueOf(0.5));
+        UpdatePortfolioStockRequest updatePortfolioStockRequest2 = new UpdatePortfolioStockRequest(4L,
+                BigDecimal.valueOf(0.5));
+        PortfolioRequest portfolioRequest = new PortfolioRequest(
+                List.of(updatePortfolioStockRequest1, updatePortfolioStockRequest2)
+        );
+
+        UpdatePortfolioStockResponse updatePortfolioStockResponse1 = new UpdatePortfolioStockResponse(3L,
+                BigDecimal.valueOf(0.5));
+        UpdatePortfolioStockResponse updatePortfolioStockResponse2 = new UpdatePortfolioStockResponse(4L,
+                BigDecimal.valueOf(0.5));
+        UpdatePortfolioResponse expected = new UpdatePortfolioResponse(
+                List.of(updatePortfolioStockResponse1, updatePortfolioStockResponse2),
+                1L
+        );
+
+        //when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .header("memberId", 1L)
+                .body(portfolioRequest)
+                .when().post("/portfolio-service/portfolios")
+                .then().log().all()
+                .extract();
+
+        UpdatePortfolioResponse result = response.as(UpdatePortfolioResponse.class);
+
+        //then
+        assertThat(result).usingRecursiveComparison()
+                .ignoringExpectedNullFields()
+                .isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("포트폴리오를 삭제한다")
+    void deletePortfolio() {
+        //given
+        UpdatePortfolioStockRequest updatePortfolioStockRequest1 = new UpdatePortfolioStockRequest(3L,
+                BigDecimal.valueOf(0.5));
+        UpdatePortfolioStockRequest updatePortfolioStockRequest2 = new UpdatePortfolioStockRequest(4L,
+                BigDecimal.valueOf(0.5));
+        PortfolioRequest portfolioRequest = new PortfolioRequest(
+                List.of(updatePortfolioStockRequest1, updatePortfolioStockRequest2)
+        );
+
+        ExtractableResponse<Response> saveResponse1 = RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .header("memberId", 1L)
+                .body(portfolioRequest)
+                .when().post("/portfolio-service/portfolios")
+                .then().log().all()
+                .extract();
+
+        ExtractableResponse<Response> saveResponse2 = RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .header("memberId", 1L)
+                .body(portfolioRequest)
+                .when().post("/portfolio-service/portfolios")
+                .then().log().all()
+                .extract();
+
+        List<PortfolioResponse> portfolioResponses=List.of(new PortfolioResponse(2L));
+        PortfoliosResponse expected=new PortfoliosResponse(portfolioResponses);
+
+
+
+        //when
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .header("memberId", 1L)
+                .body(portfolioRequest)
+                .when().delete("/portfolio-service/portfolios/1")
+                .then().log().all()
+                .extract();
+
+        PortfoliosResponse result = response.as(PortfoliosResponse.class);
+
+        //then
+        assertThat(result).usingRecursiveComparison()
+                .ignoringExpectedNullFields()
+                .isEqualTo(expected);
     }
 }

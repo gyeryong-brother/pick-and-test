@@ -62,7 +62,7 @@ public class PortfolioServiceImplTest {
                 BigDecimal.valueOf(0.5));
         UpdatePortfolioStockCommand updatePortfolioStockCommand2 = new UpdatePortfolioStockCommand(4L,
                 BigDecimal.valueOf(0.5));
-        UpdatePortfolioCommand updatePortfolioCommand = new UpdatePortfolioCommand(
+        UpdatePortfolioCommand updatePortfolioCommand = new UpdatePortfolioCommand(1L,
                 List.of(updatePortfolioStockCommand1, updatePortfolioStockCommand2),
                 1L
         );

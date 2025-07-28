@@ -15,4 +15,11 @@ public record UpdatePortfolioStockCommand(
                 .portfolioId(portfolioId)
                 .build();
     }
+
+    PortfolioStock toDomain() {
+        return PortfolioStock.builder()
+                .stockId(stockId)
+                .portion(portion)
+                .build();
+    }
 }
