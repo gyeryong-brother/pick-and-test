@@ -50,7 +50,7 @@ public class TestQuerydslConfig {
 
     @Bean
     public PortfolioQueryRepository portfolioQueryRepository() {
-        return new PortfolioQueryRepositoryImpl(queryFactory(), portfolioDataAccessMapper(), portfolioJpaRepository);
+        return new PortfolioQueryRepositoryImpl(queryFactory(), portfolioDataAccessMapper());
     }
 
     @Bean
@@ -78,7 +78,8 @@ public class TestQuerydslConfig {
         return new PortfolioServiceImpl(
                 portfolioRepository(),
                 portfolioStockRepository(),
-                portfolioQueryRepository()
+                portfolioQueryRepository(),
+                portfolioStockQueryRepository()
         );
     }
 }

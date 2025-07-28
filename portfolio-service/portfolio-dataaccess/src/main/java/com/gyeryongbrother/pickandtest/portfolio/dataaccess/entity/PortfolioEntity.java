@@ -27,7 +27,7 @@ public class PortfolioEntity {
 
     private Long memberId;
 
-    @OneToMany(mappedBy = "portfolioEntity", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "portfolioEntity", cascade = CascadeType.ALL)
     private List<PortfolioStockEntity> portfolioStockEntities;
 
     public void syncPortfolioStockEntities() {

@@ -5,10 +5,9 @@ import static com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.QPortf
 import static com.gyeryongbrother.pickandtest.portfolio.dataaccess.exception.PortfolioExceptionType.PORTFOLIO_NOT_FOUND;
 
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioEntity;
-import com.gyeryongbrother.pickandtest.portfolio.dataaccess.mapper.PortfolioDataAccessMapper;
-import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioJpaRepository;
-import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.exception.PortfolioException;
+import com.gyeryongbrother.pickandtest.portfolio.dataaccess.mapper.PortfolioDataAccessMapper;
+import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioQueryRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -24,7 +23,6 @@ public class PortfolioQueryRepositoryImpl implements PortfolioQueryRepository {
 
     private final JPAQueryFactory queryFactory;
     private final PortfolioDataAccessMapper portfolioDataAccessMapper;
-    private final PortfolioJpaRepository portfolioJpaRepository;
 
     @Override
     public List<Portfolio> findAllByMemberId(Long memberId) {
