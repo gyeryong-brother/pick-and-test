@@ -12,6 +12,7 @@ import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfo
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.input.PortfolioService;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioQueryRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioRepository;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockQueryRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockRepository;
 import java.math.BigDecimal;
 import java.util.List;
@@ -35,6 +36,9 @@ public class PortfolioServiceImplTest {
     @Mock
     private PortfolioQueryRepository portfolioQueryRepository;
 
+    @Mock
+    private PortfolioStockQueryRepository portfolioStockQueryRepository;
+
     private PortfolioService portfolioService;
 
     @BeforeEach
@@ -42,7 +46,8 @@ public class PortfolioServiceImplTest {
         portfolioService = new PortfolioServiceImpl(
                 portfolioRepository,
                 portfolioStockRepository,
-                portfolioQueryRepository
+                portfolioQueryRepository,
+                portfolioStockQueryRepository
         );
     }
 

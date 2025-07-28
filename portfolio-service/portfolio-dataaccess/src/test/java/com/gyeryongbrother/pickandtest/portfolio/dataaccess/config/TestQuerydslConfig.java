@@ -78,7 +78,8 @@ public class TestQuerydslConfig {
         return new PortfolioServiceImpl(
                 portfolioRepository(),
                 portfolioStockRepository(),
-                portfolioQueryRepository()
+                portfolioQueryRepository(),
+                portfolioStockQueryRepository()
         );
     }
 }

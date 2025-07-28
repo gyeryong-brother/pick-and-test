@@ -1,6 +1,7 @@
 package com.gyeryongbrother.pickandtest.portfolio.domain.service;
 
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
+import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioStock;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.DeletePortfolioCommand;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfoliosResponse;
@@ -10,6 +11,7 @@ import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfo
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.input.PortfolioService;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioQueryRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioRepository;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockQueryRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +26,19 @@ public class PortfolioServiceImpl implements PortfolioService {
     public final PortfolioRepository portfolioRepository;
     public final PortfolioStockRepository portfolioStockRepository;
     public final PortfolioQueryRepository portfolioQueryRepository;
+    public final PortfolioStockQueryRepository portfolioStockQueryRepository;
 
     @Override
     public UpdatePortfolioResponse updatePortfolio(UpdatePortfolioCommand updatePortfolioCommand) {
-        Portfolio portfolio = updatePortfolioCommand.toDomain(updatePortfolioCommand.portfolioId());
-        portfolioStockRepository.deleteAllByPortfolioId(portfolio.getId());
-        portfolioStockRepository.saveAll(portfolio.getPortfolioStocks());
-        Portfolio updated = portfolioQueryRepository.findById(portfolio.getId());
+        Long portfolioId= updatePortfolioCommand.portfolioId();
+        Long memberId= updatePortfolioCommand.memberId();
+        Portfolio portfolio=portfolioQueryRepository.findById(portfolioId);
+        //if(portfolio.getMemberId()!=memberId){throw new RuntimeException("잘못된 사용자입니다");}
+        portfolioStockRepository.deleteAllByPortfolioId(portfolioId);
+        Portfolio newPortfolio = updatePortfolioCommand.toDomain(portfolioId);
+        portfolioStockRepository.saveAll(newPortfolio.getPortfolioStocks());
+        List<PortfolioStock> portfolioStocks=portfolioStockQueryRepository.findAllByPortfolioId(portfolioId);
+        Portfolio updated = new Portfolio(portfolioId,memberId,portfolioStocks);
         return UpdatePortfolioResponse.from(updated);
     }
 

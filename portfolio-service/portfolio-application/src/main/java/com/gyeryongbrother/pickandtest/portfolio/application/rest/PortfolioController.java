@@ -1,6 +1,7 @@
 package com.gyeryongbrother.pickandtest.portfolio.application.rest;
 
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.DeletePortfolioCommand;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.FindPortfolioStocksRequest;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioStockResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfoliosResponse;
@@ -36,8 +37,9 @@ public class PortfolioController {
             @PathVariable Long portfolioId,
             @RequestHeader Long memberId
     ) {
+        FindPortfolioStocksRequest findPortfolioStocksRequest=new FindPortfolioStocksRequest(memberId,portfolioId);
         List<PortfolioStockResponse> portfolioStockResponses =
-                portfolioQueryService.findAllByPortfolioId(portfolioId);
+                portfolioQueryService.findAllByPortfolioId(findPortfolioStocksRequest);
         return ResponseEntity.ok(portfolioStockResponses);
     }
 
@@ -45,7 +47,7 @@ public class PortfolioController {
     ResponseEntity<List<PortfolioResponse>> findAllPortfolios(
             @RequestHeader Long memberId
     ) {
-        List<PortfolioResponse> portfolioResponses = portfolioQueryService.findAllPortfolios();
+        List<PortfolioResponse> portfolioResponses = portfolioQueryService.findAllPortfolios(memberId);
         return ResponseEntity.ok(portfolioResponses);
     }
 
