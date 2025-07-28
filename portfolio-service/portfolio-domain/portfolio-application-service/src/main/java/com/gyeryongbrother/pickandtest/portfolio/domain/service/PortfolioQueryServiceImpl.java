@@ -5,6 +5,8 @@ import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.PortfolioSto
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.FindPortfolioStocksRequest;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioResponse;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfolioStockResponse;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.exception.PortfolioServiceException;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.exception.PortfolioServiceExceptionType;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.input.PortfolioQueryService;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioQueryRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioStockQueryRepository;
@@ -25,7 +27,7 @@ public class PortfolioQueryServiceImpl implements PortfolioQueryService {
         Long memberId= findPortfolioStocksRequest.memberId();
         Long portfolioId= findPortfolioStocksRequest.portfolioId();
         Portfolio portfolio=portfolioQueryRepository.findById(portfolioId);
-        if(portfolio.getMemberId()!=memberId){throw new RuntimeException("잘못된 사용자입니다");}
+        if (portfolio.getMemberId() != memberId) {throw new PortfolioServiceException(PortfolioServiceExceptionType.INVALID_USER);}
         List<PortfolioStock> portfolioStocks = portfolioStockQueryRepository.findAllByPortfolioId(portfolioId);
         return portfolioStocks.stream()
                 .map(PortfolioStockResponse::from)

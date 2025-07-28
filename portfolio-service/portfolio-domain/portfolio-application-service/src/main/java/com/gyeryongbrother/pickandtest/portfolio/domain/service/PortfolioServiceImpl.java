@@ -8,6 +8,8 @@ import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.PortfoliosRe
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.SavePortfolioCommand;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfolioCommand;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.dto.UpdatePortfolioResponse;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.exception.PortfolioServiceException;
+import com.gyeryongbrother.pickandtest.portfolio.domain.service.exception.PortfolioServiceExceptionType;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.input.PortfolioService;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioQueryRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioRepository;
@@ -33,7 +35,7 @@ public class PortfolioServiceImpl implements PortfolioService {
         Long portfolioId= updatePortfolioCommand.portfolioId();
         Long memberId= updatePortfolioCommand.memberId();
         Portfolio portfolio=portfolioQueryRepository.findById(portfolioId);
-        //if(portfolio.getMemberId()!=memberId){throw new RuntimeException("잘못된 사용자입니다");}
+        if (portfolio.getMemberId() != memberId) {throw new PortfolioServiceException(PortfolioServiceExceptionType.INVALID_USER);}
         portfolioStockRepository.deleteAllByPortfolioId(portfolioId);
         Portfolio newPortfolio = updatePortfolioCommand.toDomain(portfolioId);
         portfolioStockRepository.saveAll(newPortfolio.getPortfolioStocks());
@@ -46,6 +48,8 @@ public class PortfolioServiceImpl implements PortfolioService {
     public PortfoliosResponse deletePortfolio(DeletePortfolioCommand deletePortfolioCommand) {
         Long memberId= deletePortfolioCommand.memberId();
         Long portfolioId =deletePortfolioCommand.portfolioId();
+        Portfolio portfolio=portfolioQueryRepository.findById(portfolioId);
+        if (portfolio.getMemberId() != memberId) {throw new PortfolioServiceException(PortfolioServiceExceptionType.INVALID_USER);}
         portfolioRepository.delete(portfolioId);
         List<Portfolio> remained=portfolioQueryRepository.findAllByMemberId(memberId);
         List<PortfolioResponse> portfolioResponses=remained.stream()
