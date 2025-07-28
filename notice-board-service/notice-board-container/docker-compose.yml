@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: local_mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydb
+      #MYSQL_USER: root
+      #MYSQL_PASSWORD: rootpassword
+    volumes:
+      - ./data/mysql:/var/lib/mysql # 로컬 PC에 데이터 저장
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "13306:3306" # 로컬에서 MySQL 워크벤치 등으로 접근 시 필요
+    restart: always
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-prootpassword" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+
+  app:
+    # Dockerfile 빌드 대신 Docker Hub에서 이미지를 다운받도록 수정
+    image: gyeryongbrother/pick-and-test-noticeboard:latest # Docker Hub 이미지 이름과 태그 지정
+    container_name: noticeboard-service
+    ports:
+      - "8080:8080" # 로컬 호스트의 8080 포트를 컨테이너의 8080 포트에 매핑
+    depends_on:
+      db:
+        condition: service_healthy # db 서비스가 건강해질 때까지 기다림
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/mydb?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: rootpassword
+    restart: always
