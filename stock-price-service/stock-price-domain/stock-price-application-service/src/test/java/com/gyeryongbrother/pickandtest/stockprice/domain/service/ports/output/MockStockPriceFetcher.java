@@ -1,5 +1,6 @@
 package com.gyeryongbrother.pickandtest.stockprice.domain.service.ports.output;
 
+import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.StockMinutePrice;
 import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.StockPrice;
 import java.time.LocalDate;
 import java.util.List;
@@ -26,5 +27,10 @@ public class MockStockPriceFetcher implements StockPriceFetcher {
         return stockPricesByStockId.get(stockId).stream()
                 .filter(it -> !it.date().isBefore(startDate))
                 .toList();
+    }
+
+    @Override
+    public List<StockMinutePrice> fetchStockMinutePrices(Long stockId, LocalDate startDate) {
+        return null;
     }
 }

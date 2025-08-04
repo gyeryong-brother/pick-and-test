@@ -26,4 +26,14 @@ public class StockKafkaListener {
                 StockExchange.valueOf(event.stockExchange())
         ));
     }
+
+    @KafkaListener(groupId = "stock-minute-price-listener", topics = "stock-created-event")
+    public void collectMinutePrices(@Payload StockCreatedEvent event) {
+        log.info("start collecting minute prices. stockId:{}, symbol:{}, stockExchange: {}", event.id(), event.symbol(), event.stockExchange());
+        stockMessageListener.collectStockMinutePrices(new Stock(
+                event.id(),
+                event.symbol(),
+                StockExchange.valueOf(event.stockExchange())
+        ));
+    }
 }

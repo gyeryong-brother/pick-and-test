@@ -35,4 +35,23 @@ public class DataServiceUrlProvider {
                 .path(STOCK_PRICE_ENDPOINT)
                 .queryParam("ticker", symbol);
     }
+
+    public String getStockMinutePriceEndpoint(String symbol, LocalDate startDate) {
+        if (startDate == null) {
+            return minuteStockPrices(symbol)
+                    .build()
+                    .toUriString();
+        }
+        return minuteStockPrices(symbol)
+                .queryParam("start", startDate.toString())
+                .build()
+                .toUriString();
+    }
+
+    private UriComponentsBuilder minuteStockPrices(String symbol) {
+        return UriComponentsBuilder.fromHttpUrl(domain)
+                .path(STOCK_PRICE_ENDPOINT)
+                .queryParam("ticker", symbol)
+                .queryParam("interval", "1m");
+    }
 }

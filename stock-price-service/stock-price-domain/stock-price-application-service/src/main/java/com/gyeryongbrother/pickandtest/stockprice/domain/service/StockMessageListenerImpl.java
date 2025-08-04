@@ -1,6 +1,7 @@
 package com.gyeryongbrother.pickandtest.stockprice.domain.service;
 
 import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.Stock;
+import com.gyeryongbrother.pickandtest.stockprice.domain.service.ports.input.StockMinutePriceCollector;
 import com.gyeryongbrother.pickandtest.stockprice.domain.service.ports.input.StockPriceCollector;
 import com.gyeryongbrother.pickandtest.stockprice.domain.service.ports.input.message.listener.StockMessageListener;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +14,15 @@ import org.springframework.stereotype.Component;
 public class StockMessageListenerImpl implements StockMessageListener {
 
     private final StockPriceCollector stockPriceCollector;
+    private final StockMinutePriceCollector stockMinutePriceCollector;
 
     @Override
     public void stockCreated(Stock stock) {
         stockPriceCollector.collectStockPrices(stock.id());
+    }
+
+    @Override
+    public void collectStockMinutePrices(Stock stock) {
+        stockMinutePriceCollector.collectStockMinutePrices(stock.id());
     }
 }
