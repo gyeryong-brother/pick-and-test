@@ -5,10 +5,8 @@ on:
     branches:
       - main
       - develop
-      - feature/#109
     paths:
       - member-service/**
-      - .github/**
 
 jobs:
   build:
@@ -38,8 +36,8 @@ jobs:
     runs-on: [self-hosted, backend-1]
     steps:
       - run: |
-          cd /home/ubuntu/pick-and-test-server
-          sudo docker compose -f backend-compose.yml down member-service
+          cd /home/ubuntu/pick-and-test-server/backend-1
+          sudo docker compose down member-service
           sudo docker pull gyeryongbrother/pick-and-test-member
           sudo docker image prune -f
-          sudo docker compose -f backend-compose.yml up member-service -d
+          sudo docker compose up member-service -d

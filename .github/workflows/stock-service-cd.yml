@@ -5,10 +5,8 @@ on:
     branches:
       - main
       - develop
-      - feature/#109
     paths:
       - stock-service/**
-      - .github/**
 
 jobs:
   build:
@@ -38,8 +36,8 @@ jobs:
     runs-on: [self-hosted, backend-2]
     steps:
       - run: |
-          cd /home/ubuntu/pick-and-test-server
-          sudo docker compose -f backend-compose.yml down stock-service
+          cd /home/ubuntu/pick-and-test-server/backend-2
+          sudo docker compose down stock-service
           sudo docker pull gyeryongbrother/pick-and-test-stock
           sudo docker image prune -f
-          sudo docker compose -f backend-compose.yml up stock-service -d
+          sudo docker compose up stock-service -d

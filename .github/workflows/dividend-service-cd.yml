@@ -5,10 +5,8 @@ on:
     branches:
       - main
       - develop
-      - feature/#109
     paths:
       - dividend-service/**
-      - .github/**
 
 jobs:
   build:
@@ -38,8 +36,8 @@ jobs:
     runs-on: [self-hosted, backend-2]
     steps:
       - run: |
-          cd /home/ubuntu/pick-and-test-server
-          sudo docker compose -f backend-compose.yml down dividend-service
+          cd /home/ubuntu/pick-and-test-server/backend-2
+          sudo docker compose down dividend-service
           sudo docker pull gyeryongbrother/pick-and-test-dividend
           sudo docker image prune -f
-          sudo docker compose -f backend-compose.yml up dividend-service -d
+          sudo docker compose up dividend-service -d

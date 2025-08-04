@@ -5,10 +5,8 @@ on:
     branches:
       - main
       - develop
-      - feature/#109
     paths:
       - authentication-service/**
-      - .github/**
 
 jobs:
   build:
@@ -35,8 +33,8 @@ jobs:
     runs-on: [self-hosted, backend-1]
     steps:
       - run: |
-          cd /home/ubuntu/pick-and-test-server
-          sudo docker compose -f backend-compose.yml down authentication-service
+          cd /home/ubuntu/pick-and-test-server/backend-1
+          sudo docker compose down authentication-service
           sudo docker pull gyeryongbrother/pick-and-test-authentication
           sudo docker image prune -f
-          sudo docker compose -f backend-compose.yml up authentication-service -d
+          sudo docker compose up authentication-service -d
