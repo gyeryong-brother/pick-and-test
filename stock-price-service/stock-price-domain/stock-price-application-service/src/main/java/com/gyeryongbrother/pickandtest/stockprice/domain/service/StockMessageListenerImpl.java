@@ -1,6 +1,7 @@
 package com.gyeryongbrother.pickandtest.stockprice.domain.service;
 
 import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.Stock;
+import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.Stocks;
 import com.gyeryongbrother.pickandtest.stockprice.domain.service.ports.input.StockMinutePriceCollector;
 import com.gyeryongbrother.pickandtest.stockprice.domain.service.ports.input.StockPriceCollector;
 import com.gyeryongbrother.pickandtest.stockprice.domain.service.ports.input.message.listener.StockMessageListener;
@@ -17,8 +18,8 @@ public class StockMessageListenerImpl implements StockMessageListener {
     private final StockMinutePriceCollector stockMinutePriceCollector;
 
     @Override
-    public void stockCreated(Stock stock) {
-        stockPriceCollector.collectStockPrices(stock.id());
+    public void stockCreated(Stocks stocks) {
+        stockPriceCollector.collectStockPrices(stocks);
     }
 
     @Override

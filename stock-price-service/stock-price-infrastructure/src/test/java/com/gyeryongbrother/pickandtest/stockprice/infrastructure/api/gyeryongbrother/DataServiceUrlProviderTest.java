@@ -3,6 +3,7 @@ package com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.gyeryongbr
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,11 +15,11 @@ class DataServiceUrlProviderTest {
     void getStockPriceEndpoint() {
         // given
         DataServiceUrlProvider dataServiceUrlProvider = new DataServiceUrlProvider("http://domain");
-        String expected = "http://domain/stock-prices?ticker=symbol&start=2025-04-18";
+        String expected = "http://domain/stock-prices?tickers=symbol&start=2025-04-18";
 
         // when
         String result = dataServiceUrlProvider.getStockPriceEndpoint(
-                "symbol",
+                List.of("symbol"),
                 LocalDate.of(2025, 4, 18)
         );
 

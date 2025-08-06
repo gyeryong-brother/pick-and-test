@@ -43,6 +43,7 @@ public class KafkaConfig {
         ConcurrentKafkaListenerContainerFactory<String, StockCreatedEvent> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
+        factory.setBatchListener(true);
         return factory;
     }
 }

@@ -27,7 +27,7 @@ public class StockPriceRepositoryImpl implements StockPriceRepository {
     }
 
     @Override
-    public void saveAll(final List<StockPrice> stockPrices) {
+    public void saveAll(List<StockPrice> stockPrices) {
         String sql = """
                     INSERT INTO stock_price (stock_id, date, price)
                     VALUES (:stockId, :date, :price)
@@ -50,5 +50,11 @@ public class StockPriceRepositoryImpl implements StockPriceRepository {
                 .addValue("stockId", stockPrice.stockId())
                 .addValue("date", stockPrice.date())
                 .addValue("price", stockPrice.price());
+    }
+
+    @Override
+    public void saveAllSeperately(List<StockPrice> stockPrices) {
+        List<StockPriceEntity> stockPriceEntities = stockPriceDataAccessMapper.stockPricesToStockPriceEntities(stockPrices);
+        stockPriceJpaRepository.saveAll(stockPriceEntities);
     }
 }

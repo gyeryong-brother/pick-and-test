@@ -29,13 +29,14 @@ public class StockCollectorImpl implements StockCollector {
 
     @Override
     public void collectStocks() {
-        Arrays.stream(StockExchange.values())
-                .forEach(this::collectStocks);
+        collectStocks(StockExchange.NGM);
+//        Arrays.stream(StockExchange.values())
+//                .forEach(this::collectStocks);
     }
 
     private void collectStocks(StockExchange stockExchange) {
         List<String> existSymbols = stockQueryRepository.findAllSymbolsByStockExchange(stockExchange);
-        List<String> fetchedSymbols = symbolFetcher.fetchSymbols(stockExchange);
+        List<String> fetchedSymbols = symbolFetcher.fetchSymbols(stockExchange).subList(0, 1000);
         log.info("fetched symbols size: {}", fetchedSymbols.size());
         Symbols symbols = Symbols.from(fetchedSymbols);
         symbols.removeAll(existSymbols);

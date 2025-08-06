@@ -16,7 +16,7 @@ class StockPriceResponseTest {
     void toDomain() {
         // given
         StockPriceResponse stockPriceResponse = new StockPriceResponse(
-                "2025-04-01T00:00:00-04:00",
+                "2025-04-01T00:00:00",
                 "223.19000244140625"
         );
         StockPrice expected = new StockPrice(

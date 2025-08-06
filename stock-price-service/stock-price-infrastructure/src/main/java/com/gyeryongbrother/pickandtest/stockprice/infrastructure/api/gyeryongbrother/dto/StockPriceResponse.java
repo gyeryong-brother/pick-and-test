@@ -3,7 +3,7 @@ package com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.gyeryongbr
 import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.StockPrice;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 public record StockPriceResponse(
         String date,
@@ -15,7 +15,7 @@ public record StockPriceResponse(
     }
 
     private LocalDate toDate() {
-        return OffsetDateTime.parse(date)
+        return LocalDateTime.parse(date)
                 .toLocalDate();
     }
 
