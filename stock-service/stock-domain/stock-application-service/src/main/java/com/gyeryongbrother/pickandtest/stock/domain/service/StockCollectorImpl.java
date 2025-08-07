@@ -9,7 +9,6 @@ import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.StockQu
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.StockRepository;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.SymbolFetcher;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.output.message.publisher.StockMessagePublisher;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +35,7 @@ public class StockCollectorImpl implements StockCollector {
 
     private void collectStocks(StockExchange stockExchange) {
         List<String> existSymbols = stockQueryRepository.findAllSymbolsByStockExchange(stockExchange);
-        List<String> fetchedSymbols = symbolFetcher.fetchSymbols(stockExchange).subList(0, 1000);
+        List<String> fetchedSymbols = symbolFetcher.fetchSymbols(stockExchange).subList(0, 50);
         log.info("fetched symbols size: {}", fetchedSymbols.size());
         Symbols symbols = Symbols.from(fetchedSymbols);
         symbols.removeAll(existSymbols);
@@ -44,13 +43,9 @@ public class StockCollectorImpl implements StockCollector {
     }
 
     private void collectStock(String symbol) {
-        log.info("fetch stock started. symbol: {}", symbol);
+        log.info("Start fetch stock. symbol: {}", symbol);
         Optional<Stock> stock = stockFetcher.fetchStock(symbol);
-        stock.ifPresent(this::saveStock);
-    }
-
-    private void saveStock(Stock stock) {
-        Stock savedStock = stockRepository.save(stock);
-        stockMessagePublisher.publishStockCreatedEvent(savedStock);
+        log.info("End fetch stock. symbol: {}", symbol);
+        stock.ifPresent(stockRepository::save);
     }
 }

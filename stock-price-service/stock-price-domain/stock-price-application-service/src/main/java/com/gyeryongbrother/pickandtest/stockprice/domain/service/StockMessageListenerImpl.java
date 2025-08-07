@@ -18,7 +18,7 @@ public class StockMessageListenerImpl implements StockMessageListener {
     private final StockMinutePriceCollector stockMinutePriceCollector;
 
     @Override
-    public void stockCreated(Stocks stocks) {
+    public void stockPriceCollectionRequested(Stocks stocks) {
         stockPriceCollector.collectStockPrices(stocks);
     }
 

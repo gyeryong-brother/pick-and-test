@@ -2,9 +2,8 @@ package com.gyeryongbrother.pickandtest.stockprice.messaging.listener.kafka;
 
 import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.Stock;
 import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.Stocks;
-import com.gyeryongbrother.pickandtest.stockprice.domain.core.valueobject.StockExchange;
 import com.gyeryongbrother.pickandtest.stockprice.domain.service.ports.input.message.listener.StockMessageListener;
-import com.gyeryongbrother.pickandtest.stockprice.messaging.listener.kafka.dto.StockCreatedEvent;
+import com.gyeryongbrother.pickandtest.stockprice.messaging.listener.kafka.dto.StockPriceCollectionRequestedEvent;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,32 +18,25 @@ public class StockKafkaListener {
 
     private final StockMessageListener stockMessageListener;
 
-//    @KafkaListener(groupId = "stock-price-listener", topics = "stock-created-event")
-//    public void receive(@Payload List<StockCreatedEvent> events) {
-//        List<Stock> stocks = events.stream()
-//                .map(this::toStock)
-//                .toList();
-//        stockMessageListener.stockCreated(new Stocks(stocks));
-//    }
-//
-//    private Stock toStock(StockCreatedEvent event) {
-//        return new Stock(
-//                event.id(),
-//                event.symbol(),
-//                StockExchange.valueOf(event.stockExchange())
-//        );
-//    }
-
-    @KafkaListener(groupId = "stock-price-listener", topics = "stock-created-event")
-    public void receive(@Payload StockCreatedEvent event) {
-        stockMessageListener.stockCreated(new Stocks(List.of(toStock(event))));
+    @KafkaListener(groupId = "stock-price-listener", topics = "stock-price-collection-requested-event", containerFactory = "kafkaListenerContainerFactory")
+    public void receive(@Payload List<StockPriceCollectionRequestedEvent> events) {
+        Stocks stocks = toStocks(events);
+        log.info("Start processing StockPriceCollectionRequestedEvent symbols: {}", stocks.symbols());
+        stockMessageListener.stockPriceCollectionRequested(stocks);
+        log.info("End processing StockPriceCollectionRequestedEvent symbols: {}", stocks.symbols());
     }
 
-    private Stock toStock(StockCreatedEvent event) {
+    private Stocks toStocks(List<StockPriceCollectionRequestedEvent> events) {
+        List<Stock> stocks = events.stream()
+                .map(this::toStock)
+                .toList();
+        return new Stocks(stocks);
+    }
+
+    private Stock toStock(StockPriceCollectionRequestedEvent event) {
         return new Stock(
-                event.id(),
-                event.symbol(),
-                StockExchange.valueOf(event.stockExchange())
+                event.stockId(),
+                event.symbol()
         );
     }
 }

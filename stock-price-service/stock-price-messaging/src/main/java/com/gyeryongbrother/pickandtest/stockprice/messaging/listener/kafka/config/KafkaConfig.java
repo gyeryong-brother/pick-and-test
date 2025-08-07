@@ -1,6 +1,6 @@
 package com.gyeryongbrother.pickandtest.stockprice.messaging.listener.kafka.config;
 
-import com.gyeryongbrother.pickandtest.stockprice.messaging.listener.kafka.dto.StockCreatedEvent;
+import com.gyeryongbrother.pickandtest.stockprice.messaging.listener.kafka.dto.StockPriceCollectionRequestedEvent;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
@@ -27,23 +27,25 @@ public class KafkaConfig {
     }
 
     @Bean
-    public ConsumerFactory<String, StockCreatedEvent> consumerFactory() {
+    public ConsumerFactory<String, StockPriceCollectionRequestedEvent> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "stock-price-listener");
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 10);
-        JsonDeserializer<StockCreatedEvent> deserializer = new JsonDeserializer<>(StockCreatedEvent.class, false);
+        JsonDeserializer<StockPriceCollectionRequestedEvent> deserializer =
+                new JsonDeserializer<>(StockPriceCollectionRequestedEvent.class, false);
         return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), deserializer);
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, StockCreatedEvent> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, StockCreatedEvent> factory =
+    public ConcurrentKafkaListenerContainerFactory<String, StockPriceCollectionRequestedEvent> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, StockPriceCollectionRequestedEvent> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         factory.setBatchListener(true);
+        factory.setConcurrency(3);
         return factory;
     }
 }

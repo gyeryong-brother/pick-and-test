@@ -5,7 +5,7 @@ import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.Stocks;
 
 public interface StockMessageListener {
 
-    void stockCreated(Stocks stocks);
+    void stockPriceCollectionRequested(Stocks stocks);
 
     void collectStockMinutePrices(Stock stock);
 }

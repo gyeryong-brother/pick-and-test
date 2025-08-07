@@ -22,7 +22,6 @@ public class DataServiceClient {
 
     public Map<String, List<StockPriceResponse>> fetchStockPrices(List<String> symbols, LocalDate startDate) {
         String url = dataServiceUrlProvider.getStockPriceEndpoint(symbols, startDate);
-        log.info("fetch stock prices. url: {}", url);
         return restTemplate.exchange(
                 url,
                 HttpMethod.GET,

@@ -11,4 +11,6 @@ public interface StockQueryRepository {
     List<Stock> findAllByNameOrSymbol(String keyword);
 
     List<String> findAllSymbolsByStockExchange(StockExchange stockExchange);
+
+    List<Stock> findAll();
 }

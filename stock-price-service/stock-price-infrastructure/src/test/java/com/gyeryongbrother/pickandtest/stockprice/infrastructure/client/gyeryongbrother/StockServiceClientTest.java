@@ -1,6 +1,5 @@
 package com.gyeryongbrother.pickandtest.stockprice.infrastructure.client.gyeryongbrother;
 
-import static com.gyeryongbrother.pickandtest.stockprice.domain.core.valueobject.StockExchange.NGM;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.anyString;
@@ -38,7 +37,7 @@ class StockServiceClientTest {
         // given
         given(restTemplate.getForObject(anyString(), any()))
                 .willReturn(new StockResponse(1L, "AAPL", "NGM"));
-        Stock expected = new Stock(1L, "AAPL", NGM);
+        Stock expected = new Stock(1L, "AAPL");
 
         // when
         Stock result = stockServiceClient.fetchStock(1L);

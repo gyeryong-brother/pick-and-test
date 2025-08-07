@@ -1,6 +1,6 @@
 package com.gyeryongbrother.pickandtest.stock.messaging.publisher.kafka.config;
 
-import com.gyeryongbrother.pickandtest.stock.messaging.publisher.kafka.dto.StockCreatedEvent;
+import com.gyeryongbrother.pickandtest.stock.messaging.publisher.kafka.dto.StockPriceCollectionRequestedEvent;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -25,7 +25,7 @@ public class KafkaConfig {
     }
 
     @Bean
-    public ProducerFactory<String, StockCreatedEvent> producerFactory() {
+    public ProducerFactory<String, StockPriceCollectionRequestedEvent> producerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -34,7 +34,7 @@ public class KafkaConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, StockCreatedEvent> kafkaTemplate() {
+    public KafkaTemplate<String, StockPriceCollectionRequestedEvent> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }
