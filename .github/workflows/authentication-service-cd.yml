@@ -1,0 +1,40 @@
+name: authentication-service CD
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - authentication-service/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.ACTION_TOKEN }}
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: corretto
+          cache: maven
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - working-directory: ${{ github.workspace }}/authentication-service
+        run: |
+          mvn install
+          mvn jib:build -pl authentication-container
+  deploy:
+    needs: build
+    runs-on: [self-hosted, backend-1]
+    steps:
+      - run: |
+          cd /home/ubuntu/pick-and-test-server/backend-1
+          sudo docker compose down authentication-service
+          sudo docker pull gyeryongbrother/pick-and-test-authentication
+          sudo docker image prune -f
+          sudo docker compose up authentication-service -d

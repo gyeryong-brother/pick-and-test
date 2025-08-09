@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: dividend-service
+  profiles:
+    active: local

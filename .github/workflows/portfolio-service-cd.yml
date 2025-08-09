@@ -1,0 +1,43 @@
+name: portfolio-service CD
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - portfolio-service/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.ACTION_TOKEN }}
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: corretto
+          cache: maven
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - working-directory: ${{ github.workspace }}/common
+        run: |
+          mvn install
+      - working-directory: ${{ github.workspace }}/portfolio-service
+        run: |
+          mvn install
+          mvn jib:build -pl portfolio-container
+  deploy:
+    needs: build
+    runs-on: [self-hosted, backend-2]
+    steps:
+      - run: |
+          cd /home/ubuntu/pick-and-test-server/backend-2
+          sudo docker compose down portfolio-service
+          sudo docker pull gyeryongbrother/pick-and-test-portfolio
+          sudo docker image prune -f
+          sudo docker compose up portfolio-service -d

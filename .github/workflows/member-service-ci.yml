@@ -1,0 +1,26 @@
+name: member-service CI
+
+on:
+  push:
+    paths:
+      - member-service/**
+  pull_request:
+    paths:
+      - member-service/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "corretto"
+          cache: maven
+      - working-directory: ${{ github.workspace }}/common
+        run: |
+          mvn install
+      - working-directory: ${{ github.workspace }}/member-service
+        run: |
+          mvn package

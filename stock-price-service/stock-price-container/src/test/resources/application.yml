@@ -1,0 +1,19 @@
+server:
+  servlet:
+    context-path: /stock-price-service
+
+spring:
+  config:
+    import: optional:configserver:http://localhost:8888
+
+stock-service:
+  url: http://stock-service
+
+kafka:
+  bootstrap-servers: localhost:9092
+
+data-service:
+  url: http://127.0.0.1:8000
+
+frontend-service:
+  url: http://127.0.0.1:3000
