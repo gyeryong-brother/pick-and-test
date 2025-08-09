@@ -64,4 +64,13 @@ public class StockQueryRepositoryImpl implements StockQueryRepository {
                 .where(stockEntity.stockExchange.eq(stockExchange))
                 .fetch();
     }
+
+    @Override
+    public List<Stock> findAll() {
+        List<StockEntity> stockEntities = queryFactory.selectFrom(stockEntity)
+                .fetch();
+        return stockEntities.stream()
+                .map(stockDataAccessMapper::stockEntityToStock)
+                .toList();
+    }
 }

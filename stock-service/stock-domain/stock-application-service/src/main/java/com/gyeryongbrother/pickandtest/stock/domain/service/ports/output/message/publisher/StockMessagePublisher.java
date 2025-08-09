@@ -4,5 +4,7 @@ import com.gyeryongbrother.pickandtest.stock.domain.core.entity.Stock;
 
 public interface StockMessagePublisher {
 
-    void publishStockCreatedEvent(Stock stock);
+    void publishStockPriceCollectionRequestedEvent(Stock stock);
+
+    void publishStockMinutePriceCollectionRequestedEvent(Stock stock);
 }

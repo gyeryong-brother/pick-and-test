@@ -1,6 +1,7 @@
 package com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.gyeryongbrother;
 
 import java.time.LocalDate;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -18,21 +19,45 @@ public class DataServiceUrlProvider {
         this.domain = domain;
     }
 
-    public String getStockPriceEndpoint(String symbol, LocalDate startDate) {
+    public String getStockPriceEndpoint(List<String> symbols, LocalDate startDate) {
         if (startDate == null) {
-            return uriComponentsBuilder(symbol)
+            return uriComponentsBuilder(symbols)
+                    .queryParam("start", "1930-01-01")
                     .build()
                     .toUriString();
         }
-        return uriComponentsBuilder(symbol)
+        return uriComponentsBuilder(symbols)
                 .queryParam("start", startDate.toString())
                 .build()
                 .toUriString();
     }
 
-    private UriComponentsBuilder uriComponentsBuilder(String symbol) {
+    private UriComponentsBuilder uriComponentsBuilder(List<String> symbols) {
         return UriComponentsBuilder.fromHttpUrl(domain)
                 .path(STOCK_PRICE_ENDPOINT)
-                .queryParam("ticker", symbol);
+                .queryParam("tickers", joinedSymbols(symbols));
+    }
+
+    private String joinedSymbols(List<String> symbols) {
+        return String.join(",", symbols);
+    }
+
+    public String getStockMinutePriceEndpoint(List<String> symbols, LocalDate startDate) {
+        if (startDate == null) {
+            return minuteStockPrices(symbols)
+                    .build()
+                    .toUriString();
+        }
+        return minuteStockPrices(symbols)
+                .queryParam("start", startDate.toString())
+                .build()
+                .toUriString();
+    }
+
+    private UriComponentsBuilder minuteStockPrices(List<String> symbols) {
+        return UriComponentsBuilder.fromHttpUrl(domain)
+                .path(STOCK_PRICE_ENDPOINT)
+                .queryParam("tickers", joinedSymbols(symbols))
+                .queryParam("interval", "1m");
     }
 }

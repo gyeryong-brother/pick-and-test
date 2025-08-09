@@ -1,7 +1,6 @@
 package com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.gyeryongbrother;
 
 import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.Stock;
-import com.gyeryongbrother.pickandtest.stockprice.domain.core.valueobject.StockExchange;
 import com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.gyeryongbrother.dto.StockResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -19,8 +18,7 @@ public class StockServiceClient {
         StockResponse stock = loadBalancedRestTemplate.getForObject(url, StockResponse.class);
         return new Stock(
                 stockId,
-                stock.symbol(),
-                StockExchange.valueOf(stock.stockExchange())
+                stock.symbol()
         );
     }
 }

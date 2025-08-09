@@ -8,4 +8,6 @@ public interface StockPriceRepository {
     StockPrice save(StockPrice stockPrice);
 
     void saveAll(List<StockPrice> stockPrices);
+
+    void saveAllSeperately(List<StockPrice> stockPrices);
 }
