@@ -1,5 +1,6 @@
 package com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.gyeryongbrother.dto;
 
+import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.StockMinutePrice;
 import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.StockPrice;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -10,7 +11,7 @@ public record StockPriceResponse(
         String price
 ) {
 
-    public StockPrice toDomain(Long stockId) {
+    public StockPrice toStockPrice(Long stockId) {
         return new StockPrice(null, stockId, toDate(), toPrice());
     }
 
@@ -21,5 +22,13 @@ public record StockPriceResponse(
 
     private BigDecimal toPrice() {
         return new BigDecimal(price);
+    }
+
+    public StockMinutePrice toStockMinutePrice(Long stockId) {
+        return new StockMinutePrice(null, stockId, toDateTime(), toPrice());
+    }
+
+    private LocalDateTime toDateTime() {
+        return LocalDateTime.parse(date);
     }
 }

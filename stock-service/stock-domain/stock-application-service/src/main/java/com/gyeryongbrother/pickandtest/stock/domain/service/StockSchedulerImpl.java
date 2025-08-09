@@ -20,4 +20,10 @@ public class StockSchedulerImpl implements StockScheduler {
         List<Stock> stocks = stockQueryRepository.findAll();
         stocks.forEach(stockMessagePublisher::publishStockPriceCollectionRequestedEvent);
     }
+
+    @Override
+    public void collectStockMinutePrices() {
+        List<Stock> stocks = stockQueryRepository.findAll();
+        stocks.forEach(stockMessagePublisher::publishStockMinutePriceCollectionRequestedEvent);
+    }
 }

@@ -27,7 +27,7 @@ class StockPriceResponseTest {
         );
 
         // when
-        StockPrice result = stockPriceResponse.toDomain(1L);
+        StockPrice result = stockPriceResponse.toStockPrice(1L);
 
         // then
         assertThat(result).usingRecursiveComparison()

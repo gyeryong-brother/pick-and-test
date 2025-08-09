@@ -1,6 +1,5 @@
 package com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.gyeryongbrother;
 
-import com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.gyeryongbrother.dto.StockMinutePricesResponse;
 import com.gyeryongbrother.pickandtest.stockprice.infrastructure.api.gyeryongbrother.dto.StockPriceResponse;
 import java.time.LocalDate;
 import java.util.List;
@@ -31,9 +30,14 @@ public class DataServiceClient {
         ).getBody();
     }
 
-    public StockMinutePricesResponse fetchStockMinutePrices(String symbol, LocalDate startDate) {
-        String url = dataServiceUrlProvider.getStockMinutePriceEndpoint(symbol, startDate);
-        log.info("fetch stock minute prices. url: {}", url);
-        return restTemplate.getForObject(url, StockMinutePricesResponse.class);
+    public Map<String, List<StockPriceResponse>> fetchStockMinutePrices(List<String> symbols, LocalDate startDate) {
+        String url = dataServiceUrlProvider.getStockMinutePriceEndpoint(symbols, startDate);
+        return restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<Map<String, List<StockPriceResponse>>>() {
+                }
+        ).getBody();
     }
 }

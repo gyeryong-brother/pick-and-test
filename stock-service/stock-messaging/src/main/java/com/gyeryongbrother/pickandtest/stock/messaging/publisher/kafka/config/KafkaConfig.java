@@ -1,5 +1,6 @@
 package com.gyeryongbrother.pickandtest.stock.messaging.publisher.kafka.config;
 
+import com.gyeryongbrother.pickandtest.stock.messaging.publisher.kafka.dto.StockMinutePriceCollectionRequestedEvent;
 import com.gyeryongbrother.pickandtest.stock.messaging.publisher.kafka.dto.StockPriceCollectionRequestedEvent;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,16 +26,30 @@ public class KafkaConfig {
     }
 
     @Bean
-    public ProducerFactory<String, StockPriceCollectionRequestedEvent> producerFactory() {
+    public ProducerFactory<String, StockPriceCollectionRequestedEvent> stockPriceCollectionRequestedEventProducerFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    }
+
+    private Map<String, Object> producerConfigs() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        return new DefaultKafkaProducerFactory<>(props);
+        return props;
     }
 
     @Bean
-    public KafkaTemplate<String, StockPriceCollectionRequestedEvent> kafkaTemplate() {
-        return new KafkaTemplate<>(producerFactory());
+    public KafkaTemplate<String, StockPriceCollectionRequestedEvent> stockPriceCollectionRequestedEventKafkaTemplate() {
+        return new KafkaTemplate<>(stockPriceCollectionRequestedEventProducerFactory());
+    }
+
+    @Bean
+    public ProducerFactory<String, StockMinutePriceCollectionRequestedEvent> stockMinutePriceCollectionRequestedEventProducerFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    }
+
+    @Bean
+    public KafkaTemplate<String, StockMinutePriceCollectionRequestedEvent> stockMinutePriceCollectionRequestedEventKafkaTemplate() {
+        return new KafkaTemplate<>(stockMinutePriceCollectionRequestedEventProducerFactory());
     }
 }

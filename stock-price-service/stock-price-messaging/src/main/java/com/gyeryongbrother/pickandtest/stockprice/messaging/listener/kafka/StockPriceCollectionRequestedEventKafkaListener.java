@@ -14,12 +14,16 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class StockKafkaListener {
+public class StockPriceCollectionRequestedEventKafkaListener {
 
     private final StockMessageListener stockMessageListener;
 
-    @KafkaListener(groupId = "stock-price-listener", topics = "stock-price-collection-requested-event", containerFactory = "kafkaListenerContainerFactory")
-    public void receive(@Payload List<StockPriceCollectionRequestedEvent> events) {
+    @KafkaListener(
+            groupId = "stock-price-listener",
+            topics = "stock-price-collection-requested-event",
+            containerFactory = "stockPriceCollectionRequestedEventKafkaListenerContainerFactory"
+    )
+    public void receiveStockPriceCollectionRequestedEvents(@Payload List<StockPriceCollectionRequestedEvent> events) {
         Stocks stocks = toStocks(events);
         log.info("Start processing StockPriceCollectionRequestedEvent symbols: {}", stocks.symbols());
         stockMessageListener.stockPriceCollectionRequested(stocks);

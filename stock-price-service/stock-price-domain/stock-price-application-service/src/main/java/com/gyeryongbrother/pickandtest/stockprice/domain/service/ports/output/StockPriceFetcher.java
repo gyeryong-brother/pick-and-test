@@ -10,5 +10,5 @@ public interface StockPriceFetcher {
 
     List<StockPrice> fetchStockPrices(Stocks stocks, LocalDate startDate);
 
-    List<StockMinutePrice> fetchStockMinutePrices(Long stockId, LocalDate startDate);
+    List<StockMinutePrice> fetchStockMinutePrices(Stocks stocks, LocalDate startDate);
 }

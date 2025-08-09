@@ -42,6 +42,13 @@ public class StockController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/collect-minute-prices")
+    ResponseEntity<Void> collectMinutePrices() {
+        log.info("collect stock minute price started!!");
+        stockScheduler.collectStockMinutePrices();
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping
     ResponseEntity<List<StockResponse>> searchStocks(@RequestParam String keyword) {
         List<StockResponse> stockResponses = stockQueryService.findAllByNameOrSymbol(keyword);

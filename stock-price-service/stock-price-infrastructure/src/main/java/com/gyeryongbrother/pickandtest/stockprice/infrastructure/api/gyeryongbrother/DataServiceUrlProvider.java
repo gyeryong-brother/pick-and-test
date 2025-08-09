@@ -42,22 +42,22 @@ public class DataServiceUrlProvider {
         return String.join(",", symbols);
     }
 
-    public String getStockMinutePriceEndpoint(String symbol, LocalDate startDate) {
+    public String getStockMinutePriceEndpoint(List<String> symbols, LocalDate startDate) {
         if (startDate == null) {
-            return minuteStockPrices(symbol)
+            return minuteStockPrices(symbols)
                     .build()
                     .toUriString();
         }
-        return minuteStockPrices(symbol)
+        return minuteStockPrices(symbols)
                 .queryParam("start", startDate.toString())
                 .build()
                 .toUriString();
     }
 
-    private UriComponentsBuilder minuteStockPrices(String symbol) {
+    private UriComponentsBuilder minuteStockPrices(List<String> symbols) {
         return UriComponentsBuilder.fromHttpUrl(domain)
                 .path(STOCK_PRICE_ENDPOINT)
-                .queryParam("ticker", symbol)
+                .queryParam("tickers", joinedSymbols(symbols))
                 .queryParam("interval", "1m");
     }
 }
