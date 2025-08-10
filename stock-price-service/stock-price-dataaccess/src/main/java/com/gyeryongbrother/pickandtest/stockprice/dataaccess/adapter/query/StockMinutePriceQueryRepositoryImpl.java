@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.stockprice.dataaccess.adapter;
+package com.gyeryongbrother.pickandtest.stockprice.dataaccess.adapter.query;
 
 import static com.gyeryongbrother.pickandtest.stockprice.dataaccess.entity.QStockMinutePriceEntity.stockMinutePriceEntity;
 

@@ -2,4 +2,4 @@ spring:
   application:
     name: stock-price-service
   profiles:
-    active: local
+    active: stage

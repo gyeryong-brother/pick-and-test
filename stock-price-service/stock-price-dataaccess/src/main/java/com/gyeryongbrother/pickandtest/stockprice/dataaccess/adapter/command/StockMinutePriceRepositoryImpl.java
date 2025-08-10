@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.stockprice.dataaccess.adapter;
+package com.gyeryongbrother.pickandtest.stockprice.dataaccess.adapter.command;
 
 import com.gyeryongbrother.pickandtest.stockprice.domain.core.entity.StockMinutePrice;
 import com.gyeryongbrother.pickandtest.stockprice.domain.service.ports.output.StockMinutePriceRepository;

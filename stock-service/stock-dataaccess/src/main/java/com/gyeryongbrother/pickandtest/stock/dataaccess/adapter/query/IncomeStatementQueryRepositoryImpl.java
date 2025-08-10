@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.stock.dataaccess.adapter;
+package com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.query;
 
 import static com.gyeryongbrother.pickandtest.stock.dataaccess.entity.QIncomeStatementEntity.incomeStatementEntity;
 

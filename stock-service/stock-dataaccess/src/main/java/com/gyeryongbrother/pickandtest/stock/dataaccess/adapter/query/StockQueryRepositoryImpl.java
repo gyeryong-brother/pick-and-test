@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.stock.dataaccess.adapter;
+package com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.query;
 
 import static com.gyeryongbrother.pickandtest.stock.dataaccess.entity.QStockDetailEntity.stockDetailEntity;
 import static com.gyeryongbrother.pickandtest.stock.dataaccess.entity.QStockEntity.stockEntity;
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional(readOnly = true, transactionManager = "slaveTransactionManager")
 public class StockQueryRepositoryImpl implements StockQueryRepository {
 
     private final JPAQueryFactory queryFactory;

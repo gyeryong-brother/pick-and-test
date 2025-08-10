@@ -1,7 +1,7 @@
 package com.gyeryongbrother.pickandtest.stockprice.dataaccess.config;
 
-import com.gyeryongbrother.pickandtest.stockprice.dataaccess.adapter.StockPriceQueryRepositoryImpl;
-import com.gyeryongbrother.pickandtest.stockprice.dataaccess.adapter.StockPriceRepositoryImpl;
+import com.gyeryongbrother.pickandtest.stockprice.dataaccess.adapter.query.StockPriceQueryRepositoryImpl;
+import com.gyeryongbrother.pickandtest.stockprice.dataaccess.adapter.command.StockPriceRepositoryImpl;
 import com.gyeryongbrother.pickandtest.stockprice.dataaccess.mapper.StockPriceDataAccessMapper;
 import com.gyeryongbrother.pickandtest.stockprice.dataaccess.repository.StockPriceJpaRepository;
 import com.gyeryongbrother.pickandtest.stockprice.domain.service.ports.output.StockPriceQueryRepository;

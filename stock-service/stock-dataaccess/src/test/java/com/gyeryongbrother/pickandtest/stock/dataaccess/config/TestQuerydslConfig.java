@@ -1,12 +1,12 @@
 package com.gyeryongbrother.pickandtest.stock.dataaccess.config;
 
-import com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.FavoriteStockQueryRepositoryImpl;
-import com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.FavoriteStockRepositoryImpl;
-import com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.IncomeStatementQueryRepositoryImpl;
-import com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.IncomeStatementRepositoryImpl;
-import com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.StockDetailRepositoryImpl;
-import com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.StockQueryRepositoryImpl;
-import com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.StockRepositoryImpl;
+import com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.query.FavoriteStockQueryRepositoryImpl;
+import com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.command.FavoriteStockRepositoryImpl;
+import com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.query.IncomeStatementQueryRepositoryImpl;
+import com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.command.IncomeStatementRepositoryImpl;
+import com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.command.StockDetailRepositoryImpl;
+import com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.query.StockQueryRepositoryImpl;
+import com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.command.StockRepositoryImpl;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.mapper.FavoriteStockDataAccessMapper;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.mapper.IncomeStatementDataAccessMapper;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.mapper.StockDataAccessMapper;

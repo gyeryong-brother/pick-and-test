@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.stock.dataaccess.adapter;
+package com.gyeryongbrother.pickandtest.stock.dataaccess.adapter.command;
 
 import com.gyeryongbrother.pickandtest.stock.dataaccess.entity.StockDetailEntity;
 import com.gyeryongbrother.pickandtest.stock.dataaccess.entity.StockEntity;

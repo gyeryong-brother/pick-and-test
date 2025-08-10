@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.stockprice.dataaccess.adapter;
+package com.gyeryongbrother.pickandtest.stockprice.dataaccess.adapter.command;
 
 import com.gyeryongbrother.pickandtest.stockprice.dataaccess.entity.StockPriceEntity;
 import com.gyeryongbrother.pickandtest.stockprice.dataaccess.mapper.StockPriceDataAccessMapper;
