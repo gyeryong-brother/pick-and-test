@@ -1,0 +1,386 @@
+<svg viewBox="0 0 1200 1000" xmlns="http://www.w3.org/2000/svg">
+  <!-- Definitions for gradients and patterns -->
+  <defs>
+    <!-- Gateway gradient -->
+    <linearGradient id="gatewayGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff7f00;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff5500;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Service gradients -->
+    <linearGradient id="serviceGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e8f4f8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d6ebf2;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- AWS gradient -->
+    <linearGradient id="awsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff9900;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff7700;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Shadow filter -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="2" dy="4" stdDeviation="3" flood-color="#00000020"/>
+    </filter>
+    
+    <!-- Strong shadow for main containers -->
+    <filter id="containerShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="3" dy="6" stdDeviation="4" flood-color="#00000030"/>
+    </filter>
+    
+    <!-- Arrow marker definition -->
+    <defs>
+      <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+       refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
+      </marker>
+    </defs>
+
+  </defs>
+
+  <!-- Title -->
+  <text x="600" y="35" text-anchor="middle" fill="#1e293b" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">
+    Backend Architecture
+  </text>
+
+  <!-- Client Request -->
+  <g transform="translate(100, 80)">
+    <rect x="0" y="0" width="120" height="60" rx="12" fill="white" stroke="#dee2e6" stroke-width="2" filter="url(#shadow)"/>
+    <text x="60" y="25" text-anchor="middle" fill="#334155" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="600">Client</text>
+    <text x="60" y="42" text-anchor="middle" fill="#64748b" font-family="Inter, Arial, sans-serif" font-size="12">Browser</text>
+  </g>
+
+  <!-- Public Subnet Container -->
+  <rect x="500" y="80" width="250" height="260" rx="10" ry="10" 
+        fill="#f8f9fa" stroke="#22c55e" stroke-width="2" stroke-dasharray="8,4" opacity="0.9" filter="url(#containerShadow)"/>
+  
+  <!-- Public Subnet Label -->
+  <g transform="translate(515, 65)">
+    <text x="0" y="0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="600" fill="#16a34a">Public Subnet</text>
+  </g>
+
+  <!-- Internet Gateway (overlapping) -->
+  <g transform="translate(490, 65)">
+    <rect x="0" y="0" width="80" height="30" rx="8" fill="#f97316" stroke="#ea580c" stroke-width="1" filter="url(#shadow)"/>
+    <text x="40" y="20" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="600">Internet GW</text>
+  </g>
+
+  <!-- Next.js Frontend Service -->
+  <g transform="translate(550, 100)">
+    <rect width="160" height="105" rx="8" ry="8" fill="white" stroke="#dee2e6" stroke-width="2" filter="url(#shadow)"/>
+    
+    
+    <!-- NGINX Frontend -->
+    <rect x="20" y="15" width="120" height="35" rx="5" ry="5" fill="#009639" stroke="#007529" stroke-width="1"/>
+    <text x="80" y="30" font-family="Arial Black, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="white">NGINX</text>
+    <text x="80" y="43" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white">frontend-nginx</text>
+    
+    <!-- Next.js -->
+    <rect x="20" y="60" width="120" height="30" rx="5" ry="5" fill="#000000" stroke="#333333" stroke-width="1"/>
+    <text x="80" y="77" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="white">NEXT.JS</text>
+    
+    <text x="80" y="100" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#666">pickandtest.com</text>
+  </g>
+
+  <!-- API Gateway Service -->
+  <g transform="translate(550, 220)">
+    <rect width="160" height="105" rx="8" ry="8" fill="white" stroke="#dee2e6" stroke-width="2" filter="url(#shadow)"/>
+    
+    
+    <!-- NGINX Backend -->
+    <rect x="20" y="15" width="120" height="35" rx="5" ry="5" fill="#009639" stroke="#007529" stroke-width="1"/>
+    <text x="80" y="30" font-family="Arial Black, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="white">NGINX</text>
+    <text x="80" y="43" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white">backend-nginx</text>
+    
+    <!-- Spring Cloud Gateway -->
+    <rect x="20" y="60" width="120" height="30" rx="5" ry="5" fill="#6db33f" stroke="#5a9932" stroke-width="1"/>
+    <text x="80" y="77" font-family="Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" fill="white">Spring Cloud Gateway</text>
+    
+    <text x="80" y="100" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#666">api.pickandtest.com</text>
+  </g>
+
+  <!-- Private Subnet Container -->
+  <rect x="100" y="380" width="1000" height="580" rx="10" ry="10" 
+        fill="#fff3cd" stroke="#ef4444" stroke-width="2" stroke-dasharray="8,4" opacity="0.9" filter="url(#containerShadow)"/>
+  
+  <!-- Private Subnet Label -->
+  <g transform="translate(115, 365)">
+    <text x="0" y="0" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="600" fill="#dc2626">Private Subnet</text>
+  </g>
+
+  <!-- NAT Gateway (overlapping) -->
+  <g transform="translate(90, 365)">
+    <rect x="0" y="0" width="80" height="30" rx="8" fill="#8b5cf6" stroke="#7c3aed" stroke-width="1" filter="url(#shadow)"/>
+    <text x="40" y="20" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="600">NAT GW</text>
+  </g>
+
+  <!-- Config Service -->
+  <g transform="translate(150, 420)">
+    <rect width="120" height="80" rx="8" ry="8" fill="white" stroke="#dee2e6" stroke-width="2" filter="url(#shadow)"/>
+    
+    
+    <rect x="15" y="15" width="90" height="50" rx="5" ry="5" fill="#6db33f" stroke="#5a9932" stroke-width="1"/>
+    <text x="60" y="35" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="white">CONFIG</text>
+    <text x="60" y="50" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white">SERVER</text>
+  </g>
+
+  <!-- Eureka Service -->
+  <g transform="translate(300, 420)">
+    <rect width="120" height="80" rx="8" ry="8" fill="white" stroke="#dee2e6" stroke-width="2" filter="url(#shadow)"/>
+    
+    
+    <rect x="15" y="15" width="90" height="50" rx="5" ry="5" fill="#6db33f" stroke="#5a9932" stroke-width="1"/>
+    <text x="60" y="35" font-family="Arial, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" fill="white">EUREKA</text>
+    <text x="60" y="50" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white">DISCOVERY</text>
+  </g>
+
+  <!-- Microservices Column 1 - Authentication & Member Service -->
+  <g transform="translate(150, 550)">
+    <rect width="120" height="85" rx="8" ry="8" fill="white" stroke="#dee2e6" stroke-width="2" filter="url(#shadow)"/>
+    
+    <rect x="15" y="10" width="90" height="30" rx="3" ry="3" fill="url(#serviceGradient)" stroke="#6c757d" stroke-width="1"/>
+    <text x="60" y="22" font-family="Arial, sans-serif" font-size="9" font-weight="bold" text-anchor="middle" fill="#333">AUTHENTICATION</text>
+    <text x="60" y="33" font-family="Arial, sans-serif" font-size="9" text-anchor="middle" fill="#333">SERVICE</text>
+    
+    <rect x="15" y="45" width="90" height="30" rx="3" ry="3" fill="url(#serviceGradient)" stroke="#6c757d" stroke-width="1"/>
+    <text x="60" y="57" font-family="Arial, sans-serif" font-size="9" font-weight="bold" text-anchor="middle" fill="#333">MEMBER</text>
+    <text x="60" y="68" font-family="Arial, sans-serif" font-size="9" text-anchor="middle" fill="#333">SERVICE</text>
+  </g>
+
+  <!-- Stock Services -->
+  <g transform="translate(150, 660)">
+    <rect width="120" height="90" rx="8" ry="8" fill="white" stroke="#dee2e6" stroke-width="2" filter="url(#shadow)"/>
+    
+    
+    <rect x="15" y="10" width="90" height="20" rx="3" ry="3" fill="url(#serviceGradient)" stroke="#6c757d" stroke-width="1"/>
+    <text x="60" y="18" font-family="Arial, sans-serif" font-size="9" font-weight="bold" text-anchor="middle" fill="#333">STOCK</text>
+    <text x="60" y="27" font-family="Arial, sans-serif" font-size="9" text-anchor="middle" fill="#333">SERVICE</text>
+    
+    <rect x="15" y="35" width="90" height="20" rx="3" ry="3" fill="url(#serviceGradient)" stroke="#6c757d" stroke-width="1"/>
+    <text x="60" y="43" font-family="Arial, sans-serif" font-size="9" font-weight="bold" text-anchor="middle" fill="#333">PORTFOLIO</text>
+    <text x="60" y="52" font-family="Arial, sans-serif" font-size="9" text-anchor="middle" fill="#333">SERVICE</text>
+    
+    <rect x="15" y="60" width="90" height="20" rx="3" ry="3" fill="url(#serviceGradient)" stroke="#6c757d" stroke-width="1"/>
+    <text x="60" y="68" font-family="Arial, sans-serif" font-size="9" font-weight="bold" text-anchor="middle" fill="#333">NOTICE-BOARD</text>
+    <text x="60" y="77" font-family="Arial, sans-serif" font-size="9" text-anchor="middle" fill="#333">SERVICE</text>
+  </g>
+
+  <!-- Stock Price Service 1 -->
+  <g transform="translate(600, 550)">
+    <rect width="120" height="80" rx="8" ry="8" fill="white" stroke="#dee2e6" stroke-width="2" filter="url(#shadow)"/>
+    
+    
+    <rect x="15" y="20" width="90" height="45" rx="3" ry="3" fill="url(#serviceGradient)" stroke="#6c757d" stroke-width="1"/>
+    <text x="60" y="37" font-family="Arial, sans-serif" font-size="9" font-weight="bold" text-anchor="middle" fill="#333">STOCK-PRICE</text>
+    <text x="60" y="50" font-family="Arial, sans-serif" font-size="9" text-anchor="middle" fill="#333">SERVICE 1</text>
+  </g>
+
+  <!-- Stock Price Service 2 -->
+  <g transform="translate(750, 550)">
+    <rect width="120" height="80" rx="8" ry="8" fill="white" stroke="#dee2e6" stroke-width="2" filter="url(#shadow)"/>
+    
+    
+    <rect x="15" y="20" width="90" height="45" rx="3" ry="3" fill="url(#serviceGradient)" stroke="#6c757d" stroke-width="1"/>
+    <text x="60" y="37" font-family="Arial, sans-serif" font-size="9" font-weight="bold" text-anchor="middle" fill="#333">STOCK-PRICE</text>
+    <text x="60" y="50" font-family="Arial, sans-serif" font-size="9" text-anchor="middle" fill="#333">SERVICE 2</text>
+  </g>
+
+  <!-- Stock Price Service 3 -->
+  <g transform="translate(900, 550)">
+    <rect width="120" height="80" rx="8" ry="8" fill="white" stroke="#dee2e6" stroke-width="2" filter="url(#shadow)"/>
+    
+    
+    <rect x="15" y="20" width="90" height="45" rx="3" ry="3" fill="url(#serviceGradient)" stroke="#6c757d" stroke-width="1"/>
+    <text x="60" y="37" font-family="Arial, sans-serif" font-size="9" font-weight="bold" text-anchor="middle" fill="#333">STOCK-PRICE</text>
+    <text x="60" y="50" font-family="Arial, sans-serif" font-size="9" text-anchor="middle" fill="#333">SERVICE 3</text>
+  </g>
+
+  <!-- Dividend Service -->
+  <g transform="translate(150, 770)">
+    <rect width="120" height="80" rx="8" ry="8" fill="white" stroke="#dee2e6" stroke-width="2" filter="url(#shadow)"/>
+    
+    
+    <rect x="15" y="20" width="90" height="45" rx="3" ry="3" fill="url(#serviceGradient)" stroke="#6c757d" stroke-width="1"/>
+    <text x="60" y="40" font-family="Arial, sans-serif" font-size="9" font-weight="bold" text-anchor="middle" fill="#333">DIVIDEND</text>
+    <text x="60" y="53" font-family="Arial, sans-serif" font-size="9" text-anchor="middle" fill="#333">SERVICE</text>
+  </g>
+
+
+  <!-- Database Layer Separator -->
+  <line x1="120" y1="870" x2="1080" y2="870" stroke="#6c757d" stroke-width="2" stroke-dasharray="8,4" opacity="0.7"/>
+  
+  <!-- MySQL Master -->
+  <g transform="translate(350, 890)">
+    <rect width="120" height="60" rx="8" ry="8" fill="white" stroke="#dee2e6" stroke-width="2" filter="url(#shadow)"/>
+    
+    
+    <rect x="15" y="10" width="90" height="40" rx="3" ry="3" fill="#336791" stroke="#2d5aa0" stroke-width="1"/>
+    <text x="60" y="28" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="white">MySQL</text>
+    <text x="60" y="42" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white">Master</text>
+  </g>
+
+  <!-- MySQL Slave -->
+  <g transform="translate(490, 890)">
+    <rect width="120" height="60" rx="8" ry="8" fill="white" stroke="#dee2e6" stroke-width="2" filter="url(#shadow)"/>
+    
+    
+    <rect x="15" y="10" width="90" height="40" rx="3" ry="3" fill="#336791" stroke="#2d5aa0" stroke-width="1"/>
+    <text x="60" y="28" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="white">MySQL</text>
+    <text x="60" y="42" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white">Slave</text>
+  </g>
+
+  <!-- Master to Slave Replication -->
+  <g>
+    <path d="M 470 920 L 490 920" stroke="#8b5cf6" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+    <text x="480" y="912" font-family="Arial, sans-serif" font-size="8" fill="#8b5cf6" text-anchor="middle">Replication</text>
+  </g>
+
+  <!-- Redis Database -->
+  <g transform="translate(630, 890)">
+    <rect width="120" height="60" rx="8" ry="8" fill="white" stroke="#dee2e6" stroke-width="2" filter="url(#shadow)"/>
+    
+    
+    <rect x="15" y="10" width="90" height="40" rx="3" ry="3" fill="#dc382d" stroke="#a53629" stroke-width="1"/>
+    <text x="60" y="34" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="white">Redis</text>
+  </g>
+
+  <!-- Kafka Service (between rows 2 and 3) -->
+  <g transform="translate(520, 670)">
+    <rect width="160" height="70" rx="8" ry="8" fill="white" stroke="#dee2e6" stroke-width="2" filter="url(#shadow)"/>
+    
+    
+    <rect x="25" y="15" width="110" height="40" rx="5" ry="5" fill="#231f20" stroke="#000" stroke-width="1"/>
+    <text x="80" y="32" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="white">kafka</text>
+    <text x="80" y="47" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="white">MESSAGE BROKER</text>
+  </g>
+
+  <!-- Data Crawling Service 1 -->
+  <g transform="translate(600, 770)">
+    <rect width="120" height="70" rx="8" ry="8" fill="white" stroke="#dee2e6" stroke-width="2" filter="url(#shadow)"/>
+    
+    
+    <rect x="15" y="15" width="90" height="40" rx="3" ry="3" fill="url(#serviceGradient)" stroke="#6c757d" stroke-width="1"/>
+    <text x="60" y="32" font-family="Arial, sans-serif" font-size="9" font-weight="bold" text-anchor="middle" fill="#333">DATA-CRAWLING</text>
+    <text x="60" y="43" font-family="Arial, sans-serif" font-size="9" text-anchor="middle" fill="#333">SERVICE 1</text>
+    
+  </g>
+
+  <!-- Data Crawling Service 2 -->
+  <g transform="translate(750, 770)">
+    <rect width="120" height="70" rx="8" ry="8" fill="white" stroke="#dee2e6" stroke-width="2" filter="url(#shadow)"/>
+    
+    
+    <rect x="15" y="15" width="90" height="40" rx="3" ry="3" fill="url(#serviceGradient)" stroke="#6c757d" stroke-width="1"/>
+    <text x="60" y="32" font-family="Arial, sans-serif" font-size="9" font-weight="bold" text-anchor="middle" fill="#333">DATA-CRAWLING</text>
+    <text x="60" y="43" font-family="Arial, sans-serif" font-size="9" text-anchor="middle" fill="#333">SERVICE 2</text>
+    
+  </g>
+
+  <!-- Data Crawling Service 3 -->
+  <g transform="translate(900, 770)">
+    <rect width="120" height="70" rx="8" ry="8" fill="white" stroke="#dee2e6" stroke-width="2" filter="url(#shadow)"/>
+    
+    
+    <rect x="15" y="15" width="90" height="40" rx="3" ry="3" fill="url(#serviceGradient)" stroke="#6c757d" stroke-width="1"/>
+    <text x="60" y="32" font-family="Arial, sans-serif" font-size="9" font-weight="bold" text-anchor="middle" fill="#333">DATA-CRAWLING</text>
+    <text x="60" y="43" font-family="Arial, sans-serif" font-size="9" text-anchor="middle" fill="#333">SERVICE 3</text>
+    
+  </g>
+
+  <!-- Request Flow Arrows -->
+  <!-- Client to Frontend NGINX -->
+  <g>
+    <path d="M 220 110 L 530 140" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+    <text x="375" y="120" font-family="Arial, sans-serif" font-size="10" fill="#2563eb" text-anchor="middle">Web UI Request</text>
+    <text x="375" y="132" font-family="Arial, sans-serif" font-size="9" fill="#64748b" text-anchor="middle">HTTPS</text>
+  </g>
+  
+  <!-- Client to Backend NGINX -->
+  <g>
+    <path d="M 220 130 L 530 260" stroke="#dc2626" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+    <text x="375" y="195" font-family="Arial, sans-serif" font-size="10" fill="#dc2626" text-anchor="middle">API Request</text>
+    <text x="375" y="207" font-family="Arial, sans-serif" font-size="9" fill="#64748b" text-anchor="middle">HTTPS</text>
+  </g>
+  
+  <!-- Next.js to Spring Cloud Gateway -->
+  <g>
+    <path d="M 630 205 L 630 220" stroke="#16a34a" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+    <text x="680" y="210" font-family="Arial, sans-serif" font-size="10" fill="#16a34a" text-anchor="start">SSR Data Fetch</text>
+    <text x="680" y="222" font-family="Arial, sans-serif" font-size="9" fill="#64748b" text-anchor="start">Server-side API calls</text>
+  </g>
+  
+  <!-- Spring Cloud Gateway to Eureka -->
+  <g>
+    <path d="M 550 272 L 420 420" stroke="#8b5cf6" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+    <text x="470" y="340" font-family="Arial, sans-serif" font-size="10" fill="#8b5cf6" text-anchor="middle">Service Discovery</text>
+    <text x="470" y="352" font-family="Arial, sans-serif" font-size="9" fill="#64748b" text-anchor="middle">Get service instances</text>
+  </g>
+  
+  <!-- Spring Cloud Gateway to Authentication Service -->
+  <g>
+    <path d="M 550 300 L 270 570" stroke="#f59e0b" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+    <text x="400" y="430" font-family="Arial, sans-serif" font-size="10" fill="#f59e0b" text-anchor="middle">Route Request</text>
+    <text x="400" y="442" font-family="Arial, sans-serif" font-size="9" fill="#64748b" text-anchor="middle">Load balanced</text>
+  </g>
+  
+  <!-- Spring Cloud Gateway to Stock Price Services -->
+  <g>
+    <path d="M 630 325 L 660 550" stroke="#f59e0b" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+    <text x="700" y="430" font-family="Arial, sans-serif" font-size="10" fill="#f59e0b" text-anchor="start">Route Request</text>
+    <text x="700" y="442" font-family="Arial, sans-serif" font-size="9" fill="#64748b" text-anchor="start">Load balanced</text>
+  </g>
+  
+  <g>
+    <path d="M 650 325 L 810 550" stroke="#f59e0b" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  </g>
+  
+  <g>
+    <path d="M 670 325 L 960 550" stroke="#f59e0b" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  </g>
+
+  <!-- Stock Services to/from Kafka -->
+  <g>
+    <path d="M 270 720 L 520 720" stroke="#dc2626" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+    <path d="M 520 710 L 270 710" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+    <text x="395" y="700" font-family="Arial, sans-serif" font-size="9" fill="#dc2626" text-anchor="middle">Publish/Subscribe</text>
+    <text x="395" y="712" font-family="Arial, sans-serif" font-size="8" fill="#64748b" text-anchor="middle">Events &amp; Messages</text>
+  </g>
+
+  <!-- Stock Price Service 2 to/from Kafka -->
+  <g>
+    <path d="M 750 615 L 680 685" stroke="#dc2626" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+    <path d="M 680 695 L 750 625" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+  </g>
+
+  <!-- Data Crawling Service 3 to External APIs -->
+  <g>
+    <path d="M 1020 805 L 1080 805" stroke="#16a34a" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+    <text x="1085" y="810" font-family="Arial, sans-serif" font-size="9" fill="#64748b" text-anchor="start">Stock market data</text>
+    <text x="1050" y="790" font-family="Arial, sans-serif" font-size="9" fill="#16a34a" text-anchor="middle">Crawl</text>
+  </g>
+
+  <!-- Stock Price Service 2 to Redis Cache -->
+  <g>
+    <path d="M 810 630 L 690 890" stroke="#f59e0b" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+    <text x="750" y="750" font-family="Arial, sans-serif" font-size="9" fill="#f59e0b" text-anchor="middle">Cache</text>
+    <text x="750" y="762" font-family="Arial, sans-serif" font-size="8" fill="#64748b" text-anchor="middle">Stock prices</text>
+  </g>
+
+  <!-- Dividend Service to MySQL Master (Command) -->
+  <g>
+    <path d="M 150 840 L 380 890" stroke="#dc2626" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+    <text x="265" y="860" font-family="Arial, sans-serif" font-size="9" fill="#dc2626" text-anchor="middle">Command</text>
+    <text x="265" y="872" font-family="Arial, sans-serif" font-size="8" fill="#64748b" text-anchor="middle">INSERT/UPDATE/DELETE</text>
+  </g>
+
+  <!-- Dividend Service to MySQL Slave (Query) -->
+  <g>
+    <path d="M 270 770 L 520 890" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+    <text x="395" y="820" font-family="Arial, sans-serif" font-size="9" fill="#2563eb" text-anchor="middle">Query</text>
+    <text x="395" y="832" font-family="Arial, sans-serif" font-size="8" fill="#64748b" text-anchor="middle">SELECT</text>
+  </g>
+
+
+
+</svg>

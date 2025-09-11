@@ -1,0 +1,174 @@
+<svg viewBox="0 0 900 700" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#f8fafc;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#e2e8f0;stop-opacity:1" />
+        </linearGradient>
+        <linearGradient id="cardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.9" />
+            <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.7" />
+        </linearGradient>
+        <filter id="shadow">
+            <feDropShadow dx="0" dy="2" stdDeviation="4" flood-opacity="0.1"/>
+        </filter>
+    </defs>
+
+    <!-- Background -->
+    <rect width="900" height="700" fill="url(#bgGradient)"/>
+
+    <!-- Background pattern -->
+    <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+        <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#cbd5e1" stroke-width="0.4" opacity="0.3"/>
+    </pattern>
+    <rect width="900" height="700" fill="url(#grid)"/>
+
+    <!-- Title -->
+    <text x="450" y="35" text-anchor="middle" fill="#475569" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="600">
+        Tech Stack
+    </text>
+
+    <!-- Language & Framework Section -->
+    <g transform="translate(50, 60)">
+        <rect x="0" y="0" width="800" height="75" rx="15" fill="url(#cardGradient)" stroke="#64748b" stroke-width="1" opacity="0.95" filter="url(#shadow)"/>
+        <text x="25" y="28" fill="#334155" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="600">Language &amp; Framework</text>
+
+        <g transform="translate(25, 40)">
+            <rect x="0" y="0" width="90" height="26" rx="13" fill="#475569" opacity="0.9"/>
+            <text x="45" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">Java 17</text>
+
+            <rect x="105" y="0" width="100" height="26" rx="13" fill="#475569" opacity="0.9"/>
+            <text x="155" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">Spring Boot</text>
+
+            <rect x="220" y="0" width="110" height="26" rx="13" fill="#475569" opacity="0.9"/>
+            <text x="275" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">Spring Cloud</text>
+
+            <rect x="345" y="0" width="70" height="26" rx="13" fill="#475569" opacity="0.9"/>
+            <text x="380" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">Maven</text>
+
+        </g>
+    </g>
+
+    <!-- Microservices Section -->
+    <g transform="translate(50, 150)">
+        <rect x="0" y="0" width="800" height="90" rx="15" fill="url(#cardGradient)" stroke="#64748b" stroke-width="1" opacity="0.95" filter="url(#shadow)"/>
+        <text x="25" y="28" fill="#334155" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="600">Microservices &amp; Security</text>
+
+        <g transform="translate(25, 40)">
+            <rect x="0" y="0" width="120" height="26" rx="13" fill="#16a34a" opacity="0.9"/>
+            <text x="60" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">Config Server</text>
+
+            <rect x="135" y="0" width="110" height="26" rx="13" fill="#16a34a" opacity="0.9"/>
+            <text x="190" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">API Gateway</text>
+
+            <rect x="260" y="0" width="80" height="26" rx="13" fill="#16a34a" opacity="0.9"/>
+            <text x="300" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">Eureka</text>
+
+            <rect x="355" y="0" width="120" height="26" rx="13" fill="#16a34a" opacity="0.9"/>
+            <text x="415" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">OAuth2 Server</text>
+
+            <rect x="490" y="0" width="80" height="26" rx="13" fill="#16a34a" opacity="0.9"/>
+            <text x="530" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">Actuator</text>
+
+        </g>
+    </g>
+
+    <!-- Data & Messaging Section -->
+    <g transform="translate(50, 255)">
+        <rect x="0" y="0" width="800" height="75" rx="15" fill="url(#cardGradient)" stroke="#64748b" stroke-width="1" opacity="0.95" filter="url(#shadow)"/>
+        <text x="25" y="28" fill="#334155" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="600">Data &amp; Messaging</text>
+
+        <g transform="translate(25, 40)">
+            <rect x="0" y="0" width="80" height="26" rx="13" fill="#ea580c" opacity="0.9"/>
+            <text x="40" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">MySQL</text>
+
+            <rect x="95" y="0" width="70" height="26" rx="13" fill="#ea580c" opacity="0.9"/>
+            <text x="130" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">Redis</text>
+
+            <rect x="180" y="0" width="50" height="26" rx="13" fill="#ea580c" opacity="0.9"/>
+            <text x="205" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">H2</text>
+
+            <rect x="245" y="0" width="70" height="26" rx="13" fill="#ea580c" opacity="0.9"/>
+            <text x="280" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">Kafka</text>
+
+            <rect x="330" y="0" width="120" height="26" rx="13" fill="#ea580c" opacity="0.9"/>
+            <text x="390" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">Spring Data JPA</text>
+        </g>
+    </g>
+
+    <!-- Testing Section -->
+    <g transform="translate(50, 345)">
+        <rect x="0" y="0" width="800" height="75" rx="15" fill="url(#cardGradient)" stroke="#64748b" stroke-width="1" opacity="0.95" filter="url(#shadow)"/>
+        <text x="25" y="28" fill="#334155" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="600">Testing</text>
+
+        <g transform="translate(25, 40)">
+            <rect x="0" y="0" width="70" height="26" rx="13" fill="#dc2626" opacity="0.9"/>
+            <text x="35" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">JUnit5</text>
+
+            <rect x="85" y="0" width="80" height="26" rx="13" fill="#dc2626" opacity="0.9"/>
+            <text x="125" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">Mockito</text>
+
+            <rect x="180" y="0" width="110" height="26" rx="13" fill="#dc2626" opacity="0.9"/>
+            <text x="235" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">REST Assured</text>
+
+        </g>
+    </g>
+
+    <!-- Cloud & Infrastructure Section -->
+    <g transform="translate(50, 435)">
+        <rect x="0" y="0" width="800" height="75" rx="15" fill="url(#cardGradient)" stroke="#64748b" stroke-width="1" opacity="0.95" filter="url(#shadow)"/>
+        <text x="25" y="28" fill="#334155" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="600">Cloud &amp; Infrastructure</text>
+
+        <g transform="translate(25, 40)">
+            <rect x="0" y="0" width="110" height="26" rx="13" fill="#0891b2" opacity="0.9"/>
+            <text x="55" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">Amazon EC2</text>
+
+            <rect x="125" y="0" width="80" height="26" rx="13" fill="#0891b2" opacity="0.9"/>
+            <text x="165" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">NGINX</text>
+
+            <rect x="220" y="0" width="80" height="26" rx="13" fill="#0891b2" opacity="0.9"/>
+            <text x="260" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">Docker</text>
+
+            <rect x="315" y="0" width="60" height="26" rx="13" fill="#0891b2" opacity="0.9"/>
+            <text x="345" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">Jib</text>
+        </g>
+    </g>
+
+    <!-- CI/CD & Monitoring Section -->
+    <g transform="translate(50, 525)">
+        <rect x="0" y="0" width="800" height="75" rx="15" fill="url(#cardGradient)" stroke="#64748b" stroke-width="1" opacity="0.95" filter="url(#shadow)"/>
+        <text x="25" y="28" fill="#334155" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="600">CI/CD &amp; Monitoring</text>
+
+        <g transform="translate(25, 40)">
+            <rect x="0" y="0" width="130" height="26" rx="13" fill="#7c3aed" opacity="0.9"/>
+            <text x="65" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">GitHub Actions</text>
+
+            <rect x="145" y="0" width="100" height="26" rx="13" fill="#7c3aed" opacity="0.9"/>
+            <text x="195" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">Prometheus</text>
+
+            <rect x="260" y="0" width="80" height="26" rx="13" fill="#7c3aed" opacity="0.9"/>
+            <text x="300" y="18" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="500">Grafana</text>
+        </g>
+    </g>
+
+    <!-- Connection lines between sections -->
+    <path d="M 450 135 L 450 145" stroke="#cbd5e1" stroke-width="2" opacity="0.5" stroke-dasharray="4,4">
+        <animate attributeName="stroke-dashoffset" values="0;8" dur="1.5s" repeatCount="indefinite"/>
+    </path>
+
+    <path d="M 450 240 L 450 250" stroke="#cbd5e1" stroke-width="2" opacity="0.5" stroke-dasharray="4,4">
+        <animate attributeName="stroke-dashoffset" values="0;8" dur="1.5s" repeatCount="indefinite"/>
+    </path>
+
+    <path d="M 450 330 L 450 340" stroke="#cbd5e1" stroke-width="2" opacity="0.5" stroke-dasharray="4,4">
+        <animate attributeName="stroke-dashoffset" values="0;8" dur="1.5s" repeatCount="indefinite"/>
+    </path>
+
+    <path d="M 450 420 L 450 430" stroke="#cbd5e1" stroke-width="2" opacity="0.5" stroke-dasharray="4,4">
+        <animate attributeName="stroke-dashoffset" values="0;8" dur="1.5s" repeatCount="indefinite"/>
+    </path>
+
+    <path d="M 450 510 L 450 520" stroke="#cbd5e1" stroke-width="2" opacity="0.5" stroke-dasharray="4,4">
+        <animate attributeName="stroke-dashoffset" values="0;8" dur="1.5s" repeatCount="indefinite"/>
+    </path>
+
+</svg>
