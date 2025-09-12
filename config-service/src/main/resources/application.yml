@@ -8,7 +8,6 @@ spring:
         git:
           uri: https://github.com/gyeryong-brother/pick-and-test-config
           default-label: main
-          username: jusikjoa
-          password: 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
+
 
 
