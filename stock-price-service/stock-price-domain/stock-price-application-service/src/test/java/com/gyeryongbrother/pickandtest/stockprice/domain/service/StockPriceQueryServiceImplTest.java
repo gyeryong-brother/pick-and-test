@@ -18,6 +18,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+
 @ExtendWith(MockitoExtension.class)
 @DisplayName("주가 조회 서비스를 구현한다")
 class StockPriceQueryServiceImplTest {
