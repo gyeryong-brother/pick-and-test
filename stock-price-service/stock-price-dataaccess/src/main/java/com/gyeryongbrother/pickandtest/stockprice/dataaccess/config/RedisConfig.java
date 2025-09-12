@@ -1,10 +1,10 @@
-package com.gyeryongbrother.pickandtest.stockprice;
+package com.gyeryongbrother.pickandtest.stockprice.dataaccess.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
 import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import java.time.Duration; // TTL을 위해 추가
+import java.time.Duration;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.CacheManager;
