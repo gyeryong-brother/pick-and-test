@@ -1,0 +1,25 @@
+spring:
+  autoconfigure:
+    exclude: org.springframework.cloud.netflix.eureka.EurekaClientAutoConfiguration,org.springframework.cloud.config.client.ConfigServicePropertySourceLocator
+  cloud:
+    config:
+      enabled: false
+  eureka:
+    client:
+      enabled: false
+  config:
+    import: optional:configserver:http://localhost:8888
+  sql:
+    init:
+      mode: always
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=MySQL
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect

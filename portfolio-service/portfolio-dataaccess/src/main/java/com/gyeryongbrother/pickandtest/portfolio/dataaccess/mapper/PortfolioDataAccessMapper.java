@@ -21,6 +21,7 @@ public class PortfolioDataAccessMapper {
         return PortfolioEntity.builder()
                 .id(portfolio.getId())
                 .memberId(portfolio.getMemberId())
+                .virtualInvestment(portfolio.getVirtualInvestment())
                 .portfolioStockEntities(portfolioStockEntities)
                 .build();
     }
@@ -32,6 +33,7 @@ public class PortfolioDataAccessMapper {
         return Portfolio.builder()
                 .id(portfolioEntity.getId())
                 .memberId(portfolioEntity.getMemberId())
+                .virtualInvestment(portfolioEntity.getVirtualInvestment())
                 .portfolioStocks(portfolioStocks)
                 .build();
     }

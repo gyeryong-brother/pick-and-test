@@ -1,7 +1,5 @@
 package com.gyeryongbrother.pickandtest.stockprice.messaging.listener.kafka.config;
 
-import com.gyeryongbrother.pickandtest.stockprice.messaging.listener.kafka.dto.StockMinutePriceCollectionRequestedEvent;
-import com.gyeryongbrother.pickandtest.stockprice.messaging.listener.kafka.dto.StockPriceCollectionRequestedEvent;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
@@ -28,46 +26,49 @@ public class KafkaConfig {
     }
 
     @Bean
-    public ConsumerFactory<String, StockPriceCollectionRequestedEvent> stockPriceCollectionRequestedEventConsumerFactory() {
-        JsonDeserializer<StockPriceCollectionRequestedEvent> deserializer =
-                new JsonDeserializer<>(StockPriceCollectionRequestedEvent.class, false);
+    public ConsumerFactory<String, Map<String, Object>> stockPriceCollectionRequestedEventConsumerFactory() {
+        JsonDeserializer<Map<String, Object>> deserializer = new JsonDeserializer<>();
+        deserializer.addTrustedPackages("*");
         return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(), deserializer);
     }
 
     private Map<String, Object> consumerConfigs() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "stock-price-listener");
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 10);
+        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         return props;
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, StockPriceCollectionRequestedEvent> stockPriceCollectionRequestedEventKafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, StockPriceCollectionRequestedEvent> factory =
+    public ConcurrentKafkaListenerContainerFactory<String, Map<String, Object>> stockPriceCollectionRequestedEventKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, Map<String, Object>> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(stockPriceCollectionRequestedEventConsumerFactory());
-        factory.setBatchListener(true);
+        factory.setBatchListener(false);
         factory.setConcurrency(3);
+        factory.getContainerProperties().setPollTimeout(5000);
+        factory.getContainerProperties().setDeliveryAttemptHeader(true);
+        factory.getContainerProperties().setSyncCommits(true);
         return factory;
     }
 
     @Bean
-    public ConsumerFactory<String, StockMinutePriceCollectionRequestedEvent> stockMinutePriceCollectionRequestedEventConsumerFactory() {
-        JsonDeserializer<StockMinutePriceCollectionRequestedEvent> deserializer =
-                new JsonDeserializer<>(StockMinutePriceCollectionRequestedEvent.class, false);
-        return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(), deserializer);
+    public org.springframework.kafka.core.ProducerFactory<String, Object> producerFactory() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(org.apache.kafka.clients.producer.ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        props.put(org.apache.kafka.clients.producer.ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+                org.apache.kafka.common.serialization.StringSerializer.class);
+        props.put(org.apache.kafka.clients.producer.ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+                org.springframework.kafka.support.serializer.JsonSerializer.class);
+        return new org.springframework.kafka.core.DefaultKafkaProducerFactory<>(props);
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, StockMinutePriceCollectionRequestedEvent> stockMinutePriceCollectionRequestedEventKafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, StockMinutePriceCollectionRequestedEvent> factory =
-                new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(stockMinutePriceCollectionRequestedEventConsumerFactory());
-        factory.setBatchListener(true);
-        factory.setConcurrency(3);
-        return factory;
+    public org.springframework.kafka.core.KafkaTemplate<String, Object> stringObjectKafkaTemplate(
+            org.springframework.kafka.core.ProducerFactory<String, Object> producerFactory) {
+        return new org.springframework.kafka.core.KafkaTemplate<>(producerFactory);
     }
 }

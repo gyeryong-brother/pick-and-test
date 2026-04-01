@@ -11,7 +11,7 @@ public class PortfolioFixture {
                 PortfolioStockFixture.apple(),
                 PortfolioStockFixture.microsoft()
         );
-        return new Portfolio(null, 1L, portfolioStocks);
+        return new Portfolio(null, 1L, null, portfolioStocks);
     }
 
     public static Portfolio portfolio2() {
@@ -19,7 +19,7 @@ public class PortfolioFixture {
                 PortfolioStockFixture.nvidia(),
                 PortfolioStockFixture.tesla()
         );
-        return new Portfolio(null, 2L, portfolioStocks);
+        return new Portfolio(null, 2L, null, portfolioStocks);
     }
 
     public static Portfolio portfolio3() {
@@ -28,7 +28,7 @@ public class PortfolioFixture {
                 PortfolioStockFixture.meta(),
                 PortfolioStockFixture.amazon()
         );
-        return new Portfolio(null, 1L, portfolioStocks);
+        return new Portfolio(null, 1L, null, portfolioStocks);
     }
 
     public static Portfolio portfolio1Update() {
@@ -36,6 +36,6 @@ public class PortfolioFixture {
                 PortfolioStockFixture.apple(),
                 PortfolioStockFixture.tesla()
         );
-        return new Portfolio(null, 3L, portfolioStocks);
+        return new Portfolio(null, 3L, null, portfolioStocks);
     }
 }

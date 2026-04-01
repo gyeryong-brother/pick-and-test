@@ -42,7 +42,7 @@ public class PortfolioServiceImpl implements PortfolioService {
         Portfolio newPortfolio = updatePortfolioCommand.toDomain(portfolioId);
         portfolioStockRepository.saveAll(newPortfolio.getPortfolioStocks());
         List<PortfolioStock> portfolioStocks = portfolioStockQueryRepository.findAllByPortfolioId(portfolioId);
-        Portfolio updated = new Portfolio(portfolioId, memberId, portfolioStocks);
+        Portfolio updated = new Portfolio(portfolioId, memberId, null, portfolioStocks);
         return UpdatePortfolioResponse.from(updated);
     }
 
@@ -67,5 +67,15 @@ public class PortfolioServiceImpl implements PortfolioService {
         Portfolio portfolio = savePortfolioCommand.toDomain();
         Portfolio saved = portfolioRepository.save(portfolio);
         return UpdatePortfolioResponse.from(saved);
+    }
+
+    public UpdatePortfolioResponse deductVirtualInvestment(Long portfolioId, Long memberId, Long amount) {
+        Portfolio portfolio = portfolioQueryRepository.findByIdWithPessimisticLock(portfolioId);
+        if (portfolio.getMemberId() != memberId) {
+            throw new PortfolioServiceException(PortfolioServiceExceptionType.INVALID_USER);
+        }
+        Portfolio updatedPortfolio = portfolio.deductInvestment(amount);
+        portfolioRepository.save(updatedPortfolio);
+        return UpdatePortfolioResponse.from(updatedPortfolio);
     }
 }

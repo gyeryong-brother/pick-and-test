@@ -7,6 +7,7 @@ import static com.gyeryongbrother.pickandtest.portfolio.dataaccess.exception.Por
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.entity.PortfolioEntity;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.exception.PortfolioException;
 import com.gyeryongbrother.pickandtest.portfolio.dataaccess.mapper.PortfolioDataAccessMapper;
+import com.gyeryongbrother.pickandtest.portfolio.dataaccess.repository.PortfolioJpaRepository;
 import com.gyeryongbrother.pickandtest.portfolio.domain.core.entity.Portfolio;
 import com.gyeryongbrother.pickandtest.portfolio.domain.service.ports.output.PortfolioQueryRepository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -23,6 +24,7 @@ public class PortfolioQueryRepositoryImpl implements PortfolioQueryRepository {
 
     private final JPAQueryFactory queryFactory;
     private final PortfolioDataAccessMapper portfolioDataAccessMapper;
+    private final PortfolioJpaRepository portfolioJpaRepository;
 
     @Override
     public List<Portfolio> findAllByMemberId(Long memberId) {
@@ -43,6 +45,13 @@ public class PortfolioQueryRepositoryImpl implements PortfolioQueryRepository {
                 .fetchOne();
         Optional<PortfolioEntity> portfolioEntityOptional = Optional.ofNullable(fetchedPortfolioEntity);
         return portfolioEntityOptional.map(portfolioDataAccessMapper::portfolioEntityToPortfolio)
+                .orElseThrow(() -> new PortfolioException(PORTFOLIO_NOT_FOUND));
+    }
+
+    @Override
+    public Portfolio findByIdWithPessimisticLock(Long portfolioId) {
+        return portfolioJpaRepository.findByIdWithPessimisticLock(portfolioId)
+                .map(portfolioDataAccessMapper::portfolioEntityToPortfolio)
                 .orElseThrow(() -> new PortfolioException(PORTFOLIO_NOT_FOUND));
     }
 }

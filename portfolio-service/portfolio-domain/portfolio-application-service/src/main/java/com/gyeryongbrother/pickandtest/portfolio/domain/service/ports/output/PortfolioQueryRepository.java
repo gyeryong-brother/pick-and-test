@@ -8,4 +8,6 @@ public interface PortfolioQueryRepository {
     List<Portfolio> findAllByMemberId(Long memberId);
 
     Portfolio findById(Long portfolioId);
+
+    Portfolio findByIdWithPessimisticLock(Long portfolioId);
 }

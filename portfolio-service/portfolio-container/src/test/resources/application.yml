@@ -3,9 +3,15 @@ server:
     context-path: /portfolio-service
 
 spring:
+
+  cloud:
+    config:
+      enabled: false
   config:
     import: optional:configserver:http://localhost:8888
 
 eureka:
   client:
     enabled: false
+  instance:
+    prefer-ip-address: true

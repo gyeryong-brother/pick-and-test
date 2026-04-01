@@ -3,14 +3,28 @@ server:
     context-path: /stock-price-service
 
 spring:
+
+  cloud:
+    config:
+      enabled: false
+  eureka:
+    client:
+      enabled: false
   config:
     import: optional:configserver:http://localhost:8888
+  kafka:
+    listener:
+      auto-startup: false
 
 stock-service:
   url: http://stock-service
 
 kafka:
-  bootstrap-servers: localhost:9092
+  bootstrap-servers: ${spring.embedded.kafka.brokers:localhost:9092}
+
+logging:
+  level:
+    org.apache.kafka: ERROR
 
 data-service:
   url: http://127.0.0.1:8000

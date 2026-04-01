@@ -52,4 +52,14 @@ public class KafkaConfig {
     public KafkaTemplate<String, StockMinutePriceCollectionRequestedEvent> stockMinutePriceCollectionRequestedEventKafkaTemplate() {
         return new KafkaTemplate<>(stockMinutePriceCollectionRequestedEventProducerFactory());
     }
+
+    @Bean
+    public ProducerFactory<String, Object> objectProducerFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    }
+
+    @Bean
+    public KafkaTemplate<String, Object> objectKafkaTemplate() {
+        return new KafkaTemplate<>(objectProducerFactory());
+    }
 }

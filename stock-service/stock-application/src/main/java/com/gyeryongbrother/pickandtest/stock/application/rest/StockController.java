@@ -6,8 +6,9 @@ import com.gyeryongbrother.pickandtest.stock.domain.service.dto.StockResponse;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.input.IncomeStatementQueryService;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.input.StockCollector;
 import com.gyeryongbrother.pickandtest.stock.domain.service.ports.input.StockQueryService;
-import com.gyeryongbrother.pickandtest.stock.domain.service.ports.input.StockScheduler;
+
 import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -26,26 +27,11 @@ public class StockController {
     private final StockQueryService stockQueryService;
     private final IncomeStatementQueryService incomeStatementQueryService;
     private final StockCollector stockCollector;
-    private final StockScheduler stockScheduler;
 
     @GetMapping("/collect")
     ResponseEntity<Void> collectStocks() {
         log.info("collect stock started!!");
         stockCollector.collectStocks();
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/collect-prices")
-    ResponseEntity<Void> collectStockPrices() {
-        log.info("collect stock price started!!");
-        stockScheduler.collectStockPrices();
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/collect-minute-prices")
-    ResponseEntity<Void> collectMinutePrices() {
-        log.info("collect stock minute price started!!");
-        stockScheduler.collectStockMinutePrices();
         return ResponseEntity.ok().build();
     }
 

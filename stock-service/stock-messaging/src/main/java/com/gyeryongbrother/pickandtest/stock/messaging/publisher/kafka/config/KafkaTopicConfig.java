@@ -42,4 +42,28 @@ public class KafkaTopicConfig {
                 .replicas(1)
                 .build();
     }
+
+    @Bean
+    public NewTopic stockCreatedEventTopic() {
+        return TopicBuilder.name("stock-created-event")
+                .partitions(3)
+                .replicas(1)
+                .build();
+    }
+
+    @Bean
+    public NewTopic stockPriceCollectionRequestedEventDltTopic() {
+        return TopicBuilder.name("stock-price-collection-requested-event.DLT")
+                .partitions(3)
+                .replicas(1)
+                .build();
+    }
+
+    @Bean
+    public NewTopic stockMinutePriceCollectionRequestedEventDltTopic() {
+        return TopicBuilder.name("stock-minute-price-collection-requested-event.DLT")
+                .partitions(3)
+                .replicas(1)
+                .build();
+    }
 }

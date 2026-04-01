@@ -1,4 +1,4 @@
-package com.gyeryongbrother.pickandtest.stockprice.messaging.listener.kafka.dto;
+package com.gyeryongbrother.pickandtest.stock.infrastructure.dto;
 
 public record StockMinutePriceCollectionRequestedEvent(
         Long stockId,

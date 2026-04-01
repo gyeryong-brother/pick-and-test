@@ -27,6 +27,8 @@ public class PortfolioEntity {
 
     private Long memberId;
 
+    private Long virtualInvestment;
+
     @OneToMany(mappedBy = "portfolioEntity", cascade = CascadeType.ALL)
     private List<PortfolioStockEntity> portfolioStockEntities;
 

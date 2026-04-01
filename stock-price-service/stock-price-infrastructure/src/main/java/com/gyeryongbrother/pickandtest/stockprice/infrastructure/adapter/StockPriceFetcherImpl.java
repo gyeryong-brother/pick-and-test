@@ -25,12 +25,8 @@ public class StockPriceFetcherImpl implements StockPriceFetcher {
 
     @Override
     public List<StockPrice> fetchStockPrices(Stocks stocks, LocalDate startDate) {
-        try {
-            return fetchStockPricesByStocks(stocks, startDate);
-        } catch (StockPriceInfrastructureException e) {
-            log.error("fetch failed. message: {}", e.getMessage());
-            return List.of();
-        }
+        log.info("Fetching stock prices from external API for symbols: {}", stocks.symbols());
+        return fetchStockPricesByStocks(stocks, startDate);
     }
 
     private List<StockPrice> fetchStockPricesByStocks(Stocks stocks, LocalDate startDate) {
@@ -52,12 +48,8 @@ public class StockPriceFetcherImpl implements StockPriceFetcher {
 
     @Override
     public List<StockMinutePrice> fetchStockMinutePrices(Stocks stocks, LocalDate startDate) {
-        try {
-            return fetchStockMinutePricesByStocks(stocks, startDate);
-        } catch (StockPriceInfrastructureException e) {
-            log.error("fetch failed. message: {}", e.getMessage());
-            return List.of();
-        }
+        log.info("Fetching minute prices from external API for symbols: {}", stocks.symbols());
+        return fetchStockMinutePricesByStocks(stocks, startDate);
     }
 
     private List<StockMinutePrice> fetchStockMinutePricesByStocks(Stocks stocks, LocalDate startDate) {

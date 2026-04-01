@@ -34,7 +34,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.jdbc.Sql;
-
+import org.redisson.api.RedissonClient;
+import org.springframework.boot.test.mock.mockito.MockBean;
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @DisplayName("포트폴리오 api 를 제공한다")
 @Sql("/truncate.sql")
@@ -42,6 +43,9 @@ class PortfolioAcceptanceTest {
 
     @Autowired
     private PortfolioRepository portfolioRepository;
+
+    @MockBean
+    private RedissonClient redissonClient;
 
     @Autowired
     private PortfolioStockRepository portfolioStockRepository;
@@ -164,7 +168,7 @@ class PortfolioAcceptanceTest {
         PortfolioStock portfolioStock1 = new PortfolioStock(null, null, 1L, BigDecimal.valueOf(0.5));
         PortfolioStock portfolioStock2 = new PortfolioStock(null, null, 2L, BigDecimal.valueOf(0.5));
 
-        Portfolio portfolio1 = new Portfolio(null, 1L, List.of(portfolioStock1, portfolioStock2));
+        Portfolio portfolio1 = new Portfolio(null, 1L, null, List.of(portfolioStock1, portfolioStock2));
         Portfolio savedPortfolio = portfolioRepository.save(portfolio1);
 
         UpdatePortfolioStockRequest updatePortfolioStockRequest1 = new UpdatePortfolioStockRequest(3L,
@@ -207,7 +211,7 @@ class PortfolioAcceptanceTest {
         PortfolioStock portfolioStock1 = new PortfolioStock(null, null, 1L, BigDecimal.valueOf(0.5));
         PortfolioStock portfolioStock2 = new PortfolioStock(null, null, 2L, BigDecimal.valueOf(0.5));
 
-        Portfolio portfolio1 = new Portfolio(null, 1L, List.of(portfolioStock1, portfolioStock2));
+        Portfolio portfolio1 = new Portfolio(null, 1L, null, List.of(portfolioStock1, portfolioStock2));
         Portfolio savedPortfolio = portfolioRepository.save(portfolio1);
 
         UpdatePortfolioStockRequest updatePortfolioStockRequest1 = new UpdatePortfolioStockRequest(3L,

@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: notice-board-service
+
+server:
+  port: 0
+  servlet:
+    context-path: /notice-board-service
